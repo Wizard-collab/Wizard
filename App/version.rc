@@ -36,7 +36,7 @@ StringFileInfo(
     StringStruct(u'LegalCopyright', u'Copyright (c) Wizard - Pipeline manager'),
     StringStruct(u'OriginalFilename', u'wizard.exe'),
     StringStruct(u'ProductName', u'Release'),
-    StringStruct(u'ProductVersion', u'0.9.7.5-b')])
+    StringStruct(u'ProductVersion', u'0.9.7.72-b')])
   ]), 
 VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]

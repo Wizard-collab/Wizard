@@ -242,7 +242,10 @@ class user:
     def set_context(self, asset):
         self.open_pref_file()
         # Check the password concordance
-        self.settings[defaults._asset_context_] = pickle.dumps(asset, 0).decode('utf-8')
+        try:
+            self.settings[defaults._asset_context_] = pickle.dumps(asset, 0).decode('utf-8')
+        except TypeError:
+            self.settings[defaults._asset_context_] = None
         logger.info('Asset context saved !')
         self.write_pref_file()
 

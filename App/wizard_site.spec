@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['wizard_site.py'],
-             pathex=['D:\\LeoB\\WIZARD_HUB\\Wizard\\App'],
+             pathex=['C:\\Users\\conta\\Documents\\script\\Wizard\\App'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -28,7 +28,7 @@ exe = EXE(pyz,
           upx=True,
           console=False,
           version = 'version.rc',
-          icon="D:\\LeoB\\WIZARD_HUB\\Wizard\\App\\ressources\\images\\wizard_icon.ico")
+          icon="C:\\Users\\conta\\Documents\\script\\Wizard\\App\\ressources\\images\\wizard_icon.ico")
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,

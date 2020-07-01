@@ -45,7 +45,12 @@ class user_events:
     def resolve_lock_missing(self):
         if self.is_file():
             settings = self.open_file()
-            if defaults._locks_ not in settings.keys():
+            if settings:
+                if defaults._locks_ not in settings.keys():
+                    settings[defaults._locks_] = []
+            else:
+                settings = dict()
+                settings[defaults._events_] = []
                 settings[defaults._locks_] = []
             self.write_file(settings)
 

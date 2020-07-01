@@ -6,7 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://www.dropbox.com/s/8rwmaxu3rvrq723/INFOS.json?dl=1"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.71-b'
+_wizard_version_ = '0.9.7.72-b'
 _doc_index_path_ = 'ressources/docs/build/html/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
