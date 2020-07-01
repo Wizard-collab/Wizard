@@ -1,0 +1,200 @@
+#! C:/Program Files/Nuke9.0v6/nuke-9.0.6.dll -nx
+version 9.0 v6
+Gizmo {
+ inputs 3
+ addUserKnob {20 AOFI_Edit l "AOFI Settings" t "You can optimize this node properties for your requeriments images."}
+ addUserKnob {26 AOFIDiv1 l "Other Image"}
+ addUserKnob {41 disable_1 l "Merge Disable" t "You can set the other image for AO pass.  Also it's my black and white pass!" T Merge3_oAO.disable}
+ addUserKnob {41 operation T Merge3_oAO.operation}
+ addUserKnob {26 ""}
+ addUserKnob {41 BlackArea l "Black Area" t "You can change black area of the AO" T Grade1_colorBalance.whitepoint}
+ addUserKnob {41 erodeAO l "Thin / Broad" t "Adjustmant AO edge size" T Dilate1_erode.size}
+ addUserKnob {41 sharpAO l "Sharpen Edge" T Sharpen1.size}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {41 sizeBlurAO l Blur T Blur2.size}
+ addUserKnob {41 mixAO l Opacity T Merge2_Multply_AO.mix}
+ addUserKnob {20 keyerAO l "Force AO"}
+ addUserKnob {26 keyingSettingAO l "Keying Settings"}
+ addUserKnob {41 disable_2 l "Disable Keyer" T Shuffle1_alpha_to_rgb1.disable}
+ addUserKnob {41 range T Keyer1_makeAlpha.range}
+ addUserKnob {20 helpAO l HELP t "Help Doc for AOFI"}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 KeyerAO l "Keyer AO"}
+ addUserKnob {20 keyerAO_other_image l "Keyer Settings" n 1}
+ addUserKnob {41 range_1 l range T Keyer1_AOC.range}
+ addUserKnob {41 mix_1 l mix T Blur2.mix}
+ addUserKnob {41 quality l "" -STARTLINE T Blur2.quality}
+}
+ Input {
+  inputs 0
+  name InputKeyAO
+  xpos 329
+  ypos -205
+  number 2
+ }
+ Keyer {
+  operation "luminance key"
+  range {0.01061210576 0.25 1 1}
+  name Keyer1_AOC
+  xpos 329
+  ypos -75
+ }
+set N254d400 [stack 0]
+ Dot {
+  name Dot5
+  xpos 480
+  ypos -65
+ }
+ Dot {
+  name Dot7
+  xpos 480
+  ypos 140
+ }
+push $N254d400
+ Input {
+  inputs 0
+  name InputOtherAO
+  xpos 151
+  ypos -408
+  number 1
+ }
+ Dot {
+  name Dot4
+  xpos 185
+  ypos -254
+ }
+ Input {
+  inputs 0
+  name InputSourceImage
+  xpos -501
+  ypos -379
+ }
+ Dot {
+  name Dot3
+  xpos -467
+  ypos -254
+ }
+set N78cd5000 [stack 0]
+ Grade {
+  whitepoint 0.1
+  name Grade1_colorBalance
+  xpos -769
+  ypos -258
+ }
+ Keyer {
+  operation "luminance key"
+  range {0.1458549027 0.1781773187 0.2972715336 0.4234804676}
+  name Keyer1_makeAlpha
+  xpos -903
+  ypos -264
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  alpha black
+  name Shuffle1_alpha_to_rgb1
+  xpos -1051
+  ypos -258
+  disable true
+ }
+ Dot {
+  name Dot1
+  xpos -1161
+  ypos -254
+ }
+ EdgeDetectWrapper {
+  edgedetector prewitt
+  threshold 2.46
+  blursize 3.5
+  name EdgeDetect1_make_Edges
+  xpos -1195
+  ypos -144
+ }
+ Dilate {
+  size -0.15
+  name Dilate1_erode
+  xpos -1195
+  ypos -63
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  alpha black
+  name Shuffle1_alpha_to_rgb
+  xpos -1195
+  ypos 19
+ }
+ Blur {
+  name Blur1
+  xpos -1195
+  ypos 130
+ }
+ Invert {
+  name Invert1_black2white
+  xpos -990
+  ypos 130
+ }
+ Sharpen {
+  size 17
+  name Sharpen1
+  xpos -813
+  ypos 130
+ }
+ Blur {
+  size 16.5
+  name Blur2
+  selected true
+  xpos -646
+  ypos 130
+ }
+push $N78cd5000
+ Merge2 {
+  inputs 2
+  operation hypot
+  name Merge1_Hypot_AO
+  xpos -501
+  ypos 136
+ }
+push $N78cd5000
+ Dot {
+  name Dot2
+  xpos -124
+  ypos -254
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge2_Multply_AO
+  xpos -158
+  ypos 136
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  mix 0.805
+  name Merge3_oAO
+  xpos 151
+  ypos 136
+  disable true
+ }
+ Merge2 {
+  inputs 2+1
+  name Merge2
+  xpos 329
+  ypos 136
+ }
+ Output {
+  name OutputtoWrite
+  xpos 329
+  ypos 297
+ }
+ Viewer {
+  frame_range 1-100
+  viewerProcess "Film (sRGB)"
+  name Viewer1
+  xpos 329
+  ypos 607
+ }
+end_group

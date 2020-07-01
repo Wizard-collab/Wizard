@@ -1,0 +1,12 @@
+..\pathtools\__init__.py
+..\pathtools\__init__.pyc
+..\pathtools\path.py
+..\pathtools\path.pyc
+..\pathtools\patterns.py
+..\pathtools\patterns.pyc
+..\pathtools\version.py
+..\pathtools\version.pyc
+PKG-INFO
+SOURCES.txt
+dependency_links.txt
+top_level.txt

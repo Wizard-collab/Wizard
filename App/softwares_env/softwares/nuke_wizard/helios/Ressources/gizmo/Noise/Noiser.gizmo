@@ -1,0 +1,94 @@
+#! C:/Program Files/Nuke10.0v4/nuke-10.0.4.dll -nx
+version 10.0 v4
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {41 trX l translate_X T ExpressionTranslate_.trX}
+ addUserKnob {41 trY l translate_Y T ExpressionTranslate_.trY}
+ addUserKnob {41 trZ l translate_Z T ExpressionTranslate_.trZ}
+ addUserKnob {26 ""}
+ addUserKnob {41 rotY l rotate_Y T ExpressionRotate_.rotY}
+ addUserKnob {26 ""}
+ addUserKnob {41 scG l scaleGlobal T ExpressionScale_.scG}
+ addUserKnob {41 scX l scale_X T ExpressionScale_.scX}
+ addUserKnob {41 scY l scale_Y T ExpressionScale_.scY}
+ addUserKnob {41 scZ l scale_Z T ExpressionScale_.scZ}
+ addUserKnob {26 ""}
+ addUserKnob {41 Gamma T Gamma1.value}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 417
+  ypos 49
+ }
+ Expression {
+  expr0 "r + trX"
+  expr1 "g + trY"
+  expr2 "b + trZ"
+  name ExpressionTranslate_
+  xpos 417
+  ypos 89
+  addUserKnob {20 User}
+  addUserKnob {7 trX l translate_X R -5e+006 5e+006}
+  addUserKnob {7 trY l translate_Y R -5e+006 5e+006}
+  addUserKnob {7 trZ l translate_Z R -5e+006 5e+006}
+ }
+ Expression {
+  temp_name3 rotato
+  temp_expr3 "( 3.14159265359 / 180 ) * rotY"
+  expr0 "(r * cos( rotato )) + (b * sin( rotato ))"
+  expr1 g
+  expr2 "(-1 * r * sin( rotato )) + ( b * cos( rotato ))"
+  name ExpressionRotate_
+  xpos 417
+  ypos 115
+  addUserKnob {20 User}
+  addUserKnob {7 rotY l rotate_Y R -1440 1440}
+ }
+ Expression {
+  expr0 "r /( scX * scG )"
+  expr1 "g /( scY * scG )"
+  expr2 "b /( scZ * scG )"
+  name ExpressionScale_
+  xpos 417
+  ypos 141
+  addUserKnob {20 User}
+  addUserKnob {7 scG l scaleGlobal R 0 5000}
+  scG 100
+  addUserKnob {7 scX l scale_X R 0 10000}
+  scX 1
+  addUserKnob {7 scY l scale_Y R 0 10000}
+  scY 1
+  addUserKnob {7 scZ l scale_Z R 0 10000}
+  scZ 0.25
+ }
+ Expression {
+  expr0 "0.5 + noise( r , g, b  )"
+  expr1 "0.5 + noise( r , g, b  )"
+  expr2 "0.5 + noise( r , g, b  )"
+  name ExpressionNoise
+  xpos 417
+  ypos 214
+ }
+ Gamma {
+  value 0.2
+  name Gamma1
+  xpos 417
+  ypos 280
+  addUserKnob {20 User}
+  addUserKnob {41 value_1 l value T Gamma1.value}
+ }
+set N3a00800 [stack 0]
+ Output {
+  name Output1
+  xpos 417
+  ypos 348
+ }
+push $N3a00800
+ Viewer {
+  frame_range 115-233
+  name Viewer1
+  xpos 672
+  ypos 266
+ }
+end_group

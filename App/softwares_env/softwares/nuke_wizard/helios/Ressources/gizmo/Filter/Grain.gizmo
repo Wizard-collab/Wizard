@@ -1,0 +1,143 @@
+#! C:/Program Files/Nuke10.5v2/nuke-8.0.1.dll -nx
+version 8.0 v1
+Gizmo {
+inputs 2
+lock_connections true
+addUserKnob {20 ReGrain}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {41 disable_1 l Disable T Denoise2.disable}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {26 Balance}
+addUserKnob {41 ramp l Balance T Dissolve1.which}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {26 Cg_ReGrain l "" +STARTLINE T "\n\n             Cg_ReGrain_v1 (c) 2018 - Erjon Sadiku\n                    erjonsadiku@cliquecg.com\n\n                          Tirana - Albania\n"}
+addUserKnob {20 grade l Grade}
+addUserKnob {41 white l gain T Grade_grain.white}
+addUserKnob {41 black l lift T Grade_grain.black}
+addUserKnob {41 mix T Grade_grain.mix}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {26 saturation l Saturation}
+addUserKnob {41 saturation_1 l saturation T Saturation1.saturation}
+}
+Constant {
+inputs 0
+channels rgb
+color {0 0 0 0}
+color_panelDropped true
+name Constant1
+xpos 1047
+ypos 247
+}
+Input {
+inputs 0
+name Input1
+xpos -256
+ypos 87
+}
+set Nff1b800 [stack 0]
+Input {
+inputs 0
+name Source
+xpos 692
+ypos 205
+number 1
+}
+Dot {
+name Dot36
+xpos 471
+ypos 209
+}
+set Nff1bc00 [stack 0]
+Denoise2 {
+analysisRegion {560 791 950 1115}
+analysisFrame 9
+needsAnalyzing false
+profileCurve {profile {curve x0.1000000015 0 x0.1333521456 0 x0.1778279394 0 x0.2371373773 0 x0.3162277639 0 x0.4216965139 0 x0.5623413324 0 x0.7498942018 0 x1 0}}
+serializeKnob "1.08992 0.503046 0.456093
+0.010913 0.0113778 0.00717045
+0.010913 0.0113778 0.00717045
+0.00637895 0.0122216 0.0060953
+0 0 0
+0.00363021 0.00282099 0.00203023
+0.00363021 0.00282099 0.00203023
+0.00222545 0.00219614 0.00163202
+0 0 0
+0.000632454 0.000650406 0.000527136
+0.000632454 0.000650406 0.000527136
+0.000587646 0.000632316 0.000480475
+0 0 0
+4.52506e-005 9.10995e-005 5.90391e-005
+4.52506e-005 9.10995e-005 5.90391e-005
+4.8364e-005 9.69418e-005 6.09636e-005
+0 0 0 0 0 0 0 0 0 
+6706905856786869290"
+name Denoise2
+xpos 437
+ypos 143
+}
+push $Nff1bc00
+Dot {
+name Dot37
+xpos 319
+ypos 209
+}
+set Nffa0800 [stack 0]
+Merge2 {
+inputs 2
+operation difference
+screen_alpha true
+name Merge11
+xpos 285
+ypos 149
+}
+set Nffa0000 [stack 0]
+push $Nffa0000
+Mirror2 {
+flip true
+name Mirror2_1
+xpos 285
+ypos 97
+}
+Dot {
+name Dot1
+xpos 140
+ypos 101
+}
+Dissolve {
+inputs 2
+which 0.5
+name Dissolve1
+xpos 106
+ypos 143
+}
+Saturation {
+name Saturation1
+xpos -4
+ypos 149
+}
+Grade {
+name Grade_grain
+xpos -121
+ypos 149
+}
+push $Nff1b800
+Merge2 {
+inputs 2+1
+operation plus
+name Merge12
+xpos -256
+ypos 149
+}
+push $Nffa0800
+Merge2 {
+inputs 2
+name Merge13
+xpos -256
+ypos 205
+}
+Output {
+name Output1
+xpos -256
+ypos 259
+}
+end_group

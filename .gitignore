@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+*.log
+*Thumbs.db
+*.prefs
+Data
+dist
+build

@@ -1,0 +1,101 @@
+set cut_paste_input [stack 0]
+version 7.0 v9
+push $cut_paste_input
+Gizmo {
+ name Camera_Blur
+ help "Operation to simulate a Camera Blur style.\n\n�Copyright:\nJonas Almeida.\n jgadpp.com \n2014"
+ tile_color 0xff6f25ff
+ selected true
+ addUserKnob {20 User l "Camera Blur"}
+ addUserKnob {26 Blur}
+ addUserKnob {41 channels T Blur1.channels}
+ addUserKnob {41 size T Blur1.size}
+ addUserKnob {26 fpo_1 l "Floating Point"}
+ addUserKnob {7 fpo l "Floating Point" R 0 10}
+ addUserKnob {26 "" l mask}
+ addUserKnob {41 maskChannelMask l "" -STARTLINE T Blur1.maskChannelMask}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T Blur1.maskChannelInput}
+}
+ Input {
+  inputs 0
+  name Mask
+  selected true
+  xpos 184
+  ypos 39
+  number 1
+ }
+ Dot {
+  name Dot4
+  xpos 217
+  ypos 94
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -61
+  ypos -237
+ }
+ Dot {
+  name Dot1
+  xpos -28
+  ypos -177
+ }
+set N159abbd0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -28
+  ypos -112
+ }
+set N19bb9330 [stack 0]
+ Dot {
+  name Dot3
+  xpos -28
+  ypos -13
+ }
+push $N19bb9330
+push $N159abbd0
+ Position {
+  translate {{fpo} 0}
+  name xposition
+  xpos 51
+  ypos -181
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge1
+  xpos 51
+  ypos -117
+ }
+ Position {
+  translate {0 {xposition.translate.x}}
+  name yposition
+  xpos 51
+  ypos -65
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge2
+  xpos 51
+  ypos -17
+ }
+ Blur {
+  inputs 1+1
+  channels rgb
+  name Blur1
+  xpos 51
+  ypos 77
+ }
+ Crop {
+  box {0 0 {(input.format.w)-1} {(input.format.h)-1}}
+  name Crop1
+  xpos 51
+  ypos 143
+ }
+ Output {
+  name Output1
+  xpos 51
+  ypos 243
+ }
+end_group

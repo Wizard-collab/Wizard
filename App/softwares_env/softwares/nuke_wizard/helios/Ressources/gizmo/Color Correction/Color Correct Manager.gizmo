@@ -1,0 +1,951 @@
+#! C:/Program Files/Nuke10.0v2/nuke-10.0.2.dll -nx
+version 10.0 v2
+Gizmo {
+ inputs 2
+ knobChanged "\nc = nuke.thisNode().knob('GlowEffect1').value()\ng = nuke.toNode('Glow4')\na = nuke.thisNode()\nd = nuke.toNode('Glow1')\ne = nuke.thisNode().knob('LinkMask').value()\nm= nuke.toNode(\"Merge15\")\ndesiredName= 'WidthMask'\n\nif c==False:\n\ta.knob('LinkMask').setEnabled(False)\n\ta.knob('affectAlpha').setEnabled(False)\n\ta.knob('original').setEnabled(False)\n\tg.knob('tint').setEnabled(False)\n\tg.knob('brightness').setEnabled(False)\n\tg.knob('tolerance').setEnabled(False)\n\tg.knob('channels').setEnabled(False)\n\tg.knob('saturation').setEnabled(False)\n\tg.knob('size').setEnabled(False)\n\tg.knob('W').setEnabled(False)\n\td.knob('W').setEnabled(False)\n\nelse:\n\ta.knob('LinkMask').setEnabled(True)\n\ta.knob('original').setEnabled(True)\n\ta.knob('affectAlpha').setEnabled(True)\n\tg.knob('tint').setEnabled(True)\n\tg.knob('brightness').setEnabled(True)\n\tg.knob('tolerance').setEnabled(True)\n\tg.knob('saturation').setEnabled(True)\n\tg.knob('size').setEnabled(True)\n\tg.knob('W').setEnabled(True)\n\tg.knob('channels').setEnabled(True)\n\tif e==False:\n\t\tg.knob('W').setEnabled(True)\n\telse:\n\t\tg.knob('W').setEnabled(False)\n\nif e==False:\t\n\ttry:\n\t\tb=  nuke.toNode('WidthMask').knob('name').value()\n\texcept:\n\t\tnuke.createNode(\"Input\", inpanel = False)\n\t\tb=nuke.selectedNode()\n\t\tb.knob('name').setValue(desiredName)\n\t\tm.setInput(0,b)\n\t\tb.setSelected( False )\nif e==True:\t\n\ttry:\n\t\tb=  nuke.toNode('WidthMask')\n\t\tnuke.delete(b)\n\texcept:\n\t\tpass\n\n\n\n\t\n\n"
+ tile_color 0xffff00ff
+ dope_sheet true
+ addUserKnob {20 Specular_Tab l "Layer 1"}
+ addUserKnob {6 ShowLayer l "show layers" +STARTLINE}
+ addUserKnob {41 premultiplication l "(Un)premult by" T Unpremult9.alpha}
+ addUserKnob {26 ""}
+ addUserKnob {4 channeluse l "Use channels as" t "Use these masks as stencil or mask" M {Mask Stencil ""}}
+ addUserKnob {22 reset l ResetMask t "Put all knobs at the default" -STARTLINE T "nuke.toNode('Shuffle2').knob('in').setValue('none')\nnuke.toNode('Shuffle2').knob('alpha').setValue('off')\nnuke.toNode('Shuffle6').knob('in').setValue('none')\nnuke.toNode('Shuffle6').knob('alpha').setValue('off')\nnuke.toNode('Shuffle8').knob('in').setValue('none')\nnuke.toNode('Shuffle8').knob('alpha').setValue('off')\n\n\nnuke.toNode('Shuffle3').knob('alpha').setValue('off')\nnuke.toNode('Shuffle4').knob('alpha').setValue('off')\nnuke.toNode('Shuffle5').knob('alpha').setValue('off')\nnuke.toNode('Shuffle7').knob('alpha').setValue('off')\nnuke.toNode('Shuffle9').knob('alpha').setValue('off')\nnuke.toNode('Shuffle10').knob('alpha').setValue('off')"}
+ addUserKnob {41 MaskSpecin l "Mask Channel" T Shuffle2.in}
+ addUserKnob {41 alpha_2 l alpha T Shuffle3.alpha}
+ addUserKnob {41 alpha_1 l alpha2 T Shuffle4.alpha}
+ addUserKnob {41 alpha l alpha3 T Shuffle2.alpha}
+ addUserKnob {41 in_2 l "Mask Channel 2" T Shuffle8.in}
+ addUserKnob {41 alpha_3 l alpha4 T Shuffle8.alpha}
+ addUserKnob {41 alpha_4 l alpha5 T Shuffle9.alpha}
+ addUserKnob {41 alpha_5 l alpha6 T Shuffle10.alpha}
+ addUserKnob {41 in_1 l "Mask Channel 3" T Shuffle6.in}
+ addUserKnob {41 alpha_6 l alpha7 T Shuffle6.alpha}
+ addUserKnob {41 alpha_8 l alpha8 T Shuffle5.alpha}
+ addUserKnob {41 alpha_7 l alpha9 T Shuffle7.alpha}
+ addUserKnob {4 SpecMask l "Use spec_mask as" M {Stencil Mask Screen "" "" ""}}
+ SpecMask Mask
+ addUserKnob {26 ""}
+ addUserKnob {6 selectedLayer l "show selected layer" -STARTLINE}
+ addUserKnob {41 in l LayerCC T Shuffle19.in}
+ addUserKnob {20 master l "@b;master" n 1}
+ addUserKnob {41 saturation T ColorCorrect1.saturation}
+ addUserKnob {41 contrast T ColorCorrect1.contrast}
+ addUserKnob {41 gamma T ColorCorrect1.gamma}
+ addUserKnob {41 gain T ColorCorrect1.gain}
+ addUserKnob {41 offset T ColorCorrect1.offset}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 group2 l shadows n 1}
+ group2 0
+ addUserKnob {41 shadows.saturation l saturation T ColorCorrect1.shadows.saturation}
+ addUserKnob {41 shadows.contrast l contrast T ColorCorrect1.shadows.contrast}
+ addUserKnob {41 shadows.gamma l gamma T ColorCorrect1.shadows.gamma}
+ addUserKnob {41 shadows.gain l gain T ColorCorrect1.shadows.gain}
+ addUserKnob {41 shadows.offset l offset T ColorCorrect1.shadows.offset}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 group3_midtones l midtones n 1}
+ group3_midtones 0
+ addUserKnob {41 midtones.saturation l saturation T ColorCorrect1.midtones.saturation}
+ addUserKnob {41 midtones.contrast l contrast T ColorCorrect1.midtones.contrast}
+ addUserKnob {41 midtones.gamma l gamma T ColorCorrect1.midtones.gamma}
+ addUserKnob {41 midtones.gain l gain T ColorCorrect1.midtones.gain}
+ addUserKnob {41 midtones.offset l offset T ColorCorrect1.midtones.offset}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {20 group4 l highlights n 1}
+ group4 0
+ addUserKnob {41 highlights.saturation l saturation T ColorCorrect1.highlights.saturation}
+ addUserKnob {41 highlights.contrast l contrast T ColorCorrect1.highlights.contrast}
+ addUserKnob {41 highlights.gamma l gamma T ColorCorrect1.highlights.gamma}
+ addUserKnob {41 highlights.gain l gain T ColorCorrect1.highlights.gain}
+ addUserKnob {41 highlights.offset l offset T ColorCorrect1.highlights.offset}
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {41 in_3 l LayerGlow T Shuffle11.in}
+ addUserKnob {20 glow1 l Glow -STARTLINE n 1}
+ addUserKnob {6 GlowEffect1 l Enable +STARTLINE}
+ addUserKnob {6 original l "From original" t "Get glow effect from your original image or from your manipulated one" -STARTLINE +DISABLED}
+ addUserKnob {6 LinkMask l "Link mask upon" -STARTLINE +DISABLED}
+ LinkMask true
+ addUserKnob {6 affectAlpha l "Affect alpha" -STARTLINE +DISABLED}
+ addUserKnob {41 tint T Glow4.tint}
+ addUserKnob {41 tolerance_1 l tolerance T Glow4.tolerance}
+ addUserKnob {41 brightness_1 l brightness T Glow4.brightness}
+ addUserKnob {41 saturation_2 l saturation T Glow4.saturation}
+ addUserKnob {26 ""}
+ addUserKnob {41 W l "width channel" T Glow4.W}
+ addUserKnob {41 size_1 l size T Glow4.size}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {52 GlowEffectPython l "knob changed glow" T "nuke.thisNode().knob('knobChanged').setValue('''\nc = nuke.thisNode().knob('GlowEffect1').value()\ng = nuke.toNode('Glow4')\na = nuke.thisNode()\nd = nuke.toNode('Glow1')\ne = nuke.thisNode().knob('LinkMask').value()\nm= nuke.toNode(\"Merge15\")\ndesiredName= 'WidthMask'\n\nif c==False:\n\ta.knob('LinkMask').setEnabled(False)\n\ta.knob('affectAlpha').setEnabled(False)\n\ta.knob('original').setEnabled(False)\n\tg.knob('tint').setEnabled(False)\n\tg.knob('brightness').setEnabled(False)\n\tg.knob('tolerance').setEnabled(False)\n\tg.knob('channels').setEnabled(False)\n\tg.knob('saturation').setEnabled(False)\n\tg.knob('size').setEnabled(False)\n\tg.knob('W').setEnabled(False)\n\td.knob('W').setEnabled(False)\n\nelse:\n\ta.knob('LinkMask').setEnabled(True)\n\ta.knob('original').setEnabled(True)\n\ta.knob('affectAlpha').setEnabled(True)\n\tg.knob('tint').setEnabled(True)\n\tg.knob('brightness').setEnabled(True)\n\tg.knob('tolerance').setEnabled(True)\n\tg.knob('saturation').setEnabled(True)\n\tg.knob('size').setEnabled(True)\n\tg.knob('W').setEnabled(True)\n\tg.knob('channels').setEnabled(True)\n\tif e==False:\n\t\tg.knob('W').setEnabled(True)\n\telse:\n\t\tg.knob('W').setEnabled(False)\n\nif e==False:\t\n\ttry:\n\t\tb=  nuke.toNode('WidthMask').knob('name').value()\n\texcept:\n\t\tnuke.createNode(\"Input\", inpanel = False)\n\t\tb=nuke.selectedNode()\n\t\tb.knob('name').setValue(desiredName)\n\t\tm.setInput(0,b)\n\t\tb.setSelected( False )\nif e==True:\t\n\ttry:\n\t\tb=  nuke.toNode('WidthMask')\n\t\tnuke.delete(b)\n\texcept:\n\t\tpass\n\n\n\n\t\n\n''')" +STARTLINE}
+ addUserKnob {20 Range l Ranges}
+ addUserKnob {41 lookup l "" -STARTLINE T ColorCorrect1.lookup}
+ addUserKnob {41 test -STARTLINE T ColorCorrect1.test}
+ addUserKnob {26 ""}
+ addUserKnob {26 luminance l "" -STARTLINE T "mix luminance"}
+ addUserKnob {41 enable_mix_luminance l "" -STARTLINE T ColorCorrect1.enable_mix_luminance}
+ addUserKnob {41 mix_luminance l "" -STARTLINE T ColorCorrect1.mix_luminance}
+ addUserKnob {41 mix l "               mix" T ColorCorrect1.mix}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x8e388e00
+  label LAYER_1
+  note_font_size 42
+  xpos 3088
+  ypos -2410
+  bdwidth 644
+  bdheight 451
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x37488eff
+  label TAB_2
+  note_font_size 42
+  xpos 3088
+  ypos -1882
+  bdwidth 644
+  bdheight 451
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x916f4eff
+  label GLOW_EFFECT_LAYER_1
+  note_font_size 42
+  xpos 1708
+  ypos -1051
+  bdwidth 1029
+  bdheight 893
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x388e8e00
+  label MASKING
+  note_font_size 112
+  xpos 4481
+  ypos -3065
+  bdwidth 1159
+  bdheight 1185
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 3700
+  ypos -3322
+ }
+ Dot {
+  name Dot2
+  xpos 3734
+  ypos -3222
+ }
+set N3ce6f400 [stack 0]
+ LayerContactSheet {
+  width {{input.width}}
+  height {{input.height}}
+  showLayerNames {{ShowLayer}}
+  name LayerContactSheet1
+  xpos 1060
+  ypos -3226
+ }
+ Dot {
+  name Dot1
+  xpos 1094
+  ypos 234
+ }
+ Input {
+  inputs 0
+  name MaskCC
+  xpos 4580
+  ypos -2434
+  number 1
+ }
+ Dot {
+  name Dot42
+  xpos 4614
+  ypos -2358
+ }
+set N3ce6e400 [stack 0]
+push $N3ce6f400
+ Unpremult {
+  channels all
+  name Unpremult9
+  xpos 3700
+  ypos -3112
+ }
+ Dot {
+  name Dot50
+  xpos 3734
+  ypos -2838
+ }
+set N3ce8bc00 [stack 0]
+ Dot {
+  name Dot10
+  xpos 5054
+  ypos -2838
+ }
+ Dot {
+  name Dot18
+  xpos 5054
+  ypos -2766
+ }
+set N3ce8b400 [stack 0]
+ Dot {
+  name Dot22
+  xpos 5164
+  ypos -2766
+ }
+set N3ce8b000 [stack 0]
+ Dot {
+  name Dot24
+  xpos 5274
+  ypos -2766
+ }
+set N3ce8ac00 [stack 0]
+ Dot {
+  name Dot25
+  xpos 5384
+  ypos -2766
+ }
+set N3ce8a800 [stack 0]
+ Dot {
+  name Dot26
+  xpos 5494
+  ypos -2766
+ }
+ Shuffle {
+  in none
+  alpha off
+  name Shuffle6
+  xpos 5460
+  ypos -2698
+ }
+ Dot {
+  name Dot35
+  xpos 5494
+  ypos -2622
+ }
+push 0
+push $N3ce8a800
+ Shuffle {
+  in {{{Shuffle6.in}}}
+  alpha off
+  name Shuffle5
+  xpos 5350
+  ypos -2698
+ }
+push $N3ce8ac00
+ Shuffle {
+  in {{{Shuffle6.in}}}
+  alpha off
+  name Shuffle7
+  xpos 5240
+  ypos -2698
+ }
+ Dot {
+  name Dot34
+  xpos 5274
+  ypos -2622
+ }
+ Merge2 {
+  inputs 3+1
+  operation disjoint-over
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge11
+  xpos 5350
+  ypos -2632
+ }
+ Dot {
+  name Dot30
+  xpos 5384
+  ypos -2526
+ }
+push 0
+push $N3ce8b400
+ Dot {
+  name Dot23
+  xpos 4944
+  ypos -2766
+ }
+set N3ceaa400 [stack 0]
+ Dot {
+  name Dot27
+  xpos 4834
+  ypos -2766
+ }
+set N3ceaa000 [stack 0]
+ Shuffle {
+  in {{{Shuffle8.in}}}
+  alpha off
+  name Shuffle10
+  xpos 4800
+  ypos -2698
+ }
+ Dot {
+  name Dot32
+  xpos 4834
+  ypos -2622
+ }
+push 0
+push $N3ceaa000
+ Dot {
+  name Dot28
+  xpos 4724
+  ypos -2766
+ }
+set N639c5400 [stack 0]
+ Dot {
+  name Dot29
+  xpos 4614
+  ypos -2766
+ }
+ Shuffle {
+  in none
+  alpha off
+  name Shuffle8
+  xpos 4580
+  ypos -2698
+ }
+ Dot {
+  name Dot33
+  xpos 4614
+  ypos -2622
+ }
+push $N639c5400
+ Shuffle {
+  in {{{Shuffle8.in}}}
+  alpha off
+  name Shuffle9
+  xpos 4690
+  ypos -2698
+ }
+ Merge2 {
+  inputs 3+1
+  operation disjoint-over
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge10
+  xpos 4690
+  ypos -2632
+ }
+ Dot {
+  name Dot31
+  xpos 4724
+  ypos -2526
+ }
+push $N3ceaa400
+ Shuffle {
+  in {{{Shuffle2.in}}}
+  alpha off
+  name Shuffle4
+  xpos 4910
+  ypos -2698
+ }
+ Dot {
+  name Dot11
+  xpos 4944
+  ypos -2622
+ }
+push 0
+push $N3ce8b000
+ Shuffle {
+  in none
+  alpha off
+  name Shuffle2
+  xpos 5130
+  ypos -2698
+ }
+ Dot {
+  name Dot12
+  xpos 5164
+  ypos -2622
+ }
+push $N3ce8b400
+ Shuffle {
+  in {{{Shuffle2.in}}}
+  alpha off
+  name Shuffle3
+  xpos 5020
+  ypos -2698
+ }
+ Merge2 {
+  inputs 3+1
+  operation disjoint-over
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge9
+  xpos 5020
+  ypos -2632
+ }
+ Merge2 {
+  inputs 3+1
+  operation disjoint-over
+  name Merge12
+  xpos 5020
+  ypos -2530
+ }
+ Invert {
+  channels alpha
+  name Invert2
+  xpos 5020
+  ypos -2488
+  disable {{"Shuffle2.in==0 && Shuffle8.in==0 && Shuffle6.in==0  ? 0 : 1-channeluse"}}
+ }
+ Dot {
+  name Dot37
+  xpos 5054
+  ypos -2430
+ }
+set N63a25800 [stack 0]
+ Dot {
+  name Dot46
+  xpos 4834
+  ypos -2430
+ }
+set N63a25400 [stack 0]
+ Dot {
+  name Dot38
+  xpos 4724
+  ypos -2430
+ }
+ Merge2 {
+  inputs 2
+  operation conjoint-over
+  name Merge14
+  xpos 4690
+  ypos -2362
+ }
+ Dot {
+  name Dot49
+  xpos 4724
+  ypos -2334
+ }
+ Dot {
+  name Dot47
+  xpos 4944
+  ypos -2334
+ }
+ Dot {
+  name Dot48
+  xpos 4944
+  ypos -2286
+ }
+push $N3ce6e400
+ Dot {
+  name Dot41
+  xpos 4614
+  ypos -2310
+ }
+set N642cdc00 [stack 0]
+push $N63a25800
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge13
+  xpos 5020
+  ypos -2314
+  disable {{"1-\[exists parent.input1]"}}
+ }
+push $N642cdc00
+ Dot {
+  name Dot36
+  xpos 4614
+  ypos -2238
+ }
+push $N63a25400
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge8
+  xpos 4800
+  ypos -2242
+ }
+ Switch {
+  inputs 3
+  which {{SpecMask}}
+  name Switch5
+  xpos 5020
+  ypos -2242
+ }
+ Dot {
+  name Dot39
+  xpos 5054
+  ypos -2214
+ }
+set N642ccc00 [stack 0]
+ Dot {
+  name Dot16
+  xpos 2194
+  ypos -2214
+ }
+ Dot {
+  name Dot57
+  xpos 2194
+  ypos -606
+ }
+push $N3ce8bc00
+ Dot {
+  name Dot20
+  xpos 3734
+  ypos -2478
+ }
+set N642cc000 [stack 0]
+ Dot {
+  name Dot21
+  xpos 3184
+  ypos -2478
+ }
+set N642f7c00 [stack 0]
+ Dot {
+  name Dot15
+  xpos 2854
+  ypos -2478
+ }
+set N642f7800 [stack 0]
+ Dot {
+  name Dot58
+  xpos 2754
+  ypos -2478
+ }
+push $N642f7c00
+ Shuffle {
+  in2 alpha
+  alpha red2
+  name Shuffle19
+  xpos 3150
+  ypos -2146
+ }
+set N642f7000 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  from3 rgba.alpha
+  to3 rgba.alpha
+  name Copy3
+  xpos 2720
+  ypos -2172
+  disable {{"Shuffle19.in==1 ? 1 : 0"}}
+ }
+ Dot {
+  name Dot40
+  xpos 2634
+  ypos -2142
+ }
+push $N642f7800
+push $N642f7000
+ ColorCorrect {
+  channels rgba
+  name ColorCorrect1
+  xpos 3150
+  ypos -2067
+ }
+set N642f6400 [stack 0]
+ Shuffle {
+  out {{{parent.Shuffle19.in}}}
+  name Shuffle13
+  xpos 2930
+  ypos -2067
+ }
+set N642f6000 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  from3 rgba.alpha
+  to3 rgba.alpha
+  name Copy1
+  xpos 2820
+  ypos -2093
+  disable {{"Shuffle19.in==1 ? 1 : 0"}}
+ }
+ Switch {
+  inputs 2
+  which {{original}}
+  name Switch6
+  xpos 2600
+  ypos -2067
+ }
+ Dot {
+  name Dot3
+  xpos 1974
+  ypos -2070
+ }
+ Dot {
+  name Dot13
+  xpos 1974
+  ypos -966
+ }
+set N6432b400 [stack 0]
+ Dot {
+  name Dot14
+  xpos 1754
+  ypos -966
+ }
+ Shuffle {
+  in {{{parent.Shuffle11.in}}}
+  in2 alpha
+  alpha red2
+  name Shuffle12
+  xpos 1720
+  ypos -691
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge19
+  xpos 1720
+  ypos -610
+ }
+ Premult {
+  name Premult4
+  xpos 1720
+  ypos -525
+ }
+ Glow2 {
+  channels {{{parent.Glow4.channels}}}
+  tint {{parent.Glow4.tint}}
+  tolerance {{parent.Glow4.tolerance}}
+  brightness {{parent.Glow4.brightness}}
+  saturation {{parent.Glow4.saturation}}
+  effect_only true
+  size {{parent.Glow4.size}}
+  name Glow1
+  xpos 1720
+  ypos -442
+ }
+ Dot {
+  name Dot17
+  xpos 1754
+  ypos -346
+ }
+push $N6432b400
+ Dot {
+  name Dot43
+  xpos 1974
+  ypos -798
+ }
+set N64367800 [stack 0]
+ Dot {
+  name Dot44
+  xpos 2414
+  ypos -798
+ }
+set N64367400 [stack 0]
+push $N64367400
+push 0
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge15
+  xpos 2600
+  ypos -802
+ }
+ Dot {
+  name Dot52
+  xpos 2634
+  ypos -739
+ }
+ Switch {
+  inputs 2
+  which {{"1-\[exists parent.input2]" x1776 1}}
+  name Switch4
+  xpos 2380
+  ypos -743
+ }
+push $N64367800
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 1940
+  ypos -749
+ }
+ Shuffle {
+  in2 alpha
+  alpha red2
+  name Shuffle11
+  xpos 1940
+  ypos -688
+ }
+ Glow2 {
+  channels rgba
+  W rgba.alpha
+  effect_only true
+  name Glow4
+  xpos 1940
+  ypos -442
+ }
+ Switch {
+  inputs 2
+  which {{LinkMask}}
+  name Switch3
+  xpos 1940
+  ypos -350
+ }
+set N4e15f180 [stack 0]
+ Dot {
+  name Dot54
+  xpos 1974
+  ypos -250
+ }
+push $N642ccc00
+ Dot {
+  name Dot8
+  xpos 5054
+  ypos -2142
+ }
+set N643a1800 [stack 0]
+ Dot {
+  name Dot9
+  xpos 5054
+  ypos -1974
+ }
+set N643a1400 [stack 0]
+ Dot {
+  name Dot53
+  xpos 5054
+  ypos -678
+ }
+push $N642f6000
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge17
+  xpos 2930
+  ypos -682
+ }
+ Premult {
+  channels all
+  alpha {{{Unpremult9.alpha}}}
+  name Premult3
+  xpos 2930
+  ypos -616
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge1
+  xpos 2930
+  ypos -254
+  disable {{1-GlowEffect1}}
+ }
+ Dot {
+  name Dot51
+  xpos 2964
+  ypos -130
+ }
+push $N4e15f180
+ Dot {
+  name Dot55
+  xpos 3604
+  ypos -346
+ }
+set N643c9c00 [stack 0]
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos 3570
+  ypos -313
+ }
+ Dot {
+  name Dot56
+  xpos 3604
+  ypos -257
+ }
+push $N643c9c00
+push $N643a1400
+push $N642f6400
+ Dot {
+  name Dot19
+  xpos 3184
+  ypos -1974
+ }
+push $N643a1800
+push $N642f7000
+push $N642cc000
+ Merge2 {
+  inputs 2+1
+  operation from
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge6
+  xpos 3700
+  ypos -2146
+ }
+ Merge2 {
+  inputs 2+1
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge7
+  xpos 3700
+  ypos -1978
+ }
+ Dot {
+  name Dot4
+  xpos 3734
+  ypos -1782
+ }
+set N643c8400 [stack 0]
+ Dot {
+  name Dot5
+  xpos 3184
+  ypos -1782
+ }
+ Shuffle {
+  in none
+  name Shuffle1
+  xpos 3150
+  ypos -1666
+ }
+set N643f3c00 [stack 0]
+ Dot {
+  name Dot7
+  xpos 3074
+  ypos -1662
+ }
+ Glow2 {
+  effect_only true
+  name Glow2
+  xpos 3040
+  ypos -946
+ }
+push $N643f3c00
+ ColorCorrect {
+  gain 0
+  name ColorCorrect2
+  xpos 3150
+  ypos -1570
+ }
+ Dot {
+  name Dot6
+  xpos 3184
+  ypos -1446
+ }
+push $N643f3c00
+push $N643c8400
+ Merge2 {
+  inputs 2
+  operation from
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge3
+  xpos 3700
+  ypos -1666
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge4
+  xpos 3700
+  ypos -1450
+ }
+ Premult {
+  channels all
+  alpha {{{Unpremult9.alpha}}}
+  name Premult1
+  xpos 3700
+  ypos -1192
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge5
+  xpos 3700
+  ypos -946
+  disable {{1-GlowEffect1}}
+ }
+ Dot {
+  name Dot45
+  xpos 3734
+  ypos -678
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge2
+  xpos 3700
+  ypos -350
+  disable {{1-GlowEffect1 x1 1}}
+ }
+set N64437400 [stack 0]
+ Merge2 {
+  inputs 2
+  operation screen
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge18
+  xpos 3700
+  ypos -267
+  disable {{1-affectAlpha}}
+ }
+ Merge2 {
+  inputs 2
+  operation copy
+  name Merge16
+  xpos 3700
+  ypos -134
+  disable {{1-selectedLayer}}
+ }
+ Switch {
+  inputs 2
+  which {{ShowLayer}}
+  name Switch2
+  xpos 3700
+  ypos 230
+ }
+ Output {
+  name Output1
+  xpos 3700
+  ypos 398
+ }
+ Constant {
+  inputs 0
+  color 1
+  name Constant1
+  xpos 6560
+  ypos -1209
+ }
+ Switch {
+  which {{"\[exists parent.input1]" x1776 1}}
+  name Switch1
+  xpos 6340
+  ypos -1186
+ }
+push $N64437400
+ Viewer {
+  frame_range 1-100
+  colour_sample_bbox {0.7314453125 -0.0302734375 0.732421875 -0.029296875}
+  name Viewer1
+  xpos 3911
+  ypos -346
+ }
+end_group

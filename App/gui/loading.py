@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\wizard_devellop\App\gui\ui_files\loading.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_loading_Form(object):
+    def setupUi(self, loading_Form):
+        loading_Form.setObjectName("loading_Form")
+        loading_Form.resize(819, 528)
+        loading_Form.setWindowOpacity(1.0)
+        loading_Form.setStyleSheet("")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(loading_Form)
+        self.verticalLayout_2.setContentsMargins(11, 11, 11, 11)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.loading_ui_horizontalFrame = QtWidgets.QFrame(loading_Form)
+        self.loading_ui_horizontalFrame.setObjectName("loading_ui_horizontalFrame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.loading_ui_horizontalFrame)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.logo_label = QtWidgets.QLabel(self.loading_ui_horizontalFrame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.logo_label.sizePolicy().hasHeightForWidth())
+        self.logo_label.setSizePolicy(sizePolicy)
+        self.logo_label.setMinimumSize(QtCore.QSize(500, 500))
+        self.logo_label.setMaximumSize(QtCore.QSize(500, 500))
+        self.logo_label.setLineWidth(0)
+        self.logo_label.setText("")
+        self.logo_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.logo_label.setObjectName("logo_label")
+        self.horizontalLayout.addWidget(self.logo_label)
+        self.text_loading_frame = QtWidgets.QFrame(self.loading_ui_horizontalFrame)
+        self.text_loading_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.text_loading_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.text_loading_frame.setLineWidth(0)
+        self.text_loading_frame.setObjectName("text_loading_frame")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.text_loading_frame)
+        self.verticalLayout_4.setContentsMargins(20, 0, 0, 0)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem)
+        self.label = QtWidgets.QLabel(self.text_loading_frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout_4.addWidget(self.label)
+        self.wizard_version_label = QtWidgets.QLabel(self.text_loading_frame)
+        self.wizard_version_label.setText("")
+        self.wizard_version_label.setObjectName("wizard_version_label")
+        self.verticalLayout_4.addWidget(self.wizard_version_label)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_4.addItem(spacerItem1)
+        self.loading_user_label = QtWidgets.QLabel(self.text_loading_frame)
+        self.loading_user_label.setObjectName("loading_user_label")
+        self.verticalLayout_4.addWidget(self.loading_user_label)
+        self.loading_project_label = QtWidgets.QLabel(self.text_loading_frame)
+        self.loading_project_label.setObjectName("loading_project_label")
+        self.verticalLayout_4.addWidget(self.loading_project_label)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_4.addItem(spacerItem2)
+        self.loading_label = QtWidgets.QLabel(self.text_loading_frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.loading_label.sizePolicy().hasHeightForWidth())
+        self.loading_label.setSizePolicy(sizePolicy)
+        self.loading_label.setText("")
+        self.loading_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.loading_label.setObjectName("loading_label")
+        self.verticalLayout_4.addWidget(self.loading_label)
+        spacerItem3 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem3)
+        self.horizontalLayout.addWidget(self.text_loading_frame)
+        self.verticalLayout_2.addWidget(self.loading_ui_horizontalFrame)
+        self.loading_progressBar = QtWidgets.QProgressBar(loading_Form)
+        self.loading_progressBar.setMinimumSize(QtCore.QSize(0, 6))
+        self.loading_progressBar.setMaximumSize(QtCore.QSize(16777215, 6))
+        self.loading_progressBar.setProperty("value", 0)
+        self.loading_progressBar.setTextVisible(False)
+        self.loading_progressBar.setObjectName("loading_progressBar")
+        self.verticalLayout_2.addWidget(self.loading_progressBar)
+
+        self.retranslateUi(loading_Form)
+        QtCore.QMetaObject.connectSlotsByName(loading_Form)
+
+    def retranslateUi(self, loading_Form):
+        _translate = QtCore.QCoreApplication.translate
+        loading_Form.setWindowTitle(_translate("loading_Form", "Form"))
+        self.label.setText(_translate("loading_Form", "Wizard - Production manager ©"))
+        self.loading_user_label.setText(_translate("loading_Form", "User :"))
+        self.loading_project_label.setText(_translate("loading_Form", "Project :"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    loading_Form = QtWidgets.QWidget()
+    ui = Ui_loading_Form()
+    ui.setupUi(loading_Form)
+    loading_Form.show()
+    sys.exit(app.exec_())

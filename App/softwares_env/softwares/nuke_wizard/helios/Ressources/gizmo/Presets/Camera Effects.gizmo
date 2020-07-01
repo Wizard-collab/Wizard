@@ -1,0 +1,155 @@
+#! C:/Program Files/Nuke11.2v4/nuke-11.2.4.dll -nx
+version 11.2 v4
+Gizmo {
+ inputs 2
+ addUserKnob {20 User l EFFECTS}
+ addUserKnob {26 CAMERAEFFECTS l "MULTIPLE CAMERA EFFECTS" T " "}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 LENSDISTORT l "LENS DISTORTION" T " "}
+ addUserKnob {41 lensType l "Lens Type" T "Lens Distortion1.lensType"}
+ addUserKnob {41 distortion1 l "Radial Distortion 1" T "Lens Distortion1.distortion1"}
+ addUserKnob {41 distortion2 l "Radial Distortion 2" T "Lens Distortion1.distortion2"}
+ addUserKnob {41 distortionCenter l "Distortion Center" T "Lens Distortion1.distortionCenter"}
+ addUserKnob {41 anamorphicSqueeze l "Anamorphic Squeeze" T "Lens Distortion1.anamorphicSqueeze"}
+ addUserKnob {41 asymmetricDistortion l "Asymmetric Distortion" T "Lens Distortion1.asymmetricDistortion"}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 aberrationchromatic l "CHROMATIC ABERRATION" T " "}
+ addUserKnob {41 colorBalance l "Aberration Multiplier" T Aberration.colorBalance}
+ addUserKnob {20 Axial l "Axial Controls" n 1}
+ Axial 0
+ addUserKnob {41 abbrRad l Radial T Aberration.abbrRad}
+ addUserKnob {41 abbrRot l Rotational T Aberration.abbrRot}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 Transverse l "Transverse Controls" n 1}
+ Transverse 0
+ addUserKnob {41 abbrX l "Offset X" T Aberration.abbrX}
+ addUserKnob {41 abbrY l "Offset  Y" T Aberration.abbrY}
+ addUserKnob {41 abrTop l Top T Aberration.abrTop}
+ addUserKnob {41 abrBtm l Bottom T Aberration.abrBtm}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {41 blend l Blend T Aberration.blend}
+ addUserKnob {20 channels_1 l "Channel Filters" n 1}
+ channels_1 0
+ addUserKnob {41 soft l Soften T Aberration.soft}
+ addUserKnob {41 redBypass l "<font color=red> Red <font color=lightgrey> Bypass" T Aberration.redBypass}
+ addUserKnob {41 greenBypass l "<font color=green> Green <font color=lightgrey> Bypass" T Aberration.greenBypass}
+ addUserKnob {41 blueBypass l "<font color=blue> Blue <font color=lightgrey> Bypass" T Aberration.blueBypass}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 mask l "Mask Controls" n 1}
+ mask 0
+ addUserKnob {41 cntrMask l "Use Center Mask" T Aberration.cntrMask}
+ addUserKnob {41 maskErode l Shape T Aberration.maskErode}
+ addUserKnob {41 maskSoft l Soften T Aberration.maskSoft}
+ addUserKnob {41 scaleMask l Scale T Aberration.scaleMask}
+ addUserKnob {41 showMask l "Show Mask" T Aberration.showMask}
+ addUserKnob {41 maskcolorrgb l "Mask Color" T Aberration.maskcolorrgb}
+ addUserKnob {41 maskcolorrgb_panelDropped l "panel dropped state" T Aberration.maskcolorrgb_panelDropped}
+ addUserKnob {41 maskcolorrgb_panelDropped_1 l "panel dropped state" T Aberration.maskcolorrgb_panelDropped_1}
+ addUserKnob {41 mask_1_panelDropped l "panel dropped state" T Aberration.mask_1_panelDropped}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+ addUserKnob {41 which l Mix T Aberration.which}
+ addUserKnob {41 invrt l "Use Mask" T Aberration.invrt}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 CAMLENSEFFECT l "CAMERA LENS EFFECT" T " "}
+ addUserKnob {41 format l "Output Format" T "Camera Lens Effect1.format"}
+ addUserKnob {41 par_flareswitch l "Flare Type" T "Camera Lens Effect1.par_flareswitch"}
+ addUserKnob {41 par_EffectOnly l EffectOnly T "Camera Lens Effect1.par_EffectOnly"}
+ addUserKnob {41 UseGPU T "Camera Lens Effect1.UseGPU"}
+ addUserKnob {41 par_EffectMultiplier l "Effect Multiplier" T "Camera Lens Effect1.par_EffectMultiplier"}
+ addUserKnob {41 savePresets T "Camera Lens Effect1.savePresets"}
+ addUserKnob {41 LoadPresets T "Camera Lens Effect1.LoadPresets"}
+ addUserKnob {20 Advanced l "Advanced Options" n 1}
+ Advanced 0
+ addUserKnob {26 FLARES}
+ addUserKnob {41 par_flares_anamorphicThreshold l "Anamorphic Threshold" T "Camera Lens Effect1.par_flares_anamorphicThreshold"}
+ addUserKnob {41 par_flare_sensitive l "Flare Sensitivity" T "Camera Lens Effect1.par_flare_sensitive"}
+ addUserKnob {41 par_flares_lift l Lift T "Camera Lens Effect1.par_flares_lift"}
+ addUserKnob {26 BOKEH}
+ addUserKnob {41 par_bokeh_octogonBokehMult l "Octogon Bokeh Multiplier" T "Camera Lens Effect1.par_bokeh_octogonBokehMult"}
+ addUserKnob {26 BLOOM}
+ addUserKnob {41 par_bloom_threshold l "Bloom Threshold" T "Camera Lens Effect1.par_bloom_threshold"}
+ addUserKnob {41 par_bloom_falloff l Falloff T "Camera Lens Effect1.par_bloom_falloff"}
+ addUserKnob {41 par_bloom_gain l Gain T "Camera Lens Effect1.par_bloom_gain"}
+ addUserKnob {26 GLOW}
+ addUserKnob {41 par_glow_tolerance l Tolerance T "Camera Lens Effect1.par_glow_tolerance"}
+ addUserKnob {41 par_glow_value l Value T "Camera Lens Effect1.par_glow_value"}
+ addUserKnob {41 par_glow_starburstIntensity l "Starburst Intensity" T "Camera Lens Effect1.par_glow_starburstIntensity"}
+ addUserKnob {41 par_glow_saturation l Saturation T "Camera Lens Effect1.par_glow_saturation"}
+ addUserKnob {20 endGroup_1_1 l endGroup n -1}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 VIGNETTAGE T " "}
+ addUserKnob {41 noInput l "Ignore 'img'" T Vignettage1.noInput}
+ addUserKnob {41 format_1 l format T Vignettage1.format}
+ addUserKnob {26 div1 l "basic operations"}
+ addUserKnob {41 amount l Amount T Vignettage1.amount}
+ addUserKnob {41 smooth l smoothness T Vignettage1.smooth}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 ver l "" +STARTLINE T "Thanos Camera Effect v01.1"}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 developper l "" t "Léo a été cité en premier parcequ'il a gagné au chifoumi. Toujours célibataires, pour toute personne intéressée contactez : avignon@nouvellesimages.xyz" +STARTLINE T "              Develloped by \nLéo Brunel & Alexandre Manzanares"}
+ addUserKnob {6 More_Infos l "More Infos" t "Léo a été cité en premier parcequ'il a gagné au chifoumi. Nous sommes toujours célibataires, pour toute personne intéressée contactez : avignon@nouvellesimages.xyz" +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Chromatic_Aberration_Mask
+  label Input
+  xpos 55
+  ypos 96
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 211
+  ypos 49
+ }
+ "S:/SCRIPT/nuke/thanos/Ressources/gizmo/Camera/Lens Distortion.gizmo" {
+  name "Lens Distortion1"
+  xpos 211
+  ypos 108
+  distortion1 0.003
+ }
+ "S:/SCRIPT/nuke/thanos/Ressources/gizmo/Camera/Chromatic Aberration.gizmo" {
+  inputs 2
+  name Aberration
+  selected false
+  xpos 211
+  ypos 146
+  blu {{colorBalance+(grn*2)}}
+  grn {{colorBalance R x1 -0}}
+  red {{-1*blu}}
+  Axial 1
+  Transverse 1
+  channels_1 1
+  channels rgb
+  mask 1
+  MaskColor {{parent.maskcolorrgb.r} {parent.maskcolorrgb.g} {parent.maskcolorrgb.b} 1}
+ }
+ "S:/SCRIPT/nuke/thanos/Ressources/gizmo/Camera/Camera Lens Effect.gizmo" {
+  name "Camera Lens Effect1"
+  xpos 211
+  ypos 172
+  format 0
+  par_EffectMultiplier 1
+  Advanced 1
+  par_flare_sensitive 0.99
+  par_flares_lift 1.68
+  par_glow_starburstIntensity 0.15
+ }
+ S:/SCRIPT/nuke/thanos/Ressources/gizmo/Camera/Vignettage.gizmo {
+  name Vignettage1
+  note_font Verdana
+  xpos 211
+  ypos 229
+  format 0
+  amount 0.25
+  smooth 1
+  transform 0
+ }
+ Output {
+  name Output1
+  xpos 211
+  ypos 298
+ }
+end_group

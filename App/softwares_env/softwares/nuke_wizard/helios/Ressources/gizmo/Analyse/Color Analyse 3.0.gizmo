@@ -1,0 +1,960 @@
+#! C:/Program Files/Nuke7.0v4/Nuke7.0.exe -nx
+version 7.0 v4
+Gizmo {
+ note_font "Bitstream Vera Sans"
+ dope_sheet true
+ addUserKnob {20 User l "Color Analyses"}
+ addUserKnob {20 Format n 1}
+ Format 0
+ addUserKnob {41 type T Reformat1.type}
+ addUserKnob {41 format l "Output Format" -STARTLINE T Reformat1.format}
+ addUserKnob {41 box_width l Width/Height T Reformat1.box_width}
+ addUserKnob {41 box_height l "" -STARTLINE T Reformat1.box_height}
+ addUserKnob {41 scale_1 l Scale T Reformat1.scale}
+ addUserKnob {26 ""}
+ addUserKnob {41 resize l "Resize Type" T Reformat1.resize}
+ addUserKnob {41 center_1 l center -STARTLINE T Reformat1.center}
+ addUserKnob {41 flip -STARTLINE T Reformat1.flip}
+ addUserKnob {41 flop -STARTLINE T Reformat1.flop}
+ addUserKnob {41 turn -STARTLINE T Reformat1.turn}
+ addUserKnob {26 Tip l "" +STARTLINE T "ALWAYS be sure your formats are set up properly."}
+ addUserKnob {20 endGroup_6 l endGroup n -1}
+ addUserKnob {26 Channels l "@b;Channels"}
+ addUserKnob {4 ChannelChoice l "Channel View" M {Default Red Green Blue Alpha}}
+ addUserKnob {4 Channel1 l "Channel 1" M {Red Green Blue}}
+ addUserKnob {6 Disable_1 l "Disable Channel 1" -STARTLINE}
+ addUserKnob {4 Channel2 l "Channel 2" M {Red Green Blue}}
+ Channel2 Green
+ addUserKnob {6 Disable_3 l "Disable Channel 2" -STARTLINE}
+ addUserKnob {4 Channel3 l "Channel 3" M {Red Green Blue}}
+ Channel3 Blue
+ addUserKnob {6 Disable_2 l "Disable Channel 3" -STARTLINE}
+ addUserKnob {26 ColorSpace l "@b;Color Space"}
+ addUserKnob {41 colorspace_in l In T Colorspace1.colorspace_in}
+ addUserKnob {41 illuminant_in l "" -STARTLINE T Colorspace1.illuminant_in}
+ addUserKnob {41 primary_in l "" -STARTLINE T Colorspace1.primary_in}
+ addUserKnob {41 colorspace_out l Out T Colorspace1.colorspace_out}
+ addUserKnob {41 illuminant_out l "" -STARTLINE T Colorspace1.illuminant_out}
+ addUserKnob {41 primary_out l "" -STARTLINE T Colorspace1.primary_out}
+ addUserKnob {41 mix l Mix T Colorspace1.mix}
+ addUserKnob {20 Analyses n 1}
+ Analyses 0
+ addUserKnob {26 Gamma l "@b;Gamma"}
+ addUserKnob {41 channels_1 l channels T Gamma1.channels}
+ addUserKnob {41 value T Gamma1.value}
+ addUserKnob {41 mix_1 l mix T Gamma1.mix}
+ addUserKnob {26 Clamp l "@b;Clamp"}
+ addUserKnob {41 channels_2 l channels T Clamp1.channels}
+ addUserKnob {41 minimum T Clamp1.minimum}
+ addUserKnob {41 maximum T Clamp1.maximum}
+ addUserKnob {41 MinClampTo T Clamp1.MinClampTo}
+ addUserKnob {41 MaxClampTo T Clamp1.MaxClampTo}
+ addUserKnob {41 mix_3 l mix T Clamp1.mix}
+ addUserKnob {26 Add l "@b;Add"}
+ addUserKnob {41 channels_3 l channels T Add1.channels}
+ addUserKnob {41 value_1 l value T Add1.value}
+ addUserKnob {41 mix_4 l mix T Add1.mix}
+ addUserKnob {26 Multiply l "@b;Multiply"}
+ addUserKnob {41 channels_4 l channels T Multiply1.channels}
+ addUserKnob {41 value_2 l value T Multiply1.value}
+ addUserKnob {41 mix_5 l mix T Multiply1.mix}
+ addUserKnob {26 Exposure l "@b;Exposure"}
+ addUserKnob {41 channels_5 l channels T EXPTool1.channels}
+ addUserKnob {41 colorspace T EXPTool1.colorspace}
+ addUserKnob {41 mode l "Adjust in" -STARTLINE T EXPTool1.mode}
+ addUserKnob {41 blackpoint T EXPTool1.blackpoint}
+ addUserKnob {41 gang T EXPTool1.gang}
+ addUserKnob {41 red T EXPTool1.red}
+ addUserKnob {41 green T EXPTool1.green}
+ addUserKnob {41 blue T EXPTool1.blue}
+ addUserKnob {41 mix_7 l mix T EXPTool1.mix}
+ addUserKnob {20 endGroup_5 l endGroup n -1}
+ addUserKnob {20 Histogram l "Live Histogram"}
+ addUserKnob {26 LiveHisto l "@b;Live Histogram"}
+ addUserKnob {41 go l Go! T CurveTool1.go}
+ addUserKnob {4 FormatSelect l Format M {Auto Custom ""}}
+ addUserKnob {41 intensitydata l "Intensity Data" T CurveTool1.intensitydata}
+ addUserKnob {41 ROI l "Analyses Area" T CurveTool1.ROI}
+ addUserKnob {41 Font T TextControls.Font}
+ addUserKnob {20 RGBBars l "RGB Bars" n 1}
+ RGBBars 0
+ addUserKnob {41 Opacity_3 l Opacity T Auto.Opacity}
+ addUserKnob {41 Softness_1 l Softness T Auto.Softness}
+ addUserKnob {41 BarColor l Red T Auto.BarColor}
+ addUserKnob {41 Green T Auto.Green}
+ addUserKnob {41 Blue T Auto.Blue}
+ addUserKnob {20 endGroup_4 l endGroup n -1}
+ addUserKnob {20 Text n 1}
+ Text 0
+ addUserKnob {26 RGB l "@b;RGB Text"}
+ addUserKnob {41 Size T TextControls.Size}
+ addUserKnob {41 Opacity_1 l Opacity T TextControls.Opacity_1}
+ addUserKnob {26 ColorOutput l "@b;Color Output"}
+ addUserKnob {41 MergeType l "Merge Type" T Merge2.operation}
+ addUserKnob {7 Size_2 l Size R 0 300}
+ Size_2 14
+ addUserKnob {7 Opacity_2 l Opacity}
+ Opacity_2 1
+ addUserKnob {41 scale l Scale T ColorOutputTransform.scale}
+ addUserKnob {41 rotate l Rotate T ColorOutputTransform.rotate}
+ addUserKnob {41 center l Center T ColorOutputTransform.center}
+ addUserKnob {41 translate l Translate T ColorOutputTransform.translate}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 CustomFormat_1 l "Custom Format" n 1}
+ CustomFormat_1 0
+ addUserKnob {26 Guide l "@b;Guide"}
+ addUserKnob {41 GuideSize l "Guide Size" T CusomControls.GuideSize}
+ addUserKnob {41 Color T CusomControls.Color}
+ addUserKnob {41 Opacity T CusomControls.Opacity}
+ addUserKnob {41 Softness T CusomControls.Softness}
+ addUserKnob {41 Size_1 l INVISIBLE +INVISIBLE T CusomControls.Size}
+ addUserKnob {26 Guide_1 l Tip T "1.0   =  The full height of the image\n0.5   =  Half the height of the image\n0.25 = 1/4th the height of the image"}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 MinMax l "@b;Min/Max Pixel"}
+ addUserKnob {41 go_1 l Go! T CurveTool2.go}
+ addUserKnob {41 ROI_1 l "Analyses Area" T CurveTool2.ROI}
+ addUserKnob {41 maxlumapixdata l "Max Luma Pixel" T CurveTool2.maxlumapixdata}
+ addUserKnob {41 maxlumapixvalue l "Max Luma Pixel" T CurveTool2.maxlumapixvalue}
+ addUserKnob {26 ""}
+ addUserKnob {41 minlumapixdata l "Min Luma Pixel" T CurveTool2.minlumapixdata}
+ addUserKnob {41 minlumapixvalue l "Min Luma Pixel" T CurveTool2.minlumapixvalue}
+ addUserKnob {20 ControlCenter l "Control Center"}
+ addUserKnob {20 Analysestools l "Analyses Tools" n 1}
+ Analysestools 0
+ addUserKnob {6 DisableExposure l "Disable Exposure" +STARTLINE}
+ addUserKnob {7 ExposureMix l "Exposure Mix"}
+ ExposureMix 1
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableGamma l "@b;Disable Gamma" +STARTLINE}
+ addUserKnob {7 Gammamix l "Gamma Mix"}
+ Gammamix 1
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableAdd l "Disable Add" +STARTLINE}
+ addUserKnob {7 AddMix l "Add Mix"}
+ AddMix 1
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableMultiply l "Disable Multiply" +STARTLINE}
+ addUserKnob {7 MultiplyMix l "Multiply Mix"}
+ MultiplyMix 1
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableClamp l "Disable Clamp" +STARTLINE}
+ addUserKnob {41 mix_6 l "Clamp Mix" T Clamp1.mix}
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableColorspace l "Disable Colorspace" +STARTLINE}
+ addUserKnob {7 Colorspacemix l "Colorspace Mix"}
+ Colorspacemix 1
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {20 LiveHistogram l "Live Histogram" n 1}
+ LiveHistogram 0
+ addUserKnob {6 Disable +STARTLINE}
+ addUserKnob {7 RGBMix l "RGB Bars Mix"}
+ RGBMix 1
+ addUserKnob {7 RGBTextMix l "RGB Text Mix"}
+ RGBTextMix 1
+ addUserKnob {26 ""}
+ addUserKnob {6 DisableRGB l "Disable RGB Info" +STARTLINE}
+ addUserKnob {7 RGBInfoMix l "RGB Info Mix"}
+ RGBInfoMix 1
+ addUserKnob {26 ""}
+ addUserKnob {20 endGroup_3 l endGroup n -1}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  label "Please be sure you format your project\nto match what you want. If you see format\n  problems, please reformat according to \n your project size. Then setup the text and\n     other controls to match this. \n Best results are achieved when \nyour settings match."
+  xpos 259
+  ypos -625
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  label " Your format is \[value Input1.format.w]x\[value Input1.format.h]\nAt \[value fps] fps, with a frame range of \[value first_frame]-\[value last_frame]\n Read1 has a frame range of \[value Read1.first]-\[value Read4.last]\n "
+  xpos 269
+  ypos -510
+ }
+ Text {
+  inputs 0
+  opacity {{parent.Opacity_2}}
+  message "R \[value CurveTool1.intensitydata.r]\nG \[value CurveTool1.intensitydata.g]\nB \[value CurveTool1.intensitydata.b]"
+  font "\[value TextControls.Font]"
+  size {{parent.Size_2}}
+  kerning {{parent.TextControls.Kerning}}
+  yjustify center
+  Transform 1
+  box {{0-format.w/-2.5} {0-format.h/-1000} {format.w+format.w/-1.15} {0-format.h/-4}}
+  translate {{parent.Translate.x} {parent.Translate.y}}
+  scale {{parent.ColorOutputTransform.scale}}
+  name ColorOutput
+  note_font "Bitstream Vera Sans"
+  xpos 320
+  ypos -10
+ }
+ Transform {
+  translate {74 -28}
+  scale 1.843
+  center {477 241}
+  shutter 0
+  name ColorOutputTransform
+  note_font "Bitstream Vera Sans"
+  xpos 320
+  ypos -58
+ }
+ Input {
+  inputs 0
+  name Input1
+  note_font "Bitstream Vera Sans"
+  xpos 80
+  ypos -538
+ }
+ Reformat {
+  format "1920 1080 0 0 1920 1080 1 HD"
+  resize none
+  name Reformat1
+  xpos 80
+  ypos -496
+ }
+ NoOp {
+  name InputFormat
+  label "\[value Input1.format.w]       \[value Input1.format.h]"
+  xpos 80
+  ypos -448
+  addUserKnob {20 User l Format}
+  addUserKnob {7 Width R 0 4096}
+  Width {{Input1.format.w i}}
+  addUserKnob {7 Height R 0 2304}
+  Height {{Input1.format.h i}}
+ }
+set Nf4486b0 [stack 0]
+ Dot {
+  name Dot7
+  xpos 594
+  ypos -438
+ }
+ Shuffle {
+  red blue
+  green blue
+  name Shuffle7
+  xpos 560
+  ypos -394
+  disable {{parent.Disable_2 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {curve C 0 0}
+    blue {}
+    alpha {}}
+  name ColorLookup7
+  xpos 560
+  ypos -346
+  disable {{parent.Disable_2 i}}
+ }
+push $Nf4486b0
+ Dot {
+  name Dot8
+  xpos 474
+  ypos -438
+ }
+ Shuffle {
+  red green
+  blue green
+  name Shuffle8
+  xpos 440
+  ypos -394
+  disable {{parent.Disable_2 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup8
+  xpos 440
+  ypos -346
+  disable {{parent.Disable_2 i}}
+ }
+push $Nf4486b0
+ Dot {
+  name Dot9
+  xpos 354
+  ypos -438
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle9
+  xpos 320
+  ypos -394
+  disable {{parent.Disable_2 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {}
+    green {curve C 0 0}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup9
+  xpos 320
+  ypos -346
+  disable {{parent.Disable_2 i}}
+ }
+ Switch {
+  inputs 3
+  which {{parent.Channel3 i}}
+  name Switch3
+  xpos 440
+  ypos -298
+ }
+ Dot {
+  name Dot3
+  xpos 474
+  ypos -246
+ }
+push 0
+push $Nf4486b0
+ Dot {
+  name Dot10
+  xpos 234
+  ypos -438
+ }
+ Shuffle {
+  red blue
+  green blue
+  name Shuffle5
+  xpos 200
+  ypos -394
+  disable {{parent.Disable_3 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {curve C 0 0}
+    blue {}
+    alpha {}}
+  name ColorLookup4
+  xpos 200
+  ypos -346
+  disable {{parent.Disable_3 i}}
+ }
+push $Nf4486b0
+ Shuffle {
+  red green
+  blue green
+  name Shuffle6
+  xpos 80
+  ypos -394
+  disable {{parent.Disable_3 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup5
+  xpos 80
+  ypos -346
+  disable {{parent.Disable_3 i}}
+ }
+push $Nf4486b0
+ Dot {
+  name Dot6
+  xpos -6
+  ypos -438
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle10
+  xpos -40
+  ypos -394
+  disable {{parent.Disable_3 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {}
+    green {curve C 0 0}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup6
+  xpos -40
+  ypos -346
+  disable {{parent.Disable_3 i}}
+ }
+ Switch {
+  inputs 3
+  which {{parent.Channel2 i}}
+  name Switch4
+  xpos 80
+  ypos -298
+ }
+push $Nf4486b0
+ Dot {
+  name Dot5
+  xpos -126
+  ypos -438
+ }
+ Shuffle {
+  red blue
+  green blue
+  name Shuffle11
+  xpos -160
+  ypos -394
+  disable {{parent.Disable_1 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {curve C 0 0}
+    blue {}
+    alpha {}}
+  name ColorLookup3
+  xpos -160
+  ypos -346
+  disable {{parent.Disable_1 i}}
+ }
+push $Nf4486b0
+ Dot {
+  name Dot4
+  xpos -246
+  ypos -438
+ }
+ Shuffle {
+  red green
+  blue green
+  name Shuffle12
+  xpos -280
+  ypos -394
+  disable {{parent.Disable_1 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve C 0 0}
+    green {}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup2
+  xpos -280
+  ypos -346
+  disable {{parent.Disable_1 i}}
+ }
+push $Nf4486b0
+ Dot {
+  name Dot11
+  xpos -366
+  ypos -438
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle13
+  xpos -400
+  ypos -394
+  disable {{parent.Disable_1 i}}
+ }
+ ColorLookup {
+  lut {master {}
+    red {}
+    green {curve C 0 0}
+    blue {curve C 0 0}
+    alpha {}}
+  name ColorLookup1
+  xpos -400
+  ypos -346
+  disable {{parent.Disable_1 i}}
+ }
+ Switch {
+  inputs 3
+  which {{parent.Channel1 i}}
+  name Switch5
+  xpos -280
+  ypos -298
+ }
+ Dot {
+  name Dot2
+  xpos -246
+  ypos -246
+ }
+ Merge2 {
+  inputs 3+1
+  name Merge1
+  xpos 80
+  ypos -250
+ }
+set N25ce5200 [stack 0]
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle4
+  note_font "Bitstream Vera Sans"
+  xpos 320
+  ypos -202
+ }
+push $N25ce5200
+ Shuffle {
+  red blue
+  green blue
+  name Shuffle3
+  note_font "Bitstream Vera Sans"
+  xpos 200
+  ypos -202
+ }
+push $N25ce5200
+ Shuffle {
+  red green
+  blue green
+  name Shuffle2
+  note_font "Bitstream Vera Sans"
+  xpos -40
+  ypos -202
+ }
+push $N25ce5200
+ Shuffle {
+  green red
+  blue red
+  name Shuffle1
+  note_font "Bitstream Vera Sans"
+  xpos -160
+  ypos -202
+ }
+push $N25ce5200
+ Switch {
+  inputs 5
+  which {{parent.ChannelChoice}}
+  name Switch1
+  note_font "Bitstream Vera Sans"
+  xpos 80
+  ypos -154
+ }
+ CurveTool {
+  operation "Max Luma Pixel"
+  ROI {0 0 1920 1080}
+  autocropdata {0 0 {Input1.format.w i} {Input1.format.h i}}
+  maxlumapixdata {{curve} {curve}}
+  maxlumapixvalue {{curve}}
+  minlumapixdata {{curve} {curve}}
+  minlumapixvalue {{curve}}
+  name CurveTool2
+  note_font "Bitstream Vera Sans"
+  xpos 80
+  ypos -106
+ }
+ CurveTool {
+  ccrange 1
+  avgframes 1
+  channels rgba
+  ROI {0 0 1920 1080}
+  autocropdata {0 0 1280 720}
+  intensitydata {{curve}}
+  name CurveTool1
+  note_font "Bitstream Vera Sans"
+  xpos 200
+  ypos -106
+ }
+ Merge2 {
+  inputs 2
+  operation conjoint-over
+  mix {{parent.RGBInfoMix i}}
+  name Merge2
+  note_font "Bitstream Vera Sans"
+  xpos 320
+  ypos -106
+  disable {{DisableRGB i}}
+ }
+ EXPTool {
+  channels rgba
+  name EXPTool1
+  note_font "Bitstream Vera Sans"
+  xpos 440
+  ypos -106
+  disable {{DisableExposure i}}
+ }
+ Gamma {
+  channels rgba
+  name Gamma1
+  note_font "Bitstream Vera Sans"
+  xpos 560
+  ypos -106
+  disable {{DisableGamma i}}
+ }
+ Add {
+  channels rgba
+  name Add1
+  note_font "Bitstream Vera Sans"
+  xpos 680
+  ypos -106
+  disable {{DisableAdd i}}
+ }
+ Multiply {
+  channels rgba
+  name Multiply1
+  note_font "Bitstream Vera Sans"
+  xpos 680
+  ypos -58
+  disable {{DisableMultiply i}}
+ }
+ Clamp {
+  channels rgba
+  MinClampTo_enable true
+  name Clamp1
+  note_font "Bitstream Vera Sans"
+  xpos 680
+  ypos -10
+  disable {{DisableClamp i}}
+ }
+ Colorspace {
+  illuminant_in A
+  primary_in "NTSC (1953)"
+  illuminant_out A
+  primary_out "NTSC (1953)"
+  name Colorspace1
+  note_font "Bitstream Vera Sans"
+  xpos 680
+  ypos 38
+  disable {{DisableColorspace i}}
+ }
+set N26045650 [stack 0]
+ NoOp {
+  name CusomControls
+  note_font "Bitstream Vera Sans"
+  xpos 680
+  ypos 86
+  addUserKnob {20 User}
+  addUserKnob {7 GuideSize l "Guide Size" R 0 5}
+  GuideSize 0.5
+  addUserKnob {18 Color}
+  Color 1
+  addUserKnob {7 Opacity}
+  Opacity 1
+  addUserKnob {14 Softness R 0 100}
+  addUserKnob {3 Size}
+  Size 1
+ }
+ Group {
+  name Custom
+  note_font "Bitstream Vera Sans"
+  xpos 560
+  ypos 86
+  disable {{Disable i}}
+  addUserKnob {20 User}
+  addUserKnob {41 color T CalibrationRectangle.color}
+  addUserKnob {41 opacity T CalibrationRectangle.opacity}
+  addUserKnob {41 softness T CalibrationRectangle.softness}
+  addUserKnob {2 Font}
+  Font "\[value TextControls.Font]"
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x5a5a5aff
+   label Custom
+   note_font "Bitstream Vera Sans"
+   note_font_size 28
+   xpos 243
+   ypos -270
+   bdwidth 104
+   bdheight 296
+  }
+  Input {
+   inputs 0
+   name Input1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -230
+  }
+  Rectangle {
+   opacity {{parent.parent.Auto.Opacity i}}
+   area {{parent.Green1.area.x i} {parent.Green1.area.y i} {parent.Green1.area.r i} {parent.parent.CusomControls.Size*format.h*parent.Calibration.CustomFormat i}}
+   softness {{parent.parent.CusomControls.Softness i}}
+   color {{parent.parent.CusomControls.Color i}}
+   name CalibrationRectangle
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -190
+  }
+  Rectangle {
+   opacity {{parent.parent.Auto.Opacity i}}
+   area {{0-format.w/-50 i} {0-format.h/-10000 i} {format.w+format.w/-1.038 i} {parent.parent.CurveTool1.intensitydata.r*format.h*parent.Calibration.CustomFormat i}}
+   softness {{parent.parent.Auto.Softness i}}
+   color {{parent.parent.Auto.BarColor.r i} {parent.parent.Auto.BarColor.g i} {parent.parent.Auto.BarColor.b i} 0}
+   name Red1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -162
+  }
+  Rectangle {
+   opacity {{parent.Red1.opacity i}}
+   area {{0-format.w/-20 i} {0-format.h/-10000 i} {format.w+format.w/-1.07 i} {parent.parent.CurveTool1.intensitydata.g*format.h*parent.Calibration.CustomFormat i}}
+   softness {{parent.Red1.softness i}}
+   color {{parent.parent.Auto.Green.r i} {parent.parent.Auto.Green.g i} {parent.parent.Auto.Green.b i} 0}
+   name Green1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -136
+  }
+  Rectangle {
+   opacity {{parent.parent.Auto.Opacity i}}
+   area {{0-format.w/-12.5 i} {0-format.h/-10000 i} {format.w+format.w/-1.108 i} {parent.parent.CurveTool1.intensitydata.b*format.h*parent.Calibration.CustomFormat i}}
+   softness {{parent.Green1.softness i}}
+   color {{parent.parent.Auto.Blue.r i} {parent.parent.Auto.Blue.g i} {parent.parent.Auto.Blue.b i} 0}
+   name Blue1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -108
+  }
+  Text {
+   opacity {{parent.parent.Auto.RedText1.opacity i}}
+   message R
+   font "\[value TextControls.Font]"
+   size {{parent.parent.Auto.RedText1.size i}}
+   xjustify center
+   yjustify center
+   Transform 1
+   box {{parent.Red1.area.x i} {parent.Red1.area.y i} {parent.Red1.area.r i} {parent.Red1.area.t i}}
+   center {2250 1250}
+   name RedText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -82
+  }
+  Text {
+   opacity {{parent.RedText1.opacity i}}
+   message G
+   font "\[value TextControls.Font]"
+   size {{parent.RedText1.size i}}
+   xjustify center
+   yjustify center
+   Transform 1
+   box {{parent.Green1.area.x i} {parent.Green1.area.y i} {parent.Green1.area.r i} {parent.Green1.area.t i}}
+   scale {{parent.RedText1.scale i}}
+   center {2250 1250}
+   name GreenText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -55
+  }
+  Text {
+   opacity {{parent.GreenText1.opacity i}}
+   message B
+   font "\[value Custom.Font]"
+   size {{parent.GreenText1.size i}}
+   xjustify center
+   yjustify center
+   Transform 1
+   box {{parent.Blue1.area.x i} {parent.Blue1.area.y i} {parent.Blue1.area.r i} {parent.Blue1.area.t i}}
+   scale {{parent.GreenText1.scale i}}
+   center {2250 1250}
+   name BlueText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -28
+  }
+  NoOp {
+   name Calibration
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -1
+   addUserKnob {20 User}
+   addUserKnob {7 CustomFormat l Format R 0 0.5}
+   CustomFormat {{parent.parent.CusomControls.GuideSize i}}
+   addUserKnob {1 Text}
+   addUserKnob {3 d l 1}
+   d 1
+  }
+  Output {
+   name Output1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos 72
+  }
+ end_group
+push $N26045650
+ Dot {
+  name Dot1
+  note_font "Bitstream Vera Sans"
+  xpos 354
+  ypos 42
+ }
+ Group {
+  name Auto
+  note_font "Bitstream Vera Sans"
+  xpos 320
+  ypos 86
+  disable {{Disable}}
+  addUserKnob {20 User l "" +STARTLINE}
+  addUserKnob {18 BarColor l Red}
+  BarColor {0.39700001 0.087 0.089}
+  addUserKnob {18 Green}
+  Green {0.352 0.46200001 0.178}
+  addUserKnob {18 Blue}
+  Blue {0.06 0.227 0.33700001}
+  addUserKnob {26 ""}
+  addUserKnob {7 Softness R 0 100}
+  Softness 5
+  addUserKnob {2 Font l INVISIBLE +INVISIBLE}
+  Font "\[value TextControls.Font]"
+  addUserKnob {26 ""}
+  addUserKnob {7 Opacity}
+  Opacity 1
+  addUserKnob {41 font l INVISIBLE +INVISIBLE T RedText1.font}
+  addUserKnob {41 opacity l INVISIBLE +INVISIBLE T RedText1.opacity}
+  addUserKnob {41 size l INVISIBLE +INVISIBLE T RedText1.size}
+ }
+  BackdropNode {
+   inputs 0
+   name BackdropNode1
+   tile_color 0x5a5a5aff
+   label Auto
+   note_font "Bitstream Vera Sans"
+   note_font_size 47
+   xpos 243
+   ypos -257
+   bdwidth 105
+   bdheight 247
+  }
+  Input {
+   inputs 0
+   name Input1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -217
+  }
+  Rectangle {
+   opacity {{parent.Opacity i}}
+   area {{0-format.w/-50 i} {0-format.h/-10000 i} {format.w+format.w/-1.038 i} {parent.parent.CurveTool1.intensitydata.r*format.h/2 i}}
+   softness {{parent.Softness i}}
+   color {{parent.BarColor.r i} {parent.BarColor.g i} {parent.BarColor.b i} 0}
+   name Red1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -177
+   disable {{DisableRGBBars i}}
+  }
+  Rectangle {
+   opacity {{parent.Red1.opacity i}}
+   area {{0-format.w/-20 i} {0-format.h/-10000 i} {format.w+format.w/-1.07 i} {parent.parent.CurveTool1.intensitydata.g*format.h/2 i}}
+   softness {{parent.Red1.softness i}}
+   color {{parent.Green.r i} {parent.Green.g i} {parent.Green.b i} 0}
+   name Green1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -150
+   disable {{DisableRGBBars i}}
+  }
+  Rectangle {
+   opacity {{parent.Green1.opacity i}}
+   area {{0-format.w/-12.5 i} {0-format.h/-10000 i} {format.w+format.w/-1.108 i} {parent.parent.CurveTool1.intensitydata.b*format.h/2 i}}
+   softness {{parent.Green1.softness i}}
+   color {{parent.Blue.r i} {parent.Blue.g i} {parent.Blue.b i} 0}
+   name Blue1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -123
+   disable {{DisableRGBBars i}}
+  }
+  Text {
+   opacity {{parent.parent.RGBTextMix i}}
+   message R
+   font "\[value TextControls.Font]"
+   size {{parent.parent.TextControls.Size i}}
+   xjustify center
+   yjustify center
+   box {{parent.Red1.area.x i} {parent.Red1.area.y i} {parent.Red1.area.r i} {parent.Red1.area.t i}}
+   center {2250 1250}
+   name RedText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -96
+  }
+  Text {
+   opacity {{parent.RedText1.opacity i}}
+   message G
+   font "\[value TextControls.Font]"
+   size {{parent.RedText1.size i}}
+   xjustify center
+   yjustify center
+   Transform 1
+   box {{parent.Green1.area.x i} {parent.Green1.area.y i} {parent.Green1.area.r i} {parent.Green1.area.t i}}
+   scale {{parent.RedText1.scale i}}
+   center {2250 1250}
+   name GreenText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -69
+  }
+  Text {
+   opacity {{parent.GreenText1.opacity i}}
+   message B
+   font "\[value TextControls.Font]"
+   size {{parent.GreenText1.size i}}
+   xjustify center
+   yjustify center
+   Transform 1
+   box {{parent.Blue1.area.x i} {parent.Blue1.area.y i} {parent.Blue1.area.r i} {parent.Blue1.area.t i}}
+   scale {{parent.GreenText1.scale i}}
+   center {2250 1250}
+   name BlueText1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos -41
+  }
+  Output {
+   name Output1
+   note_font "Bitstream Vera Sans"
+   xpos 253
+   ypos 58
+  }
+ end_group
+ Switch {
+  inputs 2
+  which {{parent.FormatSelect i}}
+  name Switch2
+  note_font "Bitstream Vera Sans"
+  xpos 440
+  ypos 86
+ }
+ NoOp {
+  name TextControls
+  note_font "Bitstream Vera Sans"
+  xpos 440
+  ypos 134
+  addUserKnob {20 User}
+  addUserKnob {7 Size R 0 200}
+  Size 52
+  addUserKnob {7 Opacity_1 l Opacity}
+  Opacity_1 1
+  addUserKnob {2 Font}
+  Font C:/Windows/Fonts/segoeuib.ttf
+  addUserKnob {26 ColorOutput l "@b;ColorOutput"}
+  addUserKnob {7 Scale R 0 5}
+  Scale 1.1
+  addUserKnob {7 Kerning R -1 1}
+ }
+ Output {
+  name Output1
+  note_font "Bitstream Vera Sans"
+  xpos 440
+  ypos 182
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label "\"Auto\" and \"Custom\" contain the\nRGB Bars. \"Auto\" and \"Custom\" refference\nthe available option for the format of the \nLive Histogram. Modify them to your liking\naccordingly. "
+  note_font "Bitstream Vera Sans"
+  xpos -102
+  ypos -60
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  label "Remember, the Sampler and Histogram\nAnalyze the footage before any\neffects are added. "
+  note_font "Bitstream Vera Sans"
+  xpos -160
+  ypos -119
+ }
+end_group

@@ -1,0 +1,43 @@
+#! P:/NUKE/Nuke11.0v3/nuke-11.0.3.dll -nx
+version 11.0 v3
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {41 lensType l "Lens Type" T LensDistortion.lensType}
+ addUserKnob {41 distortion1 l "Radial Distortion 1" T LensDistortion.distortion1}
+ addUserKnob {41 distortion2 l "Radial Distortion 2" T LensDistortion.distortion2}
+ addUserKnob {41 distortionCenter l "Distortion Center" T LensDistortion.distortionCenter}
+ addUserKnob {41 anamorphicSqueeze l "Anamorphic Squeeze" T LensDistortion.anamorphicSqueeze}
+ addUserKnob {41 asymmetricDistortion l "Asymmetric Distortion" T LensDistortion.asymmetricDistortion}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -6
+  ypos -580
+ }
+ LensDistortion1_0 {
+  serializeKnob ""
+  serialiseKnob "22 serialization::archive 14 0 0 0 0 0 0 0 0 0 0 0 0"
+  distortion1 -0.003
+  cardScale {0.9970178604 0.9970178604 1}
+  a 0.0006362004788
+  b 0.001621392556
+  c 0.0007608477026
+  name LensDistortion
+  selected true
+  xpos -6
+  ypos -520
+  addUserKnob {20 User}
+  addUserKnob {41 distortion1_1 l "Radial Distortion 1" T LensDistortion.distortion1}
+  addUserKnob {41 distortion2_1 l "Radial Distortion 2" T LensDistortion.distortion2}
+  addUserKnob {41 lensType_1 l "Lens Type" T LensDistortion.lensType}
+  addUserKnob {41 distortionCenter_1 l "Distortion Center" T LensDistortion.distortionCenter}
+  addUserKnob {41 anamorphicSqueeze_1 l "Anamorphic Squeeze" T LensDistortion.anamorphicSqueeze}
+  addUserKnob {41 asymmetricDistortion_1 l "Asymmetric Distortion" T LensDistortion.asymmetricDistortion}
+ }
+ Output {
+  name Output1
+  xpos -6
+  ypos -440
+ }
+end_group

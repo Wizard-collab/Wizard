@@ -1,0 +1,50 @@
+#! C:/Program Files/Nuke10.0v4/nuke-10.0.4.dll -nx
+version 10.0 v4
+Gizmo {
+ inputs 2
+ addUserKnob {20 User}
+ addUserKnob {41 channels T Matrix4.channels}
+ addUserKnob {41 antialiasing l "antialiasing :" t "Simple matrice 3x3\n0 > 4x" T Matrix4.antialiasing}
+ addUserKnob {41 normalize T Matrix4.normalize}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 maskChannelInput l "mask :" T Matrix4.maskChannelInput}
+ addUserKnob {41 fringe -STARTLINE T Matrix4.fringe}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Matrix4.invert_mask}
+ addUserKnob {41 inject -STARTLINE T Matrix4.inject}
+ addUserKnob {41 mix T Matrix4.mix}
+}
+ Input {
+  inputs 0
+  name mask
+  xpos 91
+  ypos -27
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos -18
+  ypos -29
+ }
+ Matrix {
+  inputs 1+1
+  channels rgba
+  matrix {
+      {{"parent.Matrix4.antialiasing <= 1 ? 0 : parent.Matrix4.antialiasing-1"} {parent.Matrix4.antialiasing} {"parent.Matrix4.antialiasing <= 1 ? 0 : parent.Matrix4.antialiasing-1"}}
+      {{parent.Matrix4.antialiasing} {"( parent.Matrix4.antialiasing) >= 1 \n? \n( parent.Matrix4.antialiasing * 2 ) \n: \n( parent.Matrix4.antialiasing + 1 ) "} {parent.Matrix4.antialiasing}}
+      {{"parent.Matrix4.antialiasing <= 1 ? 0 : parent.Matrix4.antialiasing-1"} {parent.Matrix4.antialiasing} {"parent.Matrix4.antialiasing <= 1 ? 0 : parent.Matrix4.antialiasing-1"}}
+    }
+  normalize true
+  name Matrix4
+  selected true
+  xpos -18
+  ypos 50
+  addUserKnob {20 User}
+  addUserKnob {7 antialiasing R 0 4}
+ }
+ Output {
+  name Output1
+  xpos -18
+  ypos 111
+ }
+end_group

@@ -1,0 +1,2 @@
+You can import multiple yeti nodes in Guerilla in the "shading stage"
+Yeti is now setted in defaults "maya" inherit.

@@ -1,0 +1,6 @@
+*.pyc
+__pycache__
+*.log
+*Thumbs.db
+*.prefs
+Data/Avatars/*.png

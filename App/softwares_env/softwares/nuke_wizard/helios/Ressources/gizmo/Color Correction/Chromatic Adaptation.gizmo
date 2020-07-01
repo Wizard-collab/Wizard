@@ -1,0 +1,177 @@
+#! nuke -nx
+version 10.5 v7
+Gizmo {
+ knobChanged "if nuke.thisKnob().name() in \[\"method\", \"trigger\"]:\n    n = nuke.thisNode()\n\n    # get input parameter\n    in_cs  = n.node(\"in_colorspace\")\n    out_cs = n.node(\"out_colorspace\")\n    illuminant_in = in_cs\[\"illuminant_in\"].value()\n    primary_in    = in_cs\[\"primary_in\"].value()\n    illuminant_out = out_cs\[\"illuminant_out\"].value()\n    primary_out    = out_cs\[\"primary_out\"].value()\n\n    # check for gamut and whitepoint\n\n    if (primary_in == primary_out) and (illuminant_in == illuminant_out):        \n        # gamut and whitepoint is same: no need to do color transform\n        m = nuke.math.Matrix3()\n        m.makeIdentity()    \n    else:\n        # gamut and whitepoint is not same: need to do color transform\n        scale = n.node(\"scale\")\n        s = nuke.math.Matrix3()\n        s.makeIdentity()\n    \n        s\[0] = scale.sample(\"red\", 0, 0)\n        s\[4] = scale.sample(\"green\", 0, 0)\n        s\[8] = scale.sample(\"blue\", 0, 0)\n    \n        v = n.node(\"Axis\")\[\"world_matrix\"].getValue()\n    \n        t = nuke.math.Matrix3()\n        t.makeIdentity()\n        for i, index in enumerate(\[0,1,2,4,5,6,8,9,10]):\n            t\[i] = v\[index]\n        inv = t.inverse()\n    \n        m = t * s * inv\n    \n    ca = n.node(\"ChromaticAdaptation\")\n    ca\[\"matrix\"].setValue(\[m\[0], m\[1], m\[2], m\[3], m\[4], m\[5], m\[6], m\[7], m\[8]])\n"
+ addUserKnob {20 User}
+ addUserKnob {4 method M {"XYZ Scaling" Bradford "Von Kries" CIECAM02 ""}}
+ method Bradford
+ addUserKnob {41 colorspace_in T in_colorspace.colorspace_in}
+ addUserKnob {41 illuminant_in l "" -STARTLINE T in_colorspace.illuminant_in}
+ addUserKnob {41 primary_in l "" -STARTLINE T in_colorspace.primary_in}
+ addUserKnob {41 colorspace_out T out_colorspace.colorspace_out}
+ addUserKnob {41 illuminant_out l "" -STARTLINE T out_colorspace.illuminant_out}
+ addUserKnob {41 primary_out l "" -STARTLINE T out_colorspace.primary_out}
+ addUserKnob {6 trigger t "dummy knob to trigger knobChange callback inside the gizmo" +INVISIBLE +STARTLINE}
+ trigger true
+ addUserKnob {41 matrix T ChromaticAdaptation.matrix}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 377
+  ypos -97
+ }
+ Colorspace {
+  colorspace_out CIE-XYZ
+  name in_colorspace
+  knobChanged "name = nuke.thisKnob().name()\nif name in \[\"illuminant_in\", \"primary_in\"]:\n    t = nuke.thisParent()\[\"trigger\"]\n    t.setFlag(nuke.KNOB_CHANGED_RECURSIVE)\n    t.setValue(not t.value())\n    "
+  selected true
+  xpos 377
+  ypos -27
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 1 0}
+      {0 0 1}
+    }
+  name ChromaticAdaptation
+  xpos 377
+  ypos 52
+ }
+ Colorspace {
+  colorspace_in CIE-XYZ
+  name out_colorspace
+  knobChanged "name = nuke.thisKnob().name()\nif name in \[\"illuminant_out\", \"primary_out\"]:\n    t = nuke.thisParent()\[\"trigger\"]\n    t.setFlag(nuke.KNOB_CHANGED_RECURSIVE)\n    t.setValue(not t.value())\n    "
+  xpos 377
+  ypos 128
+ }
+ Output {
+  name Output1
+  xpos 377
+  ypos 194
+ }
+ Axis2 {
+  inputs 0
+  useMatrix true
+  matrix {
+      {0.7328 0.4296 -0.1624 0}
+      {-0.7036 1.6975 0.0061 0}
+      {0.003 0.0136 0.9834 0}
+      {0 0 0 1}
+    }
+  name cat02
+  xpos -43
+  ypos -419
+ }
+ Axis2 {
+  inputs 0
+  useMatrix true
+  matrix {
+      {0.40024 0.7076 -0.08081 0}
+      {-0.2263 1.16532 0.0457 0}
+      {0 0 0.91822 0}
+      {0 0 0 1}
+    }
+  name von_kries
+  xpos -161
+  ypos -424
+ }
+ Axis2 {
+  inputs 0
+  useMatrix true
+  matrix {
+      {0.8951 0.2664 -0.1614 0}
+      {-0.7502 1.7135 0.0367 0}
+      {0.0389 -0.0685 1.0296 0}
+      {0 0 0 1}
+    }
+  name bradford
+  xpos -279
+  ypos -427
+ }
+ Axis2 {
+  inputs 0
+  matrix {
+      {0.8951 0.2664 -0.1614 0}
+      {-0.7502 1.7135 0.0367 0}
+      {0.0389 -0.0685 1.0296 0}
+      {0 0 0 1}
+    }
+  name xyz_scaling
+  xpos -384
+  ypos -425
+ }
+ Switch {
+  inputs 4
+  which {{parent.method}}
+  name method_switch
+  xpos -242
+  ypos -318
+ }
+ Axis2 {
+  matrix {
+      {{Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix}}
+      {{Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix}}
+      {{Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix}}
+      {{Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix} {Axis.world_matrix}}
+    }
+  name Axis
+  xpos -232
+  ypos -265
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color 1
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos 41
+  ypos -79
+ }
+set Nba24a30 [stack 0]
+ Colorspace {
+  illuminant_in {{"\[python nuke.thisParent().knob('illuminant_out').getValue()]"}}
+  primary_in {{"\[python nuke.thisParent().knob('primary_out').getValue()]" x1 5}}
+  colorspace_out CIE-XYZ
+  illuminant_out D50
+  name out_conv_colorspace
+  xpos -66
+  ypos -145
+ }
+ ColorMatrix {
+  matrix {
+      {{"\[lindex \[value Axis.world_matrix ] 0 0]"} {"\[lindex \[value Axis.world_matrix ] 0 1]"} {"\[lindex \[value Axis.world_matrix ] 0 2]"}}
+      {{"\[lindex \[value Axis.world_matrix ] 1 0]"} {"\[lindex \[value Axis.world_matrix ] 1 1]"} {"\[lindex \[value Axis.world_matrix ] 1 2]"}}
+      {{"\[lindex \[value Axis.world_matrix ] 2 0]"} {"\[lindex \[value Axis.world_matrix ] 2 1]"} {"\[lindex \[value Axis.world_matrix ] 2 2]"}}
+    }
+  name lms_transform
+  xpos -240
+  ypos -145
+ }
+ set Cba42770 [stack 0]
+set Nba42770 [stack 0]
+push $Nba42770
+push $Nba24a30
+ Colorspace {
+  illuminant_in {{"\[python nuke.thisParent().knob('illuminant_in').getValue()]"}}
+  primary_in {{"\[python nuke.thisParent().knob('primary_in').getValue()]" x1 4}}
+  colorspace_out CIE-XYZ
+  illuminant_out D50
+  name in_conv_colorspace
+  xpos -58
+  ypos 36
+ }
+clone $Cba42770 {
+  xpos -233
+  ypos 36
+  selected false
+ }
+ Merge2 {
+  inputs 2
+  operation divide
+  name scale
+  xpos -409
+  ypos -63
+ }
+end_group

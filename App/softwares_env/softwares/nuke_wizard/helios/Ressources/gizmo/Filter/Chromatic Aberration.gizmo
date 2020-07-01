@@ -1,0 +1,84 @@
+#! C:/Program Files/Nuke9.0v6/nuke-9.0.6.dll -nx
+version 9.0 v6
+Gizmo {
+ tile_color 0xc15f28ff
+ note_font Verdana
+ note_font_size 12
+ note_font_color 0x1cefd6ff
+ addUserKnob {20 ChromaticAberrationSimple l "Chromatic Aberration"}
+ addUserKnob {41 aberrationamount l "Fringing amount" T Dot4.aberrationamount}
+ addUserKnob {26 ""}
+ addUserKnob {26 description l "" +STARTLINE T "Positive values will lead with red out, \nnegative leads with blue.\n\nGizmo by Ben Sumner\nben.m.sumner@gmail.com"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 557
+  ypos -128
+ }
+ Dot {
+  name Dot4
+  xpos 591
+  ypos -88
+  addUserKnob {20 User}
+  addUserKnob {26 description l "" +STARTLINE T "Positive values will lead with red out, negative leads with blue."}
+  addUserKnob {7 aberrationamount l "Chromatic aberration amount" R -0.01 0.01}
+  aberrationamount 0.01
+ }
+set N66e07400 [stack 0]
+ TransformMasked {
+  channels {-rgba.red -rgba.green rgba.blue none}
+  scale {{1-parent.Dot4.aberrationamount}}
+  center {{width/2} {height/2}}
+  name Transform6
+  xpos 609
+  ypos -40
+ }
+ TransformMasked {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  scale {{(parent.Transform6.scale+1)/2}}
+  center {{parent.Transform6.center.x} {parent.Transform6.center.y}}
+  name Transform10
+  xpos 609
+  ypos 9
+ }
+push $N66e07400
+ TransformMasked {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  scale {{1+parent.Dot4.aberrationamount}}
+  center {{width/2} {height/2}}
+  name Transform1
+  xpos 501
+  ypos -39
+ }
+ TransformMasked {
+  channels {-rgba.red rgba.green -rgba.blue none}
+  scale {{(parent.Transform1.scale+1)/2}}
+  center {{parent.Transform1.center.x} {parent.Transform1.center.y}}
+  name Transform5
+  xpos 501
+  ypos 10
+ }
+ Switch {
+  inputs 2
+  which {{abs(floor(parent.Dot4.aberrationamount))}}
+  name Switch1
+  xpos 557
+  ypos 73
+ }
+set N66e06000 [stack 0]
+ Output {
+  name Output1
+  xpos 557
+  ypos 168
+ }
+push $N66e06000
+ Viewer {
+  frame_range 1001-1047
+  viewerProcess LIBs02_LUT
+  name Viewer1
+  selected true
+  xpos 131
+  ypos 216
+ }
+end_group
