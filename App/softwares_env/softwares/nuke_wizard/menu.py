@@ -19,6 +19,7 @@ try:
 	wizard_menu.addCommand("Resolve missing files", reference_asset.resolve_local_paths, icon="nuke_resolve_local.png")
 	wizard_menu.addCommand("Import lighting", reference_asset.import_lighting, icon="nuke_import_lighting.png")
 	wizard_menu.addCommand("Import lighting helios", reference_asset.import_lighting_helios, icon="nuke_import_lighting_helios.png")
+	wizard_menu.addCommand("Prepare export", plugin.prepare_export, icon="nuke_export.png")
 
 	t=nuke.toolbar("Wizard")
 	t.addCommand("Save", plugin.save, icon="nuke_save.png")
@@ -29,6 +30,7 @@ try:
 	t.addCommand("Resolve missing files", reference_asset.resolve_local_paths, icon="nuke_resolve_local.png")
 	t.addCommand("Import lighting", reference_asset.import_lighting, icon="nuke_import_lighting.png")
 	t.addCommand("Import lighting helios", reference_asset.import_lighting_helios, icon="nuke_import_lighting_helios.png")
+	t.addCommand("Prepare export", plugin.prepare_export, icon="nuke_export.png")
 
 
 	from helios import menu
