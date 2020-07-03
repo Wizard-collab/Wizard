@@ -58,6 +58,10 @@ class Ui_Form(object):
         self.asset_variant_label.setObjectName("asset_variant_label")
         self.horizontalLayout_2.addWidget(self.asset_variant_label)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.asset_namespace_label = QtWidgets.QLabel(self.node_widget_button_frame)
+        self.asset_namespace_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.asset_namespace_label.setObjectName("asset_namespace_label")
+        self.verticalLayout_3.addWidget(self.asset_namespace_label)
         self.verticalLayout_2.addLayout(self.verticalLayout_3)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
@@ -71,6 +75,7 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.asset_name_label.setText(_translate("Form", "AssetName"))
         self.asset_variant_label.setText(_translate("Form", "Asset Variant"))
+        self.asset_namespace_label.setText(_translate("Form", "Namespace"))
 
 
 if __name__ == "__main__":

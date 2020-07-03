@@ -154,6 +154,16 @@
           </item>
          </layout>
         </item>
+        <item>
+         <widget class="QLabel" name="asset_namespace_label">
+          <property name="text">
+           <string>Namespace</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
