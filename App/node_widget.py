@@ -49,7 +49,7 @@ class Main(QtWidgets.QWidget):
             self.ui.asset_name_label.setText(self.asset.name)
             if self.selectable:
                 self.ui.asset_variant_label.setText("{}.{}".format(self.asset.variant, self.asset.export_version))
-                self.ui.asset_namespace_label.setText("n°{}".format(str(int(self.count))))
+                self.ui.asset_namespace_label.setText("{}".format(self.asset.export_asset))
                 if self.asset.export_version != prefs.asset(self.asset).export.last_version:
                     self.ui.asset_variant_label.setStyleSheet("#asset_variant_label{color:rgb(255,153,51);}")
                 else:
