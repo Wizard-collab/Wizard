@@ -15,7 +15,7 @@ class export():
 
         self.asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         self.render_pass_list = get_all_render_passes()
-        self.file_pattern = "$L_$o.$05f.$x"
+        self.file_pattern = "$L_$n_$o.$05f.$x"
         self.depth = 'half'
         self.extension = 'exr'
         self.shot_range = prefs.asset(self.asset).name.range
