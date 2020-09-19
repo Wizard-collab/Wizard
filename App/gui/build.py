@@ -107,30 +107,40 @@ class launch_stray_as_child:
         #QtWidgets.QApplication.setStyle('Windows')
         self.main.setWindowTitle(title)
         #widget.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
+
+        shutter = None
+
+        if shutter:
+            widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
 
         tray_icon = QtWidgets.QSystemTrayIcon(self.main)
         tray_icon.setIcon(QtGui.QIcon(defaults._wizard_ico_))
-        tray_icon.activated.connect(self.systemIcon)
+        if shutter:
+            tray_icon.activated.connect(self.systemIcon)
 
         show_action = QAction("Open", self.main)
         quit_action = QAction("Exit", self.main)
         hide_action = QAction("Hide", self.main)
 
-        show_action.triggered.connect(self.main.show_animation)
-        hide_action.triggered.connect(self.main.hide_animation)
+        if shutter:
+            show_action.triggered.connect(self.main.show_animation)
+            hide_action.triggered.connect(self.main.hide_animation)
         quit_action.triggered.connect(self.main.close)
 
         tray_menu = QMenu()
 
-        tray_menu.addAction(show_action)
-        tray_menu.addAction(hide_action)
+        if shutter:
+            tray_menu.addAction(show_action)
+            tray_menu.addAction(hide_action)
         tray_menu.addAction(quit_action)
         tray_icon.setContextMenu(tray_menu)
         tray_menu.setStyleSheet(load_stylesheet())
         self.main.show()
-        self.main.move_window()
-        self.main.show_animation()
+
+        if shutter:
+            self.main.move_window()
+            self.main.show_animation()
+
         tray_icon.show()
         sys.exit(app.exec_())
 

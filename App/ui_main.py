@@ -233,8 +233,13 @@ class Main(QtWidgets.QMainWindow):
 
     def init_wizard_desktop(self):
         try:
-            self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self)
-            build.launch_wizard_desktop(self.wizard_desktop)
+
+            shutter = None
+
+            if shutter:
+                self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self)
+                build.launch_wizard_desktop(self.wizard_desktop)
+
         except:
             logger.critical(str(traceback.format_exc()))
 

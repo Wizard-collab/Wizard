@@ -151,7 +151,9 @@ class Main_application():
                 self.ui_load.close()
 
                 # Call the desktop shutter and give it the main ui object
-                self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self.ui_main)
+                #shutter = None
+                #if shutter:
+                #    self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self.ui_main)
 
                 # Show the main ui with the "build" module (from wizard)
                 build.launch_stray_as_child(self.ui_main, self.app, title=f'Wizard - Project : {self.prefs.project_name}')
@@ -160,7 +162,8 @@ class Main_application():
                 self.ui_main.asset_item_changed()
 
                 # Show the wizard desktop tray icon with the "build" module ( from wizard )
-                build.launch_wizard_desktop(self.wizard_desktop)
+                #if shutter:
+                #    build.launch_wizard_desktop(self.wizard_desktop)
 
 
     def update_loading_infos(self, text, percent):

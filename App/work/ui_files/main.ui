@@ -26,12 +26,6 @@
      <height>0</height>
     </size>
    </property>
-   <property name="maximumSize">
-    <size>
-     <width>1700</width>
-     <height>16777215</height>
-    </size>
-   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
      <number>1</number>
