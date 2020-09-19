@@ -53,7 +53,7 @@ class Main(QtWidgets.QDialog):
     def check_project(self):
         self.project_path = self.ui.project_path_lineEdit.text()
         if os.path.isdir(self.project_path):
-            if os.path.isfile(os.path.join(self.project_path, 'project.prefs')):
+            if os.path.isfile(os.path.join(self.project_path, 'project.wd')):
                 self.ui.project_path_lineEdit.setStyleSheet('border:1px solid Green;')
                 self.project_name = os.path.split(self.project_path)[-1]
                 logger.info("Project found")

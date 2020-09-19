@@ -38,7 +38,7 @@ def create_category(asset):
             [asset.domain] \
             [asset.category] = {}
 
-        # Write the project dictionnary to the tree.prefs
+        # Write the project dictionnary to the tree.wd
         project.write_project(project_dic)
 
         # Build the folders
@@ -49,7 +49,7 @@ def create_category(asset):
 
         #production().add_category(asset)
         # Log the success to user
-        logger.debug('Sequence {} added to asset.prefs'.format(asset.category))
+        logger.debug('Sequence {} added to asset.wd'.format(asset.category))
         logger.info('{} created'.format(asset.category))
 
         # Emit the event with the "wall" module ( from wizard )
@@ -114,7 +114,7 @@ def create_name(asset, in_out=None):
                     [asset.category] \
                     [asset.name] = {}
 
-                # Write the project dictionnary to the tree.prefs
+                # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
                 # Build the folders
@@ -124,7 +124,7 @@ def create_name(asset, in_out=None):
                 prefs.asset(asset).name.write(in_out)
 
                 # Log the success to user
-                logger.debug('Asset {} added to asset.prefs'.format(asset.name))
+                logger.debug('Asset {} added to asset.wd'.format(asset.name))
                 logger.info('{} created'.format(asset.name))
 
                 # Create the wall event
@@ -158,7 +158,7 @@ def remove_name(asset):
             [asset.category] \
             [asset.name]
 
-        # Write the project dictionnary to the tree.prefs
+        # Write the project dictionnary to the tree.wd
         # Only if the folder suppression succeed
         if delete_folder(asset):
             project.write_project(project_dic)
@@ -198,7 +198,7 @@ def create_stage(asset):
                     [asset.name] \
                     [asset.stage] = {}
 
-                # Write the project dictionnary to the tree.prefs
+                # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
                 # Build the folders
@@ -208,7 +208,7 @@ def create_stage(asset):
                 prefs.asset(asset).stage.write()
 
                 # Return and log the success to user
-                logger.debug('Stage {} added to asset.prefs'.format(asset.stage))
+                logger.debug('Stage {} added to asset.wd'.format(asset.stage))
                 return 1
             else:
 
@@ -240,7 +240,7 @@ def remove_stage(asset):
             [asset.name] \
             [asset.stage]
 
-        # Write the project dictionnary to the tree.prefs
+        # Write the project dictionnary to the tree.wd
         project.write_project(project_dic)
 
         # Return the success
@@ -281,7 +281,7 @@ def create_variant(asset):
                         [asset.variant] \
                         [defaults._asset_id_key_] = id
 
-                    # Write the project dictionnary to the tree.prefs
+                    # Write the project dictionnary to the tree.wd
                     project.write_project(project_dic)
 
                     # Build the folders
@@ -354,7 +354,7 @@ def create_softwares(asset):
                     [asset.variant] \
                     [asset.software] = {}
 
-                # Write the project dictionnary to the tree.prefs
+                # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
                 # Build the folders
@@ -364,7 +364,7 @@ def create_softwares(asset):
                 prefs.asset(asset).software.write()
 
                 # Log the success to user
-                logger.debug('Software {} added to asset.prefs'.format(software))
+                logger.debug('Software {} added to asset.wd'.format(software))
 
 def create_export_root(asset):
 

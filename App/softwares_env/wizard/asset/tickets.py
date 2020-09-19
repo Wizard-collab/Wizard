@@ -34,12 +34,9 @@ class tickets():
         self.write()
 
     def create_ticket(self, asset, message, adress):
-
         string_asset = utils.variant_asset_to_string(asset)
         user = prefs.user
-        
         date = utils.get_gmtime()
-
         ticket_dic = dict()
         ticket_dic[defaults._creation_user_key_] = user
         ticket_dic[defaults._creation_date_key_] = date
@@ -50,7 +47,6 @@ class tickets():
         ticket_dic[defaults._close_date_] = None
         ticket_dic[defaults._ticket_comment_] = None
         ticket_dic[defaults._ticket_close_user_] = None
-
         key = utils.id_based_time()
 
         self.settings[defaults._all_tickets_][key] = ticket_dic
@@ -66,9 +62,7 @@ class tickets():
         if adress not in self.settings[defaults._adress_tickets_].keys():
             self.settings[defaults._adress_tickets_][adress] = []
         self.settings[defaults._adress_tickets_][adress].append(key)
-
         self.write()
-
         wall().ticket_event(asset, adress)
 
     def get_asset_tickets_ids(self, asset):
@@ -174,7 +168,7 @@ class tickets():
 
     def write(self):
         try:
-            utils.database().write(2, self.tickets_file, self.settings)
+            utils.database().write(0, self.tickets_file, self.settings)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -183,7 +177,7 @@ class tickets():
             if not os.path.isfile(self.tickets_file):
                 self.create_tickets_file()
             else:
-                self.settings = utils.database().read(2, self.tickets_file)
+                self.settings = utils.database().read(0, self.tickets_file)
         except:
             logger.critical(str(traceback.format_exc()))
 

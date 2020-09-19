@@ -44,9 +44,11 @@ class launch():
         self.path = os.path.dirname(self.asset.work)
         self.executable = prefs.software(self.asset.software).path
         self.sct = sct
+        self.reference = reference
         env = prefs.software(self.asset.software).env
 
-        self.command = softwares.get_cmd(self.asset.software, self.asset.work, reference)
+
+        
 
     def open(self):
         # Launch the " asset " object with the corresponding software
@@ -57,6 +59,7 @@ class launch():
             logger.error('No work file found')
             return 0
         else:
+            self.command = softwares.get_cmd(self.asset.software, self.asset.work, self.reference)
             self.earThread_process = earThread(self.main_window, self.asset, self.path, self.sct)
             self.earThread_process.save_signal.connect(self.update_main_window)
             self.earThread_process.start()
@@ -144,8 +147,13 @@ class subThread(QThread):
                 env[defaults._script_software_env_dic_[self.asset.software]] = abs_site_script_path
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
+            if self.asset.software == defaults._houdini_:
+                env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + wizard_path + '\\softwares_env'
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
+            '''
             else:
                 env[defaults._guerilla_ocio_env_] = ocio_path
+            '''
 
             env_paths = software_prefs.software(self.asset.software).get_env_paths()
             scripts_paths = software_prefs.software(self.asset.software).get_env()
@@ -174,7 +182,10 @@ class subThread(QThread):
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)     
 
-            self.process = subprocess.Popen(self.command, env=env)
+            if self.asset.software == defaults._houdini_:
+                self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
+            else:
+                self.process = subprocess.Popen(self.command, env=env)
             self.process.wait()
             
             self.earThread.observer.stop()

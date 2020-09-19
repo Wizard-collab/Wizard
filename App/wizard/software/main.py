@@ -44,9 +44,11 @@ class launch():
         self.path = os.path.dirname(self.asset.work)
         self.executable = prefs.software(self.asset.software).path
         self.sct = sct
+        self.reference = reference
         env = prefs.software(self.asset.software).env
 
-        self.command = softwares.get_cmd(self.asset.software, self.asset.work, reference)
+
+        
 
     def open(self):
         # Launch the " asset " object with the corresponding software
@@ -57,6 +59,7 @@ class launch():
             logger.error('No work file found')
             return 0
         else:
+            self.command = softwares.get_cmd(self.asset.software, self.asset.work, self.reference)
             self.earThread_process = earThread(self.main_window, self.asset, self.path, self.sct)
             self.earThread_process.save_signal.connect(self.update_main_window)
             self.earThread_process.start()

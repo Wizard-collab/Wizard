@@ -133,7 +133,7 @@ class script_editor_plainTextEdit(QtWidgets.QPlainTextEdit):
             if text:
                 self.setPlainText(text)
         else:
-            logger.warning('Reader accept only ".log" or ".prefs"')
+            logger.warning('Reader accept only ".log" or ".wd"')
 
     def save_cache(self):
         script_cache = self.toPlainText()

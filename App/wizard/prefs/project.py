@@ -69,7 +69,7 @@ def write_pref_file(settings):
     _project_ = get_current_project_prefs_file()
     if _project_:
         database.write(2, _project_, settings)
-        logger.debug('project.prefs file updated')
+        logger.debug('project.wd file updated')
 
 
 def get_abs_site():

@@ -101,7 +101,7 @@ class Main(QtWidgets.QMainWindow):
             else:
                 data = self.ui.file_viewer_plainTextEdit.toPlainText()
                 options = QFileDialog.Options()
-                filename, _ = QFileDialog.getSaveFileName(self, 'Save prefs file', 'modified.prefs', "Prefs Files (*.prefs)", options=options)
+                filename, _ = QFileDialog.getSaveFileName(self, 'Save wd file', 'modified.wd', "Prefs Files (*.wd)", options=options)
                 extension = filename.split('.')[-1]
 
                 if extension == 'prefs':
@@ -145,7 +145,7 @@ class Main(QtWidgets.QMainWindow):
             if not file:
                 options = QFileDialog.Options()
                 fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
-                                                          "All Files (*);;Prefs Files (*.prefs)", options=options)
+                                                          "All Files (*);;Wd Files (*.wd)", options=options)
                 if fileName:
                     self.ui.file_viewer_plainTextEdit.read_file(fileName)
                     self.file = fileName

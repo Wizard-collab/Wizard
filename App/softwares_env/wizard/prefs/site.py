@@ -43,7 +43,7 @@ class site:
             self.write_pref_file(new=1)
             self.create_user(add_user_name='admin', promotion=defaults._staff_, email='contact@leobrunel.com',
                              password='administrator', admin=1, full_name='Administrator')
-            logger.debug('site.prefs file created')
+            logger.debug('site.wd file created')
         else:
             self.open_pref_file()
 
@@ -136,11 +136,14 @@ class site:
             return None
 
     def clean_projects(self):
+        pass
+        '''
         for project in self.get_projects_list():
             project_path = self.get_project_path_from_name(project)
             if not os.path.isdir(project_path):
                 logger.warning("Removing unfound project : {}".format(project))
                 self.remove_project(project)
+        '''
 
     def remove_project(self, project_name):
         self.open_pref_file()

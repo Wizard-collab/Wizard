@@ -4,9 +4,9 @@
 import os
 
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
-_infos_file_lk_ = "https://www.dropbox.com/s/8rwmaxu3rvrq723/INFOS.json?dl=1"
+_infos_file_lk_ = "https://drive.google.com/uc?export=download&id=1e2fUrDfngSIjks2von-TeGQyHwFLVtR-"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.5-b'
+_wizard_version_ = '0.9.7.73-b'
 _doc_index_path_ = 'ressources/docs/build/html/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -25,6 +25,10 @@ _E2_ = 'E2'
 _E1_ = 'E1'
 _staff_ = 'Staff'
 _promotions_list_ = [_E1_, _E2_, _E3_, _E4_, _E5_, _staff_]
+
+_email_client_id_ = "668963692252-qjequcu689vt9ovqlkhtd4oac4cgaorl.apps.googleusercontent.com"
+_email_client_secret_ = "wOKkzRqR9psn43AovXEavfgR"
+_email_client_token_ = "1//03gcZ2BQkh0OJCgYIARAAGAMSNwF-L9IrwFanKef1C-AhnOnRxgS6K9Z5rsVq-PpVl46kFPS_Bolf-13aga5jO6W_rw0H8w0UpHI"
 
 _site_db_env_ = 'WIZARD_DB'
 _project_db_env_ = 'PROJECT_DB'
@@ -364,6 +368,8 @@ _guerilla_match_all_icon_ = _icon_path_ + 'guerilla_match_all.png'
 _guerilla_format_icon_ = _icon_path_ + 'guerilla_format.png'
 _guerilla_frame_range_icon_ = _icon_path_ + 'guerilla_frame_range.png'
 _guerilla_frame_rate_icon_ = _icon_path_ + 'guerilla_frame_rate.png'
+_guerilla_build_main_rp_ = _icon_path_ + 'build_main_pass.png'
+_guerilla_light_layers_ = _icon_path_ + 'guerilla_light_layers.png'
 _dragdrop_icon_ = _icon_path_ + 'dragdrop.png'
 _export_list_icon_ = _icon_path_ + 'export_list_icon.png'
 _export_list_icon_gray_ = _icon_path_ + 'export_list_icon_gray.png'
@@ -891,25 +897,25 @@ _event_color_dic_[_wall_ticket_event_] = '#8693FF'
 _event_color_dic_[_wall_close_ticket_event_] = '#8693FF'
 
 # Prefs files
-_site_ = 'Data/site.prefs'
+_site_ = 'Data/site.wd'
 _site_path_ = 'Data/_/'
 _site_db_ = 'Data/site.db'
 _stats_ = 'Data/'
-_jokes_ = 'Data/jokes.prefs'
+_jokes_ = 'Data/jokes.wd'
 _site_var_ = 'SITE_FILE'
 _jokes_var_ = 'JOKES_FILE'
 _stats_var_ = 'STATS_FILE'
 _asset_var_ = 'ASSET_VAR'
 _softwares_scripts_path_ = 'softwares_env/softwares/'
-_project_ = 'project.prefs'
+_project_ = 'project.wd'
 _project_db_ = 'project.db'
-_tree_ = 'tree.prefs'
-_production_ = 'production.prefs'
+_tree_ = 'tree.wd'
+_production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
-_user_ = _user_path_ + 'user.prefs'
+_user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _wall_ = 'wall.log'
-_tickets_ = 'tickets.prefs'
+_tickets_ = 'tickets.wd'
 _chat_ = 'chat.log'
 _stylesheet_template_ = ressources_path("ressources/stylesheet/stylesheet_template.st")
 _software_path_key_ = "software_path"
@@ -981,14 +987,14 @@ _users_list_key_ = 'users'
 _projects_list_key_ = 'projects'
 
 # Asset settings library
-_category_prefs_ = 'category.prefs'
-_name_prefs_ = 'asset.prefs'
-_stage_prefs_ = 'stage.prefs'
-_variant_prefs_ = 'variant.prefs'
-_export_prefs_ = 'export.prefs'
-_playblast_prefs_ = 'playblast.prefs'
-_export_root_prefs_ = 'export_root.prefs'
-_software_prefs_ = 'software.prefs'
+_category_prefs_ = 'category.wd'
+_name_prefs_ = 'asset.wd'
+_stage_prefs_ = 'stage.wd'
+_variant_prefs_ = 'variant.wd'
+_export_prefs_ = 'export.wd'
+_playblast_prefs_ = 'playblast.wd'
+_export_root_prefs_ = 'export_root.wd'
+_software_prefs_ = 'software.wd'
 _image_name_ = 'capture.png'
 
 # Logging ile

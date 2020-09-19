@@ -30,14 +30,14 @@ class user_events:
         self.project_path = project_path
 
         if project_path:
-            self.file = os.path.join(project_path, self.user + '.prefs')
+            self.file = os.path.join(project_path, self.user + '.wd')
             if not self.is_file():
                 # Create settings dictionnary
                 settings = dict()
                 settings[defaults._events_] = []
                 settings[defaults._locks_] = []
                 # Write the .manager file as YAML with setting dict
-                logger.info('{} file created'.format(self.user + '.prefs'))
+                logger.info('{} file created'.format(self.user + '.wd'))
                 self.write_file(settings, new=1)
         else:
             self.file = None
@@ -45,7 +45,12 @@ class user_events:
     def resolve_lock_missing(self):
         if self.is_file():
             settings = self.open_file()
-            if defaults._locks_ not in settings.keys():
+            if settings:
+                if defaults._locks_ not in settings.keys():
+                    settings[defaults._locks_] = []
+            else:
+                settings = dict()
+                settings[defaults._events_] = []
                 settings[defaults._locks_] = []
             self.write_file(settings)
 
@@ -96,7 +101,7 @@ class user_events:
                 settings = util.database().read(2, self.file)
                 return settings
             else:
-                logger.warning("{} file doesn't exist...".format(self.user + '.prefs'))
+                logger.warning("{} file doesn't exist...".format(self.user + '.wd'))
 
         except:
             logger.error(sys.exc_info()[1])
@@ -105,7 +110,7 @@ class user_events:
         try:
             util.database().write(2, self.file, settings)
             if not new:
-                logger.debug('{} file updated'.format(self.user + '.prefs'))
+                logger.debug('{} file updated'.format(self.user + '.wd'))
         except:
             logger.error(sys.exc_info()[1])
 

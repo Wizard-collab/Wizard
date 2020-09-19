@@ -43,7 +43,7 @@ class site:
             self.write_pref_file(new=1)
             self.create_user(add_user_name='admin', promotion=defaults._staff_, email='contact@leobrunel.com',
                              password='administrator', admin=1, full_name='Administrator')
-            logger.debug('site.prefs file created')
+            logger.debug('site.wd file created')
         else:
             self.open_pref_file()
 

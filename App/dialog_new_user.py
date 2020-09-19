@@ -156,7 +156,7 @@ class Main(QtWidgets.QDialog):
         label.setIcon(icon)
 
     def confirm_email(self, user, email, full_name):
-        temp_pass = str(random.randint(1000000, 10000000))
+        temp_pass = str(random.randint(1000,9999))
         send_email.send_confirm(user, email, temp_pass, full_name)
         self.dialog_confirm_email = dialog_confirm_email.Main(self, temp_pass)
         if build.launch_dialog_as_child(self.dialog_confirm_email):

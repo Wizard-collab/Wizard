@@ -30,7 +30,7 @@ def read_project():
     elif not util.database().isfile(2, project_tree) and \
             os.path.isdir(project_folder):
         check_tree_file()
-        logger.debug('asset.prefs file does not exists at {}, building it...'.format(project_folder))
+        logger.debug('asset.wd file does not exists at {}, building it...'.format(project_folder))
         return {}
 
 
@@ -38,7 +38,7 @@ def write_project(project):
     project_tree = get_project_tree()
     util.database().write(2, project_tree, project)
     project_folder = get_project_folder()
-    logger.debug('asset.prefs file updated at {}'.format(project_folder))
+    logger.debug('asset.wd file updated at {}'.format(project_folder))
     return project_folder
 
 
@@ -94,7 +94,7 @@ def check_tree_file():
             project[defaults._editing_][edit] = dict()
         # Write the file to the project path
         write_project(project)
-        logger.debug('asset.prefs file created at {}'.format(get_project_folder()))
+        logger.debug('asset.wd file created at {}'.format(get_project_folder()))
         return project
     else:
         return 1

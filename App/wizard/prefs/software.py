@@ -67,7 +67,7 @@ class software:
         # Return the settings dictionary
         settings_path = self.get_settings_path()
         if settings_path:
-            settings_file = os.path.join(settings_path, '{}.prefs'.format(self.software))
+            settings_file = os.path.join(settings_path, '{}.wd'.format(self.software))
             return settings_file
         else:
             return None

@@ -130,6 +130,7 @@ class wall:
                                                                                 asset.name, asset.stage, asset.variant)
         id = defaults._wall_ticket_event_
         key = util.id_based_time()
+        
         if asset.name:
             prefs.asset(asset).add_event(key)
         prefs.add_event(key)

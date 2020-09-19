@@ -60,7 +60,7 @@ class user:
             self.settings[defaults._show_error_handler_] = 0
             self.settings[defaults._local_project_path_] = ''
             # Write the .manager file as YAML with setting dict
-            logger.debug('user.prefs file created')
+            logger.debug('user.wd file created')
             self.write_pref_file(new=1)
         else:
             self.open_pref_file()
@@ -279,6 +279,6 @@ class user:
     def write_pref_file(self, new=0):
         try:
             util.database().write(1, defaults._user_, self.settings)
-            logger.debug('user.prefs file updated')
+            logger.debug('user.wd file updated')
         except:
             logger.error(sys.exc_info()[1])

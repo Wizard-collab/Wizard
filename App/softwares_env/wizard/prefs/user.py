@@ -60,7 +60,7 @@ class user:
             self.settings[defaults._show_error_handler_] = 0
             self.settings[defaults._local_project_path_] = ''
             # Write the .manager file as YAML with setting dict
-            logger.debug('user.prefs file created')
+            logger.debug('user.wd file created')
             self.write_pref_file(new=1)
         else:
             self.open_pref_file()
@@ -101,6 +101,7 @@ class user:
     def get_show_error_handler(self):
         self.open_pref_file()
         if defaults._show_error_handler_ in self.settings.keys():
+            self.set_show_error_handler()
             return self.settings[defaults._show_error_handler_]
         else:
             self.settings[defaults._show_error_handler_] = 1
@@ -136,7 +137,7 @@ class user:
 
     def set_show_error_handler(self, show_error_handler = 0):
         self.open_pref_file()
-        self.settings[defaults._show_error_handler_] = show_error_handler
+        self.settings[defaults._show_error_handler_] = 1
         # Write the file
         self.write_pref_file()
 
@@ -241,7 +242,10 @@ class user:
     def set_context(self, asset):
         self.open_pref_file()
         # Check the password concordance
-        self.settings[defaults._asset_context_] = pickle.dumps(asset, 0).decode('utf-8')
+        try:
+            self.settings[defaults._asset_context_] = pickle.dumps(asset, 0).decode('utf-8')
+        except TypeError:
+            self.settings[defaults._asset_context_] = None
         logger.info('Asset context saved !')
         self.write_pref_file()
 
@@ -275,6 +279,6 @@ class user:
     def write_pref_file(self, new=0):
         try:
             util.database().write(1, defaults._user_, self.settings)
-            logger.debug('user.prefs file updated')
+            logger.debug('user.wd file updated')
         except:
             logger.error(sys.exc_info()[1])

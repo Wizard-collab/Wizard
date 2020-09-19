@@ -9,6 +9,7 @@ logger = log.pipe_log()
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import traceback
+from wizard.email import OAuth2_wizard
 
 
 def send_error(user, user_email, error, message):
@@ -18,7 +19,7 @@ def send_error(user, user_email, error, message):
     send_list.append(user_email)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F6A7 {} - Error report\n'.format(user)
+    subject = ' \U0001F6A7 {} - Error report\n'.format(user)
     msg['From'] = me
     msg['To'] = user_email
 
@@ -39,9 +40,10 @@ def send_error(user, user_email, error, message):
 	  </body>
 	</html>
 	""".format(user, error, message)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 def error_submit(user, error):
     me = "wizard-support@leobrunel.com"
@@ -49,7 +51,7 @@ def error_submit(user, error):
     send_list.append(me)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F6A7 {} - Error auto submit\n'.format(user)
+    subject = ' \U0001F6A7 {} - Error auto submit\n'.format(user)
     msg['From'] = me
     msg['To'] = me
 
@@ -65,10 +67,10 @@ def error_submit(user, error):
       </body>
     </html>
     """.format(user, error)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
-
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 def send_help(user, user_email, message):
     me = "wizard-support@leobrunel.com"
@@ -77,7 +79,7 @@ def send_help(user, user_email, message):
     send_list.append(user_email)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F4AC	 {} - Help request\n'.format(user)
+    subject = ' \U0001F4AC	 {} - Help request\n'.format(user)
     msg['From'] = me
     msg['To'] = user_email
 
@@ -96,10 +98,10 @@ def send_help(user, user_email, message):
 	  </body>
 	</html>
 	""".format(user, message)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
-
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 def send_password(user_email, user, password):
     me = "wizard-support@leobrunel.com"
@@ -107,7 +109,7 @@ def send_password(user_email, user, password):
     send_list.append(user_email)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F511 {} - Your new wizard password\n'.format(user)
+    subject = ' \U0001F511 {} - Your new wizard password\n'.format(user)
     msg['From'] = me
     msg['To'] = user_email
 
@@ -125,10 +127,10 @@ def send_password(user_email, user, password):
 	  </body>
 	</html>
 	""".format(user, password)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
-
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 def send_confirm(user, email, verfication_pass, full_name):
     user_email = email
@@ -137,7 +139,7 @@ def send_confirm(user, email, verfication_pass, full_name):
     send_list.append(user_email)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F590	 {} - Welcome my new friend !\n'.format(full_name)
+    subject = ' \U0001F590	 {} - Welcome my new friend !\n'.format(full_name)
     msg['From'] = me
     msg['To'] = user_email
 
@@ -155,10 +157,10 @@ def send_confirm(user, email, verfication_pass, full_name):
 	  </body>
 	</html>
 	""".format(full_name, verfication_pass)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
-
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 def request_unlock(user, user_requesting, email, verfication_pass, asset):
     user_email = email
@@ -167,7 +169,7 @@ def request_unlock(user, user_requesting, email, verfication_pass, asset):
     send_list.append(user_email)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F512	 {} request an unlock\n'.format(user_requesting)
+    subject = ' \U0001F512	 {} request an unlock\n'.format(user_requesting)
     msg['From'] = me
     msg['To'] = user_email
 
@@ -185,9 +187,10 @@ def request_unlock(user, user_requesting, email, verfication_pass, asset):
 	</html>
 	""".format(user, user_requesting, asset.domain, asset.category, asset.name, asset.stage, asset.software,
                verfication_pass)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    #send_email(me, send_list, msg)
+    send_email(me, send_list, subject, html)
 
 
 def send_joke(user, joke):
@@ -196,7 +199,7 @@ def send_joke(user, joke):
     send_list.append(me)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = ' \U0001F693	 {} - Added a joke !\n'.format(user)
+    subject  = ' \U0001F693	 {} - Added a joke !\n'.format(user)
     msg['From'] = user
     msg['To'] = me
 
@@ -211,26 +214,11 @@ def send_joke(user, joke):
 	  </body>
 	</html>
 	""".format(joke)
-    part1 = MIMEText(html, 'html')
-    msg.attach(part1)
-    send_email(me, send_list, msg)
+    #part1 = MIMEText(html, 'html')
+    #msg.attach(part1)
+    send_email(me, send_list, subject, html)
 
 
-def send_email(me, send_list, msg):
-    try:
-        # Send the message via local SMTP server.
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login('wizard-support@leobrunel.com', "Tv8ams23061995")
-        # sendmail function takes 3 arguments: sender's address, recipient's address
-        # and message to send - here it is sent as one string.
-        for send in send_list:
-            server.sendmail(me, send, msg.as_string().encode('utf8'))
-        server.quit()
-        logger.info("Email sent")
-    except socket.gaierror:
-        logger.error("Email : No internet connection")
-    except:
-        logger.critical(str(traceback.format_exc()))
+def send_email(me, send_list, subject, msg):
+    for send in send_list:
+        OAuth2_wizard.send_mail(me, send, subject, msg)

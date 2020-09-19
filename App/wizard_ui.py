@@ -29,7 +29,7 @@ import wizard.vars.defaults as defaults
 from wizard.tools import utility as utils
 
 # building local environment
-main_site_path = utils.database().read(0, os.path.join(defaults._user_path_, 'site.prefs'))
+main_site_path = utils.database().read(0, os.path.join(defaults._user_path_, 'site.wd'))
 site_path = os.path.join(main_site_path, defaults._site_)
 stats_path = os.path.join(main_site_path, defaults._stats_)
 

@@ -7,7 +7,7 @@ from wizard.tools import utility as utils
 logger = log.pipe_log(__name__)
 
 def is_site():
-	site_file = os.path.join(defaults._user_path_, 'site.prefs')
+	site_file = os.path.join(defaults._user_path_, 'site.wd')
 	if os.path.isfile(site_file):
 		site = utils.database().read(0, site_file)
 		if site == 'null':
@@ -41,7 +41,7 @@ def modify_site(site_path):
 
 		os.environ[defaults._wizard_site_] = site_path
 
-		site_file = os.path.join(defaults._user_path_, 'site.prefs')
+		site_file = os.path.join(defaults._user_path_, 'site.wd')
 		utils.database().write(0, site_file, site_path)
 
 		#subprocess.Popen('setx {} {}'.format(defaults._wizard_site_, site_path))
