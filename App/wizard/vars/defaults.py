@@ -57,6 +57,8 @@ _script_cache_ = 'script_cache'
 
 _git_link_ = 'https://github.com/Wizard-collab/Wizard'
 
+_shutter_ = 'shutter'
+
 _rig_export_set_ = 'export_set'
 _camrig_export_set_ = 'camera_export_set'
 _yeti_export_set_ = 'yeti_export_set'

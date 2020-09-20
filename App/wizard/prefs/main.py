@@ -115,6 +115,10 @@ class prefs:
         return user_prefs.get_current_project_name()
 
     @property
+    def shutter(self):
+        return user_prefs.get_shutter()
+
+    @property
     def path(self):
         return user_prefs.get_prefs_path()
 
@@ -185,6 +189,9 @@ class prefs:
 
     def set_last_update(self, last_update):
         user_prefs.set_last_update(last_update)
+
+    def set_shutter(self, shutter):
+        user_prefs.set_shutter(shutter)
 
     @property
     def extension_dic(self):

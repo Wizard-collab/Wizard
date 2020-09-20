@@ -234,7 +234,7 @@ class Main(QtWidgets.QMainWindow):
     def init_wizard_desktop(self):
         try:
 
-            shutter = None
+            shutter = prefs.shutter
 
             if shutter:
                 self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self)

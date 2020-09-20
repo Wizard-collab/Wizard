@@ -59,11 +59,21 @@ class user:
             self.settings[defaults._show_new_version_] = 1
             self.settings[defaults._show_error_handler_] = 0
             self.settings[defaults._local_project_path_] = ''
+            self.settings[defaults._shutter_] = 1
             # Write the .manager file as YAML with setting dict
             logger.debug('user.wd file created')
             self.write_pref_file(new=1)
         else:
             self.open_pref_file()
+
+    def get_shutter(self):
+        self.open_pref_file()
+        if defaults._shutter_ in self.settings.keys():
+            return self.settings[defaults._shutter_]
+        else:
+            self.settings[defaults._shutter_] = 1
+            self.write_pref_file()
+            return self.settings[defaults._shutter_]
 
     def get_last_update(self):
         self.open_pref_file()
@@ -120,6 +130,12 @@ class user:
     def set_local_project_path(self, local_project_path):
         self.open_pref_file()
         self.settings[defaults._local_project_path_] = local_project_path
+        # Write the file
+        self.write_pref_file()
+
+    def set_shutter(self, shutter):
+        self.open_pref_file()
+        self.settings[defaults._shutter_] = shutter
         # Write the file
         self.write_pref_file()
 

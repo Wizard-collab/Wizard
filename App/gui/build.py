@@ -5,6 +5,9 @@ from PyQt5.QtWidgets import QMenu, QAction
 
 from wizard.prefs.user import user
 from wizard.vars import defaults
+from wizard.prefs.main import prefs
+
+prefs = prefs()
 
 
 def launch_stray(widget, app, title = 'Wizard'):
@@ -108,7 +111,7 @@ class launch_stray_as_child:
         self.main.setWindowTitle(title)
         #widget.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
-        shutter = None
+        shutter = prefs.shutter
 
         if shutter:
             widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)# | QtCore.Qt.WindowStaysOnTopHint)
