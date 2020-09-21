@@ -44,7 +44,7 @@ def modify_site(site_path):
 		site_file = os.path.join(defaults._user_path_, 'site.wd')
 		utils.database().write(0, site_file, site_path)
 
-		#subprocess.Popen('setx {} {}'.format(defaults._wizard_site_, site_path))
+		subprocess.Popen('setx {} {}'.format(defaults._wizard_site_, site_path))
 
 	else:
 		logger.warning("{} doesn't exists".format(site_path))

@@ -24,6 +24,8 @@ def convert_image(image_file, string):
 	over_image_wizard = Image.new('RGBA', image.size, (255,255,255,0))
 	over_image_wizard.paste(wizard_icon, (im_width-(margin_percent+wizard_icon_width), im_height-(margin_percent + wizard_icon_height)))
 
+	bg_image = Image.new('RGBA', image.size, (92,92,92,255))
+
 	over_image = Image.new('RGBA', image.size, (255,255,255,0))
 
 	draw = ImageDraw.Draw(over_image)
@@ -32,7 +34,8 @@ def convert_image(image_file, string):
 	draw.rectangle(rectangle_xy, fill=(0,0,0,120), outline=None)
 	draw.text(text_position, string, font = font, fill = "white")
 
-	out = Image.alpha_composite(image, over_image)
+	out = Image.alpha_composite(bg_image, image)
+	out = Image.alpha_composite(out, over_image)
 	out = Image.alpha_composite(out, over_image_wizard)
 
 	out.save(image_file.replace('.jpg', '.png'))

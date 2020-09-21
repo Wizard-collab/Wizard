@@ -42,7 +42,7 @@ class stats:
         else:
             self.user_name = user_name
         if self.user_name:
-            self.stats_file = os.path.join(os.environ[defaults._stats_var_], (self.user_name + '.prefs'))
+            self.stats_file = os.path.join(os.environ[defaults._stats_var_], (self.user_name + '.wd'))
             if not self.is_file():
                 self.create_user()
             else:
@@ -64,7 +64,7 @@ class stats:
         # Append user to the list of users
         # Write the setting file
         self.write()
-        logger.debug('{}.prefs created !'.format(self.user_name))
+        logger.debug('{}.wd created !'.format(self.user_name))
         return 1
 
     def reset_versions_count(self):

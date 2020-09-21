@@ -141,7 +141,12 @@ def set_setdress_workflow(workflow):
 
 def get_setdress_workflow():
     settings = open_pref_file()
-    return settings[defaults._project_setdress_workflow_]
+    if defaults._project_setdress_workflow_ in settings.keys():
+        return settings[defaults._project_setdress_workflow_]
+    else:
+        init_setdress_workflow()
+        settings = open_pref_file()
+        return settings[defaults._project_setdress_workflow_]
 
 def get_frame_rate():
     settings = open_pref_file()

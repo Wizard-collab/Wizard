@@ -25,6 +25,7 @@
 #
 
 import itertools
+import math
 import os
 import subprocess
 
@@ -62,7 +63,7 @@ class GifImageFile(ImageFile.ImageFile):
 
         # Screen
         s = self.fp.read(13)
-        if s[:6] not in [b"GIF87a", b"GIF89a"]:
+        if not _accept(s):
             raise SyntaxError("not a GIF file")
 
         self.info["version"] = s[:6]
@@ -129,9 +130,9 @@ class GifImageFile(ImageFile.ImageFile):
         for f in range(self.__frame + 1, frame + 1):
             try:
                 self._seek(f)
-            except EOFError:
+            except EOFError as e:
                 self.seek(last_frame)
-                raise EOFError("no more images in GIF file")
+                raise EOFError("no more images in GIF file") from e
 
     def _seek(self, frame):
 
@@ -254,7 +255,7 @@ class GifImageFile(ImageFile.ImageFile):
 
             else:
                 pass
-                # raise IOError, "illegal GIF tag `%x`" % i8(s)
+                # raise OSError, "illegal GIF tag `%x`" % i8(s)
 
         try:
             if self.disposal_method < 2:
@@ -701,14 +702,12 @@ def _get_optimize(im, info):
 
 def _get_color_table_size(palette_bytes):
     # calculate the palette size for the header
-    import math
-
     if not palette_bytes:
         return 0
     elif len(palette_bytes) < 9:
         return 1
     else:
-        return int(math.ceil(math.log(len(palette_bytes) // 3, 2))) - 1
+        return math.ceil(math.log(len(palette_bytes) // 3, 2)) - 1
 
 
 def _get_header_palette(palette_bytes):

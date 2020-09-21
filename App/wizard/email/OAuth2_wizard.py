@@ -11,12 +11,17 @@ https://developers.google.com/identity/protocols/OAuth2
 import base64
 import imaplib
 import json
-import smtplib
-import urllib.parse
-import urllib.request
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import lxml.html
+
+try:
+    import smtplib
+    import urllib.parse
+    import urllib.request
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    import lxml.html
+except:
+    print("Wizard : Can't load OAuth and mailing libraries ( stmplib, urllib, email, lxml )")
+
 from wizard.vars import defaults
 
 GOOGLE_ACCOUNTS_BASE_URL = 'https://accounts.google.com'

@@ -241,7 +241,7 @@ class asset():
     def export(self, export_asset_namespace, need_proxy = 0):
 
         # This function create the folders and writes the needed preferences
-        # to the necessary .prefs files
+        # to the necessary .wd files
         # This function need thoses arguments :
             #-export_asset_namespace ( the namespace of the imported asset )
             #-need_proxy ( Does the asset need a proxy version - only used in set_dress and layouts )
@@ -250,7 +250,7 @@ class asset():
         # This will influence the export folders
         self.export_asset = export_asset_namespace
 
-        # Add the export asset to export_root '.prefs' file if doesn't exists
+        # Add the export asset to export_root '.wd' file if doesn't exists
         # Using the "prefs" wizard module
         self.asset_prefs.export_root.add_export_asset(self.export_asset)
 
@@ -291,7 +291,7 @@ class asset():
         # Get a new playblast version using the "prefs" wizard module
         version = self.asset_prefs.playblast.get_new_version()
 
-        # Add the new version to the "playblast.prefs" file
+        # Add the new version to the "playblast.wd" file
         self.asset_prefs.playblast.new_version(version)
 
         # Build and get the playblast folder using the "wizard.asset.build" wizard module
@@ -314,7 +314,7 @@ class asset():
         # This will influence the export folders
         self.export_asset = export_asset_namespace
 
-        # Add the export asset to export_root '.prefs' file if doesn't exists
+        # Add the export asset to export_root '.wd' file if doesn't exists
         # Using the "prefs" wizard module
         self.asset_prefs.export_root.add_export_asset(self.export_asset)
 

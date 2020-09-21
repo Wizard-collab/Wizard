@@ -72,6 +72,7 @@ class Main(QtWidgets.QWidget):
                     pass
 
                 self.ui.export_ma_assets_listWidget.addItem(item)
+                item.setSelected(True)
 
         self.ui.export_ma_export_pushButton.setText(self.action)
 

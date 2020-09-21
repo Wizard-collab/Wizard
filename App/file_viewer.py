@@ -88,7 +88,7 @@ class Main(QtWidgets.QMainWindow):
             if self.file:
                 extension = self.file.split('.')[-1]
             if not save_as:
-                if extension == "prefs":
+                if extension == "wd":
                     if prefs.admin:
                         self.save(self.file)
                         logger.info("Saved - {}".format(self.file))
@@ -104,7 +104,7 @@ class Main(QtWidgets.QMainWindow):
                 filename, _ = QFileDialog.getSaveFileName(self, 'Save wd file', 'modified.wd', "Prefs Files (*.wd)", options=options)
                 extension = filename.split('.')[-1]
 
-                if extension == 'prefs':
+                if extension == 'wd':
                     if prefs.admin:
                         self.save(filename)
                         self.file = filename
@@ -206,7 +206,7 @@ class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
     def read_file(self, filepath):
         self.setStyleSheet('border:none;')
         extension = filepath.split('.')[-1]
-        if extension == 'prefs':
+        if extension == 'wd':
             self.setPlainText(utils.database().read(0, filepath, 1).decode('utf-8'))
             self.file = filepath
             self.import_signal.emit('')
