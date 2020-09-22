@@ -6,14 +6,13 @@ import sys
 path = os.path.abspath('softwares_env/')
 sys.path.append(path)
 
-for path in sys.path:
-    print(path)
-
 import plugin
+
+import importlib
+importlib.reload(plugin)
 
 from wizard.tools import log
 logger = log.pipe_log(__name__)
-
 
 plugin_widgets = []
 """Keep track of added ui elements for cleanup"""
@@ -41,10 +40,13 @@ class wizard_toolbar(QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self)
 
         self.toolbar = QtWidgets.QToolBar()
-        self.save_action = self.toolbar.addAction(QtGui.QIcon("C:/Users/conta/Documents/Allegorithmic/Substance Painter/python/plugins/save.png"), '')
-        self.export_action = self.toolbar.addAction(QtGui.QIcon("C:/Users/conta/Documents/Allegorithmic/Substance Painter/python/plugins/export.png"), 'export')
+        save_icon = os.path.abspath("softwares/painter_wizard/modules/save.png")
+        export_icon = os.path.abspath("softwares/painter_wizard/modules/export.png")
+        self.save_action = self.toolbar.addAction(QtGui.QIcon(save_icon), '')
+        self.export_action = self.toolbar.addAction(QtGui.QIcon(export_icon), '')
 
         self.save_action.triggered.connect(plugin.save)
+        self.export_action.triggered.connect(plugin.export_maps)
 
         self.layout = QtWidgets.QHBoxLayout()
         self.layout.addWidget(self.toolbar)

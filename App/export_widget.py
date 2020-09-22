@@ -8,6 +8,8 @@ from wizard.tools import log
 from wizard.prefs.main import prefs
 import options_widget
 import dialog_comment
+from wizard.tools.tx_from_files import tx_from_files
+from wizard.prefs import project as project_prefs
 
 logger = log.pipe_log()
 
@@ -29,6 +31,7 @@ class Main(QtWidgets.QWidget):
     def init_ui(self):
         self.ui.export_widget_folder_pushButton.setIcon(QtGui.QIcon(defaults._folder_icon_))
         self.ui.export_widget_comment_pushButton.setIcon(QtGui.QIcon(defaults._comment_icon_))
+        self.ui.export_widget_tx_pushButton.setIcon(QtGui.QIcon(defaults._tx_icon_))
         icon = defaults._export_list_neutral_icon_
         export_prefs = prefs.asset(self.asset).export
 
@@ -39,8 +42,13 @@ class Main(QtWidgets.QWidget):
         if self.count:
             self.ui.list_export_widget_frame.setStyleSheet('''#list_export_widget_frame{background-color:rgb(255,255,255,5);}
                 #list_export_widget_frame:hover{
-                background-color:rgb(255,255,255,20);
+                
                 }''')
+
+        if self.asset.stage != defaults._texturing_:
+            self.ui.export_widget_tx_pushButton.setVisible(0)
+            self.ui.tx_line.setVisible(0)
+
         self.update_sanity(self.sanity)
 
     def update_sanity(self, sanity):
@@ -77,9 +85,23 @@ class Main(QtWidgets.QWidget):
         build.launch_dialog_comment(self.dialog_comment)
         self.ui.export_widget_comment_label.setText(self.dialog_comment.comment)
 
+    def make_tx(self):
+        folder = prefs.asset(self.asset).export.version_folder
+        file_names_list = os.listdir(folder)
+        files_list = []
+
+        extension_dic = project_prefs.get_extension_dic()
+        extension = extension_dic[self.asset.stage]
+
+        for file in file_names_list:
+            if file.endswith(extension):
+                files_list.append(os.path.join(folder, file))
+        tx_from_files(files_list)
+
     def connect_functions(self):
         self.ui.export_widget_folder_pushButton.clicked.connect(self.open_folder)
         self.ui.export_widget_comment_pushButton.clicked.connect(self.change_comment)
+        self.ui.export_widget_tx_pushButton.clicked.connect(self.make_tx)
 
     def closeEvent(self, event):
         event.ignore()

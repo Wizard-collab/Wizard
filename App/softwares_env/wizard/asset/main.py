@@ -9,13 +9,18 @@ from wizard.asset import builder as build
 from wizard.asset.folder import folder
 from wizard.tools import log
 from wizard.vars import defaults
-from wizard.software.main import launch
+
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
 # Creates the main logger
 logger = log.pipe_log(__name__)
 
 prefs = prefs()
+
+try:
+    from wizard.software.main import launch
+except:
+    logger.info("Can't import wizard.software.main")
 
 class asset():
     '''

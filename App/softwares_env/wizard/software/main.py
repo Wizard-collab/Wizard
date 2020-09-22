@@ -27,12 +27,12 @@ from wizard.prefs import software as software_prefs
 # Creates the main logger
 logger = log.pipe_log(__name__)
 
+prefs = prefs()
+
 try:
     from PyQt5.QtCore import QThread, pyqtSignal, QObject
 except ImportError:
     logger.info('Cannot import PyQt5')
-
-prefs = prefs()
 
 class launch():
 
@@ -147,6 +147,8 @@ class subThread(QThread):
                 env[defaults._script_software_env_dic_[self.asset.software]] = abs_site_script_path
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
+                
+
             if self.asset.software == defaults._houdini_:
                 env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
@@ -177,12 +179,14 @@ class subThread(QThread):
             if self.asset.software == defaults._nuke_:
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'nuke_wizard')
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.abspath(defaults._icon_path_)
-                
+
+            if self.asset.software == defaults._painter_:
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'painter_wizard')
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)     
 
-            if self.asset.software == defaults._houdini_:
+            if self.asset.software == defaults._houdini_ or self.asset.software == defaults._painter_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
             else:
                 self.process = subprocess.Popen(self.command, env=env)

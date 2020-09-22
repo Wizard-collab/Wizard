@@ -71,7 +71,7 @@ class playblast():
         user = prefs.user
         for file in os.listdir(self.temp_directory):
             file = os.path.join(self.temp_directory, file)
-            string = 'scene: {}-{}-{}-{}-{} | user: {} | frame range: {}-{} | frame: {}'.format(self.asset.category,
+            string = 'project: {} | scene: {}-{}-{}-{}-{} | user: {} | frame range: {}-{} | frame: {}'.format(self.asset.project, self.asset.category,
                                                                                 self.asset.name,
                                                                                 self.asset.stage,
                                                                                 self.asset.variant,

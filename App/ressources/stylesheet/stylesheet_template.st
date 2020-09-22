@@ -355,7 +355,7 @@ QWidget {
 }
 
 #list_export_widget_frame:hover, #list_playblast_widget_frame:hover, #list_version_widget_frame:hover{
-	background-color:rgba(255,255,255,20);
+	
 }
 
 #list_verticalFrame{
@@ -367,7 +367,7 @@ QWidget {
 	color:gray;
 }
 
-#export_widget_folder_pushButton, #playblast_widget_comment_pushButton, #version_open_software_pushButton, #version_widget_comment_pushButton, #playblast_widget_folder_pushButton, #export_widget_comment_pushButton, #playblast_widget_view_pushButton, #version_widget_delete_pushButton{
+#export_widget_folder_pushButton, #export_widget_tx_pushButton, #export_widget_tex_pushButton, #playblast_widget_comment_pushButton, #version_open_software_pushButton, #version_widget_comment_pushButton, #playblast_widget_folder_pushButton, #export_widget_comment_pushButton, #playblast_widget_view_pushButton, #version_widget_delete_pushButton{
 	background-color:transparent;
 	border-radius:0px;
 }
@@ -376,7 +376,7 @@ QWidget {
 	background-color:transparent;
 }
 
-#export_widget_folder_pushButton:hover, #version_open_software_pushButton:hover, #playblast_widget_comment_pushButton:hover, #version_widget_comment_pushButton:hover, #playblast_widget_folder_pushButton:hover, #export_widget_comment_pushButton:hover, #playblast_widget_view_pushButton:hover, #version_widget_delete_pushButton:hover{
+#export_widget_folder_pushButton:hover, #export_widget_tx_pushButton:hover, #export_widget_tex_pushButton:hover, #version_open_software_pushButton:hover, #playblast_widget_comment_pushButton:hover, #version_widget_comment_pushButton:hover, #playblast_widget_folder_pushButton:hover, #export_widget_comment_pushButton:hover, #playblast_widget_view_pushButton:hover, #version_widget_delete_pushButton:hover{
 	background-color:rgb(_top_level_widget_color_)
 }
 

@@ -13,6 +13,7 @@ import os
 import time
 import ui_subprocess_manager
 from gui import build
+from wizard.tools.tx_from_files import tx_from_files
 
 logger = log.pipe_log()
 
@@ -59,8 +60,9 @@ class Main(QtWidgets.QDialog):
             for file in fileList:
                 self.ui.manual_export_listView.add_item(file)
 
-    def export(self):
-        files_list = self.ui.manual_export_listView.all_items()
+    def export(self, files_list = None):
+        if not files_list:
+            files_list = self.ui.manual_export_listView.all_items()
 
         if files_list != [] and files_list and len(files_list) == 1:
 
@@ -86,6 +88,9 @@ class Main(QtWidgets.QDialog):
 
                 if tex_creation != 'Nothing':
 
+                    tx_from_files(exported_files_list, tex_creation)
+
+                    '''
                     command = "from wizard.tools.maketx import maketx"
                     command += "\nmaketx({}, '{}').start()".format(exported_files_list, tex_creation)
 
@@ -105,6 +110,7 @@ class Main(QtWidgets.QDialog):
 
                     self.ui_subprocess_manager = ui_subprocess_manager.Main('pywizard {}'.format(temp_file), env, cwd)
                     build.launch_normal_as_child(self.ui_subprocess_manager)
+                    '''
                 
             self.accept()
 

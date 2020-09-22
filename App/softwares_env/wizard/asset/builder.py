@@ -16,7 +16,6 @@ from wizard.asset.folder import folder
 from wizard.vars import defaults
 from wizard.project.wall import wall
 from wizard.nodes import core as nodes
-from wizard.prefs.production import production
 
 # Creating the main logger
 logger = log.pipe_log(__name__)
@@ -47,7 +46,6 @@ def create_category(asset):
         # Init the asset category prefs
         prefs.asset(asset).category.write()
 
-        #production().add_category(asset)
         # Log the success to user
         logger.debug('Sequence {} added to asset.wd'.format(asset.category))
         logger.info('{} created'.format(asset.category))
@@ -126,6 +124,7 @@ def create_name(asset, in_out=None):
                 # Log the success to user
                 logger.debug('Asset {} added to asset.wd'.format(asset.name))
                 logger.info('{} created'.format(asset.name))
+
 
                 # Create the wall event
                 wall().create_event(asset)
@@ -206,6 +205,7 @@ def create_stage(asset):
 
                 # Init the asset stage prefs
                 prefs.asset(asset).stage.write()
+
 
                 # Return and log the success to user
                 logger.debug('Stage {} added to asset.wd'.format(asset.stage))
@@ -296,6 +296,7 @@ def create_variant(asset):
                     # Create the softwares prefs and folders, childs of variant
                     create_softwares(asset)
                     create_export_root(asset)
+                    create_playblast(asset)
 
                     # Log the success to user
                     logger.info('{} - {} - {} created'.format(asset.name,

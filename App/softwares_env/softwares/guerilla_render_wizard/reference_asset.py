@@ -3,6 +3,7 @@ from wizard.prefs.main import prefs
 from wizard.tools import log
 from wizard.vars import defaults
 from guerilla import Document, Modifier, pynode, Node, Plug
+import traceback
 
 import os
 
@@ -202,10 +203,17 @@ def import_texturing(reload=0):
                 at1[0].overrideinheritedattr('Subdiv', True)
                 at1[0].Input1.Plug.connect(tag1[0].Output1.Plug)
 
+                ds1 = rg.loadfile('$(LIBRARY)/rendergraph/shader.gnode') # Displacement Shader
+                ds1[0].Shader.set('Displacement')
+                ds1[0].Mode.set('displacement')
+                ds1[0].rename('{}_displacement_shader'.format(asset.name))
+                ds1[0].Input1.Plug.connect(at1[0].Output1.Plug)
+
                 sh1 = rg.loadfile('$(LIBRARY)/rendergraph/shader.gnode') # Surface Shader
                 sh1[0].Shader.set('Surface2')
+                sh1[0].Mode.set('surface')
                 sh1[0].rename('{}_main_shader'.format(asset.name))
-                sh1[0].Input1.Plug.connect(at1[0].Output1.Plug)
+                sh1[0].Input1.Plug.connect(ds1[0].Output1.Plug)
 
                 out1 = rg.loadfile('$(LIBRARY)/rendergraph/output.gnode')
                 out1[0].Input1.Plug.connect(sh1[0].Output1.Plug)
@@ -222,6 +230,7 @@ def import_texturing(reload=0):
             metalness_maps = []
             roughness_maps = []
             normal_maps = []
+            height_maps = []
 
             for texture_map in get_maps(imported_asset[2]):
 
@@ -236,6 +245,8 @@ def import_texturing(reload=0):
                     roughness_maps.append(texture_map)
                 if 'NORMAL' in texture_map.upper() and texture_map.endswith('.tex'):
                     normal_maps.append(texture_map)
+                if 'HEIGHT' in texture_map.upper() and texture_map.endswith('.tex'):
+                    height_maps.append(texture_map)
 
             with Modifier() as mod:
 
@@ -276,6 +287,7 @@ def import_texturing(reload=0):
                         if not replace:
                             attrSh1 = mod.createnode('Metal', type='AttributeShader', parent=sh1[0])
                             attrSh1.Shader.set('Texture')
+                            attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
                             p = sh1[0].Metal.File
@@ -288,6 +300,7 @@ def import_texturing(reload=0):
                         if not replace:
                             attrSh1 = mod.createnode('MetalRoughness', type='AttributeShader', parent=sh1[0])
                             attrSh1.Shader.set('Texture')
+                            attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
                             p = sh1[0].MetalRoughness.File
@@ -309,6 +322,7 @@ def import_texturing(reload=0):
                             sh1[0].overrideinheritedattr('Spec1',1)
                             attrSh1 = mod.createnode('Spec1Roughness', type='AttributeShader', parent=sh1[0])
                             attrSh1.Shader.set('Texture')
+                            attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
                             p = sh1[0].Spec1Roughness.File
@@ -342,6 +356,33 @@ def import_texturing(reload=0):
                         logger.warning("No Normal to load")
                 except:
                     logger.error("Can't load Normal")
+
+                try:
+                    if height_maps != []:
+
+                        if not replace:
+                            attrDs1 = mod.createnode('Amount', type='AttributeShader', parent=ds1[0])
+                            attrDs1.Shader.set('MaskTexture')
+                            attrDs1.overrideinheritedattr("Gamma","data")
+                            ds1[0].overrideinheritedattr('Normalization',"Affine")
+                            ds1[0].overrideinheritedattr('Offset',0)
+                            ds1[0].overrideinheritedattr("RaytraceDisplacement", 2)
+                            ds1[0].overrideinheritedattr("DisplaceAmount", 1)
+                            ds1[0].State.set("bypass")
+                            p = attrDs1.createplug('File', 'user', 'texture', Plug.Dynamic)
+                        else:
+                            p = ds1[0].Shader.File
+
+                        if replace and p.get() != '':
+                            p.set(height_maps[0])
+                        elif not replace:
+                            p.set(height_maps[0])
+
+                    else:
+                        logger.warning("No height to load")
+                except:
+                    print(str(traceback.format_exc()))
+                    logger.error("Can't load height")
 
 
 def get_maps(path):

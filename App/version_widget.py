@@ -44,7 +44,7 @@ class Main(QtWidgets.QWidget):
         if self.count:
             self.ui.list_version_widget_frame.setStyleSheet('''#list_version_widget_frame{background-color:rgb(255,255,255,5);}
                 #list_version_widget_frame:hover{
-                background-color:rgb(255,255,255,20);
+                
                 }''')
 
         self.update_sanity(self.sanity)

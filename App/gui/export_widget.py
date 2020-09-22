@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\leo\Documents\Script\Wizard\App\gui\ui_files\export_widget.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\work\ui_files\export_widget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -92,6 +92,25 @@ class Ui_Form(object):
         self.export_widget_comment_label.setIndent(10)
         self.export_widget_comment_label.setObjectName("export_widget_comment_label")
         self.horizontalLayout.addWidget(self.export_widget_comment_label)
+        self.tx_line = QtWidgets.QFrame(self.list_export_widget_frame)
+        self.tx_line.setMaximumSize(QtCore.QSize(1, 16777215))
+        self.tx_line.setFrameShape(QtWidgets.QFrame.VLine)
+        self.tx_line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.tx_line.setObjectName("tx_line")
+        self.horizontalLayout.addWidget(self.tx_line)
+        self.export_widget_tx_pushButton = QtWidgets.QPushButton(self.list_export_widget_frame)
+        self.export_widget_tx_pushButton.setMinimumSize(QtCore.QSize(28, 31))
+        self.export_widget_tx_pushButton.setMaximumSize(QtCore.QSize(28, 31))
+        self.export_widget_tx_pushButton.setText("")
+        self.export_widget_tx_pushButton.setIconSize(QtCore.QSize(14, 14))
+        self.export_widget_tx_pushButton.setObjectName("export_widget_tx_pushButton")
+        self.horizontalLayout.addWidget(self.export_widget_tx_pushButton)
+        self.line_9 = QtWidgets.QFrame(self.list_export_widget_frame)
+        self.line_9.setMaximumSize(QtCore.QSize(1, 16777215))
+        self.line_9.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line_9.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_9.setObjectName("line_9")
+        self.horizontalLayout.addWidget(self.line_9)
         self.export_widget_comment_pushButton = QtWidgets.QPushButton(self.list_export_widget_frame)
         self.export_widget_comment_pushButton.setMinimumSize(QtCore.QSize(28, 31))
         self.export_widget_comment_pushButton.setMaximumSize(QtCore.QSize(28, 31))
