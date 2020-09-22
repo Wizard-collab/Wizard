@@ -28,5 +28,5 @@ def tx_from_files(files_list, tex_creation='.tex'):
 
     cwd = os.path.abspath("")
 
-    ui_subprocess_manager = ui_subprocess_manager.Main('pywizard {}'.format(temp_file), env, cwd)
-    build.launch_normal_as_child(ui_subprocess_manager)
+    subprocess_manager = ui_subprocess_manager.Main('pywizard {}'.format(temp_file), env, cwd)
+    build.launch_normal_as_child(subprocess_manager)

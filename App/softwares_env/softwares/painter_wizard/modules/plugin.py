@@ -9,6 +9,9 @@ import json
 from wizard.project import wall
 import export_config
 
+import importlib
+importlib.reload(export_config)
+
 from wizard.tools import log
 
 prefs = prefs()
@@ -43,6 +46,7 @@ def export_maps():
     export_config.json_config["exportPresets"][0]['maps'][2]['fileName'] = "{}_metallic.$textureSet".format(filename)
     export_config.json_config["exportPresets"][0]['maps'][3]['fileName'] = "{}_normal.$textureSet".format(filename)
     export_config.json_config["exportPresets"][0]['maps'][4]['fileName'] = "{}_height.$textureSet".format(filename)
+    export_config.json_config["exportPresets"][0]['maps'][5]['fileName'] = "{}_sss.$textureSet".format(filename)
     export_config.json_config['exportParameters'][0]['parameters']['fileFormat'] = ext
 
     export_list = []

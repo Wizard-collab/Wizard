@@ -213,6 +213,7 @@ _stage_export_grp_dic_[_hair_] = 'hair_GRP'
 _stage_export_grp_dic_[_cyclo_] = 'cyclo_GRP'
 _stage_export_grp_dic_[_shading_] = 'shading_GRP'
 _stage_export_grp_dic_[_render_pass_] = 'render_pass_GRP'
+_stage_export_grp_dic_[_render_graph_] = 'render_graph_GRP'
 _stage_export_grp_dic_[_lighting_] = 'lighting_GRP'
 
 
@@ -632,6 +633,7 @@ _workflow_ext_dic_[_cam_rig_] = 'ma'
 _workflow_ext_dic_[_texturing_] = 'exr'
 
 _workflow_ext_dic_[_render_pass_] = 'gnode'
+_workflow_ext_dic_[_render_graph_] = 'gnode'
 _workflow_ext_dic_[_concept_] = 'png'
 _workflow_ext_dic_[_layout_] = 'abc'
 _workflow_ext_dic_[_animation_] = 'abc'

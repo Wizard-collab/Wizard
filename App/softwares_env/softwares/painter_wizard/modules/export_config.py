@@ -90,6 +90,17 @@ json_config = {
                                 "srcMapName": "height"
                             },
                         ]
+                    },
+                    {
+                        "fileName": "",
+                        "channels": [
+                            {
+                                "destChannel": "L",
+                                "srcChannel": "L",
+                                "srcMapType": "documentMap",
+                                "srcMapName": "user0"
+                            },
+                        ]
                     }]
             }],
         "exportList": [],

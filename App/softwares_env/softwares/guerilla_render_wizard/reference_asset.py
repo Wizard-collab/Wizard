@@ -230,6 +230,7 @@ def import_texturing(reload=0):
             metalness_maps = []
             roughness_maps = []
             normal_maps = []
+            sss_maps = []
             height_maps = []
 
             for texture_map in get_maps(imported_asset[2]):
@@ -245,6 +246,8 @@ def import_texturing(reload=0):
                     roughness_maps.append(texture_map)
                 if 'NORMAL' in texture_map.upper() and texture_map.endswith('.tex'):
                     normal_maps.append(texture_map)
+                if 'SSS' in texture_map.upper() and texture_map.endswith('.tex'):
+                    sss_maps.append(texture_map)
                 if 'HEIGHT' in texture_map.upper() and texture_map.endswith('.tex'):
                     height_maps.append(texture_map)
 
@@ -358,6 +361,28 @@ def import_texturing(reload=0):
                     logger.error("Can't load Normal")
 
                 try:
+                    if sss_maps != []:
+
+                        if not replace:
+                            attrSh1 = mod.createnode('SSS', type='AttributeShader', parent=sh1[0])
+                            attrSh1.Shader.set('MaskTexture')
+                            attrSh1.overrideinheritedattr("Gamma","data")
+                            p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
+                        else:
+                            p = sh1[0].Shader.File
+
+                        if replace and p.get() != '':
+                            p.set(sss_maps[0])
+                        elif not replace:
+                            p.set(sss_maps[0])
+
+                    else:
+                        logger.warning("No sss to load")
+                except:
+                    print(str(traceback.format_exc()))
+                    logger.error("Can't load sss")
+
+                try:
                     if height_maps != []:
 
                         if not replace:
@@ -400,12 +425,34 @@ def import_render_pass(reload=0):
         if imported_asset[0].stage == defaults._render_pass_:
             if imported_asset[1] in get_all_nodes():
                 if reload:
-                    Document().getchild(imported_asset[1]).delete()
+                    rp_GRP = add_GRP('RENDER_PASSES')
+                    rp_GRP.getchild(imported_asset[1]).delete()
                     rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(rp_GRP)
                     rg_node.rename(imported_asset[1])
             else:
                 if not reload:
+                    rp_GRP = add_GRP('RENDER_PASSES')
                     rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(rp_GRP)
+                    rg_node.rename(imported_asset[1])
+
+def import_render_graph(reload=0):
+    asset_list = get_asset_list()
+    for imported_asset in asset_list:
+        if imported_asset[0].stage == defaults._render_graph_:
+            if imported_asset[1] in get_all_nodes():
+                if reload:
+                    rg_GRP = add_GRP('RENDER_GRAPHS')
+                    rg_GRP.getchild(imported_asset[1]).delete()
+                    rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(rg_GRP)
+                    rg_node.rename(imported_asset[1])
+            else:
+                if not reload:
+                    rg_GRP = add_GRP('RENDER_GRAPHS')
+                    rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(rg_GRP)
                     rg_node.rename(imported_asset[1])
 
 def import_all(reload = None):
@@ -425,6 +472,10 @@ def import_all(reload = None):
         import_render_pass(reload)
     except:
         logger.warning("Can't import render pass")
+    try:
+        import_render_graph(reload)
+    except:
+        logger.warning("Can't import render graph")
     try:
         import_texturing(reload)
     except:

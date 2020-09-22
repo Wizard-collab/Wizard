@@ -31,8 +31,13 @@ def export_shading(asset):
 
 def export_render_pass(asset):
     file = asset.export('{}_{}'.format(asset.name, asset.variant))
-    rp_name = 'renderpass_GRP'
+    rp_name = 'render_pass_GRP'
     export_node(file, rp_name, asset)
+
+def export_render_graph(asset):
+    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    rg_name = 'render_graph_GRP'
+    export_node(file, rg_name, asset)
 
 def export_all():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
@@ -42,6 +47,8 @@ def export_all():
         export_shading(asset)
     elif asset.stage == defaults._render_pass_:
         export_render_pass(asset)
+    elif asset.stage == defaults._render_graph_:
+        export_render_graph(asset)
 
 def export_node(file, node_name, asset):
     if node_name in get_all_nodes():
