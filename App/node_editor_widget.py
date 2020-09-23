@@ -66,9 +66,9 @@ class Main(QtWidgets.QWidget):
         count = references(self.asset).add_reference(asset, proxy, visible)
         self.add_reference([asset, count, proxy, visible], 1 )
 
-    def replace_reference(self, widget, old_namespace=None, proxy = 0, visible = 1):
+    def replace_reference(self, widget, asset, count, old_namespace=None, proxy = 0, visible = 1):
         self.scene_references_widget[self.scene_references_widget.index(widget)] = widget
-        references(self.asset).replace_reference(widget, old_namespace, proxy, visible)
+        references(self.asset).replace_reference(asset, count, old_namespace, proxy, visible)
         logger.info("Reference modified")
 
     def add_main_asset(self, asset=None):
@@ -123,7 +123,7 @@ class Main(QtWidgets.QWidget):
         self.scene_references = []
         assets_list = references(asset).references
         for asset in assets_list:
-            self.scene_references.append(asset)
+            #self.scene_references.append(asset)
             self.add_reference(asset)
 
     def dragEnterEvent(self, e):
@@ -172,7 +172,7 @@ class Main(QtWidgets.QWidget):
         self.scene_references_widget.remove(widget)
         if widget in self.selection_list:
             self.remove_selection(widget)
-        references(self.asset).remove_reference(widget)
+        references(self.asset).remove_reference(widget.asset, widget.count)
         self.refresh_references_label()
 
     def add_selection(self, widget):

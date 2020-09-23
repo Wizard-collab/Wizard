@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\wizard_devellop\App\gui\ui_files\versions_manager_widget.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\work\ui_files\versions_manager_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -22,7 +22,7 @@ class Ui_Form(object):
         self.exports_main_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.exports_main_frame.setObjectName("exports_main_frame")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.exports_main_frame)
-        self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
+        self.verticalLayout_2.setContentsMargins(11, 11, 11, 11)
         self.verticalLayout_2.setSpacing(8)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.exports_manager_header_Frame = QtWidgets.QFrame(self.exports_main_frame)
@@ -34,14 +34,16 @@ class Ui_Form(object):
         self.exports_manager_header_Frame.setObjectName("exports_manager_header_Frame")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.exports_manager_header_Frame)
         self.horizontalLayout_3.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(1)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.exports_manager_label = QtWidgets.QLabel(self.exports_manager_header_Frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.exports_manager_label.sizePolicy().hasHeightForWidth())
         self.exports_manager_label.setSizePolicy(sizePolicy)
+        self.exports_manager_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.exports_manager_label.setObjectName("exports_manager_label")
         self.horizontalLayout_3.addWidget(self.exports_manager_label)
         self.show_more_horizontalFrame = QtWidgets.QFrame(self.exports_manager_header_Frame)
@@ -85,7 +87,7 @@ class Ui_Form(object):
         self.pb_ma_scrollArea.setWidgetResizable(True)
         self.pb_ma_scrollArea.setObjectName("pb_ma_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 988, 626))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 974, 656))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.playblast_list_verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.playblast_list_verticalLayout_2.setContentsMargins(0, 5, 0, 0)
@@ -110,6 +112,7 @@ class Ui_Form(object):
         self.manual_publish_horizontalFrame.setSizePolicy(sizePolicy)
         self.manual_publish_horizontalFrame.setObjectName("manual_publish_horizontalFrame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.manual_publish_horizontalFrame)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)

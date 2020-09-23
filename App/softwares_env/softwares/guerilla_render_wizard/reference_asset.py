@@ -455,6 +455,24 @@ def import_render_graph(reload=0):
                     rg_node.move(rg_GRP)
                     rg_node.rename(imported_asset[1])
 
+def import_light_rig(reload=0):
+    asset_list = get_asset_list()
+    for imported_asset in asset_list:
+        if imported_asset[0].stage == defaults._light_rig_:
+            if imported_asset[1] in get_all_nodes():
+                if reload:
+                    lr_GRP = add_GRP('LIGHT_RIGS')
+                    lr_GRP.getchild(imported_asset[1]).delete()
+                    rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(lr_GRP)
+                    rg_node.rename(imported_asset[1])
+            else:
+                if not reload:
+                    lr_GRP = add_GRP('LIGHT_RIGS')
+                    rg_node = Document().loadfile(imported_asset[2])[0]
+                    rg_node.move(lr_GRP)
+                    rg_node.rename(imported_asset[1])
+
 def import_all(reload = None):
     try:
         import_shading(reload)
@@ -476,6 +494,10 @@ def import_all(reload = None):
         import_render_graph(reload)
     except:
         logger.warning("Can't import render graph")
+    try:
+        import_light_rig(reload)
+    except:
+        logger.warning("Can't import light rig")
     try:
         import_texturing(reload)
     except:

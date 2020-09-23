@@ -36,19 +36,19 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
-       <number>8</number>
+       <number>5</number>
       </property>
       <property name="leftMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="topMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="rightMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="bottomMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <item>
        <widget class="QFrame" name="exports_manager_header_Frame">
@@ -65,16 +65,31 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetMinimumSize</enum>
          </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="exports_manager_label">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="text">
             <string>Playblasts manager</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
            <property name="margin">
             <number>0</number>
@@ -220,8 +235,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>988</width>
-           <height>626</height>
+           <width>974</width>
+           <height>662</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="playblast_list_verticalLayout_2">
@@ -280,6 +295,18 @@
          </sizepolicy>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">

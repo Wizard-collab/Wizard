@@ -43,6 +43,7 @@ import jokes_widget
 import dialog_delete_asset
 import exports_widget
 import versions_manager_widget
+import reference_list_widget
 import running_widget
 from wizard.tools import utility as utils
 from wizard.email import main as send_email
@@ -121,6 +122,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_pin_button()
             self.init_folder_button()
             self.init_node_editor_widget()
+            self.init_reference_list_widget()
             self.init_exports_widget()
             self.init_playblasts_widget()
             self.init_tickets_widget()
@@ -181,10 +183,11 @@ class Main(QtWidgets.QMainWindow):
     def init_main_tab(self):
         try:
             self.ui.main_tabWidget.setTabIcon(0, QtGui.QIcon(defaults._node_icon_))  # <---
-            self.ui.main_tabWidget.setTabIcon(1, QtGui.QIcon(defaults._export_icon_))  # <---
-            self.ui.main_tabWidget.setTabIcon(2, QtGui.QIcon(defaults._versions_manager_icon_))  # <---
-            self.ui.main_tabWidget.setTabIcon(3, QtGui.QIcon(defaults._playblast_icon_))  # <---
-            self.ui.main_tabWidget.setTabIcon(4, QtGui.QIcon(defaults._tickets_icon_))  # <---
+            self.ui.main_tabWidget.setTabIcon(1, QtGui.QIcon(defaults._reference_list_icon_))  # <---
+            self.ui.main_tabWidget.setTabIcon(2, QtGui.QIcon(defaults._export_icon_))  # <---
+            self.ui.main_tabWidget.setTabIcon(3, QtGui.QIcon(defaults._versions_manager_icon_))  # <---
+            self.ui.main_tabWidget.setTabIcon(4, QtGui.QIcon(defaults._playblast_icon_))  # <---
+            self.ui.main_tabWidget.setTabIcon(5, QtGui.QIcon(defaults._tickets_icon_))  # <---
             self.ui.main_tabWidget.setIconSize(QtCore.QSize(18, 18))
         except:
             logger.critical(str(traceback.format_exc()))
@@ -343,6 +346,13 @@ class Main(QtWidgets.QMainWindow):
         try:
             self.node_editor_widget = node_editor_widget.Main(self)
             self.ui.node_editor_layout.addWidget(self.node_editor_widget)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def init_reference_list_widget(self):
+        try:
+            self.reference_list_widget = reference_list_widget.Main(self)
+            self.ui.reference_list_tab_layout.addWidget(self.reference_list_widget)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -514,6 +524,8 @@ class Main(QtWidgets.QMainWindow):
         try:
             if self.node_editor_widget.isVisible():
                 self.node_editor_widget.refresh_scene(self.asset)
+            if self.reference_list_widget.isVisible():
+                self.reference_list_widget.refresh_scene(self.asset)
             if self.exports_widget.isVisible():
                 self.exports_widget.refresh_all(self.asset)
             if self.playblasts_widget.isVisible():
@@ -527,15 +539,18 @@ class Main(QtWidgets.QMainWindow):
 
     def main_tab_changed(self, index):
         try:
-            if index == 1:
-                self.exports_widget.refresh_all(self.asset)
-            elif index == 0:
+            
+            if index == 0:
                 self.node_editor_widget.refresh_scene(self.asset)
+            if index == 1:
+                self.reference_list_widget.refresh_scene(self.asset)
             elif index == 2:
-                self.versions_manager_widget.refresh_all(self.asset)
+                self.exports_widget.refresh_all(self.asset)
             elif index == 3:
-                self.playblasts_widget.refresh_all(self.asset)
+                self.versions_manager_widget.refresh_all(self.asset)
             elif index == 4:
+                self.playblasts_widget.refresh_all(self.asset)
+            elif index == 5:
                 self.tickets_widget.refresh_all(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))

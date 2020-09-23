@@ -79,6 +79,11 @@ class shelf():
         def action(luaObj, window, x, y, suffix):
             reference_asset.import_render_graph()
 
+    class import_light_rig(command):
+        @staticmethod
+        def action(luaObj, window, x, y, suffix):
+            reference_asset.import_light_rig()
+
     class reload_all(command):
         @staticmethod
         def action(luaObj, window, x, y, suffix):
@@ -128,6 +133,11 @@ class shelf():
         @staticmethod
         def action(luaObj, window, x, y, suffix):
             reference_asset.import_render_graph(1)
+
+    class reload_light_rig(command):
+        @staticmethod
+        def action(luaObj, window, x, y, suffix):
+            reference_asset.import_light_rig(1)
 
     class reload_cyclo(command):
         @staticmethod
@@ -202,6 +212,7 @@ class shelf():
     cfx_icon = defaults._stage_icon_[defaults._cfx_]
     render_pass_icon = defaults._stage_icon_[defaults._render_pass_]
     render_graph_icon = defaults._stage_icon_[defaults._render_graph_]
+    light_rig_icon = defaults._stage_icon_[defaults._light_rig_]
     cyclo_icon = defaults._stage_icon_[defaults._cyclo_]
     layout_icon = defaults._stage_icon_[defaults._layout_]
 
@@ -242,6 +253,8 @@ class shelf():
     cmd.install('Wizard', 'Import')
     cmd = import_render_graph('render_graph', render_graph_icon)
     cmd.install('Wizard', 'Import')
+    cmd = import_light_rig('light_rig', light_rig_icon)
+    cmd.install('Wizard', 'Import')
     cmd = import_cyclo('cyclo', cyclo_icon)
     cmd.install('Wizard', 'Import')
     
@@ -266,6 +279,8 @@ class shelf():
     cmd = reload_render_pass('render_pass', render_pass_icon)
     cmd.install('Wizard', 'Refresh')
     cmd = reload_render_graph('render_graph', render_graph_icon)
+    cmd.install('Wizard', 'Refresh')
+    cmd = reload_light_rig('light_rig', light_rig_icon)
     cmd.install('Wizard', 'Refresh')
     cmd = reload_cyclo('cyclo', cyclo_icon)
     cmd.install('Wizard', 'Refresh')

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>576</height>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,19 +39,19 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
-       <number>0</number>
+       <number>7</number>
       </property>
       <property name="leftMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="topMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="rightMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <property name="bottomMargin">
-       <number>4</number>
+       <number>11</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -59,16 +59,16 @@
          <number>0</number>
         </property>
         <property name="leftMargin">
-         <number>11</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
-         <number>11</number>
+         <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>11</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
-         <number>11</number>
+         <number>0</number>
         </property>
         <item>
          <spacer name="horizontalSpacer_2">
@@ -136,8 +136,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>460</width>
-           <height>442</height>
+           <width>446</width>
+           <height>439</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -196,16 +196,16 @@
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <item>
           <spacer name="horizontalSpacer">

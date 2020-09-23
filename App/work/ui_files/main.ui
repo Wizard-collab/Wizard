@@ -549,11 +549,36 @@
                   </property>
                  </layout>
                 </widget>
+                <widget class="QWidget" name="references_list_tab">
+                 <attribute name="title">
+                  <string>References List</string>
+                 </attribute>
+                 <layout class="QVBoxLayout" name="reference_list_tab_layout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                 </layout>
+                </widget>
                 <widget class="QWidget" name="exports_tab">
                  <attribute name="title">
                   <string>Exports</string>
                  </attribute>
                  <layout class="QVBoxLayout" name="exports_layout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -573,6 +598,9 @@
                   <string>Work versions</string>
                  </attribute>
                  <layout class="QVBoxLayout" name="versions_manager_layout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -593,7 +621,7 @@
                  </attribute>
                  <layout class="QVBoxLayout" name="playblasts_layout">
                   <property name="spacing">
-                   <number>1</number>
+                   <number>0</number>
                   </property>
                   <property name="leftMargin">
                    <number>0</number>

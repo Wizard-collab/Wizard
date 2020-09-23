@@ -39,6 +39,11 @@ def export_render_graph(asset):
     rg_name = 'render_graph_GRP'
     export_node(file, rg_name, asset)
 
+def export_light_rig(asset):
+    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    rg_name = 'light_rig_GRP'
+    export_node(file, rg_name, asset)
+
 def export_all():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     if asset.stage == defaults._cyclo_:
@@ -49,6 +54,8 @@ def export_all():
         export_render_pass(asset)
     elif asset.stage == defaults._render_graph_:
         export_render_graph(asset)
+    elif asset.stage == defaults._light_rig_:
+        export_light_rig(asset)
 
 def export_node(file, node_name, asset):
     if node_name in get_all_nodes():

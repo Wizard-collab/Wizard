@@ -111,13 +111,13 @@ class Main(QtWidgets.QWidget):
             self.proxy = copy.deepcopy(self.dialog_imported_asset_manager.proxy)
             self.visible = copy.deepcopy(self.dialog_imported_asset_manager.visible)
             self.add_name()
-            self.node_editor.replace_reference(self, old_namespace, self.proxy, self.visible)
+            self.node_editor.replace_reference(self, self.asset, self.count, old_namespace, self.proxy, self.visible)
 
     def set_last_version(self):
         old_asset = copy.deepcopy(self.asset)
         self.asset.export_version = prefs.asset(self.asset).export.last_version
         self.add_name()
-        self.node_editor.replace_reference(self)
+        self.node_editor.replace_reference(self, self.asset, self.count)
 
     def remove(self):
         self.node_editor.delete_asset(self)

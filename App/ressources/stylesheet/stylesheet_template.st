@@ -268,8 +268,35 @@ QWidget {
 	background-color:transparent;
 }
 
-#references_number_label, #selection_label, #scene_manager_label, #exports_manager_label{
+#references_number_label, #selection_label, #scene_manager_label, #reference_list_label, #exports_manager_label{
 	color:gray;
+}
+
+#reference_list_listWidget{
+	background-color:transparent;
+}
+
+#reference_list_listWidget::item{
+	padding:0px;
+	border-radius:3px;	
+	background-color: rgba(_middle_level_widget_color_, 110);
+	color: rgb(_text_color_);
+}
+
+#reference_list_listWidget::item:hover {
+	padding:0px;
+	background-color: rgb(_top_level_widget_color_, 120);
+}
+
+#reference_list_listWidget::item:selected {
+	padding:0px;
+	background-color: rgb(_top_level_widget_color_, 120);
+	color: rgb(_text_color_);
+	border: 1px solid gray;
+}
+
+#reference_list_item_frame{
+	background-color:transparent;
 }
 
 #export_manager_drop_lineEdit{
@@ -416,6 +443,11 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #node_editor_frame{
+	background-color:rgb(_low_level_widget_color_);
+	border: 2px solid rgb(_low_level_widget_color_);
+}
+
+#reference_list_frame{
 	background-color:rgb(_low_level_widget_color_);
 	border: 2px solid rgb(_low_level_widget_color_);
 }
