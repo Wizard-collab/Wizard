@@ -161,6 +161,12 @@ _texturing_ = 'texturing'
 _shading_ = 'shading'
 _hair_ = 'grooming'
 
+# User scripts library
+_user_script_name_ = 'name'
+_user_script_image_ = 'image'
+_user_script_ = 'script'
+_user_scripts_ = 'scripts'
+
 # Asset stages list
 _assets_stages_ = [_design_,
 					_geo_,
@@ -924,6 +930,7 @@ _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
+_user_scripts_file_ = _user_path_ + 'scripts.yaml'
 _wall_ = 'wall.log'
 _tickets_ = 'tickets.wd'
 _chat_ = 'chat.log'
@@ -932,6 +939,8 @@ _software_path_key_ = "software_path"
 _software_additionnal_script_key_ = "software_additionnal_script_path"
 _software_additionnal_env_key_ = "software_additionnal_env_paths"
 
+# Scene keys library
+_scene_current_asset_ = "scene_current_asset"
 
 # Project settings keys library
 _project_name_key_ = 'project_name'

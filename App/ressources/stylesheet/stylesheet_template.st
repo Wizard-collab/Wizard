@@ -272,7 +272,7 @@ QWidget {
 	color:gray;
 }
 
-#reference_list_listWidget{
+#reference_list_listWidget, #icons_list_listWidget{
 	background-color:transparent;
 }
 
@@ -283,12 +283,19 @@ QWidget {
 	color: rgb(_text_color_);
 }
 
-#reference_list_listWidget::item:hover {
+#icons_list_listWidget::item{
+	padding:3px;
+	border-radius:3px;	
+	background-color: rgba(_middle_level_widget_color_, 110);
+	color: rgb(_text_color_);
+}
+
+#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover {
 	padding:0px;
 	background-color: rgb(_top_level_widget_color_, 120);
 }
 
-#reference_list_listWidget::item:selected {
+#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected {
 	padding:0px;
 	background-color: rgb(_top_level_widget_color_, 120);
 	color: rgb(_text_color_);

@@ -13,7 +13,7 @@ def send_message(message):
         server = socket(AF_INET, SOCK_STREAM)
         server.connect((host_name, 5000))
         server.send('temp_conn'.encode('utf-8'))
-        time.sleep(0.5)
+        #time.sleep(0.5)
         server.send(message)
     except TimeoutError:
         pass
@@ -28,7 +28,7 @@ def send_message_chat(message):
         server = socket(AF_INET, SOCK_STREAM)
         server.connect((host_name, 5000))
         server.send('temp_conn_chat'.encode('utf-8'))
-        time.sleep(0.5)
+        #time.sleep(0.5)
         server.send(message)
     except TimeoutError:
         pass

@@ -67,6 +67,8 @@ import dialog_merge_projects
 import dialog_new_version
 from wizard.prefs import version
 import ui_error_handler
+import user_scripts_widget
+import scene
 
 import tickets_widget
 
@@ -142,6 +144,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_main_refresh_button()
             self.show_updates()
             self.add_user_to_project()
+            self.init_user_scripts_widget()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -196,6 +199,13 @@ class Main(QtWidgets.QMainWindow):
         try:
             self.user_widget = user_widget.Main()
             self.ui.user_widget_layout.insertWidget(0, self.user_widget)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def init_user_scripts_widget(self):
+        try:
+            self.user_scripts_widget = user_scripts_widget.Main()
+            self.ui.user_scripts_layout.addWidget(self.user_scripts_widget)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -653,6 +663,7 @@ class Main(QtWidgets.QMainWindow):
             self.update_image()
             self.update_lock()
             self.update_tabs()
+            scene.set_current_asset(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))
 
