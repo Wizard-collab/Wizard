@@ -47,7 +47,7 @@ import reference_list_widget
 import running_widget
 from wizard.tools import utility as utils
 from wizard.email import main as send_email
-from wizard.chat.client import test_conn
+#from wizard.chat.client import test_conn
 import random
 import dialog_confirm_email
 import dialog_shot_creation
@@ -56,7 +56,7 @@ import dialog_asset_creation
 import dialog_quit_popup
 import ui_welcome
 import ui_workflow
-import chat_widget
+#import chat_widget
 import ui_stats_viewer
 import ui_production_manager
 import ui_export_manager
@@ -105,7 +105,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_wall_button()
             self.init_running_button()
             self.init_settings_button()
-            self.init_chat_button()
+            #self.init_chat_button()
             self.init_server_button()
             self.init_main_tab()
             self.prefs = prefs
@@ -137,7 +137,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_launch_button()
             self.asset_item_changed()
             self.init_wall_widget()
-            self.init_chat()
+            #self.init_chat()
             self.resize_window()
             self.node_editor_widget.refresh_scene(self.asset)
             project_prefs.add_camera_extension()
@@ -301,9 +301,9 @@ class Main(QtWidgets.QMainWindow):
         try:
             self.ui.server_pushButton.setIconSize(QtCore.QSize(20, 20))
 
-            self.test_conn_thread = test_conn()
-            self.test_conn_thread.start()
-            self.test_conn_thread.is_running.connect(self.refresh_conn)
+            #self.test_conn_thread = test_conn()
+            #self.test_conn_thread.start()
+            #self.test_conn_thread.is_running.connect(self.refresh_conn)
         except:
             logger.critical(str(traceback.format_exc()))
 

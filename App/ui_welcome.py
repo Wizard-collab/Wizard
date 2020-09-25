@@ -97,4 +97,5 @@ class Main(QtWidgets.QDialog):
             self.ui.welcome_main_widget_layout.itemAt(i).widget().hide()
 
     def launch_server(self):
-        os.startfile('wizard server.exe')
+        pass
+        #os.startfile('wizard server.exe')

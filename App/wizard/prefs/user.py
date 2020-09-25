@@ -60,11 +60,28 @@ class user:
             self.settings[defaults._show_error_handler_] = 0
             self.settings[defaults._local_project_path_] = ''
             self.settings[defaults._shutter_] = 1
+            self.settings[defaults._server_ip_] = None
             # Write the .manager file as YAML with setting dict
             logger.debug('user.wd file created')
             self.write_pref_file(new=1)
         else:
             self.open_pref_file()
+
+    def get_server_ip(self):
+        self.open_pref_file()
+        if self.settings:
+            if defaults._server_ip_ in self.settings.keys():
+                return self.settings[defaults._server_ip_]
+            else:
+                self.set_server_ip(None)
+                return None
+        else:
+            return None
+
+    def set_server_ip(self,ip):
+        self.open_pref_file()
+        self.settings[defaults._server_ip_] = ip
+        self.write_pref_file()
 
     def get_shutter(self):
         self.open_pref_file()

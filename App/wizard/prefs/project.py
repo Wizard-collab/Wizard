@@ -79,19 +79,6 @@ def get_abs_site():
     else:
         return None
 
-
-def get_server_ip():
-    settings = open_pref_file()
-    if settings:
-        return settings[defaults._server_ip_]
-    else:
-        return None
-
-def set_server_ip(ip):
-    settings = open_pref_file()
-    settings[defaults._server_ip_] = ip
-    write_pref_file(settings)
-
 def add_user(user):
     settings = open_pref_file()
     if defaults._users_list_key_ not in settings.keys():

@@ -25,6 +25,13 @@ class prefs:
         user_prefs.set_user(user_name)
 
     @property
+    def server_ip(self):
+        return user_prefs.get_server_ip()
+
+    def set_server_ip(self, ip):
+        user_prefs.set_server_ip(ip)
+
+    @property
     def events(self):
         return user_events(self.project_path, self.user).get_events()
 
