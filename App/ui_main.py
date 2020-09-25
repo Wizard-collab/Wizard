@@ -47,7 +47,7 @@ import reference_list_widget
 import running_widget
 from wizard.tools import utility as utils
 from wizard.email import main as send_email
-#from wizard.chat.client import test_conn
+from wizard.chat import client
 import random
 import dialog_confirm_email
 import dialog_shot_creation
@@ -58,7 +58,6 @@ import ui_welcome
 import ui_workflow
 #import chat_widget
 import ui_stats_viewer
-import ui_production_manager
 import ui_export_manager
 import playblasts_widget
 import ui_updates
@@ -69,6 +68,7 @@ from wizard.prefs import version
 import ui_error_handler
 import user_scripts_widget
 import scene
+from wizard.signal.signal_server import signal_server
 
 import tickets_widget
 
@@ -145,8 +145,14 @@ class Main(QtWidgets.QMainWindow):
             self.show_updates()
             self.add_user_to_project()
             self.init_user_scripts_widget()
+            self.init_local_server()
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def init_local_server(self):
+        self.signal_server = signal_server()
+        self.signal_server.signal_received.connect(self.asset_item_changed)
+        self.signal_server.start()
 
     def add_user_to_project(self):
         try:
@@ -300,10 +306,23 @@ class Main(QtWidgets.QMainWindow):
     def init_server_button(self):
         try:
             self.ui.server_pushButton.setIconSize(QtCore.QSize(20, 20))
+            self.refresh_conn(client.test_conn_once())
+        except:
+            logger.critical(str(traceback.format_exc()))
 
-            #self.test_conn_thread = test_conn()
-            #self.test_conn_thread.start()
-            #self.test_conn_thread.is_running.connect(self.refresh_conn)
+    def restart_wall(self):
+        try:
+            self.wall_widget.start_wall()
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def refresh_server(self):
+        try:
+            if client.test_conn_once():
+                self.refresh_conn(1)
+                self.restart_wall()
+            else:
+                self.refresh_conn(0)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -311,13 +330,15 @@ class Main(QtWidgets.QMainWindow):
         try:
             if is_conn:
                 icon = defaults._server_on_icon_
+                logger.info('Wizard is connected to the server !')
+                self.ui.server_pushButton.setIcon(QtGui.QIcon(icon))
             else:
                 icon = defaults._server_off_icon_
-                popup.popup().no_server_pop('Connection with server lost. Please run a server and restart Wizard.')
                 logger.warning('Connection with server lost. Please run a server and restart Wizard.')
-            self.ui.server_pushButton.setIcon(QtGui.QIcon(icon))
+                self.ui.server_pushButton.setIcon(QtGui.QIcon(icon))
         except:
             logger.critical(str(traceback.format_exc()))
+            return 0
 
     def init_wall_button(self):
         try:
@@ -1333,13 +1354,6 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def show_stats(self):
-        try:
-            self.ui_stats_viewer = ui_production_manager.Main()
-            build.launch_normal_as_child(self.ui_stats_viewer)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
     def show_about(self):
         try:
             self.ui_about = ui_about.Main()
@@ -1402,7 +1416,6 @@ class Main(QtWidgets.QMainWindow):
             self.ui.log_pushButton.clicked.connect(self.open_log_widget)
             self.ui.wall_pushButton.clicked.connect(self.open_wall_widget)
             self.ui.running_pushButton.clicked.connect(self.show_running_widget)
-            self.ui.chat_pushButton.clicked.connect(self.show_chat_widget)
             self.ui.settings_pushButton.clicked.connect(self.launch_preferences_ui)
             self.ui.locked_assets_pushButton.clicked.connect(self.show_locked_widget)
             software_settings_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), self)
@@ -1417,7 +1430,7 @@ class Main(QtWidgets.QMainWindow):
             self.ui.launch_pushButton.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
             self.ui.launch_pushButton.customContextMenuRequested.connect(self.launch_options_widget)
             self.ui.main_tabWidget.currentChanged.connect(self.main_tab_changed)
-
+            self.ui.server_pushButton.clicked.connect(self.refresh_server)
             self.ui.actionGitHub.triggered.connect(self.show_git)
             self.ui.actionWizard_API.triggered.connect(self.launch_docs)
             self.ui.actionLast_updates.triggered.connect(lambda:self.show_updates(force=1))
@@ -1427,7 +1440,6 @@ class Main(QtWidgets.QMainWindow):
             self.ui.actionNew.triggered.connect(self.new_project)
             self.ui.actionOpen.triggered.connect(self.open_project)
             self.ui.actionMerge.triggered.connect(self.merge_project)
-            self.ui.actionStats.triggered.connect(self.show_stats)
             self.ui.actionNew_2.triggered.connect(self.new_user)
             self.ui.actionChange.triggered.connect(self.change_user)
             self.ui.actionContact.triggered.connect(self.contact)

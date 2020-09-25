@@ -1356,25 +1356,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="chat_pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>26</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="wall_pushButton">
         <property name="minimumSize">
          <size>
@@ -1424,7 +1405,6 @@
     <addaction name="actionUnlog"/>
     <addaction name="actionSettings_2"/>
     <addaction name="separator"/>
-    <addaction name="actionStats"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">

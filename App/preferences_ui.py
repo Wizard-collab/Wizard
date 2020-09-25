@@ -45,12 +45,14 @@ class Main(QtWidgets.QWidget):
         show_error_handler = prefs.show_error_handler
         local_project_path = prefs.local_project_path
         shutter = prefs.shutter
+        server_ip = prefs.server_ip
         logger.info(local_project_path)
         self.ui.versions_updates_checkBox.setChecked(show_updates)
         self.ui.new_version_checkBox.setChecked(show_new_version)
         self.ui.error_handler_checkBox.setChecked(1-show_error_handler)
         self.ui.local_project_path_lineEdit.setText(local_project_path)
         self.ui.shutter_checkBox.setChecked(shutter)
+        self.ui.preferences_server_ip_lineEdit.setText(server_ip)
 
     def init_screen_prefs(self):
         screen_index = prefs.screen
@@ -140,11 +142,13 @@ class Main(QtWidgets.QWidget):
         show_error_handler = self.ui.error_handler_checkBox.isChecked()
         local_project_path = self.ui.local_project_path_lineEdit.text()
         shutter = self.ui.shutter_checkBox.isChecked()
+        server_ip = self.ui.preferences_server_ip_lineEdit.text()
         prefs.set_show_updates(show_updates)
         prefs.set_show_new_version(show_new_version)
         prefs.set_show_error_handler(1-show_error_handler)
         prefs.set_local_project_path(local_project_path)
         prefs.set_shutter(shutter)
+        prefs.set_server_ip(server_ip)
 
     def save_prefs(self):
         self.set_popup_prefs()

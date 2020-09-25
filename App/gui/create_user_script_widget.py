@@ -25,9 +25,9 @@ class Ui_Form(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_2)
         self.verticalLayout_3.setContentsMargins(11, 11, 11, 11)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.label_4 = QtWidgets.QLabel(self.frame_2)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_3.addWidget(self.label_4)
+        self.create_user_script_tittle_label = QtWidgets.QLabel(self.frame_2)
+        self.create_user_script_tittle_label.setObjectName("create_user_script_tittle_label")
+        self.verticalLayout_3.addWidget(self.create_user_script_tittle_label)
         self.verticalLayout.addWidget(self.frame_2)
         self.frame = QtWidgets.QFrame(Form)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -79,11 +79,11 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label_4.setText(_translate("Form", "Create user script"))
+        self.create_user_script_tittle_label.setText(_translate("Form", "Create user script"))
         self.label.setText(_translate("Form", "Name"))
         self.label_2.setText(_translate("Form", "Icon"))
         self.label_3.setText(_translate("Form", "Script"))
-        self.create_script_pushButton.setText(_translate("Form", "Create"))
+        self.create_script_pushButton.setText(_translate("Form", "Apply"))
 
 
 if __name__ == "__main__":

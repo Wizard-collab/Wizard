@@ -34,6 +34,12 @@ class user_scripts():
 		with open(self.file, 'w') as f:
 			f.write(yaml.dump(self.main_dic))
 
+	def delete_script(self, key):
+		self.read_file()
+		if key in self.main_dic[defaults._user_scripts_].keys():
+			del self.main_dic[defaults._user_scripts_][key]
+			self.write_script_file()
+
 	def read_file(self):
 		if self.is_file():
 			with open(self.file, 'r') as f:
