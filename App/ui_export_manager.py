@@ -56,7 +56,7 @@ class Main(QtWidgets.QWidget):
 
         self.ui.export_ma_sequence_lineEdit.setText('{} - {} - {}'.format(self.asset.category, self.asset.name, self.asset.variant))
 
-        self.references = prefs.asset(self.asset).variant.references
+        self.references = prefs.asset(self.asset).software.references
 
         for ref_asset in self.references:
 

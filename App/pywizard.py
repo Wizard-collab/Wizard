@@ -32,7 +32,6 @@ from wizard.asset import reference
 
 from wizard.chat import client
 from wizard.chat import send
-from wizard.chat import server
 from wizard.chat import shared_files
 
 from wizard.email import main

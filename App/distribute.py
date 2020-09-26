@@ -1,6 +1,8 @@
 import subprocess
 import os
 import shutil
+from playsound import playsound
+
 
 if os.path.isdir('dist'):
 	shutil.rmtree('dist')
@@ -23,15 +25,6 @@ shutil.copytree('wizard', destination)
 
 destination = 'dist/wizard/softwares_env/softwares'
 shutil.copytree('softwares_env/softwares', destination)
-
-command_line = "PyInstaller wizard_server.spec"
-p = subprocess.Popen(command_line)
-p.wait()
-
-file = 'dist/wizard server/wizard server.exe'
-dest = 'dist/wizard/wizard server.exe'
-shutil.copyfile(file, dest)
-shutil.rmtree('dist/wizard server')
 
 command_line = "PyInstaller wizard_site_debug.spec"
 p = subprocess.Popen(command_line)
@@ -63,3 +56,5 @@ shutil.rmtree('dist/file viewer')
 file = 'updater.exe'
 dest = 'dist/wizard/updater.exe'
 shutil.copyfile(file, dest)
+
+playsound('1631.wav')
