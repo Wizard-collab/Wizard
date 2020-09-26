@@ -452,6 +452,13 @@ class prefs:
             def remove_version(self, version):
                 return asset_prefs.software(self.asset).remove_version(version=version)
 
+            @property
+            def references(self):
+                return asset_prefs.software(self.asset).get_references()
+
+            def set_references(self, dic):
+                return asset_prefs.software(self.asset).set_references(dic)
+
         class export_root:
             def __init__(self, asset):
                 self.asset = asset
@@ -518,8 +525,16 @@ class prefs:
             def version_comment(self):
                 return asset_prefs.export(self.asset).get_version_comment()
 
+            @property
+            def version_software(self):
+                return asset_prefs.export(self.asset).get_version_software()  
+
             def set_version_comment(self, comment):
                 return asset_prefs.export(self.asset).set_version_comment(comment)
+
+            def set_version_software(self):
+                return asset_prefs.export(self.asset).set_version_software()
+
 
             def write(self):
                 return asset_prefs.export(self.asset).write()

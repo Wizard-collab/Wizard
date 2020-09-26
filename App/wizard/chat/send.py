@@ -20,14 +20,13 @@ def send_message(message):
             message_dic['project'] = prefs.project_name
             message_dic['message'] = message
             message_dic['user'] = prefs.user
-            server.send(bytes(yaml.dump(message_dic), 'utf8'))
+            message_bytes = yaml.dump(message_dic).encode('utf8')
+            logger.info(message_bytes)
+            server.send(message_bytes)
             time.sleep(0.5)
             server.close()
         else:
             logger.warning("No server ip defined, can't connect to any server")
-    except TimeoutError:
-        pass
-    except ConnectionRefusedError:
-        logger.warning('No server started for this project, no event will be saved...')
     except:
-        logger.critical(str(traceback.format_exc()))
+        logger.critical(str(traceback.format_exc()))   
+        logger.warning('Probably no server, no event will be saved...')

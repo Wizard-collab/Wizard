@@ -34,7 +34,7 @@ class references():
         self.assets_list = []
 
         # Get the references dictionnary using the "prefs" wizard module
-        self.references_dic = self.asset_prefs.variant.references
+        self.references_dic = self.asset_prefs.software.references
 
         # Loop in the keys of the dictionnary to list the references
         # The keys are the imported assets namepsaces
@@ -95,7 +95,7 @@ class references():
 
         # Write the dictionnary ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
     @property
     def references(self):
@@ -143,28 +143,28 @@ class references():
         self.references_dic[name_space] = reference_dic
 
         # Write the main dictionnary to the ".prefs" file using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
         # Return the namespace count
         return count
 
-    def replace_reference(self, widget, old_namespace = None, proxy = 0, visible = 1):
+    def replace_reference(self, asset, count, old_namespace = None, proxy = 0, visible = 1):
 
         # This function access the main references dictionnary and override the imported asset
         # Using the namespace key
 
         # Build the name space using the "get_name_space" function
-        name_space = self.get_name_space(widget.asset, widget.count)
+        name_space = self.get_name_space(asset, count)
 
         # Convert the asset to a string using the "wizard.asset.main" module
-        string_asset = asset_core.asset_to_string(widget.asset)
+        string_asset = asset_core.asset_to_string(asset)
 
         # Create an empty dictionnary to override the old one
         # Assign the differents variables to the namespace dictionnary
         # All the keys are stored in the "defaults" wizard module
         reference_dic = {}
         reference_dic[defaults._string_asset_] = string_asset
-        reference_dic[defaults._count_] = widget.count
+        reference_dic[defaults._count_] = count
         reference_dic[defaults._proxy_] = proxy
         reference_dic[defaults._visible_] = visible
 
@@ -179,16 +179,16 @@ class references():
 
         # Write the main references dictionnary to the ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
         # Return the namespace count
-        return widget.count
+        return count
 
 
-    def remove_reference(self, widget):
+    def remove_reference(self, asset, count):
 
         # Build the imported asset namespace using the "get_name_space" function
-        name_space = self.get_name_space(widget.asset, widget.count)
+        name_space = self.get_name_space(asset, count)
 
         # Check if the namespace is in the main references dictionnary
         # If yes, delete it
@@ -197,7 +197,7 @@ class references():
 
             # Write the main references dictionnary to the ".prefs" file
             # Using the "prefs" wizard module
-            self.asset_prefs.variant.set_references(self.references_dic)
+            self.asset_prefs.software.set_references(self.references_dic)
 
     def remove_all_references(self):
 
@@ -207,7 +207,7 @@ class references():
 
         # Write the main references dictionnary to the ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
     def get_name_space(self, asset, count):
 

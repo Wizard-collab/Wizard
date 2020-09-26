@@ -544,7 +544,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	border-bottom-left-radius:10px;
 }
 
-#imported_version_label, #imported_namespace_label, #imported_asset_label, #imported_variant_label, #imported_scene_label, #file_name_label, #imported_user_name_label, #imported_date_label, #imported_comment_label, #promotion_label, #project__name_name_label, #path_name_label, #ram_name_label, #cpu_name_label{
+#imported_version_label, #imported_namespace_label, #imported_asset_label, #imported_variant_label, #imported_scene_label, #file_name_label, #imported_user_name_label, #imported_date_label, #imported_comment_label, #imported_software_label, #promotion_label, #project__name_name_label, #path_name_label, #ram_name_label, #cpu_name_label{
 	color:gray;
 }
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\wizard_devellop\App\gui\ui_files\imported_asset_manager_dialog.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\work\ui_files\imported_asset_manager_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -83,18 +83,25 @@ class Ui_Dialog(object):
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.comment_label)
         self.file_name_label = QtWidgets.QLabel(self.background_frame)
         self.file_name_label.setObjectName("file_name_label")
-        self.formLayout.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.file_name_label)
+        self.formLayout.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.file_name_label)
         self.file_label = QtWidgets.QLabel(self.background_frame)
         self.file_label.setText("")
         self.file_label.setObjectName("file_label")
-        self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.file_label)
+        self.formLayout.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.file_label)
         self.imported_namespace_label = QtWidgets.QLabel(self.background_frame)
         self.imported_namespace_label.setObjectName("imported_namespace_label")
-        self.formLayout.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.imported_namespace_label)
+        self.formLayout.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.imported_namespace_label)
         self.namespace_label = QtWidgets.QLabel(self.background_frame)
         self.namespace_label.setText("")
         self.namespace_label.setObjectName("namespace_label")
-        self.formLayout.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.namespace_label)
+        self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.namespace_label)
+        self.imported_software_label = QtWidgets.QLabel(self.background_frame)
+        self.imported_software_label.setObjectName("imported_software_label")
+        self.formLayout.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.imported_software_label)
+        self.software_label = QtWidgets.QLabel(self.background_frame)
+        self.software_label.setText("")
+        self.software_label.setObjectName("software_label")
+        self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.software_label)
         self.verticalLayout_2.addLayout(self.formLayout)
         self.line = QtWidgets.QFrame(self.background_frame)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -221,6 +228,7 @@ class Ui_Dialog(object):
         self.imported_comment_label.setText(_translate("Dialog", "Comment"))
         self.file_name_label.setText(_translate("Dialog", "File name"))
         self.imported_namespace_label.setText(_translate("Dialog", "Namespace"))
+        self.imported_software_label.setText(_translate("Dialog", "Exported from"))
         self.label.setText(_translate("Dialog", "WSD"))
         self.label_4.setText(_translate("Dialog", "Proxy file :"))
         self.label_5.setText(_translate("Dialog", "File size"))

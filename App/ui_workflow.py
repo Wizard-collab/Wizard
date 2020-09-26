@@ -27,7 +27,8 @@ class Main(QtWidgets.QWidget):
         self.ui.save_workflow_pushButton.clicked.connect(self.save_workflow)
 
     def fill_combos(self):
-
+        pass
+        '''
         for software in defaults._stage_softs_dic_[defaults._rig_]:
             extension = defaults._workflow_ext_dic_custom_[defaults._rig_][software]
             self.ui.rig_ex_comboBox.addItem(f'{software} ( .{extension} )')
@@ -39,6 +40,7 @@ class Main(QtWidgets.QWidget):
         for software in defaults._stage_softs_dic_[defaults._hair_]:
             extension = defaults._workflow_ext_dic_custom_[defaults._hair_][software]
             self.ui.hair_ex_comboBox.addItem(f'{software} ( .{extension} )')
+        '''
 
     def fill_project_settings(self):
         format = project_prefs.get_format()
@@ -52,14 +54,15 @@ class Main(QtWidgets.QWidget):
 
     def read_settings(self):
 
-        extension_dic = project_prefs.get_extension_dic()
+        #extension_dic = project_prefs.get_extension_dic()
 
-        rig_ext = extension_dic[defaults._rig_]
-        shading_ext = extension_dic[defaults._shading_]
-        textures_ext = extension_dic[defaults._texturing_]
-        hair_ext = extension_dic[defaults._hair_]
+        #rig_ext = extension_dic[defaults._rig_]
+        #shading_ext = extension_dic[defaults._shading_]
+        #textures_ext = extension_dic[defaults._texturing_]
+        #hair_ext = extension_dic[defaults._hair_]
         setdress_workflow = project_prefs.get_setdress_workflow()
 
+        '''
         extensions_list = []
         for software in defaults._stage_softs_dic_[defaults._rig_]:
             extensions_list.append(defaults._workflow_ext_dic_custom_[defaults._rig_][software])
@@ -80,6 +83,7 @@ class Main(QtWidgets.QWidget):
             extensions_list.append(defaults._workflow_ext_dic_custom_[defaults._hair_][software])
         index = extensions_list.index(hair_ext)
         self.ui.hair_ex_comboBox.setCurrentIndex(index)
+        '''
 
         if setdress_workflow == defaults._abc_workflow_:
             index = 0
@@ -89,18 +93,20 @@ class Main(QtWidgets.QWidget):
 
     def save_workflow(self):
 
-        rig_ext = self.ui.rig_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
-        shading_ext = self.ui.shading_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
-        textures_ext = self.ui.textures_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
-        hair_ext = self.ui.hair_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
+        #rig_ext = self.ui.rig_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
+        #shading_ext = self.ui.shading_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
+        #textures_ext = self.ui.textures_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
+        #hair_ext = self.ui.hair_ex_comboBox.currentText().split('.')[-1].split(' ')[0]
         setdress_workflow = self.ui.setdress_workflow_comboBox.currentText()
 
+        '''
         extension_dic = project_prefs.get_extension_dic()
         extension_dic[defaults._rig_] = rig_ext
         extension_dic[defaults._shading_] = shading_ext
         extension_dic[defaults._texturing_] = textures_ext
         extension_dic[defaults._hair_] = hair_ext
         project_prefs.set_extension_dic(extension_dic)
+        '''
         project_prefs.set_setdress_workflow(setdress_workflow)
 
         format_width = self.ui.f_width_lineEdit.text()

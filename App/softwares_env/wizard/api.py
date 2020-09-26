@@ -107,6 +107,7 @@ _sound_edit_ = defaults._sound_edit_
 _editing_categories_list_ = [_video_edit_,
 							_sound_edit_]
 
+
 def get_site_path():
 	'''This function return the wizard site path'''
 	return os.environ[defaults._wizard_site_]
@@ -311,3 +312,14 @@ def create_shot(sequence, shot):
 	'''Create the given shot'''
 	asset = asset_core.asset(_sequences_, sequence, shot)
 	asset.create()
+
+def asset_to_string(asset):
+	'''Convert an asset object to a string'''
+	string_asset = asset_core.asset_to_string(asset)
+	return string_asset
+
+def string_to_asset(string_asset):
+	'''Convert a string object to an asset'''
+	asset = asset_core.asset_to_string(string_asset)
+	return asset
+

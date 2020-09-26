@@ -34,7 +34,7 @@ class references():
         self.assets_list = []
 
         # Get the references dictionnary using the "prefs" wizard module
-        self.references_dic = self.asset_prefs.variant.references
+        self.references_dic = self.asset_prefs.software.references
 
         # Loop in the keys of the dictionnary to list the references
         # The keys are the imported assets namepsaces
@@ -95,7 +95,7 @@ class references():
 
         # Write the dictionnary ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
     @property
     def references(self):
@@ -143,7 +143,7 @@ class references():
         self.references_dic[name_space] = reference_dic
 
         # Write the main dictionnary to the ".prefs" file using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
         # Return the namespace count
         return count
@@ -179,7 +179,7 @@ class references():
 
         # Write the main references dictionnary to the ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
         # Return the namespace count
         return count
@@ -197,7 +197,7 @@ class references():
 
             # Write the main references dictionnary to the ".prefs" file
             # Using the "prefs" wizard module
-            self.asset_prefs.variant.set_references(self.references_dic)
+            self.asset_prefs.software.set_references(self.references_dic)
 
     def remove_all_references(self):
 
@@ -207,7 +207,7 @@ class references():
 
         # Write the main references dictionnary to the ".prefs" file
         # Using the "prefs" wizard module
-        self.asset_prefs.variant.set_references(self.references_dic)
+        self.asset_prefs.software.set_references(self.references_dic)
 
     def get_name_space(self, asset, count):
 

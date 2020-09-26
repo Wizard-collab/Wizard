@@ -13,7 +13,7 @@ logger = log.pipe_log()
 prefs = prefs()
 
 class client(QThread):
-    receive = pyqtSignal(bytes)
+    receive = pyqtSignal(str)
     stopped = pyqtSignal(str)
 
     def __init__(self):
@@ -37,14 +37,18 @@ class client(QThread):
         try:
             while self.is_server:
                 try:
-                    message = self.server.recv(1024)
-                    message_dict = yaml.load(message.decode('utf8'), Loader = yaml.Loader)
+                    message_bytes = self.server.recv(1024)
+                    message_dict = yaml.load(message_bytes.decode('utf8'), Loader = yaml.Loader)
                     message = message_dict['message']
                     target = message_dict['target']
                     project = message_dict['project']
                     user = message_dict['user']
                     if target == 'project' and project == prefs.project_name:
                         if message != '':
+                            logger.info(message)
+                            if isinstance(message, (bytes, bytearray)):
+                                message = message.decode('utf8')
+                            logger.info(message)
                             self.receive.emit(message)
                 except ConnectionResetError:
                     self.is_server = 0

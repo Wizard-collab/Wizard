@@ -206,15 +206,14 @@ class Main(QtWidgets.QDialog):
         if not self.asset.export_version:
             self.asset.set_export_version()
 
-        logger.info(self.asset.variant)
-        logger.info(self.asset.export_asset)
-        logger.info(self.asset.export_version)
         user = prefs.asset(self.asset).export.version_user
         date = prefs.asset(self.asset).export.version_date
         comment = prefs.asset(self.asset).export.version_comment
+        software = prefs.asset(self.asset).export.version_software
         self.ui.user_name_label.setText(user)
         self.ui.date_label.setText(date)
         self.ui.comment_label.setText(comment)
+        self.ui.software_label.setText(software)
 
     def connect_functions(self):
         self.ui.exported_version_comboBox.currentIndexChanged.connect(self.version_changed)

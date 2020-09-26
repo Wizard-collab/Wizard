@@ -14,11 +14,13 @@ logger = log.pipe_log()
 
 def get_asset_list():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    references_list = prefs().asset(asset).variant.references
+    references_list = prefs().asset(asset).software.references
     asset_list = []
     for namespace in list(references_list.keys()):
         imported_asset = asset_core.string_to_asset(references_list[namespace][defaults._asset_key_])
         folder = prefs().asset(imported_asset).export.version_folder
+        from_software = prefs().asset(imported_asset).export.version_software
+        imported_asset.software = from_software
         file = prefs().asset(imported_asset).export.file
         full_path = os.path.join(folder, file)
         asset_list.append([imported_asset, namespace, full_path])

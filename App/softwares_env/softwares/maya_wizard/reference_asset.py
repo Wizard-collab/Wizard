@@ -18,13 +18,15 @@ logger = log.pipe_log()
 
 def get_asset_list():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    references_list = prefs().asset(asset).variant.references
+    references_list = prefs().asset(asset).software.references
     asset_list = []
     for namespace in list(references_list.keys()):
         imported_asset = asset_core.string_to_asset(references_list[namespace][defaults._asset_key_])
         proxy = references_list[namespace][defaults._proxy_]
 
         folder = prefs().asset(imported_asset).export.version_folder
+        from_software = prefs().asset(imported_asset).export.version_software
+        imported_asset.software = from_software
 
         if proxy:
             file = prefs().asset(imported_asset).export.proxy
@@ -116,7 +118,7 @@ def unhide_reference():
 def switch_proxy(proxy = 1):
 
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    references_list = prefs().asset(asset).variant.references
+    references_list = prefs().asset(asset).software.references
 
     selection = cmds.ls(sl=1, long=1)
 
@@ -135,6 +137,8 @@ def switch_proxy(proxy = 1):
     for namespace in namespaces_list:
         if namespace[0] in references_list.keys():
             asset = asset_core.string_to_asset(references_list[namespace[0]][defaults._asset_key_])
+            from_software = prefs().asset(asset).export.version_software
+            asset.software = software
             if proxy:
                 file = prefs().asset(asset).export.full_proxy
             else:
@@ -157,7 +161,7 @@ def switch_proxy(proxy = 1):
 def hide_ref():
 
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    references_list = prefs().asset(asset).variant.references
+    references_list = prefs().asset(asset).software.references
     selection = cmds.ls(sl=1)
 
     namespaces_list = []

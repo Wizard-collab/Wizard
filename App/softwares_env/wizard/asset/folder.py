@@ -268,8 +268,7 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension_dic = project_prefs.get_extension_dic()
-        extension = extension_dic[self.asset.stage]
+        extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
 
         # Build the file name
         file_name = '{}.{}'.format(file_name_template,
@@ -284,9 +283,6 @@ class folder():
         # without creating it, just a return
         # Get the filename template from the "asset" object
         file_name_template = self.playblast_name_template
-
-        # Build the filename with the correct software extension
-        extension_dic = project_prefs.get_extension_dic()
 
         # Need to create this variable in the "defaults" wizard module
         extension = 'mov'
@@ -308,8 +304,7 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension_dic = project_prefs.get_extension_dic()
-        extension = extension_dic[self.asset.stage]
+        extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
 
         # Build the proxy file name
         file_name = '{}.{}'.format(proxy_file_name_template,
@@ -327,8 +322,7 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension_dic = project_prefs.get_extension_dic()
-        extension = extension_dic[self.asset.stage]
+        extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
 
         # Build the proxy file name
         file_name = '{}.{}'.format(file_name_template,

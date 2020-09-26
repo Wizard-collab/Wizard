@@ -211,17 +211,9 @@ class variant():
             settings[defaults._creation_date_key_] = util.get_time()
             settings[defaults._creation_user_key_] = user.get_user()
             settings[defaults._default_software_key_] = get_softwares_from_stage(self.asset.stage)[0]
-            settings[defaults._variant_references_list_] = {}
+            
             settings[defaults._asset_state_] = defaults._todo_
         return settings
-
-    def set_references(self, dic):
-        self.settings[defaults._variant_references_list_] = dic
-        self.write()
-
-    def get_references(self):
-        references_dic = self.settings[defaults._variant_references_list_]
-        return references_dic
 
     def get_assets_list(self):
         references_list = self.get_references()
@@ -464,6 +456,7 @@ class export():
             new_version_settings[defaults._creation_date_key_] = util.get_time()
             new_version_settings[defaults._creation_user_key_] = user.get_user()
             new_version_settings[defaults._comment_key_] = comment
+            new_version_settings[defaults._software_key_] = self.asset.software
             self.settings[defaults._versions_list_key_][new_version] = new_version_settings
             self.write()
             return new_version
@@ -493,6 +486,17 @@ class export():
             [self.asset.export_version] \
             [defaults._comment_key_] = comment
         self.write()
+
+    def set_version_software(self):
+        self.settings[defaults._versions_list_key_] \
+            [self.asset.export_version] \
+            [defaults._software_key_] = self.asset.software
+        self.write()
+
+    def get_version_software(self):
+        return self.settings[defaults._versions_list_key_] \
+            [self.asset.export_version] \
+            [defaults._software_key_]
 
     def is_published(self):
         return self.settings[defaults._publish_]
@@ -566,6 +570,7 @@ class software():
             self.settings[defaults._lock_key_] = 0
             self.settings[defaults._run_key_] = 0
             self.settings[defaults._versions_list_key_] = {}
+            self.settings[defaults._variant_references_list_] = {}
             self.new_version(version='0000', comment='Asset creation')
 
     def new_version(self, version=None, comment='Too bad, there is no comment...'):
@@ -643,6 +648,25 @@ class software():
 
     def get_running(self):
         return self.settings[defaults._run_key_]
+
+    def set_references(self, dic):
+        self.settings[defaults._variant_references_list_] = dic
+        self.write()
+
+    def get_references(self):
+        references_dic = self.settings[defaults._variant_references_list_]
+        return references_dic
+
+    def get_assets_list(self):
+        references_list = self.get_references()
+        asset_list = []
+        for namespace in list(references_list.keys()):
+            asset = asset_core.string_to_asset(references_list[namespace][defaults._asset_key_])
+            folder = prefs().asset(asset).export.version_folder
+            file = prefs().asset(asset).export.file
+            full_path = os.path.join(folder, file)
+            asset_list.append([asset, namespace, full_path])
+        return asset_list
 
 
 def write_prefs(database, file, settings):

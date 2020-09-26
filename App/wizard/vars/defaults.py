@@ -525,29 +525,7 @@ _stage_icon_[_video_] = _icon_path_ + _video_icon_
 _stage_icon_[_video_edit_] = _icon_path_ + _video_edit_icon_
 _stage_icon_[_sound_edit_] = _icon_path_ + _sound_edit_icon_
 
-# Publish extension dictionary
-_pub_ext_dic_ = {}
-_pub_ext_dic_[_design_] = 'png'
-_pub_ext_dic_[_geo_] = 'abc'
-_pub_ext_dic_[_rig_] = 'ma'
-_pub_ext_dic_[_autorig_] = 'ma'
-_pub_ext_dic_[_cam_rig_] = 'ma'
-_pub_ext_dic_[_texturing_] = 'exr'
-_pub_ext_dic_[_shading_] = 'gnode'
-_pub_ext_dic_[_render_pass_] = 'gnode'
-_pub_ext_dic_[_render_graph_] = 'gnode'
-_pub_ext_dic_[_light_rig_] = 'gnode'
-_pub_ext_dic_[_hair_] = 'ma'
-_pub_ext_dic_[_concept_] = 'png'
-_pub_ext_dic_[_layout_] = 'abc'
-_pub_ext_dic_[_animation_] = 'abc'
-_pub_ext_dic_[_lighting_] = 'exr'
-_pub_ext_dic_[_cfx_] = 'fur'
-_pub_ext_dic_[_fx_] = 'abc'
-_pub_ext_dic_[_fx_setup_] = 'hipnc'
-_pub_ext_dic_[_compositing_] = 'exr'
-_pub_ext_dic_[_camera_] = 'abc'
-_pub_ext_dic_[_cyclo_] = 'gproject'
+
 
 # Publish files count
 _pub_count_dic_ = {}
@@ -609,6 +587,56 @@ _softwares_list_ = [_maya_,
 _publish_softwares_list_ = [_maya_, _maya_yeti_, _guerilla_, _nuke_]
 
 # Publish extension dictionary
+_pub_ext_dic_ = {}
+_pub_ext_dic_[_design_] = {}
+_pub_ext_dic_[_design_][_photoshop_] = 'png'
+_pub_ext_dic_[_geo_] = {}
+_pub_ext_dic_[_geo_][_maya_] = 'abc'
+_pub_ext_dic_[_rig_] = {}
+_pub_ext_dic_[_rig_][_maya_] = 'ma'
+_pub_ext_dic_[_autorig_] = {}
+_pub_ext_dic_[_autorig_][_maya_] = 'ma'
+_pub_ext_dic_[_cam_rig_] = {}
+_pub_ext_dic_[_cam_rig_][_maya_] = 'ma'
+_pub_ext_dic_[_texturing_] = {}
+_pub_ext_dic_[_texturing_][_painter_] = 'exr'
+_pub_ext_dic_[_shading_] = {}
+_pub_ext_dic_[_shading_][_guerilla_] = 'gnode'
+_pub_ext_dic_[_shading_][_maya_] = 'ma'
+_pub_ext_dic_[_render_pass_] = {}
+_pub_ext_dic_[_render_pass_][_guerilla_] = 'gnode'
+_pub_ext_dic_[_render_graph_] = {}
+_pub_ext_dic_[_render_graph_][_guerilla_] = 'gnode'
+_pub_ext_dic_[_light_rig_] = {}
+_pub_ext_dic_[_light_rig_][_maya_] = 'ma'
+_pub_ext_dic_[_light_rig_][_guerilla_] = 'gnode'
+_pub_ext_dic_[_hair_] = {}
+_pub_ext_dic_[_hair_][_maya_] = 'ma'
+_pub_ext_dic_[_concept_] = {}
+_pub_ext_dic_[_concept_][_photoshop_] = 'png'
+_pub_ext_dic_[_layout_] = {}
+_pub_ext_dic_[_layout_][_maya_] = 'abc'
+_pub_ext_dic_[_animation_] = {}
+_pub_ext_dic_[_animation_][_maya_] = 'abc'
+_pub_ext_dic_[_lighting_] = {}
+_pub_ext_dic_[_lighting_][_maya_] = 'exr'
+_pub_ext_dic_[_lighting_][_guerilla_] = 'exr'
+_pub_ext_dic_[_cfx_] = {}
+_pub_ext_dic_[_cfx_][_maya_] = 'fur'
+_pub_ext_dic_[_fx_] = {}
+_pub_ext_dic_[_fx_][_maya_] = 'abc'
+_pub_ext_dic_[_fx_][_houdini_] = 'hipnc'
+_pub_ext_dic_[_fx_setup_] = {}
+_pub_ext_dic_[_fx_setup_][_houdini_] = 'hipnc'
+_pub_ext_dic_[_compositing_] = {}
+_pub_ext_dic_[_compositing_][_nuke_] = 'exr'
+_pub_ext_dic_[_camera_] = {}
+_pub_ext_dic_[_camera_][_maya_] = 'abc'
+_pub_ext_dic_[_cyclo_] = {}
+_pub_ext_dic_[_cyclo_][_maya_] = 'abc'
+_pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
+
+# Publish extension dictionary
 
 _project_extension_dic_key_ = 'extensions_dic'
 
@@ -655,6 +683,7 @@ _workflow_ext_dic_[_compositing_] = 'exr'
 _workflow_ext_dic_[_cyclo_] = 'gproject'
 
 _textures_ext_list_ = ['exr', 'png', 'tiff']
+
 
 # Softs icons library
 _photoshop_icon_ = _icon_path_ + 'photoshop.png'
@@ -970,6 +999,7 @@ _default_export_asset_key_ = 'default_export_asset'
 _frame_range_key_ = 'frame_range'
 _lock_key_ = 'lock'
 _run_key_ = 'run'
+_software_key_ = 'software'
 
 # User pref dic variables library
 _user_name_key_ = 'user_name'

@@ -99,13 +99,6 @@ def init_extension_dic():
         settings[defaults._project_extension_dic_key_] = defaults._pub_ext_dic_
         write_pref_file(settings)
 
-def add_camera_extension():
-    init_extension_dic()
-    settings = open_pref_file()
-    if defaults._camera_ not in settings[defaults._project_extension_dic_key_].keys():
-        settings[defaults._project_extension_dic_key_][defaults._camera_] = defaults._pub_ext_dic_[defaults._camera_]
-        write_pref_file(settings)
-
 def init_setdress_workflow():
     settings = open_pref_file()
     if defaults._project_setdress_workflow_ not in settings.keys():

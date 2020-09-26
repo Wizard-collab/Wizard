@@ -140,7 +140,6 @@ class Main(QtWidgets.QMainWindow):
             #self.init_chat()
             self.resize_window()
             self.node_editor_widget.refresh_scene(self.asset)
-            project_prefs.add_camera_extension()
             self.init_main_refresh_button()
             self.show_updates()
             self.add_user_to_project()

@@ -39,6 +39,10 @@ class Main(QtWidgets.QWidget):
         self.ui.export_widget_comment_label.setText(export_prefs.version_comment)
         self.ui.export_widget_date_label.setText(export_prefs.version_date)
         self.ui.export_widget_user_label.setText(export_prefs.version_user)
+        try:
+            self.ui.export_widget_software_label.setText(f'From {export_prefs.version_software}')
+        except:
+            pass
         if self.count:
             self.ui.list_export_widget_frame.setStyleSheet('''#list_export_widget_frame{background-color:rgb(255,255,255,5);}
                 #list_export_widget_frame:hover{
@@ -57,8 +61,7 @@ class Main(QtWidgets.QWidget):
             if list_dir == [] or not list_dir:
                 icon = defaults._missing_file_export_list_icon_
             else:
-                logger.info(list_dir[0])
-                if defaults._pub_ext_dic_[self.asset.stage] in list_dir[0]:
+                if defaults._pub_ext_dic_[self.asset.stage][prefs.asset(self.asset).export.version_software] in list_dir[0]:
                     icon = defaults._export_list_icon_
                 else:
                     icon = defaults._missing_file_export_list_icon_

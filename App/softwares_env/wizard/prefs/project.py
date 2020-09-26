@@ -79,19 +79,6 @@ def get_abs_site():
     else:
         return None
 
-
-def get_server_ip():
-    settings = open_pref_file()
-    if settings:
-        return settings[defaults._server_ip_]
-    else:
-        return None
-
-def set_server_ip(ip):
-    settings = open_pref_file()
-    settings[defaults._server_ip_] = ip
-    write_pref_file(settings)
-
 def add_user(user):
     settings = open_pref_file()
     if defaults._users_list_key_ not in settings.keys():
@@ -110,13 +97,6 @@ def init_extension_dic():
     settings = open_pref_file()
     if defaults._project_extension_dic_key_ not in settings.keys():
         settings[defaults._project_extension_dic_key_] = defaults._pub_ext_dic_
-        write_pref_file(settings)
-
-def add_camera_extension():
-    init_extension_dic()
-    settings = open_pref_file()
-    if defaults._camera_ not in settings[defaults._project_extension_dic_key_].keys():
-        settings[defaults._project_extension_dic_key_][defaults._camera_] = defaults._pub_ext_dic_[defaults._camera_]
         write_pref_file(settings)
 
 def init_setdress_workflow():

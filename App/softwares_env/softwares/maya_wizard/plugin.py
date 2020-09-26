@@ -49,6 +49,8 @@ def export():
         export_hair()
     elif stage == defaults._layout_:
         export_layout()
+    elif stage == defaults._cyclo_:
+        export_cyclo()
     else:
         logger.warning('Unknown stage...')
 
@@ -91,6 +93,29 @@ def export_geo():
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
         export_abc([0, 1], file, 'geo_GRP')
+        wall.wall().publish_event(asset)
+
+def export_cyclo():
+    if sanity('cyclo_GRP'):
+
+        save()
+
+        for mesh in cmds.listRelatives('cyclo_GRP', ad=1):
+            cmds.select(clear=1)
+            logger.info(mesh)
+            cmds.select(mesh)
+            logger.info(cmds.objectType(mesh))
+            relatives = cmds.listRelatives(mesh)
+            if relatives:
+                if cmds.objectType(relatives[0]) == 'mesh':
+                    auto_tag.tagGuerillaAuto()
+
+        cmds.select(clear=1)
+        cmds.select('cyclo_GRP')
+
+        asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        export_abc([0, 1], file, 'cyclo_GRP')
         wall.wall().publish_event(asset)
 
 def export_geo_set():
