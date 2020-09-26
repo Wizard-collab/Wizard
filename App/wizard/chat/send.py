@@ -21,7 +21,6 @@ def send_message(message):
             message_dic['message'] = message
             message_dic['user'] = prefs.user
             message_bytes = yaml.dump(message_dic).encode('utf8')
-            logger.info(message_bytes)
             server.send(message_bytes)
             time.sleep(0.5)
             server.close()
