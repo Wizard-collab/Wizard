@@ -1,16 +1,11 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtCore import QUrl, QThread
-from PyQt5.QtWidgets import QApplication
 from gui.updates import Ui_Form
 from wizard.vars import defaults
-import create_user_widget
-import create_project_widget
-import server_info_widget
 from wizard.prefs.main import prefs
-from wizard.chat.client import test_conn_once
-import update_widget
 from wizard.tools import log
+import webbrowser
 import os
+from wizard.vars import updates
 
 logger = log.pipe_log()
 
@@ -31,20 +26,26 @@ class Main(QtWidgets.QWidget):
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
 
-        self.add_widgets()
-
-        self.ui.show_startup_checkBox.stateChanged.connect(self.show_updates)
+        self.connect_functions()
+        self.fill_updates()
 
     def show_updates(self):
         prefs.set_show_updates(self.ui.show_startup_checkBox.isChecked())
 
-    def add_widgets(self):
+    def fill_updates(self):
+        if defaults._wizard_version_ in updates.updates.keys():
+            updates_text = updates.updates[defaults._wizard_version_]
+        else:
+            updates_text = "No updates"
+        self.ui.update_updates_plainTextEdit.appendPlainText(updates_text)
 
-        updates_list = os.listdir(os.path.abspath(defaults._updates_folder_))
+    def connect_functions(self):
+        self.ui.update_doc_pushButton.clicked.connect(self.show_doc)
+        self.ui.update_web_pushButton.clicked.connect(self.show_web)
+        self.ui.show_startup_checkBox.stateChanged.connect(self.show_updates)
 
-        for folder in updates_list:
-            if folder != defaults._update_version_file_:
-                self.update_widget = update_widget.Main(folder, os.path.join(defaults._updates_folder_, folder))
-                self.ui.widgets_verticalLayout.addWidget(self.update_widget)
+    def show_doc(self):
+        os.startfile(os.path.abspath(defaults._doc_index_path_))
 
-
+    def show_web(self):
+        webbrowser.open(defaults._wizard_url_, new=0, autoraise=True)

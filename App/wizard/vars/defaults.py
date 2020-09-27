@@ -4,10 +4,10 @@
 import os
 
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
-_infos_file_lk_ = "https://drive.google.com/uc?export=download&id=1e2fUrDfngSIjks2von-TeGQyHwFLVtR-"
+_infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.76-b'
-_doc_index_path_ = 'ressources/docs/build/html/index.html'
+_wizard_version_ = '0.9.7.8-b'
+_doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
 
@@ -91,7 +91,6 @@ _proxy_ = 'proxy'
 _visible_ = 'isVisible'
 _abc_workflow_ = 'abc'
 _wsd_workflow_ = 'wsd'
-_project_setdress_workflow_ = 'setdress_workflow'
 
 _domains_list_ = [_assets_, _library_, _sequences_, _editing_]
 
@@ -959,6 +958,7 @@ _project_db_ = 'project.db'
 _tree_ = 'tree.wd'
 _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
+_lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
@@ -1300,6 +1300,3 @@ _guerilla_python26_DLLs_ = 'python'
 
 _substance_plugin_ = 'plugins/Substance Painter/wizard'
 _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins/wizard'.format(os.getenv("USERPROFILE"))
-
-# User scripts library keys
-_import_script_ = 'import_script'

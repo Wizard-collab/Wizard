@@ -82,7 +82,6 @@ def duplicate_reference():
 
             else:
                 logger.warning('This reference was not found in wizard')
-        #count = references(self.asset).add_reference(asset, proxy, visible)
     else:
         logger.warning('Please select only one asset')
 
@@ -227,14 +226,10 @@ def import_geo(namespace = None):
         else:
             run = 0
         if imported_asset[0].stage == defaults._geo_ and run:
-            
-            if imported_asset[0].category == defaults._sets_ and project_prefs.get_setdress_workflow() ==  defaults._wsd_workflow_:
-                import_set(imported_asset)
-            else:
-                if not cmds.namespace(exists=imported_asset[1]):
-                    cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
-                if cmds.objExists(imported_asset[0].export_asset):
-                    cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
+            if not cmds.namespace(exists=imported_asset[1]):
+                cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
+            if cmds.objExists(imported_asset[0].export_asset):
+                cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
 
 def import_anim(namespace = None):
     asset_list = get_asset_list()
@@ -292,8 +287,7 @@ def import_textures(namespace = None):
                 path = os.path.split(imported_asset[2])[0]
                 all_textures = os.listdir(path)
 
-                extension_dic = prefs().extension_dic
-                maps_extension = extension_dic[defaults._texturing_]
+                maps_extension = defaults._pub_ext_dic_[defaults._texturing_][imported_asset[0].software]
                 textures_list = []
 
                 if all_textures and all_textures != []:
@@ -307,25 +301,6 @@ def import_textures(namespace = None):
                             textures_list.append(full_path)
 
                 create_ai_surface.create_shader(shader_name, textures_list)
-
-
-def import_set(imported_asset):
-    if imported_asset[0].stage == defaults._geo_:
-        if not cmds.namespace(exists=imported_asset[1]):
-
-            nodes = cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], returnNewNodes=1)
-
-            grp = nodes[1]
-
-            if nodes[0].endswith('RN'):
-                nodes.pop(0)
-            if nodes[0].endswith('GRP'):
-                nodes.pop(0)
-            for node in nodes:
-                lock_node(node)
-
-            create_set_locator(grp.replace('|', ''))
-
 
 def lock_node(node):
     if cmds.objectType(node) != 'reference' and not node.endswith('GRP'):

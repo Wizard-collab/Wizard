@@ -1,22 +1,4 @@
 # coding: utf-8
-
-"""
-This module is used to manage the site preferences of the studio/school
-
--init_site_prefs()
-	init the site_prefs if don't exist
-
--create_user(<user_name>, <password>)
-	add a user to all the users of the site
-
--get_users_list()
-	return all the users of the site in a user list
-
--password_check(<user_name>, <password>)
-	check if the given <password> match 
-	the user password in the site for this <user>
-
-"""
 # Defaults Python modules
 import os
 
@@ -71,7 +53,6 @@ def write_pref_file(settings):
         database.write(2, _project_, settings)
         logger.debug('project.wd file updated')
 
-
 def get_abs_site():
     settings = open_pref_file()
     if settings:
@@ -92,41 +73,6 @@ def get_users():
     if defaults._users_list_key_ not in settings.keys():
         settings[defaults._users_list_key_] = []
     return settings[defaults._users_list_key_]
-
-def init_extension_dic():
-    settings = open_pref_file()
-    if defaults._project_extension_dic_key_ not in settings.keys():
-        settings[defaults._project_extension_dic_key_] = defaults._pub_ext_dic_
-        write_pref_file(settings)
-
-def init_setdress_workflow():
-    settings = open_pref_file()
-    if defaults._project_setdress_workflow_ not in settings.keys():
-        settings[defaults._project_setdress_workflow_] = defaults._abc_workflow_
-        write_pref_file(settings)
-
-def get_extension_dic():
-    settings = open_pref_file()
-    return settings[defaults._project_extension_dic_key_]
-
-def set_extension_dic(extension_dic):
-    settings = open_pref_file()
-    settings[defaults._project_extension_dic_key_] = extension_dic
-    write_pref_file(settings)
-
-def set_setdress_workflow(workflow):
-    settings = open_pref_file()
-    settings[defaults._project_setdress_workflow_] = workflow
-    write_pref_file(settings)
-
-def get_setdress_workflow():
-    settings = open_pref_file()
-    if defaults._project_setdress_workflow_ in settings.keys():
-        return settings[defaults._project_setdress_workflow_]
-    else:
-        init_setdress_workflow()
-        settings = open_pref_file()
-        return settings[defaults._project_setdress_workflow_]
 
 def get_frame_rate():
     settings = open_pref_file()

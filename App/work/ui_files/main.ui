@@ -1518,12 +1518,12 @@
   </action>
   <action name="actionWizard_API">
    <property name="text">
-    <string>python API</string>
+    <string>Documentation</string>
    </property>
   </action>
   <action name="actionLast_updates">
    <property name="text">
-    <string>Last updates</string>
+    <string>Version updates</string>
    </property>
   </action>
   <action name="actionGitHub">

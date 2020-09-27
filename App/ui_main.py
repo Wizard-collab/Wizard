@@ -170,11 +170,10 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
     def show_updates(self, force = None):
-        try:    
+        try:
             last_update = prefs.last_update
 
-            with open(os.path.join(defaults._updates_folder_, defaults._update_version_file_), 'r') as f:
-                version = f.read()
+            version = defaults._wizard_version_
 
             if prefs.show_updates or last_update != version or force:
                 prefs.set_last_update(version)

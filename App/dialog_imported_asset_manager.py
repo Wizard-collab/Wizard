@@ -24,7 +24,6 @@ class Main(QtWidgets.QDialog):
         self.count = count
         self.proxy = proxy
         self.visible = visible
-        self.init_wsd()
         self.setup_infos()
         self.refresh_versions(1)
         self.connect_functions()
@@ -35,65 +34,6 @@ class Main(QtWidgets.QDialog):
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
-
-    def init_wsd(self):
-
-        self.ui.wsd_proxy_pushButton.clicked.connect(lambda:self.ui.wsd_asset_pushButton.setEnabled(1))
-        self.ui.wsd_proxy_pushButton.clicked.connect(lambda:self.ui.wsd_asset_pushButton.setChecked(0))
-        self.ui.wsd_proxy_pushButton.clicked.connect(lambda:self.ui.wsd_proxy_pushButton.setChecked(1))
-
-        self.ui.wsd_asset_pushButton.clicked.connect(lambda:self.ui.wsd_proxy_pushButton.setEnabled(1))
-        self.ui.wsd_asset_pushButton.clicked.connect(lambda:self.ui.wsd_proxy_pushButton.setChecked(0))
-        self.ui.wsd_asset_pushButton.clicked.connect(lambda:self.ui.wsd_asset_pushButton.setChecked(1))
-
-        self.ui.wsd_visible_pushButton.clicked.connect(lambda:self.ui.wsd_hidden_pushButton.setEnabled(1))
-        self.ui.wsd_visible_pushButton.clicked.connect(lambda:self.ui.wsd_hidden_pushButton.setChecked(0))
-        self.ui.wsd_visible_pushButton.clicked.connect(lambda:self.ui.wsd_visible_pushButton.setChecked(1))
-        
-        self.ui.wsd_hidden_pushButton.clicked.connect(lambda:self.ui.wsd_visible_pushButton.setEnabled(1))
-        self.ui.wsd_hidden_pushButton.clicked.connect(lambda:self.ui.wsd_visible_pushButton.setChecked(0))
-        self.ui.wsd_hidden_pushButton.clicked.connect(lambda:self.ui.wsd_hidden_pushButton.setChecked(1))
-
-        self.ui.wsd_proxy_pushButton.clicked.connect(self.change_proxy_state)
-        self.ui.wsd_asset_pushButton.clicked.connect(self.change_proxy_state)
-        self.ui.wsd_visible_pushButton.clicked.connect(self.change_visibility_state)
-        self.ui.wsd_hidden_pushButton.clicked.connect(self.change_visibility_state)
-
-        
-    def refresh_wsd(self):
-
-        if self.asset.category != defaults._sets_ or not prefs.asset(self.asset).export.is_proxy:
-            self.ui.wsd_proxy_pushButton.setEnabled(0)
-            self.ui.wsd_asset_pushButton.setEnabled(0)
-            self.ui.wsd_proxy_file_lineEdit.setText('NO PROXY FOUND')
-            st = '#wsd_proxy_file_lineEdit{color:rgb(240,120,120);}\n'
-            st+= '#wsd_proxy_size_lineEdit{color:rgb(240,120,120);}'
-            self.ui.wsd_proxy_file_lineEdit.setStyleSheet(st)
-            self.ui.wsd_proxy_size_lineEdit.setStyleSheet(st)
-            self.ui.wsd_proxy_size_lineEdit.setText('No file')
-            self.proxy = 0
-
-        else:
-            self.ui.wsd_proxy_pushButton.setEnabled(1)
-            self.ui.wsd_asset_pushButton.setEnabled(1)
-            self.ui.wsd_proxy_file_lineEdit.setText(prefs.asset(self.asset).export.full_proxy)
-            self.ui.wsd_proxy_file_lineEdit.setStyleSheet('#wsd_proxy_file_lineEdit{color:white);}')
-            self.ui.wsd_proxy_size_lineEdit.setStyleSheet('#wsd_proxy_size_lineEdit{color:white);}')
-            proxy_size = utils.convert_size(os.path.getsize(prefs.asset(self.asset).export.full_proxy))
-            self.ui.wsd_proxy_size_lineEdit.setText(proxy_size)
-        
-        proxy_file = prefs.asset(self.asset).export.full_proxy
-        file = prefs.asset(self.asset).export.full_file
-
-        if os.path.isfile(file):
-            file_size = utils.convert_size(os.path.getsize(prefs.asset(self.asset).export.full_file))
-            self.ui.wsd_file_size_lineEdit.setText(file_size)
-
-        self.ui.wsd_proxy_pushButton.setChecked(self.proxy)
-        self.ui.wsd_asset_pushButton.setChecked(1-self.proxy)
-
-        self.ui.wsd_visible_pushButton.setChecked(self.visible)
-        self.ui.wsd_hidden_pushButton.setChecked(1-self.visible)
 
     def change_proxy_state(self, state):
         self.proxy = self.ui.wsd_proxy_pushButton.isChecked()
@@ -183,7 +123,6 @@ class Main(QtWidgets.QDialog):
         self.refresh_namespace()
         self.refresh_infos()
         self.refresh_update()
-        self.refresh_wsd()
 
     def refresh_file(self):
         file = folder(self.asset).export_file

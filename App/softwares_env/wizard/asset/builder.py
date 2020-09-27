@@ -415,7 +415,7 @@ def create_export(asset, version = None):
 
         # Log the success to user
         # And return the folder path
-        logger.info('Export folder created')
+        logger.debug('Export folder created')
         return path
 
 def create_playblast(asset):
@@ -437,7 +437,7 @@ def create_playblast(asset):
             os.makedirs(path)
 
             # Log it to the user
-            logger.info('Playblast folder created')
+            logger.debug('Playblast folder created')
 
         # Init the asset software prefs using the wizard "prefs" module
         prefs.asset(asset).playblast.write()

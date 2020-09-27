@@ -32,6 +32,15 @@ QWidget {
 	color:white;
 }
 
+#update_web_pushButton, #update_doc_pushButton{
+	background:transparent;
+	color:gray;
+}
+
+#update_web_pushButton:hover, #update_doc_pushButton:hover{
+	color:white;
+}
+
 #only_openned_tickets_pushButton{
 	border-radius:0px;
 	border-bottom-left-radius:14px;

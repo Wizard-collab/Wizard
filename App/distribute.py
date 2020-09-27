@@ -53,10 +53,22 @@ dest = 'dist/wizard/file_viewer.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/file_viewer')
 
+command_line = "PyInstaller server.spec"
+p = subprocess.Popen(command_line)
+p.wait()
+
+file = 'dist/wizard_server/wizard_server.exe'
+dest = 'dist/wizard/wizard_server.exe'
+shutil.copyfile(file, dest)
+shutil.rmtree('dist/wizard_server')
+
 file = 'updater.exe'
 dest = 'dist/wizard/updater.exe'
 shutil.copyfile(file, dest)
 
+file = 'server.py'
+dest = 'dist/wizard/server.py'
+shutil.copyfile(file, dest)
 
 dist_path = os.path.abspath('dist/wizard/')
 

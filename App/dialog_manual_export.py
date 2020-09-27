@@ -26,8 +26,7 @@ class Main(QtWidgets.QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.asset = asset
-        extension_dic = project_prefs.get_extension_dic()
-        self.extension = extension_dic[self.asset.stage]
+        self.extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
         self.max_count = defaults._pub_count_dic_[self.asset.stage]
         self.ui.manual_export_listView = manual_export_listView(self.extension, self.max_count)
         self.ui.horizontalLayout_5.addWidget(self.ui.manual_export_listView)

@@ -93,8 +93,7 @@ class Main(QtWidgets.QWidget):
         file_names_list = os.listdir(folder)
         files_list = []
 
-        extension_dic = project_prefs.get_extension_dic()
-        extension = extension_dic[self.asset.stage]
+        extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
 
         for file in file_names_list:
             if file.endswith(extension):

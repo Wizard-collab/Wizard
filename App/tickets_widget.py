@@ -61,10 +61,6 @@ class Main(QtWidgets.QWidget):
         self.hide()
 
     def refresh_visible(self):
-        '''
-        if self.user:
-            self.refresh_all()
-        '''
         for i in reversed(range(self.ui.tickets_layout.count())):
             widget = self.ui.tickets_layout.itemAt(i).widget()
             if widget:

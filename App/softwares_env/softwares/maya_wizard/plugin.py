@@ -5,8 +5,6 @@ from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project import wall
 from maya_wizard import auto_tag
-from maya_wizard import wsd
-reload(wsd)
 import os
 
 reload(asset_core)
@@ -29,15 +27,7 @@ def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     stage = asset.stage
     category = asset.category
-    if stage == defaults._geo_ and category != defaults._sets_ and category != defaults._set_dress_:
-        set_dress_workflow = project_prefs.get_setdress_workflow()
-        #if (category == defaults._set_dress_ and set_dress_workflow == defaults._wsd_workflow_):
-            #export_wsd()
-        #else:
-        export_geo()
-    elif stage == defaults._geo_ and category == defaults._sets_:
-        export_geo_set()
-    elif stage == defaults._geo_ and category == defaults._set_dress_:
+    if stage == defaults._geo_:
         export_geo()
     elif stage == defaults._rig_:
         export_rig()
@@ -113,35 +103,6 @@ def export_cyclo():
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._cyclo_])
         wall.wall().publish_event(asset)
-
-def export_geo_set():
-    if sanity('geo_GRP'):
-
-        save()
-
-        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._geo_], ad=1):
-            cmds.select(clear=1)
-            cmds.select(mesh)
-            relatives = cmds.listRelatives(mesh)
-            if relatives:
-                if cmds.objectType(relatives[0]) == 'mesh':
-                    auto_tag.tagGuerillaAuto()
-
-        cmds.select(clear=1)
-        cmds.select(defaults._stage_export_grp_dic_[defaults._geo_])
-
-        asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        files = asset.export('{}_{}'.format(asset.name, asset.variant), need_proxy = 1)
-        file = files[0]
-        proxy = files[1]
-        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
-        export_abc([0, 1], proxy, 'proxy_GRP')
-        wall.wall().publish_event(asset)
-
-
-def export_wsd():
-    if sanity('geo_GRP'):
-        wsd.go_to_wsd()
 
 def sanity_rig():
 

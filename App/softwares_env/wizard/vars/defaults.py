@@ -4,10 +4,10 @@
 import os
 
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
-_infos_file_lk_ = "https://drive.google.com/uc?export=download&id=1e2fUrDfngSIjks2von-TeGQyHwFLVtR-"
+_infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.76-b'
-_doc_index_path_ = 'ressources/docs/build/html/index.html'
+_wizard_version_ = '0.9.7.8-b'
+_doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
 
@@ -323,7 +323,7 @@ _clear_icon_ = _icon_path_ + 'clear.png'
 _execute_icon_ = _icon_path_ + 'execute.png'
 _close_popup_icon_ = _icon_path_ + 'close_popup.png'
 _avatar_images_path_ = 'Data/avatars/'
-_neutral_avatar_ = _icon_path_ + 'neutral_avatar.png'
+_neutral_avatar_ = _icon_path_ + 'admin.png'
 _log_icon_ = _icon_path_ + 'log.png'
 _focus_icon_ = _icon_path_ + 'running_focus.png'
 _running_icon_ = _icon_path_ + 'running.png'
@@ -959,6 +959,7 @@ _project_db_ = 'project.db'
 _tree_ = 'tree.wd'
 _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
+_lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
