@@ -38,7 +38,7 @@ class export_fur():
 		self.file = file
 		self.nspace_list = nspace_list
 		self.range = frange
-		self.references_list = prefs().asset(self.asset).variant.references
+		self.references_list = prefs().asset(self.asset).software.references
 		self.set_done = set_done
 
 	def export_fur(self):

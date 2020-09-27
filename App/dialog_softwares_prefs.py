@@ -8,8 +8,6 @@ from wizard.prefs import software as software_prefs
 from wizard.tools import log
 import gui.log_to_gui as log_to_gui
 import dialog_accept
-from softwares_env.softwares.guerilla_render_wizard import setup_guerilla
-from softwares_env.softwares.painter_wizard import setup_painter
 from wizard.vars import softwares
 
 logger = log.pipe_log()
@@ -74,12 +72,6 @@ class Main(QtWidgets.QDialog):
         if executable.startswith('"'):
             executable = executable[1:]
         software_prefs.software(software).init_settings(executable, env_paths, scripts_path)
-        if software == defaults._painter_:
-            self.dialog_accept = dialog_accept.Main('Substance Painter/Wizard',
-                                                    'Do you want to setup Substance Painter for Wizard ?\nThis will modify the install.',
-                                                    defaults._setup_icon_)
-            if build.launch_dialog_as_child(self.dialog_accept):
-                setup_painter.setup_painter()
 
     def connect_functions(self):
         self.ui.setup_softwares_comboBox.currentIndexChanged.connect(self.refresh_ui)

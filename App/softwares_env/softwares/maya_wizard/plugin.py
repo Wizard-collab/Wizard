@@ -73,15 +73,13 @@ def sanity(grp):
 
 
 def export_geo():
-    if sanity('geo_GRP'):
+    if sanity(defaults._stage_export_grp_dic_[defaults._geo_]):
 
         save()
 
-        for mesh in cmds.listRelatives('geo_GRP', ad=1):
+        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._geo_], ad=1):
             cmds.select(clear=1)
-            logger.info(mesh)
             cmds.select(mesh)
-            logger.info(cmds.objectType(mesh))
             relatives = cmds.listRelatives(mesh)
             if relatives:
                 if cmds.objectType(relatives[0]) == 'mesh':
@@ -92,30 +90,28 @@ def export_geo():
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        export_abc([0, 1], file, 'geo_GRP')
+        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
         wall.wall().publish_event(asset)
 
 def export_cyclo():
-    if sanity('cyclo_GRP'):
+    if sanity(defaults._stage_export_grp_dic_[defaults._cyclo_]):
 
         save()
 
-        for mesh in cmds.listRelatives('cyclo_GRP', ad=1):
+        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._cyclo_], ad=1):
             cmds.select(clear=1)
-            logger.info(mesh)
             cmds.select(mesh)
-            logger.info(cmds.objectType(mesh))
             relatives = cmds.listRelatives(mesh)
             if relatives:
                 if cmds.objectType(relatives[0]) == 'mesh':
                     auto_tag.tagGuerillaAuto()
 
         cmds.select(clear=1)
-        cmds.select('cyclo_GRP')
+        cmds.select(defaults._stage_export_grp_dic_[defaults._cyclo_])
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        export_abc([0, 1], file, 'cyclo_GRP')
+        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._cyclo_])
         wall.wall().publish_event(asset)
 
 def export_geo_set():
@@ -123,7 +119,7 @@ def export_geo_set():
 
         save()
 
-        for mesh in cmds.listRelatives('geo_GRP', ad=1):
+        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._geo_], ad=1):
             cmds.select(clear=1)
             cmds.select(mesh)
             relatives = cmds.listRelatives(mesh)
@@ -132,13 +128,13 @@ def export_geo_set():
                     auto_tag.tagGuerillaAuto()
 
         cmds.select(clear=1)
-        cmds.select('geo_GRP')
+        cmds.select(defaults._stage_export_grp_dic_[defaults._geo_])
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         files = asset.export('{}_{}'.format(asset.name, asset.variant), need_proxy = 1)
         file = files[0]
         proxy = files[1]
-        export_abc([0, 1], file, 'geo_GRP')
+        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
         export_abc([0, 1], proxy, 'proxy_GRP')
         wall.wall().publish_event(asset)
 
@@ -180,7 +176,7 @@ def sanity_hair():
 
     sanity = 1
 
-    if cmds.objExists('hair_GRP'):
+    if cmds.objExists(defaults._stage_export_grp_dic_[defaults._hair_]):
 
         if cmds.objExists(defaults._scalp_export_set_):
             if cmds.sets( defaults._scalp_export_set_, q=True ) == []:
@@ -192,7 +188,6 @@ def sanity_hair():
                 for scalp in scalps_list:
                     shape = cmds.listRelatives(scalp, shapes=1)
                     connections_list = cmds.listConnections( shape, d=False, s=True, plugs=True )
-                    logger.info(connections_list)
                     if connections_list:
                         for conn in connections_list:
                             if '.message' in conn:
@@ -223,16 +218,15 @@ def sanity_hair():
 def export_rig():
 
     if sanity_rig():
-        export_ma('rig_GRP')
+        export_ma(defaults._stage_export_grp_dic_[defaults._rig_])
 
 def export_layout():
-    if sanity('layout_GRP'):
+    if sanity(defaults._stage_export_grp_dic_[defaults._layout_]):
 
         save()
 
-        for mesh in cmds.listRelatives('layout_GRP', ad=1):
+        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._layout_], ad=1):
             cmds.select(clear=1)
-            logger.info(mesh)
             cmds.select(mesh)
             logger.info(cmds.objectType(mesh))
             relatives = cmds.listRelatives(mesh)
@@ -241,23 +235,23 @@ def export_layout():
                     auto_tag.tagGuerillaAuto()
 
         cmds.select(clear=1)
-        cmds.select('layout_GRP')
+        cmds.select(defaults._stage_export_grp_dic_[defaults._layout_])
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        export_abc([0, 1], file, 'layout_GRP')
+        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._layout_])
         wall.wall().publish_event(asset)
 
 def export_autoRig():
-    export_ma('autoRig_GRP')
+    export_ma(defaults._stage_export_grp_dic_[defaults._autorig_])
 
 def export_camRig():
     if sanity_cam_rig():
-        export_ma('camRig_GRP')
+        export_ma(defaults._stage_export_grp_dic_[defaults._cam_rig_])
 
 def export_hair():
     if sanity_hair():
-        file = export_ma('hair_GRP')
+        file = export_ma(defaults._stage_export_grp_dic_[defaults._cam_rig_])
         if file:
             export_fur(file)
 
@@ -265,18 +259,17 @@ def export_fur(file):
     nodes_list = cmds.sets( defaults._yeti_export_set_, q=True )
     for node in nodes_list:
         fur_file = file.replace('.' + file.split('.')[-1], '.{}.fur'.format(node))
-        logger.info(fur_file)
         cmds.pgYetiCommand(node, writeCache=fur_file, range=(0,0), samples=1)
 
 def export_ma(grp):
     if cmds.objExists(grp):
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        if grp == 'rig_GRP':
+        if grp == defaults._stage_export_grp_dic_[defaults._rig_]:
             export_list = [grp, defaults._rig_export_set_]
-        elif grp == 'hair_GRP':
+        elif grp == defaults._stage_export_grp_dic_[defaults._hair_]:
             export_list = [grp, defaults._scalp_export_set_, defaults._yeti_export_set_]
-        elif grp == 'camRig_GRP':
+        elif grp == defaults._stage_export_grp_dic_[defaults._cam_rig_]:
             export_list = [grp, defaults._camrig_export_set_]
         else:
             export_list = [grp]
@@ -286,6 +279,12 @@ def export_ma(grp):
     else:
         logger.warning("{} missing".format(grp))
         return None
+
+def create_export_GRP():
+    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
+    grp_name = defaults._stage_export_grp_dic_[stage]
+    if not cmds.objExists(grp_name):
+        cmds.group( em=True, name=grp_name )
 
 def copy_team(selection = True):
 

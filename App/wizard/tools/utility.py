@@ -21,13 +21,6 @@ logger = log.pipe_log()
 
 import traceback
 
-def is_wizard_openned():
-    output = subprocess.check_output('tasklist /FI "IMAGENAME eq wizard.exe"', shell=True)
-    if "wizard.exe" in str(output):
-        return 1
-    else:
-        return 0
-
 def get_time():
     time = strftime("%Y-%m-%d - %H:%M", localtime())
     time = strftime("%Y-%m-%d - %H:%M", localtime())

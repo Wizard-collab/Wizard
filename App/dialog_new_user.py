@@ -58,6 +58,19 @@ class Main(QtWidgets.QDialog):
         self.ui.password_lineEdit.textChanged.connect(self.check_confirm)
         self.ui.show_pass_pushButton.clicked.connect(self.show_passwords)
         self.ui.avatar_pushButton.clicked.connect(self.open_image)
+        self.ui.admin_checkBox.stateChanged.connect(self.admin_request)
+
+    def admin_request(self):
+        if self.ui.admin_checkBox.isChecked():
+            temp_pass = defaults._admin_key_
+            self.dialog_confirm_email = dialog_confirm_email.Main(self, temp_pass)
+            self.dialog_confirm_email.ui.recover_pushButton.setVisible(0)
+            self.dialog_confirm_email.ui.confirm_email_title_label.setText('Enter the administrator password')
+            if build.launch_dialog_as_child(self.dialog_confirm_email):
+                logger.info("Admin verified !")
+                self.ui.admin_checkBox.setChecked(1)
+            else:
+                self.ui.admin_checkBox.setCheckState(0)
 
     def create_user(self):
         user_name = self.ui.user_name_lineEdit.text()
@@ -128,6 +141,7 @@ class Main(QtWidgets.QDialog):
     def init_avatar_button(self):
         self.ui.avatar_pushButton.setIconSize(QtCore.QSize(140, 140))
         self.round_image(self.ui.avatar_pushButton, defaults._neutral_avatar_)
+        self.image_file = defaults._neutral_avatar_
 
     def round_image(self, label, image):
         label.Antialiasing = True

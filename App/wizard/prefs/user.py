@@ -59,7 +59,7 @@ class user:
             self.settings[defaults._show_new_version_] = 1
             self.settings[defaults._show_error_handler_] = 0
             self.settings[defaults._local_project_path_] = ''
-            self.settings[defaults._shutter_] = 1
+            self.settings[defaults._shutter_] = 0
             self.settings[defaults._server_ip_] = None
             # Write the .manager file as YAML with setting dict
             logger.debug('user.wd file created')

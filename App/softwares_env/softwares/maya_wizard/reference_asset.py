@@ -37,24 +37,29 @@ def get_asset_list():
         asset_list.append([imported_asset, namespace, full_path])
     return asset_list
 
-def create_set(rig, yeti, scalp):
+def create_set():
 
-    selection_list = cmds.ls(sl=1)
+    #selection_list = cmds.ls(sl=1)
+    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
+    sets_name_list = []
 
-    if rig:
-        set_name = defaults._rig_export_set_ 
-    elif yeti:
-        set_name = defaults._yeti_export_set_ 
-    else:
-        set_name = defaults._scalp_export_set_
+    if stage==defaults._rig_:
+        rig_set_name = defaults._rig_export_set_
+        sets_name_list.append(rig_set_name)
+    elif stage==defaults._hair_:
+        yeti_set__name = defaults._yeti_export_set_ 
+        sets_name_list.append(yeti_set__name)
+        scalp_set_name = defaults._scalp_export_set_
+        sets_name_list.append(scalp_set_name)
+    elif stage==defaults._cam_rig_:
+        camera_set_name = defaults._camrig_export_set_ 
+        sets_name_list.append(camera_set_name)
 
-    if not cmds.objExists(set_name):
-        cmds.sets(n=set_name, empty=True)
+    for set_name in sets_name_list:
+        if not cmds.objExists(set_name):
+            cmds.sets(n=set_name, empty=True)
 
-    cmds.sets(clear=set_name)
-    if selection_list and selection_list != []:
-        for item in selection_list:
-            cmds.sets(item, include=set_name)
+        cmds.sets(clear=set_name)
 
 def duplicate_reference():
     sel = cmds.ls(sl=1, long=1)
@@ -210,6 +215,10 @@ def setRGBColor(ctrl, color = (1,1,1)):
 
 def import_geo(namespace = None):
     asset_list = get_asset_list()
+
+    if not cmds.objExists('GEO'):
+        cmds.group( em=True, name='GEO' )
+
     for imported_asset in asset_list:
         if namespace and imported_asset[1] == namespace:
             run = 1
@@ -224,6 +233,8 @@ def import_geo(namespace = None):
             else:
                 if not cmds.namespace(exists=imported_asset[1]):
                     cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
+                if cmds.objExists(imported_asset[0].export_asset):
+                    cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
 
 def import_anim(namespace = None):
     asset_list = get_asset_list()

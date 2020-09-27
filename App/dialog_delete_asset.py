@@ -26,5 +26,5 @@ class Main(QtWidgets.QDialog):
 
     def add_image(self):
         self.ui.delete_asset_image_label.setPixmap(
-            QtGui.QPixmap(defaults._delete_asset_icon_).scaled(50, 50, QtCore.Qt.KeepAspectRatio,
+            QtGui.QPixmap(defaults._trash_large_icon_).scaled(50, 50, QtCore.Qt.KeepAspectRatio,
                                                                QtCore.Qt.SmoothTransformation))

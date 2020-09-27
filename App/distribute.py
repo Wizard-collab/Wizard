@@ -30,10 +30,10 @@ command_line = "PyInstaller wizard_site_debug.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
-file = 'dist/wizard console/wizard console.exe'
-dest = 'dist/wizard/wizard console.exe'
+file = 'dist/wizard_console/wizard_console.exe'
+dest = 'dist/wizard/wizard_console.exe'
 shutil.copyfile(file, dest)
-shutil.rmtree('dist/wizard console')
+shutil.rmtree('dist/wizard_console')
 
 command_line = "PyInstaller pywizard.spec"
 p = subprocess.Popen(command_line)
@@ -48,13 +48,19 @@ command_line = "PyInstaller file_viewer.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
-file = 'dist/file viewer/file viewer.exe'
-dest = 'dist/wizard/file viewer.exe'
+file = 'dist/file_viewer/file_viewer.exe'
+dest = 'dist/wizard/file_viewer.exe'
 shutil.copyfile(file, dest)
-shutil.rmtree('dist/file viewer')
+shutil.rmtree('dist/file_viewer')
 
 file = 'updater.exe'
 dest = 'dist/wizard/updater.exe'
 shutil.copyfile(file, dest)
 
+
+dist_path = os.path.abspath('dist/wizard/')
+
 playsound('1631.wav')
+
+os.startfile(dist_path)
+

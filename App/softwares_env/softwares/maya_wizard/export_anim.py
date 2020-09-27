@@ -30,7 +30,7 @@ class export_anim():
         self.file = file
         self.nspace_list = nspace_list
         self.range = frange
-        self.references_list = prefs().asset(self.asset).variant.references
+        self.references_list = prefs().asset(self.asset).software.references
         self.comment = comment
         self.set_done = set_done
         self.camera = None

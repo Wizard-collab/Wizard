@@ -47,7 +47,6 @@ class client(QThread):
                         if message != '':
                             if isinstance(message, (bytes, bytearray)):
                                 message = message.decode('utf8')
-                            logger.info(message)
                             self.receive.emit(message)
                 except ConnectionResetError:
                     self.is_server = 0

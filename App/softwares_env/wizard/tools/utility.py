@@ -15,12 +15,11 @@ import zipfile
 import math
 import os
 from wizard.vars import defaults
+import subprocess
 
 logger = log.pipe_log()
 
 import traceback
-
-
 
 def get_time():
     time = strftime("%Y-%m-%d - %H:%M", localtime())

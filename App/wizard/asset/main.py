@@ -424,7 +424,7 @@ class asset():
     def get_reference(self):
 
         # Get the reference dictionnary using the "prefs" wizard module
-        references_dic = self.asset_prefs.variant.references
+        references_dic = self.asset_prefs.software.references
 
         if references_dic != {}:
             # If the reference dictionnary isn't empty
@@ -439,6 +439,8 @@ class asset():
                 # Get the version folder of the export_asset
                 # Using the "prefs" wizard module
                 folder = prefs.asset(reference_asset).export.version_folder
+                from_software = prefs.asset(reference_asset).export.version_software
+                reference_asset.software = from_software
 
                 # Get the file using the "prefs" wizard module
                 file = prefs.asset(reference_asset).export.file

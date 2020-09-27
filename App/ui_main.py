@@ -69,6 +69,9 @@ import ui_error_handler
 import user_scripts_widget
 import scene
 from wizard.signal.signal_server import signal_server
+from wizard.prefs.user_scripts import user_scripts
+import inspect
+from wizard.user_scripts import user_scripts_library
 
 import tickets_widget
 
@@ -1028,6 +1031,14 @@ class Main(QtWidgets.QMainWindow):
             self.asset = old_asset
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def add_asset_to_shelf(self):
+        icon = defaults._stage_icon_[self.asset.stage]
+        name = f"import {self.asset.category}-{self.asset.name}-{self.asset.stage}-{self.asset.variant}"
+        string_asset = utils.asset_to_string(self.asset)
+        script = user_scripts_library.import_asset_script.replace('ASSET_STRING', string_asset)
+        user_scripts().create_user_script(name, icon, script)
+        self.user_scripts_widget.refresh_scripts()
 
     def start_launch_gif(self):
         try:

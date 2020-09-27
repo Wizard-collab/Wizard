@@ -41,7 +41,7 @@ class auto_hair():
 		self.file = file
 		self.nspace_list = nspace_list
 		self.frange = frange
-		self.references_dic = prefs().asset(self.asset).variant.references
+		self.references_dic = prefs().asset(self.asset).software.references
 		self.comment = comment
 
 	def auto_hair(self):

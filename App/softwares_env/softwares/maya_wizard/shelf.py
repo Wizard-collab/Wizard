@@ -120,17 +120,9 @@ class shelf:
         unhide_asset += 'reload(reference_asset)\n'
         unhide_asset += 'reference_asset.unhide_reference()'
 
-        create_rig_set = 'from maya_wizard import reference_asset\n'
-        create_rig_set += 'reload(reference_asset)\n'
-        create_rig_set += 'reference_asset.create_set(1, 0, 0)'
-
-        create_yeti_set = 'from maya_wizard import reference_asset\n'
-        create_yeti_set += 'reload(reference_asset)\n'
-        create_yeti_set += 'reference_asset.create_set(0, 1, 0)'
-
-        create_scalp_set = 'from maya_wizard import reference_asset\n'
-        create_scalp_set += 'reload(reference_asset)\n'
-        create_scalp_set += 'reference_asset.create_set(0, 0, 1)'
+        create_set = 'from maya_wizard import reference_asset\n'
+        create_set += 'reload(reference_asset)\n'
+        create_set += 'reference_asset.create_set()'
 
         f_range = 'from maya_wizard import scene_setup\n'
         f_range += 'reload(scene_setup)\n'
@@ -144,11 +136,18 @@ class shelf:
         clean_obj += 'reload(tools)\n'
         clean_obj += 'tools.clean()'
 
+        create_export_GRP = 'from maya_wizard import plugin\n'
+        create_export_GRP += 'reload(plugin)\n'
+        create_export_GRP += 'plugin.create_export_GRP()'
+
         tag = 'from maya_wizard import gtags\n'
         tag += 'reload(gtags)'
 
         self.addButon(label="Save", icon='maya_save.png', command=save, docTag='Save')
         self.addButon(label="Export", icon='maya_export.png', command=export, docTag='export')
+        self.addButon(label="create_export_group", icon='maya_group_icon.png', command=create_export_GRP,
+                      docTag='Create export group')
+        self.addButon(label="Create set", icon='maya_sel_set.png', command=create_set, docTag='Set')
         self.addButon(label="Update references", icon='maya_reload_icon.png', command=reload_references,
                       docTag='update')
         self.addButon(label="Import geo", icon='maya_import_geo.png', command=import_geo, docTag='geo')
@@ -161,9 +160,6 @@ class shelf:
         self.addButon(label="Import anim", icon='maya_import_anim.png', command=import_anim, docTag='anim')
         self.addButon(label="Import layout", icon='maya_import_layout.png', command=import_layout, docTag='layout')
         self.addButon(label="GTags", icon='maya_guerilla.png', command=tag, docTag='Tags')
-        self.addButon(label="Create rig set", icon='maya_sel_set.png', command=create_rig_set, docTag='Rig', add_doctag=1)
-        self.addButon(label="Create yeti set", icon='maya_sel_set.png', command=create_yeti_set, docTag='Yeti', add_doctag=1)
-        self.addButon(label="Create scalp set", icon='maya_sel_set.png', command=create_scalp_set, docTag='Scalp', add_doctag=1)
         self.addButon(label="Match frame range", icon='maya_frame_range.png', command=f_range, docTag='Range')
         self.addButon(label="Match project format", icon='maya_format.png', command=set_format, docTag='Format')
         self.addButon(label="Clean selection", icon='maya_clean.png', command=clean_obj, docTag='Clean')

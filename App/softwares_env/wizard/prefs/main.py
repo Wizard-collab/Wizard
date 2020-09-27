@@ -357,18 +357,11 @@ class prefs:
                 return asset_prefs.variant(self.asset).get_default_software()
 
             @property
-            def references(self):
-                return asset_prefs.variant(self.asset).get_references()
-
-            @property
             def state(self):
                 return asset_prefs.variant(self.asset).get_state()
             
             def set_state(self, state):
                 return asset_prefs.variant(self.asset).set_state(state)
-
-            def set_references(self, dic):
-                return asset_prefs.variant(self.asset).set_references(dic)
 
             def set_default_software(self, software):
                 return asset_prefs.variant(self.asset).set_default_software(software)

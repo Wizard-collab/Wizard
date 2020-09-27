@@ -1,3 +1,0 @@
-You can now create tickets to manage your production team workflow
-
-Access them in the "tickets" tab.

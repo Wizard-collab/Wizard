@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\leo\Documents\Script\Wizard\App\gui\ui_files\email_confirm_dialog.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\work\ui_files\email_confirm_dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -20,9 +22,9 @@ class Ui_Dialog(object):
         self.frame.setObjectName("frame")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.frame)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label = QtWidgets.QLabel(self.frame)
-        self.label.setObjectName("label")
-        self.verticalLayout_2.addWidget(self.label)
+        self.confirm_email_title_label = QtWidgets.QLabel(self.frame)
+        self.confirm_email_title_label.setObjectName("confirm_email_title_label")
+        self.verticalLayout_2.addWidget(self.confirm_email_title_label)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.verification_lineEdit = QtWidgets.QLineEdit(self.frame)
@@ -63,7 +65,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "Your received a  code by email"))
+        self.confirm_email_title_label.setText(_translate("Dialog", "Your received a  code by email"))
         self.label_2.setText(_translate("Dialog", "Verification code"))
         self.confirm_pushButton.setText(_translate("Dialog", "Confirm"))
         self.recover_pushButton.setText(_translate("Dialog", "I don\'t receive this email, change email"))
@@ -78,4 +80,3 @@ if __name__ == "__main__":
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
-

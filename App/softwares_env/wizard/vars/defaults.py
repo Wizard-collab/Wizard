@@ -6,7 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://drive.google.com/uc?export=download&id=1e2fUrDfngSIjks2von-TeGQyHwFLVtR-"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.75-b'
+_wizard_version_ = '0.9.7.76-b'
 _doc_index_path_ = 'ressources/docs/build/html/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -222,7 +222,9 @@ _stage_export_grp_dic_[_render_pass_] = 'render_pass_GRP'
 _stage_export_grp_dic_[_render_graph_] = 'render_graph_GRP'
 _stage_export_grp_dic_[_light_rig_] = 'light_rig_GRP'
 _stage_export_grp_dic_[_lighting_] = 'lighting_GRP'
-
+_stage_export_grp_dic_[_autorig_] = 'autoRig_GRP'
+_stage_export_grp_dic_[_cam_rig_] = 'camRig_GRP'
+_stage_export_grp_dic_[_layout_] = 'layout_GRP'
 
 _export_manager_stage_dic_ = dict()
 _export_manager_stage_dic_[_export_] = [_rig_, _hair_, _cam_rig_]

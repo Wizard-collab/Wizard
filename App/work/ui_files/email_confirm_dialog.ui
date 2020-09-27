@@ -24,7 +24,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="confirm_email_title_label">
         <property name="text">
          <string>Your received a  code by email</string>
         </property>

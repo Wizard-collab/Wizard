@@ -140,9 +140,8 @@ class Main(QtWidgets.QWidget):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
         mimeData = e.mimeData().text().encode('utf-8')
         asset = pickle.loads(mimeData)
-        #if asset.stage in defaults._reference_autorization_dic_[self.asset.stage]:
         if self.asset.software == defaults._painter_:
-            if prefs.asset(self.asset).variant.references == {}:
+            if prefs.asset(self.asset).software.references == {}:
                 self.create_reference(asset)
             else:
                 logger.warning(f"{defaults._painter_} accepts only 1 reference...")
