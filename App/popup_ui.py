@@ -6,6 +6,7 @@ from playsound import playsound
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.user import user
+import traceback
 
 logger = log.pipe_log()
 
@@ -149,7 +150,11 @@ class popup(QtWidgets.QWidget):
         if self.sound:
             popup_dic = self.user.get_popup_prefs()
             sound_file = defaults._pop_sounds_dic_[popup_dic[defaults._popup_sound_file_key_]]
-            playsound(sound_file, False)
+            try:
+                playsound(sound_file, False)
+            except:
+                logger.debug(str(traceback.format_exc()))
+                logger.debug("Can't play sound...")
         build.launch_popup(self)
 
 

@@ -69,6 +69,7 @@ class server(Thread):
             except:
                 logger.error(str(traceback.format_exc()))
                 continue
+            
 
     def clientThread(self, conn, addr):
         try_count = 0
@@ -81,7 +82,6 @@ class server(Thread):
                 else:
                     self.remove(conn)
                     break
-
             except ConnectionResetError:
                 try_count+=1
                 logger.info("Removing client : " + str(conn))
@@ -96,6 +96,7 @@ class server(Thread):
                 try_count+=1
                 logger.error(str(traceback.format_exc()))
                 continue
+            
 
     def broadcast(self, message, conn): 
         logger.debug("Broadcasting : " + str(message))
@@ -112,5 +113,14 @@ class server(Thread):
             logger.info('Removing client : ' + str(connection))
 
 if __name__ == "__main__":
-   server().start()
+    try:
+        server = server()
+        server.daemon = True
+        server.start()
+        print('Press Ctrl+C to quit...')
+        while 1:time.sleep(1)
+    except KeyboardInterrupt:
+        print('Stopping server...')
+        raise SystemExit
+        sys.exit()
 
