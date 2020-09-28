@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>441</width>
-    <height>218</height>
+    <height>171</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -102,39 +102,6 @@
          <widget class="QLineEdit" name="f_height_lineEdit"/>
         </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="frame_3">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Set dress - Workflow</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="setdress_workflow_comboBox">
-        <item>
-         <property name="text">
-          <string>abc</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>wsd</string>
-         </property>
-        </item>
-       </widget>
       </item>
      </layout>
     </widget>

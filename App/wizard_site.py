@@ -1,6 +1,7 @@
  # external modules
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QApplication
+from wizard import api
 
 import ctypes, sys
 import os

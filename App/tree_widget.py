@@ -2,12 +2,12 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication
 from wizard.tools import log
 import copy
-import pickle
 from wizard.vars import defaults
 from wizard.prefs import asset as asset_prefs
 from wizard.asset.main import asset as asset_core
 from wizard.asset import checker
 from gui import tree_get
+from wizard.tools import utility as utils
 
 from wizard.prefs.main import prefs
 import options_widget
@@ -61,20 +61,21 @@ class treeWidget(QtWidgets.QTreeWidget):
                 asset.software = asset_prefs.variant(asset).get_default_software()
                 asset.export_asset = prefs.asset(asset).export_root.default_export_asset
                 if asset.export_asset:
-                    encode_asset = pickle.dumps(asset, 0).decode('utf-8')
-
-                    mimeData = QtCore.QMimeData()
-                    mimeData.setText(encode_asset)
-                    drag = QtGui.QDrag(self)
-                    drag.setMimeData(mimeData)
-                    # Si l'on veut une icône ...
-                    icon = defaults._nodes_icons_dic_[self.parent.selected_asset.stage]
-                    pixmap = QtGui.QPixmap(icon).scaled(38, 38, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-                    drag.setPixmap(pixmap)
-                    drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height()))
-                    drag.setPixmap(pixmap)
-                    result = drag.exec_(QtCore.Qt.MoveAction)
-                    break
+                    asset.export_version = prefs.asset(asset).export.last_version
+                    if asset.export_version:
+                        string_asset = utils.asset_to_string(asset)
+                        mimeData = QtCore.QMimeData()
+                        mimeData.setText(string_asset)
+                        drag = QtGui.QDrag(self)
+                        drag.setMimeData(mimeData)
+                        # Si l'on veut une icône ...
+                        icon = defaults._nodes_icons_dic_[self.parent.selected_asset.stage]
+                        pixmap = QtGui.QPixmap(icon).scaled(38, 38, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+                        drag.setPixmap(pixmap)
+                        drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height()))
+                        drag.setPixmap(pixmap)
+                        result = drag.exec_(QtCore.Qt.MoveAction)
+                        break
                 else:
                     logger.warning("No publish found...")
 

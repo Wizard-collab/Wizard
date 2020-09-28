@@ -5,10 +5,10 @@ from gui.reference_list_widget import Ui_Form
 from wizard.tools import log
 from wizard.vars import defaults
 import ref_list_asset_widget
-import pickle
 from wizard.prefs.main import prefs
 from wizard.asset.reference import references
 import reference_list_item_widget
+from wizard.asset import main as asset_core
 
 logger = log.pipe_log()
 
@@ -132,8 +132,8 @@ class Main(QtWidgets.QWidget):
 
     def dropEvent(self, e):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
-        mimeData = e.mimeData().text().encode('utf-8')
-        asset = pickle.loads(mimeData)
+        mimeData = e.mimeData().text()#.encode('utf-8')
+        asset = asset_core.string_to_asset(mimeData)
         #if asset.stage in defaults._reference_autorization_dic_[self.asset.stage]:
         if self.asset.software == defaults._painter_:
             if prefs.asset(self.asset).variant.references == {}:

@@ -5,9 +5,9 @@ from gui.node_editor import Ui_NodeEditorWidget
 from wizard.tools import log
 from wizard.vars import defaults
 import node_widget
-import pickle
 from wizard.prefs.main import prefs
 from wizard.asset.reference import references
+from wizard.asset import main as asset_core
 
 logger = log.pipe_log()
 
@@ -138,8 +138,8 @@ class Main(QtWidgets.QWidget):
 
     def dropEvent(self, e):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
-        mimeData = e.mimeData().text().encode('utf-8')
-        asset = pickle.loads(mimeData)
+        mimeData = e.mimeData().text()#.encode('utf-8')
+        asset = asset_core.string_to_asset(mimeData)
         if self.asset.software == defaults._painter_:
             if prefs.asset(self.asset).software.references == {}:
                 self.create_reference(asset)

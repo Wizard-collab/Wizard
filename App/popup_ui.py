@@ -152,7 +152,7 @@ class popup(QtWidgets.QWidget):
             popup_dic = self.user.get_popup_prefs()
             sound_file = defaults._pop_sounds_dic_[popup_dic[defaults._popup_sound_file_key_]]
             try:
-                playsound(os.path.abspath(sound_file, False))
+                playsound(os.path.abspath(sound_file), False)
             except:
                 logger.info(str(traceback.format_exc()))
                 logger.info("Can't play sound...")

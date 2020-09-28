@@ -31,4 +31,19 @@ Version date : 2020-09-27
 - Debug - Substance Painter init file updated
 - Debug - Emails ( Now OAuth2 - Gmail )
 - Debug - Server architecture modified
+- Debug - Playsound now ignored if can't load sound
+- Debug - When unpin, wizard return on the pinned asset
+- Debug - Removing the python module "pickle"
+- Debug - Removed wsd ui section in project settings
+'''
+updates['0.9.7.81-b'] = '''Version updates : 0.9.7.81-b
+
+Version date : 2020-09-28
+
+Wizard API included
+- Debug - Playsound now ignored if can't load sound
+- Debug - When unpin, wizard stay on the current asset
+- Debug - Removing the python module "pickle"
+- Debug - Removed wsd ui section in project settings
+- Debug - Changed the "add_to_shelf" option using the wizard API
 '''

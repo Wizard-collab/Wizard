@@ -469,8 +469,8 @@ class Main(QtWidgets.QMainWindow):
             project_tree = project.read_project()
             if project_tree:
                 fill.build_tree(self.ui.treeWidget, project_tree)
-                asset = self.prefs.context
-                if asset and init:
+                asset = asset_core.string_to_asset(self.prefs.context)
+                if asset.domain and asset.category and asset.name and init:
                     self.asset = asset
                     if self.asset.stage:
                         tree_get.select_asset(self.ui.treeWidget, self.asset)
@@ -910,9 +910,10 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
 
-    def asset_item_changed(self):
+    def asset_item_changed(self, item = None):
         try:
-            item = self.ui.treeWidget.currentItem()
+            if not item:
+                item = self.ui.treeWidget.currentItem()
             self.refresh_asset(item)
             if not self.pin:
                 self.update_current_asset()
@@ -1230,6 +1231,8 @@ class Main(QtWidgets.QMainWindow):
                 self.pin = False
                 self.refresh_pinned_item(pin=0)
                 self.pinned_item = None
+                tree_get.select_asset(self.ui.treeWidget, self.asset)
+                self.asset_item_changed()
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))
@@ -1242,7 +1245,6 @@ class Main(QtWidgets.QMainWindow):
                 else:
                     logger.info("No asset to pin")
 
-            self.asset_item_changed()
         except:
             logger.critical(str(traceback.format_exc()))
 

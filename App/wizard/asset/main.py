@@ -547,10 +547,20 @@ def string_to_asset(string):
 
     # Split the given string and get the asset variables
     domain = string.split('.')[0]
+    if domain == "None":
+        domain = None
     category = string.split('.')[1]
+    if category == "None":
+        category = None
     name = string.split('.')[2]
+    if name == "None":
+        name = None
     stage = string.split('.')[3]
+    if stage == "None":
+        stage = None
     variant = string.split('.')[4]
+    if variant == "None":
+        variant = None
     try:
         software = string.split('.')[5]
     except IndexError:

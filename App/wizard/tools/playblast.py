@@ -10,6 +10,7 @@ from wizard.project.wall import wall
 import wizard.prefs.software as software_prefs
 from wizard.software import main as software
 import os
+import sys
 
 prefs = prefs()
 
@@ -37,6 +38,7 @@ class playblast():
         print('status:Starting...')
         print('status:Working...')
         print('current_task:Playblasting...')
+        sys.stdout.flush()
 
         mayapy = prefs.software(defaults._mayapy_).path
         
@@ -48,17 +50,20 @@ class playblast():
         print('percent:33')
 
         print('current_task:Conforming frames...')
+        sys.stdout.flush()
 
         if ornaments:
             self.conform_playblast()
 
         print('percent:66')
         print('current_task:Creating movie file...')
+        sys.stdout.flush()
 
         pbfile = self.create_video()
 
         print('status:Done !')
         print('percent:100')
+        sys.stdout.flush()
 
         wall().playblast_event(self.asset)
 
