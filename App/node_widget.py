@@ -64,7 +64,7 @@ class Main(QtWidgets.QWidget):
     def enterEvent(self, event):
         if self.selectable and not self.selected:
             self.ui.node_widget_button_frame.setStyleSheet(
-                '#node_widget_button_frame{background-color:rgb(255,255,255,60)}')
+                '#node_widget_button_frame{background-color:rgba(255,255,255,60)}')
 
     def leaveEvent(self, event):
         if not self.selected:

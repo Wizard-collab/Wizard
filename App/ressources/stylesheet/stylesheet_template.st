@@ -301,12 +301,12 @@ QWidget {
 
 #reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover {
 	padding:0px;
-	background-color: rgb(_top_level_widget_color_, 120);
+	background-color: rgba(_top_level_widget_color_, 120);
 }
 
 #reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected {
 	padding:0px;
-	background-color: rgb(_top_level_widget_color_, 120);
+	background-color: rgba(_top_level_widget_color_, 120);
 	color: rgb(_text_color_);
 	border: 1px solid gray;
 }
@@ -392,7 +392,6 @@ QWidget {
 }
 
 #list_export_widget_frame, #list_playblast_widget_frame, #list_version_widget_frame{
-	\*background-color:rgb(_very_lower_level_widget_color_);
 	background-color:transparent;
 	border-radius:2px;
 }
@@ -428,7 +427,7 @@ QWidget {
 }
 
 #sanity_exports_pushButton:checked, #show_all_exports_pushButton:checked{
-	background-color: rgb(_very_lower_level_widget_color_, 100);
+	background-color: rgba(_very_lower_level_widget_color_, 100);
 }
 
 #sanity_exports_pushButton{
@@ -685,7 +684,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #shop_pushButton, #stuff_pushButton, #cup_pushButton{
-	\*background-color : rgba(_background_color_, 120);
 	border-radius : 0px;
 	margin:0px;
 	padding:0px;
@@ -773,8 +771,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 
 #popup_background_frame{
 	background-color : rgba(_middle_level_widget_color_, 245);
-	\*border-bottom-right-radius : 0px;
-	\*border-top-right-radius : 0px;
 	padding : 0px;
 	margin : 0px;
 }
@@ -822,7 +818,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 #log_textEdit, #log_py_plainTextEdit, #log_lines_plainTextEdit{
 	background-color: rgb(_very_lower_level_widget_color_);
 	color:rgb(_text_color_);
-	\*font: 90 8pt "8514oem";
 	padding : 5px;
 }
 
@@ -965,7 +960,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 
 #image_button{
 	background-color:transparent;
-	\*border : 2px solid grey;
 	border-radius: 0px;
 	padding:0px;
 	margin:Opx;
@@ -1035,14 +1029,11 @@ QToolBox::tab:selected { /* italicize selected tabs */
 #message_frame_left{
 	background-color:rgba(255, 255, 255, 90);
 	border-radius:14px;
-	\*border-top-left-radius:2px;
 }
 
 #message_frame_right{
 	background-color: rgb(_top_level_widget_color_);
-	\*background-color:rgba(181, 91, 238, 250);
 	border-radius:14px;
-	\*border-top-right-radius:2px;
 }
 
 #message_user_label{
@@ -1067,7 +1058,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #wall_scrollArea{
-	\*border-radius:15px;
 	background-color : rgba(_background_color_, 120);
 }
 
@@ -1214,7 +1204,7 @@ QTreeView::branch:closed:has-children:has-siblings {
 }
 
 QTreeView::item:has-children{
-	background-color: rgb(_low_level_widget_color_, 100);
+	background-color: rgba(_low_level_widget_color_, 100);
 }
 
 QTreeView::branch:open:has-children:!has-siblings,
@@ -1515,10 +1505,6 @@ QTabWidget::pane { /* The tab widget frame */
 
 QTabWidget::tab-bar {
     background-color : rgb(_background_color_);
-}
-
-QTabBar{
-	\*background-color: rgb(_background_color_)
 }
 
 /* Style the tab using the tab sub-control. Note that

@@ -72,7 +72,7 @@ from wizard.signal.signal_server import signal_server
 from wizard.prefs.user_scripts import user_scripts
 import inspect
 from wizard.user_scripts import user_scripts_library
-
+from wizard import api
 import tickets_widget
 
 try:

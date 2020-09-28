@@ -39,7 +39,7 @@ class Main(QtWidgets.QWidget):
         self.ui.playblast_widget_date_label.setText(pb_prefs.version_date(self.version))
         self.ui.playblast_widget_user_label.setText(pb_prefs.version_user(self.version))
         if self.count:
-            self.ui.list_playblast_widget_frame.setStyleSheet('''#list_playblast_widget_frame{background-color:rgb(255,255,255,5);}
+            self.ui.list_playblast_widget_frame.setStyleSheet('''#list_playblast_widget_frame{background-color:rgba(255,255,255,5);}
                 #list_playblast_widget_frame:hover{
                 
                 }''')

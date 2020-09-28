@@ -44,7 +44,7 @@ class Main(QtWidgets.QWidget):
         except:
             pass
         if self.count:
-            self.ui.list_export_widget_frame.setStyleSheet('''#list_export_widget_frame{background-color:rgb(255,255,255,5);}
+            self.ui.list_export_widget_frame.setStyleSheet('''#list_export_widget_frame{background-color:rgba(255,255,255,5);}
                 #list_export_widget_frame:hover{
                 
                 }''')

@@ -42,7 +42,7 @@ class Main(QtWidgets.QWidget):
         self.ui.version_widget_user_label.setText(version_prefs.version_user)
 
         if self.count:
-            self.ui.list_version_widget_frame.setStyleSheet('''#list_version_widget_frame{background-color:rgb(255,255,255,5);}
+            self.ui.list_version_widget_frame.setStyleSheet('''#list_version_widget_frame{background-color:rgba(255,255,255,5);}
                 #list_version_widget_frame:hover{
                 
                 }''')
