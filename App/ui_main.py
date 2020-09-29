@@ -56,7 +56,6 @@ import dialog_asset_creation
 import dialog_quit_popup
 import ui_welcome
 import ui_workflow
-#import chat_widget
 import ui_stats_viewer
 import ui_export_manager
 import playblasts_widget
@@ -80,7 +79,6 @@ try:
 except:
     pass 
 import ui_about
-
 
 logger = log.pipe_log()
 
@@ -228,13 +226,6 @@ class Main(QtWidgets.QMainWindow):
     def init_tree_widget(self):
         try:
             self.ui.treeWidget = tree_widget.treeWidget(self)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
-    def init_chat(self):
-        try:
-            self.chat_widget = chat_widget.Main()
-            self.chat_widget.new_message.connect(self.set_chat_new_notif_icon)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1339,13 +1330,6 @@ class Main(QtWidgets.QMainWindow):
             build.launch_running(self.running_widget)
             self.running_widget.focus.connect(self.focus_asset)
             self.running_widget.refresh_lock.connect(self.update_lock)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
-    def show_chat_widget(self):
-        try:
-            self.init_chat_button()
-            build.launch_normal_as_child(self.chat_widget)
         except:
             logger.critical(str(traceback.format_exc()))
 

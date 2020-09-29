@@ -20,7 +20,7 @@ import ui_subprocess_manager
 from wizard.prefs import software as software_prefs
 from wizard.software import main as software
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

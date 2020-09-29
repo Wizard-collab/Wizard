@@ -11,7 +11,7 @@ from gui import log_to_gui
 from wizard.vars import defaults
 import ui_recover_password
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QDialog):

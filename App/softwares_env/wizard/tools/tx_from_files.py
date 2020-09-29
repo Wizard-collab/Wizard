@@ -8,7 +8,7 @@ from wizard.tools import utility as utils
 
 import os
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def tx_from_files(files_list, tex_creation='.tex'):
     command = "from wizard.tools.maketx import maketx"

@@ -10,7 +10,7 @@ from wizard.prefs import project as project_prefs
 import project_widget
 import sys
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QWidget):
 

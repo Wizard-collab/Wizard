@@ -10,7 +10,7 @@ import wall_widget
 from wizard.tools import utility as utils
 import tickets_widget
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 pref = prefs()
 

@@ -15,7 +15,7 @@ from wizard.tools import utility as utils
 import ui_export_manager
 import playblast_asset_widget
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

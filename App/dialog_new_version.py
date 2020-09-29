@@ -9,7 +9,7 @@ import webbrowser
 
 import os
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

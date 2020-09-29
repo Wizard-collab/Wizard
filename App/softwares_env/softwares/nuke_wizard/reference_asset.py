@@ -10,7 +10,7 @@ import os
 import nuke
 import nukescripts
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 prefs=prefs()
 
 def set_project_path():

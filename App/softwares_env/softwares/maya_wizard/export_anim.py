@@ -21,7 +21,7 @@ import logging
 cmds.loadPlugin( 'AbcImport.mll' )
 cmds.loadPlugin( 'AbcExport.mll' )
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 class export_anim():
 

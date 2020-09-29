@@ -10,7 +10,7 @@ import gui.log_to_gui as log_to_gui
 import dialog_accept
 from wizard.vars import softwares
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QDialog):

@@ -9,7 +9,7 @@ import os
 
 reload(asset_core)
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 def get_asset_list():

@@ -9,7 +9,7 @@ from wizard.prefs.main import prefs
 from wizard.asset.reference import references
 from wizard.asset import main as asset_core
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 
@@ -163,7 +163,8 @@ class Main(QtWidgets.QWidget):
                         self.scene_references.remove(widget.asset)
                     self.delete_widget(widget)
         else:
-            self.scene_references.remove(widget.asset)
+            if widget.asset in self.scene_references:
+                self.scene_references.remove(widget.asset)
             self.delete_widget(widget)
 
     def delete_widget(self, widget):

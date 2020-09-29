@@ -9,7 +9,7 @@ import running_item_widget
 from wizard.prefs.main import prefs
 import wizard.asset.main as asset_core
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

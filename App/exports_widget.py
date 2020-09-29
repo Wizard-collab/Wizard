@@ -11,7 +11,7 @@ import copy
 import dialog_manual_export
 import ui_export_manager
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

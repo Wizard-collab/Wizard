@@ -10,7 +10,7 @@ import version_widget
 import copy
 import shutil
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

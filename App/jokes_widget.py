@@ -11,7 +11,7 @@ import random
 import ui_jokes_user_list
 import traceback
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QWidget):

@@ -11,7 +11,7 @@ import dialog_comment
 from wizard.tools.tx_from_files import tx_from_files
 from wizard.prefs import project as project_prefs
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

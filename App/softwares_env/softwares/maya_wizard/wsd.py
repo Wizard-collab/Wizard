@@ -10,7 +10,7 @@ from wizard.wsd.main import wsd
 from wizard.vars import defaults
 from wizard.project import wall
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def go_to_wsd():
 

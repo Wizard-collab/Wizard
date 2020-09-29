@@ -11,7 +11,7 @@ import options_widget
 import dialog_comment
 import dialog_delete_asset
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

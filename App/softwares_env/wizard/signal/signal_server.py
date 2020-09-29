@@ -6,7 +6,7 @@ import traceback
 from wizard.tools import log
 from PyQt5.QtCore import QThread, pyqtSignal
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 class signal_server(QThread):
 

@@ -12,7 +12,7 @@ reload(auto_tag)
 
 import maya.cmds as cmds
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

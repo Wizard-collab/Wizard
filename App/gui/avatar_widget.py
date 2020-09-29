@@ -6,7 +6,7 @@ from PyQt5.QtCore import QSize, QPoint
 import os
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 def build_avatar(self, image):

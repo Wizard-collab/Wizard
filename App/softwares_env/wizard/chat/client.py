@@ -8,7 +8,7 @@ import time
 from socket import *
 import yaml
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

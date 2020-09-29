@@ -7,7 +7,7 @@ from wizard.project import main as project
 from wizard.asset import checker as check
 from wizard.prefs.stats import stats
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def show_stats():
 	all_events = wall().get_all_keys()

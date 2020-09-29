@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from gui.accept_dialog import Ui_Dialog
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QDialog):

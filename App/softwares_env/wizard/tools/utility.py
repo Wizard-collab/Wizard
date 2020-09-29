@@ -17,7 +17,7 @@ import os
 from wizard.vars import defaults
 import subprocess
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 import traceback
 

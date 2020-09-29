@@ -1,7 +1,7 @@
 import maya.cmds as cmds
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 def create_shader(shader_name, files_list):

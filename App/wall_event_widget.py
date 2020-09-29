@@ -11,7 +11,7 @@ from time import strftime
 import options_widget
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

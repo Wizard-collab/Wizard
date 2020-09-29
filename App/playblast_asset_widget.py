@@ -9,7 +9,7 @@ from wizard.prefs.main import prefs
 import options_widget
 import dialog_comment
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

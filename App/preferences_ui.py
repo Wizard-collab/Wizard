@@ -9,7 +9,7 @@ from wizard.prefs.user import user
 from wizard.prefs.main import prefs
 from playsound import playsound
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

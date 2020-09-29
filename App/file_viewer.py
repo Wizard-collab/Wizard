@@ -23,7 +23,7 @@ import sys
 import dialog_accept
 import ui_about
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

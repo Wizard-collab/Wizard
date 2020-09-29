@@ -29,7 +29,7 @@ from wizard.asset import checker
 import maya.cmds as cmds
 #cmds.loadPlugin( allPlugins=True )
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 logger.info(path_to_append)
 

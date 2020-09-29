@@ -9,7 +9,7 @@ from wizard.prefs import project as project_prefs
 from wizard.tools import log
 
 # Creates the main logger
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 class folder():
 

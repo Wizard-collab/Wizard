@@ -4,7 +4,7 @@ import smtplib
 from wizard.tools import log
 import socket
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText

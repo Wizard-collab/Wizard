@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets, QtGui
 from gui.options_widget import Ui_Form
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QWidget):

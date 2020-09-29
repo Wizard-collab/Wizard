@@ -57,7 +57,7 @@ from wizard.prefs import version
 import dialog_new_version
 
 # connect to the main logger
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main_application():

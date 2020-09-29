@@ -12,7 +12,7 @@ from gui import build
 import sys
 from io import StringIO
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 

@@ -10,7 +10,7 @@ from time import strftime
 import dialog_close_ticket
 from gui import build
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

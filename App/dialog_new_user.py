@@ -16,7 +16,7 @@ from wizard.vars import defaults
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

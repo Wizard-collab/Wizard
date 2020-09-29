@@ -9,7 +9,7 @@ import create_user_script_widget
 import traceback
 import options_widget
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

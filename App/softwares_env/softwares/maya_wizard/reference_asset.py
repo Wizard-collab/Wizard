@@ -14,7 +14,7 @@ reload(create_ai_surface)
 import maya.cmds as cmds
 import maya.mel as mel
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def get_asset_list():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])

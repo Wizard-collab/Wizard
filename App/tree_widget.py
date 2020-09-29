@@ -13,7 +13,7 @@ from wizard.prefs.main import prefs
 import options_widget
 from gui import build
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

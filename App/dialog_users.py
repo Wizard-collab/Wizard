@@ -9,7 +9,7 @@ from gui import log_to_gui
 import ui_recover_password
 import time
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

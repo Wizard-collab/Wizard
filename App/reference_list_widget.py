@@ -10,7 +10,7 @@ from wizard.asset.reference import references
 import reference_list_item_widget
 from wizard.asset import main as asset_core
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

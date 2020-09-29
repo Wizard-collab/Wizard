@@ -11,7 +11,7 @@ import dialog_imported_asset_manager
 from wizard.tools import log
 from wizard.asset import reference
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

@@ -11,7 +11,7 @@ import os
 user_prefs = user()
 site_prefs = site()
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 class prefs:
     def __init__(self):

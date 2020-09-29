@@ -7,7 +7,7 @@ from wizard.tools import log
 import traceback
 import dialog_report
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QWidget):

@@ -7,7 +7,7 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.user import user
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class popup(QtWidgets.QWidget):

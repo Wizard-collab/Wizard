@@ -12,7 +12,7 @@ from wizard.tools import log
 from wizard.asset import reference
 import open_ticket_widget
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

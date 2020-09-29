@@ -6,7 +6,7 @@ from wizard.email import main as email
 from wizard.prefs.main import prefs
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

@@ -9,7 +9,7 @@ class log_viewer(logging.Handler):
         self.ui = ui
         self.widget = self.ui.log_lineEdit
         self.frame = self.ui.log_frame
-        self.setFormatter(logging.Formatter('%(levelname)s : %(message)s'))
+        self.setFormatter(logging.Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s"))
 
     def emit(self, record):
         record = self.format(record)
@@ -36,7 +36,7 @@ class log_widget_viewer(QObject, logging.Handler):
     def __init__(self, parent):
         super().__init__(parent)
         super(logging.Handler).__init__()
-        formatter = Formatter("%(levelname)s : %(message)s")
+        formatter = Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s")
         self.setFormatter(formatter)
 
     def emit(self, record):
@@ -58,7 +58,7 @@ class main_ui_log_viewer(QObject, logging.Handler):
     def __init__(self, parent):
         super().__init__(parent)
         super(logging.Handler).__init__()
-        formatter = Formatter("%(levelname)s : %(message)s")
+        formatter = Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s")
         self.setFormatter(formatter)
 
     def emit(self, record):

@@ -6,7 +6,7 @@ from guerilla import Document, Modifier
 import os
 
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def setup_guerilla():
 	set_format()

@@ -19,7 +19,7 @@ import popup
 from wizard.chat.client import client
 import dialog_comment
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

@@ -5,7 +5,7 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.tools import utility as utils
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QWidget):

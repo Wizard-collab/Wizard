@@ -6,7 +6,7 @@ from wizard.prefs.main import prefs
 from wizard.prefs.jokes import jokes
 import user_joke_widget
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

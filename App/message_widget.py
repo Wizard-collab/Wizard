@@ -11,7 +11,7 @@ import wizard.asset.main as asset_core
 from wizard.prefs.stats import stats
 import traceback
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

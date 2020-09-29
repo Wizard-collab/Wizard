@@ -5,7 +5,7 @@ import os
 
 prefs = prefs()
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 def get_conf_file(python_paths):
     project_path = prefs.project_path

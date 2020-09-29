@@ -9,7 +9,7 @@ from wizard.prefs.user_scripts import user_scripts
 import icons_list_dialog
 from gui import build
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 prefs = prefs()
 

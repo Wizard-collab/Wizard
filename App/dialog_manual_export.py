@@ -15,7 +15,7 @@ import ui_subprocess_manager
 from gui import build
 from wizard.tools.tx_from_files import tx_from_files
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QDialog):

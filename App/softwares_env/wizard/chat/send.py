@@ -6,7 +6,7 @@ from wizard.tools import log
 import yaml
 from wizard.prefs.main import prefs
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 def send_message(message):

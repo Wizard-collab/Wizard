@@ -5,7 +5,7 @@ from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
 
-logger = log.pipe_log()
+logger = log.pipe_log(__name__)
 
 
 class Main(QtWidgets.QDialog):
