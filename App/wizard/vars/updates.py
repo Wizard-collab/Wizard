@@ -48,4 +48,11 @@ Version date : 2020-09-28
 - Debug - No more new version query at openning
 - Debug - Critical error on asset lauch and close ( str item was passed instead of QTreeWidgetItem )
 - Debug - Cam export fixed when stage doesn't exists and when only cam is selected
+- Debug - Substance wizard plugin
+'''
+updates['0.9.7.82-b'] = '''Version updates : 0.9.7.82-b
+
+Version date : 2020-09-29
+
+- Debug - Substance wizard plugin
 '''

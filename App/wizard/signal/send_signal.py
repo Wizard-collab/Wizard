@@ -19,3 +19,5 @@ def send_signal():
             server.close()
     except:
         pass
+
+def refresh_signal():

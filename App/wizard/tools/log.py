@@ -17,9 +17,12 @@ using win10toast module
 
 def create_logger(name=None):
     
-    if sys.argv[-1] == 'DEBUG':
-        logging_level = logging.DEBUG
-    else:
+    try:
+        if sys.argv[-1] == 'DEBUG':
+            logging_level = logging.DEBUG
+        else:
+            logging_level = logging.INFO
+    except:
         logging_level = logging.INFO
 
     file = defaults._logging_
