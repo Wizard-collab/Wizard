@@ -102,10 +102,12 @@ class Main_application():
 
             run= 0
 
+            '''
             try:
                 new_version = version.check_version().check_version()
             except:
-                new_version = None
+            '''
+            new_version = None
                 
             if new_version and prefs().show_new_version:
                 self.dialog_new_version = dialog_new_version.Main(new_version)
