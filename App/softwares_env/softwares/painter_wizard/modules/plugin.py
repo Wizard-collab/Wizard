@@ -15,7 +15,7 @@ importlib.reload(export_config)
 from wizard.tools import log
 
 prefs = prefs()
-logger = log.pipe_log(__name__)
+logger = log.pipe_log()
 
 
 

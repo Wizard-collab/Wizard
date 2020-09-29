@@ -63,7 +63,7 @@ import ui_updates
 import webbrowser 
 import dialog_merge_projects
 import dialog_new_version
-from wizard.prefs import version
+#from wizard.prefs import version
 import ui_error_handler
 import user_scripts_widget
 import scene
@@ -1365,7 +1365,8 @@ class Main(QtWidgets.QMainWindow):
     def show_version_manager(self):
         try:
 
-            new_version = version.check_version().check_version()
+            #new_version = version.check_version().check_version()
+            new_version = None
             if new_version:
                 self.dialog_new_version = dialog_new_version.Main(new_version)
                 if build.launch_dialog_as_child(self.dialog_new_version):

@@ -227,7 +227,7 @@ _stage_export_grp_dic_[_layout_] = 'layout_GRP'
 
 _export_manager_stage_dic_ = dict()
 _export_manager_stage_dic_[_export_] = [_rig_, _hair_, _cam_rig_]
-_export_manager_stage_dic_[_playblast_] = [_cam_rig_]
+_export_manager_stage_dic_[_playblast_] = [_cam_rig_, _camera_]
 
 # Reference keys library
 _name_space_key_ = 'namespace'

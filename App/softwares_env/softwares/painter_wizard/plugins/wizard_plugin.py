@@ -12,7 +12,7 @@ import importlib
 importlib.reload(plugin)
 
 from wizard.tools import log
-logger = log.pipe_log(__name__)
+logger = log.pipe_log()
 
 plugin_widgets = []
 """Keep track of added ui elements for cleanup"""

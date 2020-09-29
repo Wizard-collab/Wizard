@@ -79,9 +79,11 @@ class export_anim():
         export_variant = '{}_{}_{}'.format(self.rig_asset.name, self.rig_asset.variant, self.count)
         if self.camera and self.asset.domain == defaults._sequences_:
             self.asset.stage = defaults._camera_
+            software = self.asset.software
             if not checker.check_stage_existence(self.asset):
                 builder.create_stage(self.asset)
                 builder.create_variant(self.asset)
+                self.asset.software = software
 
         export_file = self.asset.export(export_variant, self.comment)
 

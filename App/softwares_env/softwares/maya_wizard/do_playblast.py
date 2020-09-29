@@ -53,5 +53,17 @@ class do_playblast():
             return camera_shape[0]
 
         else:
-            print('{} not found'.format(set_name))
-            return None
+
+            if cmds.namespaceInfo(cur=1) != cam_namespace:
+                cmds.namespace( set = cam_namespace)
+            shapes_list = cmds.namespaceInfo( listNamespace=True)
+            cam = None
+            for shape in shapes_list:
+                if cmds.objectType(shape) == 'camera':
+                    cam = shape
+                    break
+            if cam:
+                return cam
+            else:
+                print('camera or {} not found'.format(set_name))
+                return None

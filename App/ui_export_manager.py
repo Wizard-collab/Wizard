@@ -156,7 +156,10 @@ class Main(QtWidgets.QWidget):
                                                                                         nspace_list,
                                                                                         self.out_range)
             else:
-                logger.warning("Please select at least an asset")
+                if cam_nspace_list == []:
+                    logger.warning("Please select at least an asset")
+                else:
+                    pass
 
             if cam_nspace_list != []:
 

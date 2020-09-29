@@ -37,6 +37,8 @@ updates['0.9.7.81-b'] = '''Version updates : 0.9.7.81-b
 Version date : 2020-09-28
 
 - Wizard API included
+- Playblast can be done from 'camera' stage ( Not only camRig )
+- Debug mode added
 - Debug - Playsound now ignored if can't load sound
 - Debug - When unpin, wizard stay on the current asset
 - Debug - Removing the python module "pickle"
@@ -44,4 +46,6 @@ Version date : 2020-09-28
 - Debug - Changed the "add_to_shelf" option using the wizard API
 - Debug - Scripts names in logging file and in logging stream
 - Debug - No more new version query at openning
+- Debug - Critical error on asset lauch and close ( str item was passed instead of QTreeWidgetItem )
+- Debug - Cam export fixed when stage doesn't exists and when only cam is selected
 '''

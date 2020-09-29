@@ -53,7 +53,7 @@ import ui_wizard_desktop
 import time
 import sys
 
-from wizard.prefs import version
+#from wizard.prefs import version
 import dialog_new_version
 
 # connect to the main logger
