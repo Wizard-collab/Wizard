@@ -16,21 +16,33 @@ using win10toast module
 
 
 def create_logger(name=None):
+    
+    if sys.argv[-1] == 'DEBUG':
+        logging_level = logging.DEBUG
+    else:
+        logging_level = logging.INFO
+
+    file = defaults._logging_
+
+    file_handler = logging.handlers.WatchedFileHandler(file)
+    file_handler.setLevel(logging.DEBUG)
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setLevel(logging.INFO)
+    handler_stderr = logging.StreamHandler(sys.stderr)
+    handler_stderr.setLevel(logging.ERROR)
+
+    logging.basicConfig(level=logging_level,
+        format="%(asctime)s [%(name)-23.23s] [%(levelname)-5.5s] %(message)s")
+    
     if name:
         logger = logging.getLogger(name)
     else:
         logger = logging.getLogger()
-    file = defaults._logging_
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(name)-23.23s] [%(levelname)-5.5s] %(message)s",
-        handlers=[
-            logging.handlers.WatchedFileHandler(file),
-            logging.StreamHandler(sys.stdout)
-        ])
-    handler_stderr = logging.StreamHandler(sys.stderr)
-    handler_stderr.setLevel(logging.ERROR)
+
     logger.addHandler(handler_stderr)
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
     return (logger)
 
 

@@ -901,10 +901,9 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
 
-    def asset_item_changed(self, item = None):
+    def asset_item_changed(self):
         try:
-            if not item:
-                item = self.ui.treeWidget.currentItem()
+            item = self.ui.treeWidget.currentItem()
             self.refresh_asset(item)
             if not self.pin:
                 self.update_current_asset()

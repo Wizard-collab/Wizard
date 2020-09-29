@@ -1,7 +1,12 @@
 import logging
+import sys
 
 from PyQt5.QtCore import pyqtSignal, QObject
 
+if sys.argv[-1] == 'DEBUG':
+    logging_level = logging.DEBUG
+else:
+    logging_level = logging.INFO
 
 class log_viewer(logging.Handler):
     def __init__(self, ui):
@@ -10,6 +15,7 @@ class log_viewer(logging.Handler):
         self.widget = self.ui.log_lineEdit
         self.frame = self.ui.log_frame
         self.setFormatter(logging.Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s"))
+        self.setLevel(logging_level)
 
     def emit(self, record):
         record = self.format(record)
@@ -36,8 +42,12 @@ class log_widget_viewer(QObject, logging.Handler):
     def __init__(self, parent):
         super().__init__(parent)
         super(logging.Handler).__init__()
+
+
+
         formatter = Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s")
         self.setFormatter(formatter)
+        self.setLevel(logging_level)
 
     def emit(self, record):
         msg = self.format(record)
@@ -60,6 +70,7 @@ class main_ui_log_viewer(QObject, logging.Handler):
         super(logging.Handler).__init__()
         formatter = Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s")
         self.setFormatter(formatter)
+        self.setLevel(logging_level)
 
     def emit(self, record):
         msg = self.format(record)

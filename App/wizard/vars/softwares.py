@@ -69,6 +69,6 @@ def get_cmd(software, file, reference = None):
 	if reference and _reference_key_ in cmd:
 		cmd = cmd.replace(_reference_key_, reference)
 
-	logger.info(cmd)
+	logger.debug(cmd)
 
 	return cmd
