@@ -6,7 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.8-b'
+_wizard_version_ = '0.9.7.82-b'
 _doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -91,7 +91,6 @@ _proxy_ = 'proxy'
 _visible_ = 'isVisible'
 _abc_workflow_ = 'abc'
 _wsd_workflow_ = 'wsd'
-_project_setdress_workflow_ = 'setdress_workflow'
 
 _domains_list_ = [_assets_, _library_, _sequences_, _editing_]
 
@@ -225,10 +224,11 @@ _stage_export_grp_dic_[_lighting_] = 'lighting_GRP'
 _stage_export_grp_dic_[_autorig_] = 'autoRig_GRP'
 _stage_export_grp_dic_[_cam_rig_] = 'camRig_GRP'
 _stage_export_grp_dic_[_layout_] = 'layout_GRP'
+_stage_export_grp_dic_[_set_dress_] = 'set_dress_GRP'
 
 _export_manager_stage_dic_ = dict()
 _export_manager_stage_dic_[_export_] = [_rig_, _hair_, _cam_rig_]
-_export_manager_stage_dic_[_playblast_] = [_cam_rig_]
+_export_manager_stage_dic_[_playblast_] = [_cam_rig_, _camera_]
 
 # Reference keys library
 _name_space_key_ = 'namespace'
@@ -1301,3 +1301,12 @@ _guerilla_python26_DLLs_ = 'python'
 
 _substance_plugin_ = 'plugins/Substance Painter/wizard'
 _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins/wizard'.format(os.getenv("USERPROFILE"))
+
+
+# Signal keys library
+_signal_type_key_ = 'type'
+_refresh_signal_ = 'refresh'
+_task_value_ = 'value'
+_task_signal_ = 'task_signal'
+_task_name_signal_ = 'task_name_signal'
+_task_name_ = 'task_name'

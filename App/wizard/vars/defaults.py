@@ -224,6 +224,7 @@ _stage_export_grp_dic_[_lighting_] = 'lighting_GRP'
 _stage_export_grp_dic_[_autorig_] = 'autoRig_GRP'
 _stage_export_grp_dic_[_cam_rig_] = 'camRig_GRP'
 _stage_export_grp_dic_[_layout_] = 'layout_GRP'
+_stage_export_grp_dic_[_set_dress_] = 'set_dress_GRP'
 
 _export_manager_stage_dic_ = dict()
 _export_manager_stage_dic_[_export_] = [_rig_, _hair_, _cam_rig_]

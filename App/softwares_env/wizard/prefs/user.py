@@ -276,7 +276,7 @@ class user:
         self.open_pref_file()
         # Check the password concordance
         try:
-            self.settings[defaults._asset_context_] = pickle.dumps(asset, 0).decode('utf-8')
+            self.settings[defaults._asset_context_] = util.asset_to_string(asset)
         except TypeError:
             self.settings[defaults._asset_context_] = None
         logger.info('Asset context saved !')
@@ -285,8 +285,15 @@ class user:
     def get_context(self):
         self.open_pref_file()
         if self.settings[defaults._asset_context_]:
-            asset = pickle.loads(self.settings[defaults._asset_context_].encode('utf-8'))
-            return asset
+            try:
+                asset = pickle.loads(self.settings[defaults._asset_context_].encode('utf-8'))
+                return util.asset_to_string(asset)
+            except:
+                try:
+                    asset = self.settings[defaults._asset_context_]
+                    return asset
+                except:
+                    return None
         else:
             return None
 

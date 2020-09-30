@@ -27,8 +27,10 @@ def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     stage = asset.stage
     category = asset.category
-    if stage == defaults._geo_:
+    if stage == defaults._geo_ and asset.category != defaults._set_dress_:
         export_geo()
+    elif stage == defaults._geo_ and asset.category == defaults._set_dress_:
+        export_set_dress()
     elif stage == defaults._rig_:
         export_rig()
     elif stage == defaults._autorig_:
@@ -81,6 +83,27 @@ def export_geo():
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
+        wall.wall().publish_event(asset)
+
+def export_set_dress():
+    if sanity(defaults._stage_export_grp_dic_[defaults._set_dress_]):
+
+        save()
+
+        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._set_dress_], ad=1):
+            cmds.select(clear=1)
+            cmds.select(mesh)
+            relatives = cmds.listRelatives(mesh)
+            if relatives:
+                if cmds.objectType(relatives[0]) == 'mesh':
+                    auto_tag.tagGuerillaAuto()
+
+        cmds.select(clear=1)
+        cmds.select('set_dress_GRP')
+
+        asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._set_dress_])
         wall.wall().publish_event(asset)
 
 def export_cyclo():

@@ -28,38 +28,46 @@ def create_category(asset):
     # First read the project dictionnary
     project_dic = project.read_project()
 
-    # Check if category doesn't exists
-    # Using the wizard "checker" module
-    if not checker.check_category_existence(asset):
+    if not util.check_illegal(asset.category) or asset.category == "None" or asset.category == "none":
 
-        # Add the category to the project dictionnary
-        project_dic \
-            [asset.domain] \
-            [asset.category] = {}
+        # Return the fail and log the problem to the user
+        logger.warning('{} contains illegal characters'.format(asset.category))
+        return 0
 
-        # Write the project dictionnary to the tree.wd
-        project.write_project(project_dic)
-
-        # Build the folders
-        create_folders(asset)
-
-        # Init the asset category prefs
-        prefs.asset(asset).category.write()
-
-        # Log the success to user
-        logger.debug('Sequence {} added to asset.wd'.format(asset.category))
-        logger.info('{} created'.format(asset.category))
-
-        # Emit the event with the "wall" module ( from wizard )
-        wall().create_event(asset)
-
-        # Return the success
-        return 1
     else:
 
-        # Return the fail and log it to the user
-        logger.warning('{} already exists'.format(asset.category))
-        return 0
+        # Check if category doesn't exists
+        # Using the wizard "checker" module
+        if not checker.check_category_existence(asset):
+
+            # Add the category to the project dictionnary
+            project_dic \
+                [asset.domain] \
+                [asset.category] = {}
+
+            # Write the project dictionnary to the tree.wd
+            project.write_project(project_dic)
+
+            # Build the folders
+            create_folders(asset)
+
+            # Init the asset category prefs
+            prefs.asset(asset).category.write()
+
+            # Log the success to user
+            logger.debug('Sequence {} added to asset.wd'.format(asset.category))
+            logger.info('{} created'.format(asset.category))
+
+            # Emit the event with the "wall" module ( from wizard )
+            wall().create_event(asset)
+
+            # Return the success
+            return 1
+        else:
+
+            # Return the fail and log it to the user
+            logger.warning('{} already exists'.format(asset.category))
+            return 0
 
 def remove_category(asset):
 
@@ -93,7 +101,7 @@ def create_name(asset, in_out=None):
     project_dic = project.read_project()
     
     # Check special characters
-    if not util.check_illegal(asset.name):
+    if not util.check_illegal(asset.name) or asset.name == "None" or asset.name == "none":
 
         # Return the fail and log the problem to the user
         logger.warning('{} contains illegal characters'.format(asset.name))
@@ -258,72 +266,80 @@ def create_variant(asset):
     # First read the project dictionnary
     project_dic = project.read_project()
 
-    # Check if category, name, stage exists
-    # Check if variant doesn't exists
-    if checker.check_category_existence(asset):
-        if checker.check_name_existence(asset):
-            if checker.check_stage_existence(asset):
-                if not checker.check_variant_existence(asset):
+    # Check special characters
+    if not util.check_illegal(asset.variant) or asset.variant == "None" or asset.variant == "none":
 
-                    # Add the variant to the project dictionnary
-                    project_dic[asset.domain] \
-                        [asset.category] \
-                        [asset.name] \
-                        [asset.stage] \
-                        [asset.variant] = {}
+        # Return the fail and log the problem to the user
+        logger.warning('{} contains illegal characters'.format(asset.variant))
+        return 0
 
-                    # Add an ID for the variant
-                    id = nodes.asset_to_id(asset)
-                    project_dic[asset.domain] \
-                        [asset.category] \
-                        [asset.name] \
-                        [asset.stage] \
-                        [asset.variant] \
-                        [defaults._asset_id_key_] = id
+    else:
+        # Check if category, name, stage exists
+        # Check if variant doesn't exists
+        if checker.check_category_existence(asset):
+            if checker.check_name_existence(asset):
+                if checker.check_stage_existence(asset):
+                    if not checker.check_variant_existence(asset):
 
-                    # Write the project dictionnary to the tree.wd
-                    project.write_project(project_dic)
+                        # Add the variant to the project dictionnary
+                        project_dic[asset.domain] \
+                            [asset.category] \
+                            [asset.name] \
+                            [asset.stage] \
+                            [asset.variant] = {}
 
-                    # Build the folders
-                    create_folders(asset)
+                        # Add an ID for the variant
+                        id = nodes.asset_to_id(asset)
+                        project_dic[asset.domain] \
+                            [asset.category] \
+                            [asset.name] \
+                            [asset.stage] \
+                            [asset.variant] \
+                            [defaults._asset_id_key_] = id
 
-                    # Init the asset variant prefs
-                    prefs.asset(asset).variant.write()
+                        # Write the project dictionnary to the tree.wd
+                        project.write_project(project_dic)
 
-                    # Add the variant to the stage prefs
-                    prefs.asset(asset).stage.add_variant()
+                        # Build the folders
+                        create_folders(asset)
 
-                    # Create the softwares prefs and folders, childs of variant
-                    create_softwares(asset)
-                    create_export_root(asset)
-                    create_playblast(asset)
+                        # Init the asset variant prefs
+                        prefs.asset(asset).variant.write()
 
-                    # Log the success to user
-                    logger.info('{} - {} - {} created'.format(asset.name,
-                                                              asset.stage,
-                                                              asset.variant))
+                        # Add the variant to the stage prefs
+                        prefs.asset(asset).stage.add_variant()
 
-                    # Create the wall event with the "wall" wizard module
-                    wall().create_event(asset)
+                        # Create the softwares prefs and folders, childs of variant
+                        create_softwares(asset)
+                        create_export_root(asset)
+                        create_playblast(asset)
 
-                    # Return the success
-                    return 1
+                        # Log the success to user
+                        logger.info('{} - {} - {} created'.format(asset.name,
+                                                                  asset.stage,
+                                                                  asset.variant))
+
+                        # Create the wall event with the "wall" wizard module
+                        wall().create_event(asset)
+
+                        # Return the success
+                        return 1
+                    else:
+
+                        # Return the fail and log it to the user
+                        logger.warning('{} - {} - {} already exists'.format(asset.name,
+                                                                            asset.stage,
+                                                                            asset.variant))
+                        return 0
                 else:
-
-                    # Return the fail and log it to the user
-                    logger.warning('{} - {} - {} already exists'.format(asset.name,
-                                                                        asset.stage,
-                                                                        asset.variant))
+                    logger.warning("{} doesn't exists".format(asset.stage))
                     return 0
             else:
-                logger.warning("{} doesn't exists".format(asset.stage))
+                logger.warning("{} doesn't exists".format(asset.name))
                 return 0
         else:
-            logger.warning("{} doesn't exists".format(asset.name))
+            logger.warning("{} doesn't exists".format(asset.category))
             return 0
-    else:
-        logger.warning("{} doesn't exists".format(asset.category))
-        return 0
 
 
 def create_softwares(asset):

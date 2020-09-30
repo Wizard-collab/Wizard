@@ -199,10 +199,6 @@ class prefs:
 
     def set_shutter(self, shutter):
         user_prefs.set_shutter(shutter)
-
-    @property
-    def extension_dic(self):
-        return project_prefs.get_extension_dic()
     
     class site:
         def __init__(self):

@@ -10,6 +10,7 @@ from wizard.project.wall import wall
 import wizard.prefs.software as software_prefs
 from wizard.software import main as software
 import os
+import sys
 
 prefs = prefs()
 
@@ -37,6 +38,7 @@ class playblast():
         print('status:Starting...')
         print('status:Working...')
         print('current_task:Playblasting...')
+        sys.stdout.flush()
 
         mayapy = prefs.software(defaults._mayapy_).path
         
@@ -48,19 +50,22 @@ class playblast():
         print('percent:33')
 
         print('current_task:Conforming frames...')
+        sys.stdout.flush()
 
         if ornaments:
             self.conform_playblast()
 
         print('percent:66')
         print('current_task:Creating movie file...')
+        sys.stdout.flush()
 
         pbfile = self.create_video()
-
+        wall().playblast_event(self.asset)
+        
         print('status:Done !')
         print('percent:100')
+        sys.stdout.flush()
 
-        wall().playblast_event(self.asset)
 
         if show_playblast:
             os.startfile(pbfile)
@@ -68,6 +73,8 @@ class playblast():
     def conform_playblast(self):
         f = 0
         frange = prefs.asset(self.asset).name.range
+        percent_step = 33.0/int(frange[-1])
+        percent = 33
         user = prefs.user
         for file in os.listdir(self.temp_directory):
             file = os.path.join(self.temp_directory, file)
@@ -82,6 +89,9 @@ class playblast():
                                                                                 str(f+frange[0]))
             convert_playblast.convert_image(file, string)
             f+=1
+            percent += percent_step
+            print('percent:{}'.format(int(percent)))
+            sys.stdout.flush()
 
     def create_video(self):
         files_list = []
