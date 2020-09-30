@@ -119,7 +119,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
                 file = utils.temp_file_from_command(command)
 
                 self.ui_subprocess_manager = ui_subprocess_manager.Main(["python", "-u", file])
-                build.launch_normal_as_child(self.ui_subprocess_manager)
+                build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
 
     def do_playblast(self):
         if self.asset:

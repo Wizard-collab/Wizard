@@ -189,10 +189,13 @@ def launch_dialog_as_child_frameless_trans(widget):
     else:
         return 0
 
-def launch_normal_as_child(widget):
+def launch_normal_as_child(widget, minimized = 0):
     widget.setWindowTitle('Wizard')
     widget.setStyleSheet(load_stylesheet())
-    widget.show()
+    if minimized:
+        widget.showMinimized()
+    else:
+        widget.show()
 
 def launch_normal_as_child_ontop(widget):
     widget.setWindowTitle('Wizard')

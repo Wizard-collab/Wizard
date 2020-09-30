@@ -69,9 +69,10 @@ class export_fur():
 			percent += percent_step
 			print('percent:'+str(percent))
 
+		wall.wall().publish_event(self.asset)
+		
 		if self.set_done:
 			print('status:Done !')
-		wall.wall().publish_event(self.asset)
 
 	def export_yeti_nodes(self, len_nspacelist, percent):
 

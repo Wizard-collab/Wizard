@@ -65,9 +65,10 @@ class export_anim():
 
             logging.info('percent:'+str(percent))
 
+        wall.wall().publish_event(self.asset)
+
         if self.set_done:
             logging.info('status:Done !')
-        wall.wall().publish_event(self.asset)
 
     def export_cam(self):
         self.camera = 1

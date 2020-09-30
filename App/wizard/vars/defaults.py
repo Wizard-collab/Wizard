@@ -1300,3 +1300,12 @@ _guerilla_python26_DLLs_ = 'python'
 
 _substance_plugin_ = 'plugins/Substance Painter/wizard'
 _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins/wizard'.format(os.getenv("USERPROFILE"))
+
+
+# Signal keys library
+_signal_type_key_ = 'type'
+_refresh_signal_ = 'refresh'
+_task_value_ = 'value'
+_task_signal_ = 'task_signal'
+_task_name_signal_ = 'task_name_signal'
+_task_name_ = 'task_name'

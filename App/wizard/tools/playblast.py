@@ -60,12 +60,12 @@ class playblast():
         sys.stdout.flush()
 
         pbfile = self.create_video()
-
+        wall().playblast_event(self.asset)
+        
         print('status:Done !')
         print('percent:100')
         sys.stdout.flush()
 
-        wall().playblast_event(self.asset)
 
         if show_playblast:
             os.startfile(pbfile)
@@ -73,6 +73,8 @@ class playblast():
     def conform_playblast(self):
         f = 0
         frange = prefs.asset(self.asset).name.range
+        percent_step = 33.0/int(frange[-1])
+        percent = 33
         user = prefs.user
         for file in os.listdir(self.temp_directory):
             file = os.path.join(self.temp_directory, file)
@@ -87,6 +89,9 @@ class playblast():
                                                                                 str(f+frange[0]))
             convert_playblast.convert_image(file, string)
             f+=1
+            percent += percent_step
+            print('percent:{}'.format(int(percent)))
+            sys.stdout.flush()
 
     def create_video(self):
         files_list = []

@@ -73,6 +73,7 @@ import inspect
 from wizard.user_scripts import user_scripts_library
 from wizard import api
 import tickets_widget
+import task_progress_info_widget
 
 try:
     import mss
@@ -145,13 +146,20 @@ class Main(QtWidgets.QMainWindow):
             self.show_updates()
             self.add_user_to_project()
             self.init_user_scripts_widget()
+            self.show_task_info_widget()
             self.init_local_server()
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def show_task_info_widget(self):
+        self.task_progress_info_widget = task_progress_info_widget.Main()
+        self.ui.task_info_widget_layout.addWidget(self.task_progress_info_widget)
+
     def init_local_server(self):
         self.signal_server = signal_server()
-        self.signal_server.signal_received.connect(self.asset_item_changed)
+        self.signal_server.refresh_signal.connect(self.asset_item_changed)
+        self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
+        self.signal_server.task_name_signal.connect(logger.info)
         self.signal_server.start()
 
     def add_user_to_project(self):

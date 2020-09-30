@@ -16,6 +16,7 @@ import sys
 import os
 import pyperclip
 import contextlib
+from wizard.signal import send_signal
 import time
 
 logger = log.pipe_log(__name__)
@@ -62,7 +63,7 @@ class Main(QtWidgets.QWidget):
     def closeEvent(self, event):
         event.ignore()
         if self.sub_thread:
-            self.sub_thread.kill_process()
+            self.sub_thread.kill_process(0)
         self.hide()
 
     def run_subprocess(self):
@@ -71,7 +72,7 @@ class Main(QtWidgets.QWidget):
         self.sub_thread.time_signal.connect(self.update_clock)
         self.sub_thread.out_signal.connect(self.ui.process_stdout_textEdit.append)
         self.sub_thread.err_signal.connect(self.ui.process_stderr_textEdit.append)
-        self.sub_thread.task_signal.connect(self.ui.subprocess_current_task_lineEdit.setText)
+        self.sub_thread.task_signal.connect(self.update_task_name)
         self.sub_thread.status_signal.connect(self.ui.subprocess_status_lineEdit.setText)
         self.sub_thread.status_signal.connect(self.update_loading)
         self.sub_thread.percent_signal.connect(self.update_progress_bar)
@@ -80,17 +81,28 @@ class Main(QtWidgets.QWidget):
         text_time = time.strftime("%H:%M:%S", time.gmtime(int_time))
         self.ui.subprocess_time_lineEdit.setText(text_time)
 
+    def update_task_name(self, name):
+        self.ui.subprocess_current_task_lineEdit.setText(name)
+        send_signal.task_name_signal(name)
+
     def update_loading(self, status):
         if status == 'Done !':
+            send_signal.task_signal(100)
+            send_signal.task_name_signal('Done !')
             self.ui.subprocess_percent_progressBar.setStyleSheet('#subprocess_percent_progressBar::chunk{background-color:#B7E266;}')
             self.stop_loading_gif()
+            if self.windowState() == QtCore.Qt.WindowMinimized:
+                self.close()
         if status == 'Starting...':
+            send_signal.task_signal(0)
             self.ui.subprocess_percent_progressBar.setStyleSheet('#subprocess_percent_progressBar::chunk{background-color:#FF9966;}')
             self.start_loading_gif()
         if status == 'Stopped':
             self.ui.subprocess_percent_progressBar.setStyleSheet('#subprocess_percent_progressBar::chunk{background-color:#db5c5c;}')
             self.ui.subprocess_percent_progressBar.setValue(100)
             self.stopped_process_icon()
+            send_signal.task_name_signal('Process manually stopped')
+
 
     def start_loading_gif(self):
         try:
@@ -119,7 +131,7 @@ class Main(QtWidgets.QWidget):
 
     def update_progress_bar(self, percent):
         self.ui.subprocess_percent_progressBar.setValue(percent)
-        QApplication.processEvents()
+        send_signal.task_signal(percent)
 
     def get_logs(self):
         stdout = self.ui.process_stdout_textEdit.toPlainText()
@@ -182,12 +194,12 @@ class run_subprocess(QThread):
         self.outThread.quit()
         self.errThread.quit()
 
-    def kill_process(self):
+    def kill_process(self, manual = 1):
         try:
 
-            self.out_signal.emit("Process manualy stopped")
-            self.err_signal.emit("Process manualy stopped")
-            self.status_signal.emit("Stopped")
+            if manual:
+                self.out_signal.emit("Process manualy stopped")
+                self.status_signal.emit("Stopped")
 
             subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=self.process.pid))
             self.timerThread.running = 0  

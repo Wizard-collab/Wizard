@@ -177,7 +177,7 @@ class Main(QtWidgets.QWidget):
                 env = software.get_env(defaults._mayapy_, 0)
 
                 self.ui_subprocess_manager = ui_subprocess_manager.Main([mayapy, "-u", file], env)
-                build.launch_normal_as_child(self.ui_subprocess_manager)
+                build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
 
                 self.hide()
 
@@ -215,7 +215,7 @@ class Main(QtWidgets.QWidget):
                         python_system = 'python'
 
                     self.ui_subprocess_manager = ui_subprocess_manager.Main("{} {}".format(python_system, file))
-                    build.launch_normal_as_child(self.ui_subprocess_manager)
+                    build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
 
                     self.hide()
 
