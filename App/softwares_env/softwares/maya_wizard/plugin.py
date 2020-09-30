@@ -261,7 +261,7 @@ def export_camRig():
 
 def export_hair():
     if sanity_hair():
-        file = export_ma(defaults._stage_export_grp_dic_[defaults._cam_rig_])
+        file = export_ma(defaults._stage_export_grp_dic_[defaults._hair_])
         if file:
             export_fur(file)
 
