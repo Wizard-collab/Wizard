@@ -227,6 +227,7 @@ def import_geo(namespace = None):
             run = 0
         if imported_asset[0].stage == defaults._geo_ and run:
             if not cmds.namespace(exists=imported_asset[1]):
+                old_namespace = cmds.namespaceInfo( currentNamespace=True )
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
             if cmds.objExists(imported_asset[0].export_asset):
                 cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)

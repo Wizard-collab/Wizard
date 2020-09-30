@@ -56,3 +56,11 @@ Version date : 2020-09-29
 
 - Debug - Substance wizard plugin
 '''
+updates['0.9.7.83-b'] = '''Version updates : 0.9.7.83-b
+
+Version date : 2020-09-30
+
+Added a task progress bar in the main ui
+- Debug - Nuke launch
+- Debug - Set dress and set workflow ( No more name clash at layout publish )
+'''

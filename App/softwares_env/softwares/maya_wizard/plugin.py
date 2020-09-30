@@ -27,10 +27,13 @@ def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     stage = asset.stage
     category = asset.category
-    if stage == defaults._geo_ and asset.category != defaults._set_dress_:
-        export_geo()
-    elif stage == defaults._geo_ and asset.category == defaults._set_dress_:
-        export_set_dress()
+    if stage == defaults._geo_:
+        if asset.category == defaults._set_dress_:
+            export_set_dress()  
+        elif asset.category == defaults._sets_:
+            export_sets()
+        else:
+            export_geo()
     elif stage == defaults._rig_:
         export_rig()
     elif stage == defaults._autorig_:
@@ -83,6 +86,29 @@ def export_geo():
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
+        wall.wall().publish_event(asset)
+
+def export_sets():
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    grp_name = '{}_GRP'.format(asset.name)
+    if sanity(grp_name):
+
+        save()
+
+        for mesh in cmds.listRelatives(grp_name, ad=1):
+            cmds.select(clear=1)
+            cmds.select(mesh)
+            relatives = cmds.listRelatives(mesh)
+            if relatives:
+                if cmds.objectType(relatives[0]) == 'mesh':
+                    auto_tag.tagGuerillaAuto()
+
+        cmds.select(clear=1)
+        cmds.select(grp_name)
+
+        asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        export_abc([0, 1], file, grp_name)
         wall.wall().publish_event(asset)
 
 def export_set_dress():
