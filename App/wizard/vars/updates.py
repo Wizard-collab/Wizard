@@ -71,3 +71,9 @@ Version date : 2020-10-01
 - Debug - Auto hair ( maya + yeti added to pub_ext_dic )
 - Debug - Grooming : Publish solved ( No more camRig_GRP asked )
 '''
+updates['0.9.7.85-b'] = '''Version updates : 0.9.7.85-b
+
+Version date : 2020-10-01
+
+- Debug - Debug Maya + Yeti ( No more maya yeti as defaults software )
+'''
