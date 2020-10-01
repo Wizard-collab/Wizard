@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\work\ui_files\icons_list_dialog.ui'
+# Form implementation generated from reading ui file 'icons_list_dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -29,7 +29,10 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.label)
         self.verticalLayout.addWidget(self.frame)
         self.icons_list_listWidget = QtWidgets.QListWidget(Dialog)
+        self.icons_list_listWidget.setProperty("showDropIndicator", False)
         self.icons_list_listWidget.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.icons_list_listWidget.setDefaultDropAction(QtCore.Qt.IgnoreAction)
+        self.icons_list_listWidget.setResizeMode(QtWidgets.QListView.Adjust)
         self.icons_list_listWidget.setViewMode(QtWidgets.QListView.IconMode)
         self.icons_list_listWidget.setObjectName("icons_list_listWidget")
         self.verticalLayout.addWidget(self.icons_list_listWidget)
