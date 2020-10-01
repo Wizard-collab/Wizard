@@ -64,3 +64,10 @@ Added a task progress bar in the main ui
 - Debug - Nuke launch
 - Debug - Set dress and set workflow ( No more name clash at layout publish )
 '''
+updates['0.9.7.84-b'] = '''Version updates : 0.9.7.84-b
+
+Version date : 2020-10-01
+
+- Debug - Auto hair ( maya + yeti added to pub_ext_dic )
+- Debug - Grooming : Publish solved ( No more camRig_GRP asked )
+'''

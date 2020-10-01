@@ -121,14 +121,14 @@ class auto_hair():
 	def match_geos(self):
 		match = None
 
-		rig_references = prefs().asset(self.rig_asset).variant.references
+		rig_references = prefs().asset(self.rig_asset).software.references
 		rig_geo_asset = None
 		for reference in rig_references.keys():
 			asset = asset_core.string_to_asset(rig_references[reference][defaults._asset_key_])
 			if asset.stage == defaults._geo_ and asset.name == self.rig_asset.name:
 				rig_geo_asset = asset
 				break
-		groom_references = prefs().asset(self.grooming_asset).variant.references
+		groom_references = prefs().asset(self.grooming_asset).software.references
 		grooming_geo_asset = None
 		for reference in groom_references.keys():
 			asset = asset_core.string_to_asset(groom_references[reference][defaults._asset_key_])

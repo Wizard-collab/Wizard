@@ -58,10 +58,10 @@ class treeWidget(QtWidgets.QTreeWidget):
             asset = copy.deepcopy(self.parent.selected_asset)
             for variant in prefs.asset(asset).stage.variants:
                 asset.variant = variant
-                asset.software = asset_prefs.variant(asset).get_default_software()
                 asset.export_asset = prefs.asset(asset).export_root.default_export_asset
                 if asset.export_asset:
                     asset.export_version = prefs.asset(asset).export.last_version
+                    asset.software =  prefs.asset(asset).export.version_software
                     if asset.export_version:
                         string_asset = utils.asset_to_string(asset)
                         mimeData = QtCore.QMimeData()

@@ -136,6 +136,11 @@ class Main(QtWidgets.QWidget):
 
             if nspace_list != []:
 
+                if cam_nspace_list != []:
+                    set_done = 0
+                else:
+                    set_done = 1
+
                 if self.asset.stage == defaults._animation_ and auto_hair:
                     command = 'from softwares.maya_wizard.auto_hair import auto_hair\n'
                     command += 'auto_hair("{}", "{}", {}, frange = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
@@ -145,10 +150,11 @@ class Main(QtWidgets.QWidget):
 
                 elif self.asset.stage == defaults._animation_ and not auto_hair:
                     command += 'from softwares.maya_wizard.export_anim import export_anim\n'
-                    command += 'export_anim("{}", "{}", {}, frange = {}).export_anim()'.format(utils.asset_to_string(self.asset),
+                    command += 'export_anim("{}", "{}", {}, frange = {}, set_done = {}).export_anim()'.format(utils.asset_to_string(self.asset),
                                                                                             self.asset.file.replace('\\', '/'),
                                                                                             nspace_list,
-                                                                                            self.out_range)
+                                                                                            self.out_range,
+                                                                                            set_done)
                 elif self.asset.stage == defaults._cfx_:
                     command = 'from softwares.maya_wizard.export_fur import export_fur\n'
                     command += 'export_fur("{}", "{}", {}, {}).export_fur()'.format(utils.asset_to_string(self.asset),
