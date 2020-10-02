@@ -18,6 +18,7 @@ from gui.seen_widget import Ui_Seen_widget
 import popup
 from wizard.chat.client import client
 import dialog_comment
+import yaml
 
 logger = log.pipe_log(__name__)
 
@@ -100,6 +101,10 @@ class Main(QtWidgets.QWidget):
                 else:
                     pass
 
+    def hard_refresh_wall(self):
+        self.clear_wall()
+        self.init_wall()
+
     def refresh_wall(self):
         creation = self.ui.creation_filter_pushButton.isChecked()
         publish = self.ui.publish_filter_pushButton.isChecked()
@@ -127,6 +132,7 @@ class Main(QtWidgets.QWidget):
                 self.client = client()
                 self.client.start()
                 self.client.receive.connect(self.build_wall_event)
+                #self.client.receive.connect(self.popup_event)
                 self.client.stopped.connect(self.restart)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -144,12 +150,20 @@ class Main(QtWidgets.QWidget):
 
     def build_wall_event(self, event=None, pop=1, new=1):
         try:
-            user = self.wall.get_user(event)
-            date = self.wall.get_date(event)
-            message = self.wall.get_message(event)
-            id = self.wall.get_id(event)
-            time_id = self.wall.get_time_id(event)
-            asset = self.wall.get_asset(event)
+            if type(event) == str:
+                event = yaml.load(event, Loader=yaml.Loader)
+            user = event[defaults._creation_user_key_]
+            id = event[defaults._wall_id_key_]
+            message = event[defaults._message_key_]
+            #user = self.wall.get_user(event)
+            #date = self.wall.get_date(event)
+            date = event[defaults._creation_date_key_]
+            #message = self.wall.get_message(event)
+            #id = self.wall.get_id(event)
+            #time_id = self.wall.get_time_id(event)
+            time_id = event[defaults._wall_time_id_key_]
+            asset = event[defaults._asset_key_]
+            #asset = self.wall.get_asset(event)
             if self.previous_widget and date:
                 if strftime("%d", self.previous_widget.date) != strftime("%d", date):
                     self.continuity = 0

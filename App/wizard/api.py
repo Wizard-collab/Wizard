@@ -315,6 +315,11 @@ def create_shot(sequence, shot):
 	asset = asset_core.asset(_sequences_, sequence, shot)
 	asset.create()
 
+def create_animation_stage(sequence, shot):
+	'''Create animation for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _animation_)
+	asset.create()
+
 def asset_to_string(asset):
 	'''Convert an asset object to a string'''
 	string_asset = asset_core.asset_to_string(asset)

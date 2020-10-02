@@ -157,6 +157,7 @@ class Main(QtWidgets.QMainWindow):
 
     def init_local_server(self):
         self.signal_server = signal_server()
+        self.signal_server.refresh_signal.connect(lambda:self.update_tree(0))
         self.signal_server.refresh_signal.connect(self.asset_item_changed)
         self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
         self.signal_server.task_name_signal.connect(logger.info)
@@ -171,7 +172,7 @@ class Main(QtWidgets.QMainWindow):
     def init_main_refresh_button(self):
         try:
             self.ui.refresh_pushButton.setIcon(QtGui.QIcon(defaults._refresh_icon_))
-            self.ui.refresh_pushButton.clicked.connect(self.ui.treeWidget.refresh_all)
+            self.ui.refresh_pushButton.clicked.connect(lambda:self.update_tree(0))
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -420,7 +421,8 @@ class Main(QtWidgets.QMainWindow):
     def init_wall_widget(self):
         try:
             self.wall_widget = wall_widget.Main(self)
-            self.wall_widget.refresh_signal.connect(self.update_variants)
+            self.wall_widget.refresh_signal.connect(lambda:self.update_tree(0))
+            self.wall_widget.refresh_signal.connect(self.asset_item_changed)
             self.ui.wall_layout.insertWidget(0, self.wall_widget)
             self.wall_widget.hide()
         except:

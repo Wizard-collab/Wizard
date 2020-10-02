@@ -104,6 +104,7 @@ def add_item(widget, parent, name, create=None, editable=False, stage=None):
         if name == parent.child(i).text(0):
             add = False
             new_item = parent.child(i)
+            refresh_item(new_item, name, create)
             break
 
     if add:
@@ -145,6 +146,17 @@ def add_item(widget, parent, name, create=None, editable=False, stage=None):
         parent.addChild(new_item)
 
     return new_item
+
+def refresh_item(item, name, create):
+    if not create:
+        tree_get.disable_edit(item)
+        tree_get.remove_icon(item)
+        tree_get.set_white(item)
+        tree_get.reset_data_text(item)
+        tree_get.set_icon(item)
+        icon = get_icon_from_name(name)
+        if icon:
+            item.setIcon(0, QtGui.QIcon(icon))
 
 
 def get_icon_from_name(name):
