@@ -470,11 +470,15 @@ class Main(QtWidgets.QMainWindow):
             project_tree = project.read_project()
             if project_tree:
                 fill.build_tree(self.ui.treeWidget, project_tree)
-                asset = asset_core.string_to_asset(self.prefs.context)
-                if asset.domain and asset.category and asset.name and init:
-                    self.asset = asset
-                    if self.asset.stage:
-                        tree_get.select_asset(self.ui.treeWidget, self.asset)
+                string_asset = self.prefs.context
+                if string_asset:
+                    asset = asset_core.string_to_asset(string_asset)
+                    if asset.domain and asset.category and asset.name and init:
+                        self.asset = asset
+                        if self.asset.stage:
+                            tree_get.select_asset(self.ui.treeWidget, self.asset)
+                    else:
+                        self.asset = asset_core.asset()
                 else:
                     self.asset = asset_core.asset()
         except:
@@ -1232,7 +1236,7 @@ class Main(QtWidgets.QMainWindow):
                 self.refresh_pinned_item(pin=0)
                 self.pinned_item = None
                 tree_get.select_asset(self.ui.treeWidget, self.asset)
-                self.asset_item_changed()
+                #self.asset_item_changed()
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))

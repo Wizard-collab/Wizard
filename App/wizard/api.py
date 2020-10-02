@@ -320,6 +320,41 @@ def create_animation_stage(sequence, shot):
 	asset = asset_core.asset(_sequences_, sequence, shot, _animation_)
 	asset.create()
 
+def create_lighting_stage(sequence, shot):
+	'''Create lighting for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _lighting_)
+	asset.create()
+
+def create_fx_stage(sequence, shot):
+	'''Create fx for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _fx_)
+	asset.create()
+
+def create_camera_stage(sequence, shot):
+	'''Create camera for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _camera_)
+	asset.create()
+
+def create_concept_stage(sequence, shot):
+	'''Create concept for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _concept_)
+	asset.create()
+
+def create_layout_stage(sequence, shot):
+	'''Create layout for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _layout_)
+	asset.create()
+
+def create_compositing_stage(sequence, shot):
+	'''Create compositing for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _compositing_)
+	asset.create()
+
+def create_cfx_stage(sequence, shot):
+	'''Create cfx for the given shot'''
+	asset = asset_core.asset(_sequences_, sequence, shot, _cfx_)
+	asset.create()
+
 def asset_to_string(asset):
 	'''Convert an asset object to a string'''
 	string_asset = asset_core.asset_to_string(asset)
