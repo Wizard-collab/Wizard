@@ -20,6 +20,8 @@ class Main(QtWidgets.QDialog):
     def connect_functions(self):
 
         self.ui.accept_pushButton.clicked.connect(self.add_site)
+        self.ui.openExplorer_pushButton.clicked.connect(self.open_explorer)
+        self.ui.openExplorer_pushButton.setIcon(QtGui.QIcon(defaults._folder_icon_))
         self.ui.site_image_label.setPixmap(QtGui.QPixmap(defaults._site_icon_).scaled(60, 60, QtCore.Qt.KeepAspectRatio,
                                                                               QtCore.Qt.SmoothTransformation))
         self.ui.site_lineEdit.textChanged.connect(self.update_site_path)
@@ -43,3 +45,9 @@ class Main(QtWidgets.QDialog):
         if site_path and site_path != '':
             self.site_path = site_path
             self.accept()
+
+    def open_explorer(self):
+
+        site_path = QtWidgets.QFileDialog.getExistingDirectory(None, 'Choose a destination folder',
+                                                         'c://', QtWidgets.QFileDialog.ShowDirsOnly)
+        self.ui.site_lineEdit.setText(site_path)
