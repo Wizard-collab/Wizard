@@ -3,6 +3,5 @@ __pycache__
 *.log
 *Thumbs.db
 *.prefs
-Data
 dist
 build
