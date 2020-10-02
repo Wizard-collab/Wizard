@@ -134,7 +134,6 @@ def select_asset(treeWidget, asset):
             break
     for name in range(category.childCount()):
         name = category.child(name)
-        name.setExpanded(0)
         if name.text(0) == asset.name:
             name.setExpanded(1)
             break

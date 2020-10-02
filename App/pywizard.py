@@ -71,6 +71,8 @@ from wizard.tools import playblast
 from wizard.tools import utility
 
 from wizard.wsd import main
+import scene
+from wizard import api
 
 try:
 	file = sys.argv[1]

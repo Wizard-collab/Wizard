@@ -12,3 +12,6 @@ def current_asset():
 
 def refresh_ui():
 	send_signal.refresh_signal()
+
+def update_main_progress_bar(percent):
+	send_signal.task_signal(percent)

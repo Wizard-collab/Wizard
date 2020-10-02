@@ -157,6 +157,7 @@ class Main(QtWidgets.QMainWindow):
 
     def init_local_server(self):
         self.signal_server = signal_server()
+        self.signal_server.refresh_signal.connect(lambda:self.update_tree(0))
         self.signal_server.refresh_signal.connect(self.asset_item_changed)
         self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
         self.signal_server.task_name_signal.connect(logger.info)
@@ -171,7 +172,7 @@ class Main(QtWidgets.QMainWindow):
     def init_main_refresh_button(self):
         try:
             self.ui.refresh_pushButton.setIcon(QtGui.QIcon(defaults._refresh_icon_))
-            self.ui.refresh_pushButton.clicked.connect(self.ui.treeWidget.refresh_all)
+            self.ui.refresh_pushButton.clicked.connect(lambda:self.update_tree(0))
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -420,7 +421,8 @@ class Main(QtWidgets.QMainWindow):
     def init_wall_widget(self):
         try:
             self.wall_widget = wall_widget.Main(self)
-            self.wall_widget.refresh_signal.connect(self.update_variants)
+            self.wall_widget.refresh_signal.connect(lambda:self.update_tree(0))
+            self.wall_widget.refresh_signal.connect(self.asset_item_changed)
             self.ui.wall_layout.insertWidget(0, self.wall_widget)
             self.wall_widget.hide()
         except:
@@ -468,11 +470,15 @@ class Main(QtWidgets.QMainWindow):
             project_tree = project.read_project()
             if project_tree:
                 fill.build_tree(self.ui.treeWidget, project_tree)
-                asset = asset_core.string_to_asset(self.prefs.context)
-                if asset.domain and asset.category and asset.name and init:
-                    self.asset = asset
-                    if self.asset.stage:
-                        tree_get.select_asset(self.ui.treeWidget, self.asset)
+                string_asset = self.prefs.context
+                if string_asset:
+                    asset = asset_core.string_to_asset(string_asset)
+                    if asset.domain and asset.category and asset.name and init:
+                        self.asset = asset
+                        if self.asset.stage:
+                            tree_get.select_asset(self.ui.treeWidget, self.asset)
+                    else:
+                        self.asset = asset_core.asset()
                 else:
                     self.asset = asset_core.asset()
         except:
@@ -1230,7 +1236,7 @@ class Main(QtWidgets.QMainWindow):
                 self.refresh_pinned_item(pin=0)
                 self.pinned_item = None
                 tree_get.select_asset(self.ui.treeWidget, self.asset)
-                self.asset_item_changed()
+                #self.asset_item_changed()
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))
