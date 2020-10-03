@@ -11,7 +11,6 @@ from wizard.site import main as site
 from wizard.vars import defaults
 from wizard.tools import utility as utils
 
-import filelock
 
 class wizard():
     def __init__(self):
