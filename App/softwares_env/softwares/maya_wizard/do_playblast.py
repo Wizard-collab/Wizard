@@ -24,11 +24,15 @@ class do_playblast():
 
     def do_playblast(self, cam_namespace):
 
-        
         cmds.file(self.file, o=True, f=True)
         temp_file = os.path.join(self.temp_dir, 'temp_blast')
 
-        self.select_cam(cam_namespace)
+        camera = self.select_cam(cam_namespace)
+        # get camera focal length and write it to a file. File is later deleted in 'tools/playblast.py'
+        camera_focal = cmds.getAttr(camera + '.focalLength')
+        camera_focal = str(round(camera_focal, 1))
+        with open('{}/focal.txt'.format(self.temp_dir), 'w') as f:
+            f.write(camera_focal)
 
         cmds.playblast(st=self.range[0], et=self.range[-1], p= 100, f= temp_file, wh= self.format, qlt= 100, fp= 4, fmt= 'image', compression='png', fo=1, v=False)
 
@@ -39,6 +43,7 @@ class do_playblast():
             for cam in cams:
                 cmds.setAttr(cam + '.rnd', 0)
             cmds.setAttr(camera_shape + '.rnd', 1)
+            return camera_shape
 
     def list_cam(self, cam_namespace):
         set_name = '{}:{}'.format(cam_namespace, defaults._camrig_export_set_)
