@@ -2,7 +2,7 @@
 
 * Develloped with _python 3.7.3_
 
-* modules dependencies:
+* Modules dependencies:
 	* PyQt5
 	* PyYaml
 	* psutil
