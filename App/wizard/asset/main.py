@@ -354,7 +354,7 @@ class asset():
         # Return the files names list
         return export_files_names
 
-    def launch(self, main_window = None, sct= None):
+    def launch(self, sct= None):
 
         # Check if a category is assigned
         # Check if a name is assigned
@@ -402,7 +402,7 @@ class asset():
                     #-asset
                     #-the main ui object
                     #-the reference
-                self.instance = launch(self, main_window, reference, sct)
+                self.instance = launch(self, reference, sct)
 
                 # Open the software using the "launch.open" function
                 # Return the launched object

@@ -23,6 +23,7 @@ from wizard.vars import defaults
 from wizard.vars import softwares
 #from wizard.asset import main as asset_core
 from wizard.prefs import software as software_prefs
+from wizard.signal import send_signal
 
 # Creates the main logger
 logger = log.pipe_log(__name__)
@@ -36,11 +37,10 @@ except ImportError:
 
 class launch():
 
-    def __init__(self, asset, main_window = None, reference = None, sct = None):
+    def __init__(self, asset, reference = None, sct = None):
         # Init the " asset " and software preferences before
         # launching it
         self.asset = asset
-        self.main_window = main_window
         self.path = os.path.dirname(self.asset.work)
         self.executable = prefs.software(self.asset.software).path
         self.sct = sct
@@ -60,16 +60,11 @@ class launch():
             return 0
         else:
             self.command = softwares.get_cmd(self.asset.software, self.asset.work, self.reference)
-            self.earThread_process = earThread(self.main_window, self.asset, self.path, self.sct)
-            self.earThread_process.save_signal.connect(self.update_main_window)
+            self.earThread_process = earThread(self.asset, self.path, self.sct)
             self.earThread_process.start()
-            self.software_process = subThread(self.main_window, self.command, self.earThread_process, self.asset.software, self.asset)
+            self.software_process = subThread(self.command, self.earThread_process, self.asset.software, self.asset)
             self.software_process.start()
             return 1
-
-    def update_main_window(self):
-        if self.main_window:
-            self.main_window.asset_item_changed()
 
 def convert_env(env):
     if env:
@@ -81,12 +76,9 @@ def convert_env(env):
 
 class ear_handler(FileSystemEventHandler, QObject):
 
-    signal = pyqtSignal(str)
-
-    def __init__(self, asset, main_window, sct):
-        super(ear_handler, self).__init__(main_window)
+    def __init__(self, asset, sct):
+        super(ear_handler, self).__init__()
         self.asset = asset
-        self.main_window = main_window
         self.sct = sct
 
     def on_created(self, event):
@@ -105,22 +97,16 @@ class ear_handler(FileSystemEventHandler, QObject):
                 # Try refreshing the ui
                 try:
                     logger.info('{} saved ({})'.format(event.src_path, self.asset.software))
-                    self.signal.emit('Saved')
+                    send_signal.save_signal()
                     stats().add_xp(2)
                     stats().add_version(self.asset)
-                    '''
-                    if self.main_window:
-                        self.main_window.asset_item_changed()
-                    '''
                 except:
                     pass
 
 class subThread(QThread):
 
-    signal = pyqtSignal(str)
-
-    def __init__(self, main_window, command, earThread, software, asset):
-        super(subThread, self).__init__(main_window)
+    def __init__(self, command, earThread, software, asset):
+        super(subThread, self).__init__()
         self.asset = asset
         self.command = command
         self.earThread = earThread
@@ -132,7 +118,6 @@ class subThread(QThread):
             logger.info('Launching {}...'.format(self.asset.software))
             #prefs.asset(self.asset).software.set_running(0)
             os.environ[defaults._current_assets_list_]+=':'+utils.short_asset_to_string(self.asset)
-            self.signal.emit('Running')
 
             wizard_path = os.path.abspath('')
             python_path = os.path.abspath('ressources\\python27')
@@ -152,10 +137,6 @@ class subThread(QThread):
             if self.asset.software == defaults._houdini_ or self.asset.software == defaults._nuke_:
                 env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
-            '''
-            else:
-                env[defaults._guerilla_ocio_env_] = ocio_path
-            '''
 
             env_paths = software_prefs.software(self.asset.software).get_env_paths()
             scripts_paths = software_prefs.software(self.asset.software).get_env()
@@ -205,7 +186,7 @@ class subThread(QThread):
                 running_assets_list_string = (':').join(running_assets_list)
                 os.environ[defaults._current_assets_list_] = running_assets_list_string
 
-            self.signal.emit('Closed')
+            send_signal.refresh_signal()
             logger.info('{} closed'.format(self.software))
 
         else:
@@ -220,15 +201,11 @@ class subThread(QThread):
 
 class earThread(QThread):
 
-    save_signal = pyqtSignal(str)
-
-    def __init__(self, main_window, asset, path, sct):
-        super(earThread, self).__init__(main_window)
+    def __init__(self, asset, path, sct):
+        super(earThread, self).__init__()
         self.asset = asset
         self.path = path
-        self.main_window = main_window
-        self.event_handler = ear_handler(asset=self.asset, main_window = self.main_window, sct = sct)
-        self.event_handler.signal.connect(self.save_signal.emit)
+        self.event_handler = ear_handler(asset=self.asset, sct = sct)
 
     def run(self):
         self.observer = Observer()

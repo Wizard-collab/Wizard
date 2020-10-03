@@ -117,6 +117,7 @@ class Main(QtWidgets.QMainWindow):
             self.old_graph_tab_asset = None
             self.old_history_tab_asset = None
             self.pin = False
+            self.pinned_asset = None
             self.init_user_widget()
             self.init_jokes_widget()
             self.init_tree_widget()
@@ -919,9 +920,8 @@ class Main(QtWidgets.QMainWindow):
         try:
             item = self.ui.treeWidget.currentItem()
             self.refresh_asset(item)
-            if not self.pin:
-                self.update_current_asset()
-                self.update_variants()
+            self.update_current_asset()
+            self.update_variants()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -995,27 +995,28 @@ class Main(QtWidgets.QMainWindow):
 
     def update_current_asset(self):
         try:
-            if self.selected_asset:
-                self.asset = copy.deepcopy(self.selected_asset)
+            if not self.pin:
+                if self.selected_asset:
+                    self.asset = copy.deepcopy(self.selected_asset)
 
-                self.asset_prefs = prefs.asset(self.asset)
+                    self.asset_prefs = prefs.asset(self.asset)
 
-                asset_label = f'{self.asset.domain} / {self.asset.category} / {self.asset.name} / {self.asset.stage}'
-                self.ui.current_asset_label.setText(asset_label)
+                    asset_label = f'{self.asset.domain} / {self.asset.category} / {self.asset.name} / {self.asset.stage}'
+                    self.ui.current_asset_label.setText(asset_label)
+            else:
+                self.asset = copy.deepcopy(self.pinned_asset)
         except:
             logger.critical(str(traceback.format_exc()))
 
     def open(self, item):
         try:
-            if self.asset.launch(self, sct):
+            launching_asset = copy.deepcopy(self.asset)
+            if launching_asset.launch(sct):
                 if not self.asset_prefs.software.get_lock:
                     self.lock()
                     self.update_lock()
-                self.asset_instance = self.asset.instance.software_process
-                self.asset_save = self.asset.instance.earThread_process.event_handler
-                self.asset_instance.signal.connect(self.asset_item_changed)
                 software = self.asset.software
-                self.asset_save.signal.connect(lambda: popup.popup().save_pop())
+                self.asset_item_changed()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1236,7 +1237,7 @@ class Main(QtWidgets.QMainWindow):
                 self.refresh_pinned_item(pin=0)
                 self.pinned_item = None
                 tree_get.select_asset(self.ui.treeWidget, self.asset)
-                #self.asset_item_changed()
+                self.pinned_asset = None
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))
@@ -1246,6 +1247,7 @@ class Main(QtWidgets.QMainWindow):
                     self.pin = True
                     self.pinned_item = self.ui.treeWidget.selectedItems()[0]
                     self.refresh_pinned_item(pin=1)
+                    self.pinned_asset = self.asset
                 else:
                     logger.info("No asset to pin")
 
