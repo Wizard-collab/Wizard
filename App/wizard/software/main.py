@@ -18,12 +18,17 @@ from wizard.tools import build_g_conf
 # Wizard tools modules
 from wizard.tools import log
 from wizard.tools import utility as utils
+from wizard.tools import screen_tools
 # Wizard variables modules
 from wizard.vars import defaults
 from wizard.vars import softwares
 #from wizard.asset import main as asset_core
 from wizard.prefs import software as software_prefs
 from wizard.signal import send_signal
+
+import pyautogui
+
+from PyQt5 import QtWidgets
 
 # Creates the main logger
 logger = log.pipe_log(__name__)
@@ -37,13 +42,13 @@ except ImportError:
 
 class launch():
 
-    def __init__(self, asset, reference = None, sct = None):
+    def __init__(self, asset, reference = None):
         # Init the " asset " and software preferences before
         # launching it
         self.asset = asset
         self.path = os.path.dirname(self.asset.work)
         self.executable = prefs.software(self.asset.software).path
-        self.sct = sct
+        #self.sct = sct
         self.reference = reference
         env = prefs.software(self.asset.software).env
 
@@ -60,7 +65,7 @@ class launch():
             return 0
         else:
             self.command = softwares.get_cmd(self.asset.software, self.asset.work, self.reference)
-            self.earThread_process = earThread(self.asset, self.path, self.sct)
+            self.earThread_process = earThread(self.asset, self.path)
             self.earThread_process.start()
             self.software_process = subThread(self.command, self.earThread_process, self.asset.software, self.asset)
             self.software_process.start()
@@ -76,10 +81,10 @@ def convert_env(env):
 
 class ear_handler(FileSystemEventHandler, QObject):
 
-    def __init__(self, asset, sct):
+    def __init__(self, asset):
         super(ear_handler, self).__init__()
         self.asset = asset
-        self.sct = sct
+        #self.sct = sct
 
     def on_created(self, event):
         filename = os.path.basename(event.src_path)
@@ -88,9 +93,10 @@ class ear_handler(FileSystemEventHandler, QObject):
             version = folder(self.asset).version_from_file(event.src_path)
             if version.isdigit():
                 self.asset.version = prefs.asset(self.asset).software.new_version(version=version)
-                time.sleep(1)      
-                try:         
-                    self.sct.shot(output=prefs.asset(self.asset).software.image)
+                time.sleep(1)     
+                try: 
+                    im_file = prefs.asset(self.asset).software.image
+                    screen_tools.screen_shot_current_screen(im_file)
                 except:
                     logger.critical(str(traceback.format_exc()))    
 
@@ -202,11 +208,11 @@ class subThread(QThread):
 
 class earThread(QThread):
 
-    def __init__(self, asset, path, sct):
+    def __init__(self, asset, path):
         super(earThread, self).__init__()
         self.asset = asset
         self.path = path
-        self.event_handler = ear_handler(asset=self.asset, sct = sct)
+        self.event_handler = ear_handler(asset=self.asset)
 
     def run(self):
         self.observer = Observer()

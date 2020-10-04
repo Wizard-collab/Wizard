@@ -14,7 +14,7 @@ command_line = "PyInstaller wizard_site.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
-folders_list = ['ressources', 'PIL', 'cv2', 'numpy']
+folders_list = ['ressources']#, 'PIL', 'cv2', 'numpy']
 
 for folder in folders_list:
 	destination = os.path.join('dist/wizard', folder)
@@ -61,10 +61,6 @@ file = 'dist/wizard_server/wizard_server.exe'
 dest = 'dist/wizard/wizard_server.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/wizard_server')
-
-file = 'updater.exe'
-dest = 'dist/wizard/updater.exe'
-shutil.copyfile(file, dest)
 
 file = 'server.py'
 dest = 'dist/wizard/server.py'
