@@ -14,4 +14,5 @@
 	* pillow
 	* opencv-python
 	* pyautogui
+	* DesktopMagic
 * Compilation with _PyInstaller_
