@@ -212,6 +212,16 @@ def setRGBColor(ctrl, color = (1,1,1)):
         
         cmds.setAttr(ctrl + ".overrideColor%s" %channel, color)
 
+def import_all():
+    import_geo()
+    import_anim()
+    import_camera()
+    import_rig()
+    import_autoRig()
+    import_camRig()
+    import_layout()
+    import_hair()
+
 def import_geo(namespace = None):
     asset_list = get_asset_list()
 
@@ -229,8 +239,8 @@ def import_geo(namespace = None):
             if not cmds.namespace(exists=imported_asset[1]):
                 old_namespace = cmds.namespaceInfo( currentNamespace=True )
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
-            if cmds.objExists(imported_asset[0].export_asset):
-                cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
+                if cmds.objExists(imported_asset[0].export_asset):
+                    cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
 
 def import_anim(namespace = None):
     asset_list = get_asset_list()
@@ -248,8 +258,8 @@ def import_anim(namespace = None):
         if imported_asset[0].stage == defaults._animation_ and run:
             if not cmds.namespace(exists=imported_asset[1]):
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
-            if cmds.objExists(imported_asset[0].export_asset):
-                cmds.parent(imported_asset[0].export_asset, 'ANIMATION', a=1)
+                if cmds.objExists(imported_asset[0].export_asset):
+                    cmds.parent(imported_asset[0].export_asset, 'ANIMATION', a=1)
 
 def import_camera(namespace = None):
     asset_list = get_asset_list()
@@ -267,8 +277,8 @@ def import_camera(namespace = None):
         if imported_asset[0].stage == defaults._camera_ and run:
             if not cmds.namespace(exists=imported_asset[1]):
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
-            if cmds.objExists(imported_asset[0].export_asset):
-                cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
+                if cmds.objExists(imported_asset[0].export_asset):
+                    cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
 
 def import_textures(namespace = None):
     asset_list = get_asset_list()
@@ -338,8 +348,8 @@ def import_layout():
         if imported_asset[0].stage == defaults._layout_:
             if not cmds.namespace(exists=imported_asset[1]):
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
-            if cmds.objExists(imported_asset[0].export_asset):
-                cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
+                if cmds.objExists(imported_asset[0].export_asset):
+                    cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
 
 
 def refresh_all():

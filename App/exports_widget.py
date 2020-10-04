@@ -55,36 +55,30 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
             asset_tuple[1].ui.export_asset_widget_number_label.setText(
                 f'( {len(self.export_versions_list)}/{len(self.export_versions_list_full)} )')
 
-        old_export_version = asset_tuple[0].export_version
-
         for version in self.export_versions_list:
-            asset_tuple[0].export_version = version
+            asset_tuple[0] = copy.deepcopy(asset_tuple[0])
+            asset_tuple[0].export_version = version         
             widget = export_widget.Main(asset_tuple[0], self.sanity, self.count)
             self.widgets.append(widget)
             asset_tuple[1].widgets_list.append(widget)
             self.ui.export_list_verticalLayout_2.addWidget(widget)
             self.count = 1 - self.count
 
-        asset_tuple[0].export_version = old_export_version
-
     def update_exported_assets(self, asset=None):
         if self.asset.variant:
             exports_list = prefs.asset(self.asset).export_root.exported_assets_list
 
-            old_export_asset = self.asset.export_asset
-
             for export in exports_list:
-                self.asset.export_asset = export
+                asset = copy.deepcopy(self.asset)
+                asset.export_asset = export
 
-                asset_widget = export_asset_widget.Main(self.asset)
-                asset_tuple = [self.asset, asset_widget]
+                asset_widget = export_asset_widget.Main(asset)
+                asset_tuple = [asset, asset_widget]
                 self.ui.export_list_verticalLayout_2.addWidget(asset_widget)
                 self.refresh_list(asset_tuple)
 
-            self.asset.export_asset = old_export_asset
         else:
             self.refresh_list()
-
 
     def clear_all(self):
         QApplication.processEvents()

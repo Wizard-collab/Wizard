@@ -83,17 +83,14 @@ class Main(QtWidgets.QWidget):
 
         self.ui.versions_number_label.setText('( {}/{} )'.format(len(versions_list), len(self.versions_list)))
         
-        old_asset_version  = self.asset.version
-
         for version in versions_list:
-            self.asset.version = version
-            self.version_widget = version_widget.Main(self.asset, self.sanity, self.count)
+            asset = copy.deepcopy(self.asset)
+            asset.version = version
+            self.version_widget = version_widget.Main(asset, self.sanity, self.count)
             self.version_widget.open_signal.connect(self.open_signal.emit)
             self.ui.versions_manager_mainLayout.addWidget(self.version_widget)
             self.count = 1-self.count
             self.widgets_list.append(self.version_widget)
-
-        self.asset.version = old_asset_version
 
     def clear_all(self):
         for i in reversed(range(self.ui.versions_manager_mainLayout.count())):

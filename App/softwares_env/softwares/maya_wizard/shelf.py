@@ -84,6 +84,10 @@ class shelf:
         import_layout += 'reload(reference_asset)\n'
         import_layout += 'reference_asset.import_layout()'
 
+        import_all = 'from maya_wizard import reference_asset\n'
+        import_all += 'reload(reference_asset)\n'
+        import_all += 'reference_asset.import_all()'
+
         import_anim = 'from maya_wizard import reference_asset\n'
         import_anim += 'reload(reference_asset)\n'
         import_anim += 'reference_asset.import_anim()'
@@ -145,11 +149,13 @@ class shelf:
 
         self.addButon(label="Save", icon='maya_save.png', command=save, docTag='Save')
         self.addButon(label="Export", icon='maya_export.png', command=export, docTag='export')
+        self.addButon(label="Import all", icon='maya_import_all.png', command=import_all, docTag='import all')
         self.addButon(label="create_export_group", icon='maya_group_icon.png', command=create_export_GRP,
                       docTag='Create export group')
         self.addButon(label="Create set", icon='maya_sel_set.png', command=create_set, docTag='Set')
         self.addButon(label="Update references", icon='maya_reload_icon.png', command=reload_references,
                       docTag='update')
+        '''
         self.addButon(label="Import geo", icon='maya_import_geo.png', command=import_geo, docTag='geo')
         self.addButon(label="Import rig", icon='maya_import_rig.png', command=import_rig, docTag='rig')
         self.addButon(label="Import hair", icon='maya_import_hair.png', command=import_hair, docTag='hair')
@@ -159,6 +165,7 @@ class shelf:
         self.addButon(label="Import camera", icon='maya_import_camera.png', command=import_camera, docTag='camera')
         self.addButon(label="Import anim", icon='maya_import_anim.png', command=import_anim, docTag='anim')
         self.addButon(label="Import layout", icon='maya_import_layout.png', command=import_layout, docTag='layout')
+        '''
         self.addButon(label="GTags", icon='maya_guerilla.png', command=tag, docTag='Tags')
         self.addButon(label="Match frame range", icon='maya_frame_range.png', command=f_range, docTag='Range')
         self.addButon(label="Match project format", icon='maya_format.png', command=set_format, docTag='Format')
