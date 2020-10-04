@@ -96,9 +96,7 @@ class ear_handler(FileSystemEventHandler, QObject):
                 time.sleep(1)     
                 try: 
                     im_file = prefs.asset(self.asset).software.image
-                    bounds = screen_tools.get_current_screen()
-                    pyautogui.screenshot(im_file, region=bounds)
-                    #self.sct.shot(mon = screen_tools.get_current_screen(), output=prefs.asset(self.asset).software.image)
+                    screen_tools.screen_shot_current_screen(im_file)
                 except:
                     logger.critical(str(traceback.format_exc()))    
 

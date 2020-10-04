@@ -77,3 +77,22 @@ Version date : 2020-10-01
 
 - Debug - Debug Maya + Yeti ( No more maya yeti as defaults software )
 '''
+updates['0.9.7.86-b'] = '''Version updates : 0.9.7.86-b
+
+Version date : 2020-10-04
+
+- Added focal length on playblasts
+- Added xp popups
+- Maya imports are now automatic
+- Added an "import all" button in Maya - Wizard shelf
+- Debug - Debug Maya + Yeti ( No more maya yeti as defaults software )
+- Debug - Pickle fail on software launch
+- Debug - Screen capture of work version is now from the current screen
+- Debug - Stage refresh on creation popups
+- Debug - Project tree refresh is way faster
+- Debug - Errors when creating a new project ( Related to a missing user asset context )
+- Debug - Icons selection for wizard user shelf tool is now resizable
+- Debug - Ui refreshing is way more clean
+- Debug - Compil is way more clean
+- Debug - No more updater.exe in the install
+'''

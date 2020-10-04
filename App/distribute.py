@@ -62,10 +62,6 @@ dest = 'dist/wizard/wizard_server.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/wizard_server')
 
-file = 'updater.exe'
-dest = 'dist/wizard/updater.exe'
-shutil.copyfile(file, dest)
-
 file = 'server.py'
 dest = 'dist/wizard/server.py'
 shutil.copyfile(file, dest)
