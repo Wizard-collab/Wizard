@@ -14,3 +14,4 @@
 	* pillow
 	* opencv-python
 	* pyautogui
+* Compilation with _PyInstaller_
