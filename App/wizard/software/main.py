@@ -210,11 +210,11 @@ class subThread(QThread):
 
 class earThread(QThread):
 
-    def __init__(self, asset, path, sct):
+    def __init__(self, asset, path):
         super(earThread, self).__init__()
         self.asset = asset
         self.path = path
-        self.event_handler = ear_handler(asset=self.asset, sct = sct)
+        self.event_handler = ear_handler(asset=self.asset)
 
     def run(self):
         self.observer = Observer()

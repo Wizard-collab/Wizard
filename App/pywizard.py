@@ -3,7 +3,8 @@ import os
 
 # pip modules
 import watchdog
-import mss
+#import mss
+import pyautogui
 import pyperclip
 
 import yaml

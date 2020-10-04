@@ -14,7 +14,7 @@ command_line = "PyInstaller wizard_site.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
-folders_list = ['ressources', 'PIL', 'cv2', 'numpy']
+folders_list = ['ressources']#, 'PIL', 'cv2', 'numpy']
 
 for folder in folders_list:
 	destination = os.path.join('dist/wizard', folder)
