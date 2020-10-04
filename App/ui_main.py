@@ -73,17 +73,18 @@ from wizard.user_scripts import user_scripts_library
 from wizard import api
 import tickets_widget
 import task_progress_info_widget
-
+'''
 try:
     import mss
 except:
     pass 
+'''
 import ui_about
 
 logger = log.pipe_log()
 
 prefs = prefs()
-sct = mss.mss()
+#sct = mss.mss()
 
 class Main(QtWidgets.QMainWindow):
     move_signal = pyqtSignal(str)
@@ -1012,7 +1013,7 @@ class Main(QtWidgets.QMainWindow):
     def open(self, item):
         try:
             launching_asset = copy.deepcopy(self.asset)
-            if launching_asset.launch(sct):
+            if launching_asset.launch():
                 if not self.asset_prefs.software.get_lock:
                     self.lock()
                     self.update_lock()
@@ -1025,7 +1026,7 @@ class Main(QtWidgets.QMainWindow):
         try:
             old_asset = self.asset
             self.asset = asset_core.string_to_asset(string_asset)
-            if self.asset.launch(self, sct):
+            if self.asset.launch(self):
                 if not self.asset_prefs.software.get_lock:
                     self.lock()
                     self.update_lock()
