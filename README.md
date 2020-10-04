@@ -9,8 +9,8 @@
 	* playsound
 	* pyperclip
 	* watchdog
-	* mss
 	* google-api-python-client
 	* lxml
 	* pillow
 	* opencv-python
+	* pyautogui
