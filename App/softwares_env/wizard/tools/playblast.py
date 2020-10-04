@@ -41,7 +41,7 @@ class playblast():
         sys.stdout.flush()
 
         mayapy = prefs.software(defaults._mayapy_).path
-        
+
         env = software.get_env(defaults._mayapy_, 1)
 
         self.process = subprocess.Popen([mayapy, "-u", file], env = env)
@@ -52,6 +52,14 @@ class playblast():
         print('current_task:Conforming frames...')
         sys.stdout.flush()
 
+
+        focal_file = os.path.join(self.temp_directory, 'focal.txt')
+        self.focal = 'none'
+        if os.path.isfile(focal_file):
+            with open(focal_file, 'r') as f:
+                self.focal = f.readlines()[0]
+            os.remove(focal_file)
+
         if ornaments:
             self.conform_playblast()
 
@@ -61,7 +69,7 @@ class playblast():
 
         pbfile = self.create_video()
         wall().playblast_event(self.asset)
-        
+
         print('status:Done !')
         print('percent:100')
         sys.stdout.flush()
@@ -76,9 +84,10 @@ class playblast():
         percent_step = 33.0/int(frange[-1])
         percent = 33
         user = prefs.user
+
         for file in os.listdir(self.temp_directory):
             file = os.path.join(self.temp_directory, file)
-            string = 'project: {} | scene: {}-{}-{}-{}-{} | user: {} | frame range: {}-{} | frame: {}'.format(self.asset.project, self.asset.category,
+            string = 'project: {} | scene: {}-{}-{}-{}-{} | user: {} | frame range: {}-{} | frame: {} | focal: {}'.format(self.asset.project, self.asset.category,
                                                                                 self.asset.name,
                                                                                 self.asset.stage,
                                                                                 self.asset.variant,
@@ -86,7 +95,8 @@ class playblast():
                                                                                 user,
                                                                                 frange[0],
                                                                                 frange[-1],
-                                                                                str(f+frange[0]))
+                                                                                str(f+frange[0]),
+                                                                                str(self.focal))
             convert_playblast.convert_image(file, string)
             f+=1
             percent += percent_step
