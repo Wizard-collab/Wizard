@@ -96,6 +96,7 @@ class ear_handler(FileSystemEventHandler, QObject):
 
                 # Try refreshing the ui
                 try:
+                    send_signal.refresh_signal()
                     logger.info('{} saved ({})'.format(event.src_path, self.asset.software))
                     send_signal.save_signal()
                     stats().add_xp(2)
