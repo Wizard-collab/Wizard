@@ -15,4 +15,5 @@
 	* opencv-python
 	* pyautogui
 	* DesktopMagic
+	* pywin32
 * Compilation with _PyInstaller_
