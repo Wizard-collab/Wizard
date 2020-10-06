@@ -43,15 +43,16 @@ def create_project(
         # Write into the log the warning
         logger.warning('Project "{}" already exists'.format(project_name))
         return 0
-    elif os.path.exists(project_path):
-        logger.warning('Folder "{}" already exists'.format(project_path))
-        return 0
+    #elif os.path.exists(project_path):
+        #logger.warning('Folder "{}" already exists'.format(project_path))
+        #return 0
     else:
         # Create the project folder
         try:
             # Add the project to the local prefs
             if os.path.isdir(path):
-                os.makedirs(project_path)
+                if not os.path.exists(project_path):
+                    os.makedirs(project_path)
             else:
                 logger.error("This directory doesn't exists")
             if os.path.isdir(project_path):
