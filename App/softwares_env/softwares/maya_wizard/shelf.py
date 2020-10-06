@@ -124,9 +124,9 @@ class shelf:
         unhide_asset += 'reload(reference_asset)\n'
         unhide_asset += 'reference_asset.unhide_reference()'
 
-        create_set = 'from maya_wizard import reference_asset\n'
-        create_set += 'reload(reference_asset)\n'
-        create_set += 'reference_asset.create_set()'
+        create_set = 'from maya_wizard import plugin\n'
+        create_set += 'reload(plugin)\n'
+        create_set += 'plugin.create_set()'
 
         f_range = 'from maya_wizard import scene_setup\n'
         f_range += 'reload(scene_setup)\n'

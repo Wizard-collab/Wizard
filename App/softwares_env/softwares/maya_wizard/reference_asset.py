@@ -37,29 +37,7 @@ def get_asset_list():
         asset_list.append([imported_asset, namespace, full_path])
     return asset_list
 
-def create_set():
 
-    #selection_list = cmds.ls(sl=1)
-    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
-    sets_name_list = []
-
-    if stage==defaults._rig_:
-        rig_set_name = defaults._rig_export_set_
-        sets_name_list.append(rig_set_name)
-    elif stage==defaults._hair_:
-        yeti_set__name = defaults._yeti_export_set_ 
-        sets_name_list.append(yeti_set__name)
-        scalp_set_name = defaults._scalp_export_set_
-        sets_name_list.append(scalp_set_name)
-    elif stage==defaults._cam_rig_:
-        camera_set_name = defaults._camrig_export_set_ 
-        sets_name_list.append(camera_set_name)
-
-    for set_name in sets_name_list:
-        if not cmds.objExists(set_name):
-            cmds.sets(n=set_name, empty=True)
-
-        cmds.sets(clear=set_name)
 
 def duplicate_reference():
     sel = cmds.ls(sl=1, long=1)

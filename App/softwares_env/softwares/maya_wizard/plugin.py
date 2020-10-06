@@ -156,10 +156,12 @@ def export_cyclo():
 def sanity_rig():
 
     if cmds.objExists(defaults._rig_export_set_):
-        if cmds.sets( defaults._rig_export_set_, q=True ) != []:
+        
+        cmds.select( defaults._rig_export_set_, replace = 1 )
+        if cmds.ls( selection=True ) and cmds.ls( selection=True ) != []:
             return 1
         else:
-            logger.warning('"export_set" selection set is empty...')
+            logger.warning('"export_set" is empty...')
             return 0
     else:
         logger.warning('"export_set" selection set missing...')
@@ -168,15 +170,15 @@ def sanity_rig():
 def sanity_cam_rig():
 
     if cmds.objExists(defaults._camrig_export_set_):
-        shapes_list = cmds.sets( defaults._camrig_export_set_, q=True )
-        if shapes_list != []:
-            if len(shapes_list) == 1:
+        cmds.select( defaults._camrig_export_set_, replace = 1 )
+        if cmds.ls( selection=True ) and cmds.ls( selection=True ) != []:
+            if len(cmds.ls( selection=True )) == 1:
                 return 1
             else:
-                logger.warning('Please put only 1 camera in "{}"'.format(defaults._camrig_export_set_))
+                logger.warning('"camera_export_set" contain more than one shape...')
                 return 0
         else:
-            logger.warning('"{}" selection set is empty...'.format(defaults._camrig_export_set_))
+            logger.warning('"camera_export_set" is empty...')
             return 0
     else:
         logger.warning('"{}" selection set missing...'.format(defaults._camrig_export_set_))
@@ -189,8 +191,9 @@ def sanity_hair():
     if cmds.objExists(defaults._stage_export_grp_dic_[defaults._hair_]):
 
         if cmds.objExists(defaults._scalp_export_set_):
-            if cmds.sets( defaults._scalp_export_set_, q=True ) == []:
-                logger.warning('"scalp_export_set" selection set is empty...')
+            cmds.select( defaults._scalp_export_set_, replace = 1 )
+            if not cmds.ls( selection=True ) or (cmds.ls( selection=True ) == []):
+                logger.warning('"scalp_export_set" is empty...')
                 sanity = 0
             else:
                 cmds.select( defaults._scalp_export_set_, replace = 1 )
@@ -212,15 +215,16 @@ def sanity_hair():
                         logger.warning('No texture reference for this scalp : {}'.format(scalp))
 
         else:
-            logger.warning('"scalp_export_set" selection set missing...')
+            logger.warning('"scalp_export_set" selection set is missing...')
             sanity = 0
 
         if cmds.objExists(defaults._yeti_export_set_):
-            if cmds.sets( defaults._yeti_export_set_, q=True ) == []:
-                logger.warning('"yeti_export_set" selection set is empty...')
+            cmds.select( defaults._yeti_export_set_, replace = 1 )
+            if not cmds.ls( selection=True ) or (cmds.ls( selection=True ) == []):
+                logger.warning('"yeti_export_set" is empty...')
                 sanity = 0
         else:
-            logger.warning('"yeti_export_set" selection set missing...')
+            logger.warning('"yeti_export_set" selection set is missing...')
             sanity = 0
 
     return sanity
@@ -293,8 +297,43 @@ def export_ma(grp):
 def create_export_GRP():
     stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
     grp_name = defaults._stage_export_grp_dic_[stage]
+    obj_list = cmds.ls(sl=True)
     if not cmds.objExists(grp_name):
         cmds.group( em=True, name=grp_name )
+    if cmds.objExists(grp_name):
+        print(obj_list)
+        for obj in obj_list:
+            cmds.parent(obj, grp_name)
+
+def create_set():
+
+    #selection_list = cmds.ls(sl=1)
+    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
+    sets_name_list = []
+    obj_list = cmds.ls(sl=True)
+
+    if stage==defaults._rig_:
+        rig_set_name = defaults._rig_export_set_
+        sets_name_list.append(rig_set_name)
+    elif stage==defaults._hair_:
+        yeti_set__name = defaults._yeti_export_set_ 
+        sets_name_list.append(yeti_set__name)
+        scalp_set_name = defaults._scalp_export_set_
+        sets_name_list.append(scalp_set_name)
+    elif stage==defaults._cam_rig_:
+        camera_set_name = defaults._camrig_export_set_ 
+        sets_name_list.append(camera_set_name)
+
+    for set_name in sets_name_list:
+        if not cmds.objExists(set_name):
+            cmds.sets(n=set_name, empty=True)
+
+        cmds.sets(clear=set_name)
+
+    if cmds.objExists(set_name):
+        for obj in obj_list:
+            cmds.sets( obj, add=set_name )
+
 
 def copy_team(selection = True):
 
