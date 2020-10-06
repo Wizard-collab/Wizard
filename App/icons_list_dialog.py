@@ -48,6 +48,8 @@ class Main(QtWidgets.QDialog):
         filters = 'Image Files (*.png *.jpg *.jpeg *.ico)'
         icon_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Select a custom icon',
                                                          'c://', filters)[0]
+        if not icon_path:
+            return
         icon_name = icon_path.rpartition('/')[2]
         self.icon = f'{defaults._user_custom_icons_}/{icon_name}'
         if not os.path.isdir(defaults._user_custom_icons_):
