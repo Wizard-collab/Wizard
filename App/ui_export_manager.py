@@ -16,9 +16,11 @@ import dialog_report
 import subprocess
 import sys
 import os
+import copy
 import ui_subprocess_manager
 from wizard.prefs import software as software_prefs
 from wizard.software import main as software
+from wizard.asset.reference import references
 
 logger = log.pipe_log(__name__)
 
@@ -33,6 +35,7 @@ class Main(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.asset = asset
         self.action = action
+        self.is_cam = 0
         self.init_ui()
         self.connect_functions()
 
@@ -74,12 +77,46 @@ class Main(QtWidgets.QWidget):
                 self.ui.export_ma_assets_listWidget.addItem(item)
                 item.setSelected(True)
 
+            if (asset.stage == defaults._camera_) and (asset.category == self.asset.category) and (asset.name == self.asset.name):
+                self.is_cam = 1
+
+        logger.info(self.is_cam)
+
+        if (self.asset.domain == defaults._sequences_) and (self.action == defaults._playblast_) and not self.is_cam:
+            cam_asset = copy.deepcopy(self.asset)
+            cam_asset.stage = defaults._camera_
+            for variant in prefs.asset(cam_asset).stage.variants:
+                cam_asset.variant = variant
+                cam_asset.export_asset = prefs.asset(cam_asset).export_root.default_export_asset
+                if cam_asset.export_asset:
+                    cam_asset.export_version = prefs.asset(cam_asset).export.last_version
+                    cam_asset.software =  prefs.asset(cam_asset).export.version_software
+                    if cam_asset.export_version and cam_asset.software:
+                        
+                        self.add_sequence_camera(cam_asset)
+
+                        
+
         self.ui.export_ma_export_pushButton.setText(self.action)
 
         if self.action == defaults._export_:
             self.ui.export_ma_export_pushButton.clicked.connect(self.export)
         elif self.action == defaults._playblast_:
             self.ui.export_ma_export_pushButton.clicked.connect(self.playblast)
+
+    def add_sequence_camera(self, cam_asset):
+            asset_references = references(self.asset)
+            count  = asset_references.add_reference(cam_asset, 0,1)
+            cam_asset_namespace  = asset_references.get_name_space(cam_asset, count)
+            item = QtWidgets.QListWidgetItem()
+            item.setText(cam_asset_namespace)
+            try:
+                item.setIcon(QtGui.QIcon(defaults._stage_icon_[cam_asset.stage]))
+            except:
+                pass
+
+            self.ui.export_ma_assets_listWidget.addItem(item)
+            item.setSelected(True)
 
     def connect_functions(self):
         self.ui.export_ma_in_frange_lineEdit.textChanged.connect(self.change_range)
@@ -143,10 +180,11 @@ class Main(QtWidgets.QWidget):
 
                 if self.asset.stage == defaults._animation_ and auto_hair:
                     command = 'from softwares.maya_wizard.auto_hair import auto_hair\n'
-                    command += 'auto_hair("{}", "{}", {}, frange = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
+                    command += 'auto_hair("{}", "{}", {}, frange = {}, set_done = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
                                                                                             self.asset.file.replace('\\', '/'),
                                                                                             nspace_list,
-                                                                                            self.out_range)
+                                                                                            self.out_range,
+                                                                                            set_done)
 
                 elif self.asset.stage == defaults._animation_ and not auto_hair:
                     command += 'from softwares.maya_wizard.export_anim import export_anim\n'
@@ -181,6 +219,7 @@ class Main(QtWidgets.QWidget):
                 file = utils.temp_file_from_command(command)
                 mayapy = prefs.software(defaults._mayapy_).path
                 env = software.get_env(defaults._mayapy_, 0)
+                env[defaults._asset_var_] = utils.asset_to_string(self.asset)
 
                 self.ui_subprocess_manager = ui_subprocess_manager.Main([mayapy, "-u", file], env)
                 build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
@@ -220,7 +259,11 @@ class Main(QtWidgets.QWidget):
                     if sys.argv[0].endswith('.py'):
                         python_system = 'python'
 
-                    self.ui_subprocess_manager = ui_subprocess_manager.Main("{} {}".format(python_system, file))
+                    env = os.environ.copy()
+                    env[defaults._asset_var_] = utils.asset_to_string(self.asset)
+
+
+                    self.ui_subprocess_manager = ui_subprocess_manager.Main("{} {}".format(python_system, file), env)
                     build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
 
                     self.hide()
