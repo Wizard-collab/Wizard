@@ -3,6 +3,7 @@ from gui.icons_list_dialog import Ui_Dialog
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
+from shutil import copyfile
 import traceback
 import os
 
@@ -46,7 +47,10 @@ class Main(QtWidgets.QDialog):
     def select_custom_icon(self):
         filters = 'Image Files (*.png *.jpg *.jpeg *.ico)'
         icon_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Select a custom icon',
-                                                         'c://', filters)
-
-        self.icon = icon_path
+                                                         'c://', filters)[0]
+        icon_name = icon_path.rpartition('/')[2]
+        self.icon = f'{defaults._user_custom_icons_}/{icon_name}'
+        if not os.path.isdir(defaults._user_custom_icons_):
+            os.mkdir(defaults._user_custom_icons_)
+        copyfile(icon_path, self.icon)
         self.accept()

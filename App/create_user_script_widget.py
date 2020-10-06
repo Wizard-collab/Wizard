@@ -8,6 +8,7 @@ import traceback
 from wizard.prefs.user_scripts import user_scripts
 import icons_list_dialog
 from gui import build
+import os
 
 logger = log.pipe_log(__name__)
 
@@ -51,7 +52,11 @@ class Main(QtWidgets.QWidget):
     def select_icon(self):
         self.icons_list_dialog = icons_list_dialog.Main()
         if build.launch_dialog_as_child(self.icons_list_dialog):
-            self.icon = defaults._icon_path_ + self.icons_list_dialog.icon
+            # if file exists (means that's a custom_icon) set icon with full path and not based on defaults module
+            if os.path.isfile(self.icons_list_dialog.icon):
+                self.icon = self.icons_list_dialog.icon
+            else:
+                self.icon = defaults._icon_path_ + self.icons_list_dialog.icon
             self.ui.script_icon_pushButton.setIcon(QtGui.QIcon(self.icon))
 
     def connect_functions(self):
