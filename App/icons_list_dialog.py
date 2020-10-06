@@ -33,6 +33,7 @@ class Main(QtWidgets.QDialog):
 
     def connect_functions(self):
         self.ui.icon_apply_pushButton.clicked.connect(self.select_icon)
+        self.ui.add_custom_icon_pushButton.clicked.connect(self.select_custom_icon)
 
     def select_icon(self):
         selected_item = self.ui.icons_list_listWidget.selectedItems()[0]
@@ -40,4 +41,12 @@ class Main(QtWidgets.QDialog):
         for x in range(self.ui.icons_list_listWidget.count()-1):
             item = self.ui.icons_list_listWidget.item(x)
             del item
+        self.accept()
+
+    def select_custom_icon(self):
+        filters = 'Image Files (*.png *.jpg *.jpeg *.ico)'
+        icon_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Select a custom icon',
+                                                         'c://', filters)
+
+        self.icon = icon_path
         self.accept()
