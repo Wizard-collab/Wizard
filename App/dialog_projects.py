@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QPoint
 
 from gui.projects_dialog import Ui_Dialog
@@ -8,6 +8,7 @@ from wizard.prefs.site import site
 import dialog_new_project
 from wizard.tools import log
 from gui import log_to_gui
+from wizard.vars import defaults
 
 logger = log.pipe_log(__name__)
 
@@ -33,6 +34,8 @@ class Main(QtWidgets.QDialog):
     def connect_functions(self):
         self.ui.change_project_pushButton.clicked.connect(self.change_project)
         self.ui.new_project_pushButton.clicked.connect(self.new_project)
+        self.ui.password_visibility_pushButton.clicked.connect(self.password_visibility)
+        self.ui.password_visibility_pushButton.setIcon(QtGui.QIcon(defaults._focus_icon_))
 
     def new_project(self):
         self.dialog_new_project = dialog_new_project.Main()
@@ -62,3 +65,9 @@ class Main(QtWidgets.QDialog):
         if password_check:
             if self.user.change_project(project_name):
                 self.accept()
+
+    def password_visibility(self):
+        if self.ui.password_visibility_pushButton.isChecked():
+            self.ui.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+            self.ui.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
