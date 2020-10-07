@@ -248,15 +248,19 @@ def remove_stage(asset):
             [asset.name] \
             [asset.stage]
 
-        # Write the project dictionnary to the tree.wd
-        project.write_project(project_dic)
+        if delete_stage_folder(asset):
+            project.write_project(project_dic)
 
-        # Return the success
-        return 1
+            # Create the "wall" event using the wizard "wall" module
+            wall().remove_event(asset)
+
+            # Return the success to the user
+            return 1
+
     else:
 
         # Return the fail and log it to the user
-        logger.warning('{} - {} already exists'.format(asset.name, asset.stage))
+        logger.warning("{} - {} doesn't exists".format(asset.name, asset.stage))
         return 0
 
 
@@ -490,6 +494,41 @@ def delete_folder(asset):
         # Get the source folder ( from the pipe tree )
         # Use the "folder" wizard module
         source = folder(asset).name
+
+        # Get the destination archive folder using the "prefs" wizard module
+        destination = folder(asset).trash
+
+        # Check if the default archives folder exists
+        # Using the project variable ( from the asset object )
+        # And the "defaults" wizard module
+        if not os.path.isdir(os.path.join(asset.project, defaults._trash_folder_)):
+
+            # Create the archive folder
+            os.mkdir(os.path.join(asset.project, defaults._trash_folder_))
+
+        # Create the .zip archive file ( name with the python "time" module)
+        # And using the "utility" wizard module
+        util.zip_folder(destination, source)
+
+        # Remove the the source tree ( from the pipeline folder's tree)
+        shutil.rmtree(source)
+
+        # Return the success
+        return 1
+
+    else:
+
+        # Return the fail
+        return 0
+
+def delete_stage_folder(asset):
+
+    # Check if the folder exists
+    if asset.stage and folder(asset).is_stage():
+
+        # Get the source folder ( from the pipe tree )
+        # Use the "folder" wizard module
+        source = folder(asset).stage
 
         # Get the destination archive folder using the "prefs" wizard module
         destination = folder(asset).trash

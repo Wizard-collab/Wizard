@@ -501,6 +501,11 @@ class asset():
                     return 1
                 else:
                     return 0
+            elif self.stage != None:
+                if build.remove_stage(self):
+                    return 1
+                else:
+                    return 0
         else:
 
             # If the user isn't as administrator, log it

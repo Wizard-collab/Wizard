@@ -155,13 +155,11 @@ class Main(QtWidgets.QWidget):
 
         try:
             if apply_pre_post_roll:
-                self.out_range = [int(in_frame)-int(self.preroll), int(self.postroll)+int(out_frame)]
+                self.out_range = [int(in_frame)-int(self.preroll), int(self.postroll)+int(out_frame)] 
             else:
                 self.out_range = [int(in_frame), int(out_frame)]
         except:
             self.out_range = None
-
-        logger.info(self.out_range)
 
     def export(self):
         items_list = self.ui.export_ma_assets_listWidget.selectedItems()
