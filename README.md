@@ -1,6 +1,6 @@
 # Wizard
 
-* Develloped with _python 3.7.3_
+* Developed with _python 3.7.3_
 
 * Modules dependencies:
 	* PyQt5
