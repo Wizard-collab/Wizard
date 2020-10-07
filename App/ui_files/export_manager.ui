@@ -166,6 +166,19 @@
        </widget>
       </item>
       <item>
+       <widget class="QLineEdit" name="export_m_preroll_lineEdit">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLineEdit" name="export_ma_in_frange_lineEdit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -197,6 +210,19 @@
           <width>90</width>
           <height>16777215</height>
          </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="export_m_postroll_lineEdit">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -393,6 +419,19 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="preroll_postroll_checkBox">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Preroll / Postroll</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="export_ma_export_pushButton">

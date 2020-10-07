@@ -908,12 +908,18 @@ class Main(QtWidgets.QMainWindow):
     def modify_frame_range(self):
         try:
             frange = self.selected_asset_prefs.name.range
+            preroll = self.selected_asset_prefs.name.preroll
+            postroll = self.selected_asset_prefs.name.postroll
 
-            self.dialog_modify_range = dialog_modify_range.Main(frange)
+            self.dialog_modify_range = dialog_modify_range.Main(frange, preroll, postroll)
             if build.launch_running_dialog(self.dialog_modify_range):
                 inFrame = self.dialog_modify_range.inFrame
                 outFrame = self.dialog_modify_range.outFrame
+                preroll = self.dialog_modify_range.preroll
+                postroll = self.dialog_modify_range.postroll
                 self.selected_asset_prefs.name.set_range([inFrame, outFrame])
+                self.selected_asset_prefs.name.set_preroll(preroll)
+                self.selected_asset_prefs.name.set_postroll(postroll)
         except:
             logger.critical(str(traceback.format_exc()))
 

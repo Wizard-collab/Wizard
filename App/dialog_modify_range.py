@@ -7,7 +7,7 @@ logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QDialog):
 
-    def __init__(self, range):
+    def __init__(self, frange, preroll, postroll):
         super(Main, self).__init__()
         # Build the ui from ui converted file
         self.ui = Ui_Dialog()
@@ -20,12 +20,25 @@ class Main(QtWidgets.QDialog):
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
 
-        self.inFrame = range[0]
-        self.outFrame = range[1]
+        self.frange = frange
+        self.preroll = preroll
+        self.postroll = postroll
+
+        self.fill_infos()
+        self.connect_functions()
+
+
+    def fill_infos(self):
+
+        self.inFrame = self.frange[0]
+        self.outFrame = self.frange[1]
 
         self.ui.shot_inFrame_spinBox.setValue(self.inFrame)
         self.ui.shot_outFrame_spinBox.setValue(self.outFrame)
+        self.ui.preroll_spinBox.setValue(self.preroll)
+        self.ui.postroll_spinBox.setValue(self.postroll)
 
+    def connect_functions(self):
         self.ui.shot_crea_create_pushButton.clicked.connect(self.modify_range)
 
     def move_ui(self):
@@ -37,6 +50,8 @@ class Main(QtWidgets.QDialog):
     def modify_range(self):
         self.inFrame = self.ui.shot_inFrame_spinBox.value()
         self.outFrame = self.ui.shot_outFrame_spinBox.value()
+        self.preroll = self.ui.preroll_spinBox.value()
+        self.postroll = self.ui.postroll_spinBox.value()
         self.accept()
 
     def closeEvent(self, event):

@@ -53,8 +53,12 @@ class Main(QtWidgets.QWidget):
         self.ui.export_ma_stage_lineEdit.setText(self.stage)
 
         self.frange = prefs.asset(self.asset).name.range
+        self.preroll = prefs.asset(self.asset).name.preroll
+        self.postroll = prefs.asset(self.asset).name.postroll
         self.ui.export_ma_in_frange_lineEdit.setText(str(self.frange[0]))
         self.ui.export_ma_out_frange_lineEdit.setText(str(self.frange[1]))
+        self.ui.export_m_preroll_lineEdit.setText(str(self.preroll))
+        self.ui.export_m_postroll_lineEdit.setText(str(self.postroll))
         self.change_range()
 
         self.ui.export_ma_sequence_lineEdit.setText('{} - {} - {}'.format(self.asset.category, self.asset.name, self.asset.variant))
@@ -79,8 +83,6 @@ class Main(QtWidgets.QWidget):
 
             if (asset.stage == defaults._camera_) and (asset.category == self.asset.category) and (asset.name == self.asset.name):
                 self.is_cam = 1
-
-        logger.info(self.is_cam)
 
         if (self.asset.domain == defaults._sequences_) and (self.action == defaults._playblast_) and not self.is_cam:
             cam_asset = copy.deepcopy(self.asset)
@@ -121,8 +123,12 @@ class Main(QtWidgets.QWidget):
     def connect_functions(self):
         self.ui.export_ma_in_frange_lineEdit.textChanged.connect(self.change_range)
         self.ui.export_ma_out_frange_lineEdit.textChanged.connect(self.change_range)
+        self.ui.preroll_postroll_checkBox.stateChanged.connect(self.change_range)
 
     def change_range(self):
+
+        apply_pre_post_roll = self.ui.preroll_postroll_checkBox.isChecked()
+
         in_frame = self.ui.export_ma_in_frange_lineEdit.text()
         try:
             in_frame = int(in_frame)
@@ -148,9 +154,14 @@ class Main(QtWidgets.QWidget):
             self.ui.export_ma_out_frange_lineEdit.setStyleSheet('#export_ma_out_frange_lineEdit{border:1px solid Red}')
 
         try:
-            self.out_range = [int(in_frame), int(out_frame)]
+            if apply_pre_post_roll:
+                self.out_range = [int(in_frame)-int(self.preroll), int(self.postroll)+int(out_frame)]
+            else:
+                self.out_range = [int(in_frame), int(out_frame)]
         except:
             self.out_range = None
+
+        logger.info(self.out_range)
 
     def export(self):
         items_list = self.ui.export_ma_assets_listWidget.selectedItems()
