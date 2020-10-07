@@ -276,7 +276,10 @@ class user:
         self.open_pref_file()
         # Check the password concordance
         try:
-            self.settings[defaults._asset_context_] = util.asset_to_string(asset)
+            if asset:
+                self.settings[defaults._asset_context_] = util.asset_to_string(asset)
+            else:
+                self.settings[defaults._asset_context_] = None
         except TypeError:
             self.settings[defaults._asset_context_] = None
         logger.info('Asset context saved !')

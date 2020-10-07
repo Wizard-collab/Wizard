@@ -11,6 +11,8 @@ from wizard.asset import main as asset_core
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
 from wizard.vars import defaults
+from maya_wizard import reference_asset
+from maya_wizard import plugin
 import os
 
 class do_playblast():
@@ -26,6 +28,8 @@ class do_playblast():
 
         cmds.file(self.file, o=True, f=True)
         temp_file = os.path.join(self.temp_dir, 'temp_blast')
+
+        reference_asset.import_camera()
 
         camera = self.select_cam(cam_namespace)
         # get camera focal length and write it to a file. File is later deleted in 'tools/playblast.py'

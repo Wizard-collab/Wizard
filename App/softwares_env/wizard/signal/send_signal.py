@@ -27,6 +27,12 @@ def refresh_signal():
     signal_as_str = yaml.dump(signal_dic)
     send_signal(signal_as_str)
 
+def save_signal():
+    signal_dic = dict()
+    signal_dic[defaults._signal_type_key_] = defaults._save_signal_
+    signal_as_str = yaml.dump(signal_dic)
+    send_signal(signal_as_str)
+
 def task_signal(value):
     signal_dic = dict()
     signal_dic[defaults._signal_type_key_] = defaults._task_signal_

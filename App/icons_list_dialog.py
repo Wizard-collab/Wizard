@@ -3,6 +3,7 @@ from gui.icons_list_dialog import Ui_Dialog
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
+from shutil import copyfile
 import traceback
 import os
 
@@ -33,6 +34,7 @@ class Main(QtWidgets.QDialog):
 
     def connect_functions(self):
         self.ui.icon_apply_pushButton.clicked.connect(self.select_icon)
+        self.ui.add_custom_icon_pushButton.clicked.connect(self.select_custom_icon)
 
     def select_icon(self):
         selected_item = self.ui.icons_list_listWidget.selectedItems()[0]
@@ -40,4 +42,17 @@ class Main(QtWidgets.QDialog):
         for x in range(self.ui.icons_list_listWidget.count()-1):
             item = self.ui.icons_list_listWidget.item(x)
             del item
+        self.accept()
+
+    def select_custom_icon(self):
+        filters = 'Image Files (*.png *.jpg *.jpeg *.ico)'
+        icon_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Select a custom icon',
+                                                         'c://', filters)[0]
+        if not icon_path:
+            return
+        icon_name = icon_path.rpartition('/')[2]
+        self.icon = f'{defaults._user_custom_icons_}/{icon_name}'
+        if not os.path.isdir(defaults._user_custom_icons_):
+            os.mkdir(defaults._user_custom_icons_)
+        copyfile(icon_path, self.icon)
         self.accept()

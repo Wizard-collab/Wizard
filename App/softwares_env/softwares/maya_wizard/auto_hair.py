@@ -35,7 +35,7 @@ logger.info(path_to_append)
 
 
 class auto_hair():
-	def __init__(self, string_asset, file, nspace_list, frange, comment = None):
+	def __init__(self, string_asset, file, nspace_list, frange, comment = None, set_done = 1):
 		self.asset = asset_core.string_to_asset(string_asset)
 		self.string_asset = string_asset
 		self.file = file
@@ -43,6 +43,7 @@ class auto_hair():
 		self.frange = frange
 		self.references_dic = prefs().asset(self.asset).software.references
 		self.comment = comment
+		self.set_done = set_done
 
 	def auto_hair(self):
 
@@ -63,7 +64,8 @@ class auto_hair():
 							self.blendshape_shapes()
 							self.export_hair()
 
-							print('status:Done !')
+							if self.set_done:
+								print('status:Done !')
 
 
 
