@@ -16,14 +16,13 @@ logger = log.pipe_log(__name__)
 class user_scripts():
 	def __init__(self):
 		self.file = defaults._user_scripts_file_
-		self.custom_scripts_path = defaults._user_custom_scripts_path_
 		self.init_scripts_path()
 		self.read_file()
 
 	def init_scripts_path(self):
-		if not os.path.exists(self.custom_scripts_path):
-			os.makedirs(self.custom_scripts_path)
-		sys.path.append(self.custom_scripts_path)
+		if not os.path.exists(defaults._user_custom_scripts_path_):
+			os.makedirs(defaults._user_custom_scripts_path_)
+		sys.path.append(defaults._user_custom_scripts_path_)
 
 	def create_user_script(self, name, image, script):
 
