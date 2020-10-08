@@ -95,6 +95,14 @@ class prefs:
         return user_prefs.set_context(asset)
 
     @property
+    def tab_context(self):
+        return user_prefs.get_tab_context()
+
+    def set_tab_context(self, tab):
+        return user_prefs.set_tab_context(tab)
+    
+
+    @property
     def quit_on_close(self):
         return user_prefs.get_quit_on_close()
 

@@ -161,7 +161,7 @@ class subThread(QThread):
                     else:
                         pass
                         
-            if self.asset.software == defaults._maya_:
+            if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_:
                 env[defaults._maya_icon_path_] = os.path.abspath(defaults._icon_path_)
 
             if self.asset.software == defaults._nuke_:

@@ -1013,6 +1013,7 @@ _software_key_ = 'software'
 # User pref dic variables library
 _user_name_key_ = 'user_name'
 _asset_context_ = 'asset'
+_tab_context_ = 'current_tab'
 _popup_prefs_key_ = 'popup'
 _user_screen_index_key_ = 'screen_index'
 _user_theme_key_ = 'theme'

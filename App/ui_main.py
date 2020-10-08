@@ -148,6 +148,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_user_scripts_widget()
             self.show_task_info_widget()
             self.init_local_server()
+            self.go_to_tab()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -576,6 +577,11 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def go_to_tab(self, tab = None):
+        if not tab:
+            tab = self.prefs.tab_context
+        self.ui.main_tabWidget.setCurrentIndex(tab)
+
     def main_tab_changed(self, index):
         try:
             
@@ -591,6 +597,9 @@ class Main(QtWidgets.QMainWindow):
                 self.playblasts_widget.refresh_all(self.asset)
             elif index == 5:
                 self.tickets_widget.refresh_all(self.asset)
+
+            self.prefs.set_tab_context(index)
+
         except:
             logger.critical(str(traceback.format_exc()))
 
