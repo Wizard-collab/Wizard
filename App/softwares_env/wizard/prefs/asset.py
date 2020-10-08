@@ -76,6 +76,24 @@ class name():
         self.settings[defaults._frame_range_key_] = range
         self.write()
 
+    def set_preroll(self, preroll):
+        self.settings[defaults._preroll_key_] = preroll
+        self.write()
+
+    def get_preroll(self):
+        if defaults._preroll_key_ not in self.settings.keys():
+            self.set_preroll(0)
+        return self.settings[defaults._preroll_key_]
+
+    def set_postroll(self, postroll):
+        self.settings[defaults._postroll_key_] = postroll
+        self.write()
+
+    def get_postroll(self):
+        if defaults._postroll_key_ not in self.settings.keys():
+            self.set_postroll(0)
+        return self.settings[defaults._postroll_key_]
+
     def read_settings(self):
         if self.database.isfile(2, self.file):
             settings = read_prefs(self.database, self.file)

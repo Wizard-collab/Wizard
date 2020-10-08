@@ -14,6 +14,7 @@ from wizard.asset import builder
 from wizard.vars import defaults
 from wizard.prefs.main import prefs
 from wizard.project import wall
+from maya_wizard import reference_asset
 import traceback
 import logging
 
@@ -25,7 +26,7 @@ logger = log.pipe_log(__name__)
 
 class export_anim():
 
-    def __init__(self, string_asset, file, nspace_list, frange, comment = None, set_done = 1):
+    def __init__(self, string_asset, file, nspace_list, frange, comment = None, set_done = 1, refresh_assets = 0):
         self.asset = asset_core.string_to_asset(string_asset)
         self.file = file
         self.nspace_list = nspace_list
@@ -34,6 +35,7 @@ class export_anim():
         self.comment = comment
         self.set_done = set_done
         self.camera = None
+        self.refresh_assets = refresh_assets
 
     def export_anim(self):
 
@@ -49,6 +51,10 @@ class export_anim():
 
             logging.info('current_task:Exporting {}'.format(nspace))
             cmds.file(self.file, o=True, f=True)
+
+            if self.refresh_assets:
+                reference_asset.refresh_all()
+
             percent += percent_step
 
             self.rig_asset = asset_core.string_to_asset(self.references_list[nspace][defaults._asset_key_])

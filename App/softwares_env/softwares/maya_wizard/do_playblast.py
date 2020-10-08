@@ -16,17 +16,22 @@ from maya_wizard import plugin
 import os
 
 class do_playblast():
-    def __init__(self, string_asset, file, temp_dir, frange):
+    def __init__(self, string_asset, file, temp_dir, frange, refresh_assets=0):
 
         self.asset = asset_core.string_to_asset(string_asset)
         self.file = file
         self.range = frange
         self.format = prefs().format
         self.temp_dir = temp_dir
+        self.refresh_assets = refresh_assets
 
     def do_playblast(self, cam_namespace):
 
         cmds.file(self.file, o=True, f=True)
+
+        if self.refresh_assets:
+            reference_asset.refresh_all()
+
         temp_file = os.path.join(self.temp_dir, 'temp_blast')
 
         reference_asset.import_camera()

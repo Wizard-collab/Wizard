@@ -406,7 +406,7 @@ def create_export_root(asset):
 
         # Log the success to user
         # And return the path
-        logger.info('Export root folder created')
+        logger.debug('Export root folder created')
         return path
 
 def create_export(asset, version = None):

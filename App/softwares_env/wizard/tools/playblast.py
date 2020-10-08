@@ -16,10 +16,11 @@ prefs = prefs()
 
 class playblast():
 
-    def __init__(self, string_asset, frange):
+    def __init__(self, string_asset, frange, refresh_assets):
         self.string_asset = string_asset
         self.frange = frange
         self.asset = asset_core.string_to_asset(string_asset)
+        self.refresh_assets = refresh_assets
 
     def playblast(self, cam_namespace, ornaments, show_playblast):
 
@@ -27,10 +28,11 @@ class playblast():
         print(self.temp_directory)
 
         pb_command = 'from softwares.maya_wizard.do_playblast import do_playblast\n'
-        pb_command += 'do_playblast("{}", "{}", "{}", {}).do_playblast("{}")'.format(self.string_asset,
+        pb_command += 'do_playblast("{}", "{}", "{}", {}, {}).do_playblast("{}")'.format(self.string_asset,
                                                                                         self.asset.file.replace('\\', '/'),
                                                                                         self.temp_directory.replace('\\', '/'),
                                                                                         self.frange,
+                                                                                        self.refresh_assets,
                                                                                         cam_namespace)
 
         file = utils.temp_file_from_command(pb_command)
@@ -81,6 +83,7 @@ class playblast():
     def conform_playblast(self):
         f = 0
         frange = prefs.asset(self.asset).name.range
+        preroll = prefs.asset(self.asset).name.preroll
         percent_step = 33.0/int(frange[-1])
         percent = 33
         user = prefs.user
@@ -95,7 +98,7 @@ class playblast():
                                                                                 user,
                                                                                 frange[0],
                                                                                 frange[-1],
-                                                                                str(f+frange[0]),
+                                                                                str(f+frange[0]-int(preroll)),
                                                                                 str(self.focal))
             convert_playblast.convert_image(file, string)
             f+=1
