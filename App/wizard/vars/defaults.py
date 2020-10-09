@@ -640,6 +640,8 @@ _pub_ext_dic_[_cyclo_] = {}
 _pub_ext_dic_[_cyclo_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 
+_custom_ext_dic_key_ = "custom_ext_dic"
+
 # Publish extension dictionary
 
 _project_extension_dic_key_ = 'extensions_dic'
@@ -981,6 +983,7 @@ _scene_current_asset_ = "scene_current_asset"
 # Project settings keys library
 _project_name_key_ = 'project_name'
 _frame_rate_key_ = 'frame_rate'
+_yeti_as_abc_key_ = 'yeti_as_abc'
 _format_key_ = 'format'
 _color_management_key_ = 'color_management'
 _sampling_rate_key_ = 'sampling_rate'

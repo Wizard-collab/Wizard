@@ -32,6 +32,8 @@ cmds.loadPlugin( 'AbcExport.mll' )
 
 logger = log.pipe_log(__name__)
 
+prefs = prefs()
+
 class export_fur():
 
     def __init__(self, string_asset, file, nspace_list, frange, set_done=1, refresh_assets = 0):
@@ -39,7 +41,7 @@ class export_fur():
         self.file = file
         self.nspace_list = nspace_list
         self.range = frange
-        self.references_list = prefs().asset(self.asset).software.references
+        self.references_list = prefs.asset(self.asset).software.references
         self.set_done = set_done
         self.refresh_assets = refresh_assets
 
@@ -86,10 +88,20 @@ class export_fur():
         for node in self.yeti_nodes_list:
 
             node_name = node.split(':')[-1]
-            file = os.path.join(directory, '{}.%04d.fur'.format(node_name))
-            cmds.pgYetiCommand(node, writeCache=file, range=(self.range[0], self.range[-1]), samples=3, sampleTimes= "-0.2 0.0 0.2")
+
+            fur_ext = prefs.custom_pub_ext_dic[self.asset.stage][self.asset.software]
+
+            if fur_ext == 'abc':
+                file = os.path.join(directory, '{}.abc'.format(node_name))
+                cmds.pgYetiCommand(node, writeAlembic =file, range=(self.range[0], self.range[-1]), samples=3, sampleTimes= "-0.2 0.0 0.2")
+            else:
+                file = os.path.join(directory, '{}.%04d.fur'.format(node_name))
+                cmds.pgYetiCommand(node, writeCache=file, range=(self.range[0], self.range[-1]), samples=3, sampleTimes= "-0.2 0.0 0.2")
+
             current_percent = float(percent) + (100.0/int(len_nspacelist))/2
             print('percent:{}'.format(current_percent))
+
+
         try:
             exported_files_list = os.listdir(directory)
             export_files = self.asset.export_multiple('{}_{}_{}'.format(self.fur_asset.name, self.fur_asset.variant, self.count), exported_files_list)

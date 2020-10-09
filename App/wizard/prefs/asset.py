@@ -12,6 +12,8 @@ from wizard.prefs.user import user
 # Wizard asset modules
 from wizard.asset.folder import folder
 
+from wizard.prefs import project as project_prefs
+
 import traceback
 
 import shutil
@@ -215,7 +217,7 @@ class variant():
         return self.settings[defaults._default_software_key_]
 
     def get_publish_file(self):
-        ext = defaults._pub_ext_dic_[self.asset.stage]
+        ext = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
         file = '{}/{}_{}_{}_{}.{}'.format(self.path, self.asset.stage, self.asset.category, self.asset.name,
                                           self.asset.variant, ext)
         return file

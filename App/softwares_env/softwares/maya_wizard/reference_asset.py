@@ -276,7 +276,7 @@ def import_textures(namespace = None):
                 path = os.path.split(imported_asset[2])[0]
                 all_textures = os.listdir(path)
 
-                maps_extension = defaults._pub_ext_dic_[defaults._texturing_][imported_asset[0].software]
+                maps_extension = (project_prefs.get_custom_pub_ext_dic())[defaults._texturing_][imported_asset[0].software]
                 textures_list = []
 
                 if all_textures and all_textures != []:

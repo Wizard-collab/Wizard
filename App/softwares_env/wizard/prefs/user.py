@@ -61,6 +61,7 @@ class user:
             self.settings[defaults._local_project_path_] = ''
             self.settings[defaults._shutter_] = 0
             self.settings[defaults._server_ip_] = None
+            self.settings[defaults._tab_context_] = 0
             # Write the .manager file as YAML with setting dict
             logger.debug('user.wd file created')
             self.write_pref_file(new=1)
@@ -282,7 +283,11 @@ class user:
                 self.settings[defaults._asset_context_] = None
         except TypeError:
             self.settings[defaults._asset_context_] = None
-        logger.info('Asset context saved !')
+        logger.debug('Asset context saved !')
+        self.write_pref_file()
+
+    def set_tab_context(self, tab=0):
+        self.settings[defaults._tab_context_] = tab
         self.write_pref_file()
 
     def get_context(self):
@@ -299,6 +304,14 @@ class user:
                     return None
         else:
             return None
+
+    def get_tab_context(self):
+        self.open_pref_file()
+        if defaults._tab_context_ not in self.settings.keys():
+            self.settings[defaults._tab_context_] = 0
+            self.write_pref_file()
+        return self.settings[defaults._tab_context_]
+
 
     def get_pref_path(self):
         return defaults._user_path_
