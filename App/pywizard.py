@@ -71,8 +71,10 @@ from wizard.tools import password
 from wizard.tools import playblast
 from wizard.tools import utility
 
-from wizard.wsd import main
-import scene
+from wizard.prefs import user_scripts
+
+user_scripts.user_scripts()
+
 from wizard import api
 
 try:

@@ -45,6 +45,7 @@ class Main(QtWidgets.QWidget):
         self.ui.asset_stage_image_label.setPixmap(QtGui.QPixmap(icon).scaled(22, 22, QtCore.Qt.KeepAspectRatio,
                                                                                   QtCore.Qt.SmoothTransformation))
 
+        self.ui.reference_list_item_asset_stage_label.setText(self.asset.stage)
         self.ui.reference_list_item_asset_name_label.setText(self.asset.name)
         self.ui.reference_list_item_asset_variant_label.setText("{}.{}".format(self.asset.variant, self.asset.export_version))
         self.ui.reference_list_item_asset_namespace_label.setText(self.asset.export_asset)

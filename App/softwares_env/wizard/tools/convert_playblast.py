@@ -1,8 +1,9 @@
 from PIL import Image, ImageFont, ImageDraw
 import sys
-sys.path.append('')
+#sys.path.append('')
 import logging
 from wizard.vars import defaults
+import os
 
 def convert_image(image_file, string):
 	image = Image.open(image_file).convert('RGBA')
@@ -18,7 +19,12 @@ def convert_image(image_file, string):
 
 	text_position = ( margin_percent, im_height - (font_height + margin_percent) )
 
-	wizard_icon = Image.open(defaults._wizard_ico_).convert('RGBA')
+	if os.path.isfile(defaults._wizard_ico_):
+		wizard_icon = defaults._wizard_ico_
+	else:
+		wizard_icon = defaults._wizard_ico_.replace('softwares_env', '')
+
+	wizard_icon = Image.open(wizard_icon).convert('RGBA')
 	wizard_icon.thumbnail((font_height, font_height), Image.ANTIALIAS)
 	wizard_icon_width, wizard_icon_height = wizard_icon.size
 	over_image_wizard = Image.new('RGBA', image.size, (255,255,255,0))

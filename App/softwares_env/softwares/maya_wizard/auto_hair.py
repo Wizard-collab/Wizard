@@ -35,7 +35,7 @@ logger.info(path_to_append)
 
 
 class auto_hair():
-	def __init__(self, string_asset, file, nspace_list, frange, comment = None, set_done = 1):
+	def __init__(self, string_asset, file, nspace_list, frange, comment = None, set_done = 1, refresh_assets = 0):
 		self.asset = asset_core.string_to_asset(string_asset)
 		self.string_asset = string_asset
 		self.file = file
@@ -44,6 +44,7 @@ class auto_hair():
 		self.references_dic = prefs().asset(self.asset).software.references
 		self.comment = comment
 		self.set_done = set_done
+		self.refresh_assets = refresh_assets
 
 	def auto_hair(self):
 
@@ -171,14 +172,15 @@ class auto_hair():
 		self.hair_nspace = references(self.cfx_asset).get_name_space(self.grooming_asset, count)
 
 	def export_anim(self, nspace):
-		export_anim(self.string_asset, self.file, [nspace], self.frange, set_done = 0).export_anim()
+		export_anim(self.string_asset, self.file, [nspace], self.frange, set_done = 0, refresh_assets = self.refresh_assets).export_anim()
 
 	def export_hair(self):
 		string_asset = utils.asset_to_string(self.cfx_asset)
 		export_fur(string_asset, self.cfx_scene, [self.hair_nspace], self.frange, set_done = 0).export_fur()
 
 	def create_new_scene(self):
-		asset_exists = 0
+		stage_exists = 0
+		variant_exists = 0
 		self.cfx_asset = copy.deepcopy(self.asset)
 		self.cfx_asset.stage = defaults._cfx_
 		self.cfx_asset.variant = 'auto_hair'
@@ -189,29 +191,34 @@ class auto_hair():
 			self.cfx_asset.export_asset = None
 			self.cfx_asset.export_version = None
 			if self.cfx_asset.create():
-				self.cfx_asset.variant = 'auto_hair'
-				if not checker.check_variant_existence(self.cfx_asset):
-					self.cfx_asset.software = None
-					self.cfx_asset.version = None
-					self.cfx_asset.export_asset = None
-					self.cfx_asset.export_version = None
-					if self.cfx_asset.create():
-						asset_exists = 1
+				stage_exists = 1
 		else:
-			asset_exists = 1
-		if asset_exists:
+			stage_exists = 1
+
+		self.cfx_asset.variant = 'auto_hair'
+		if not checker.check_variant_existence(self.cfx_asset):
+			logger.info('LOL')
+			self.cfx_asset.software = None
+			self.cfx_asset.version = None
+			self.cfx_asset.export_asset = None
+			self.cfx_asset.export_version = None
+			if self.cfx_asset.create():
+				variant_exists = 1
+		else:
+			variant_exists = 1
+
+		if variant_exists and stage_exists:
 			prefs().asset(self.cfx_asset).stage.set_default_variant('auto_hair')
 			self.cfx_asset.software = prefs().asset(self.cfx_asset).variant.default_software
 			self.cfx_asset.version = prefs().asset(self.cfx_asset).software.get_new_version()
 			prefs().asset(self.cfx_asset).software.new_version(self.cfx_asset.version)
 			self.cfx_scene = self.cfx_asset.file
-		return asset_exists
+		return (variant_exists * stage_exists)
 
 	def get_exported_asset(self):
 		self.export_asset = copy.deepcopy(self.asset)
 		self.export_asset.export_asset = prefs().asset(self.export_asset).export_root.default_export_asset
 		self.export_asset.export_version = prefs().asset(self.export_asset).export.last_version
-		logger.info(prefs().asset(self.export_asset).export.full_file)
 		file = prefs().asset(self.export_asset).export.full_file
 		if os.path.isfile(file):
 			return 1

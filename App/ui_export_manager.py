@@ -53,8 +53,12 @@ class Main(QtWidgets.QWidget):
         self.ui.export_ma_stage_lineEdit.setText(self.stage)
 
         self.frange = prefs.asset(self.asset).name.range
+        self.preroll = prefs.asset(self.asset).name.preroll
+        self.postroll = prefs.asset(self.asset).name.postroll
         self.ui.export_ma_in_frange_lineEdit.setText(str(self.frange[0]))
         self.ui.export_ma_out_frange_lineEdit.setText(str(self.frange[1]))
+        self.ui.export_m_preroll_lineEdit.setText(str(self.preroll))
+        self.ui.export_m_postroll_lineEdit.setText(str(self.postroll))
         self.change_range()
 
         self.ui.export_ma_sequence_lineEdit.setText('{} - {} - {}'.format(self.asset.category, self.asset.name, self.asset.variant))
@@ -79,8 +83,6 @@ class Main(QtWidgets.QWidget):
 
             if (asset.stage == defaults._camera_) and (asset.category == self.asset.category) and (asset.name == self.asset.name):
                 self.is_cam = 1
-
-        logger.info(self.is_cam)
 
         if (self.asset.domain == defaults._sequences_) and (self.action == defaults._playblast_) and not self.is_cam:
             cam_asset = copy.deepcopy(self.asset)
@@ -121,8 +123,12 @@ class Main(QtWidgets.QWidget):
     def connect_functions(self):
         self.ui.export_ma_in_frange_lineEdit.textChanged.connect(self.change_range)
         self.ui.export_ma_out_frange_lineEdit.textChanged.connect(self.change_range)
+        self.ui.preroll_postroll_checkBox.stateChanged.connect(self.change_range)
 
     def change_range(self):
+
+        apply_pre_post_roll = self.ui.preroll_postroll_checkBox.isChecked()
+
         in_frame = self.ui.export_ma_in_frange_lineEdit.text()
         try:
             in_frame = int(in_frame)
@@ -148,7 +154,10 @@ class Main(QtWidgets.QWidget):
             self.ui.export_ma_out_frange_lineEdit.setStyleSheet('#export_ma_out_frange_lineEdit{border:1px solid Red}')
 
         try:
-            self.out_range = [int(in_frame), int(out_frame)]
+            if apply_pre_post_roll:
+                self.out_range = [int(in_frame)-int(self.preroll), int(self.postroll)+int(out_frame)] 
+            else:
+                self.out_range = [int(in_frame), int(out_frame)]
         except:
             self.out_range = None
 
@@ -168,6 +177,7 @@ class Main(QtWidgets.QWidget):
 
             self.asset.version = prefs.asset(self.asset).software.last_version
             auto_hair = self.ui.export_auto_hair_checkBox.isChecked()
+            refresh_assets = self.ui.export_m_refresh_assets_checkBox.isChecked()
 
             command = ''
 
@@ -180,25 +190,30 @@ class Main(QtWidgets.QWidget):
 
                 if self.asset.stage == defaults._animation_ and auto_hair:
                     command = 'from softwares.maya_wizard.auto_hair import auto_hair\n'
-                    command += 'auto_hair("{}", "{}", {}, frange = {}, set_done = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
+                    command += 'auto_hair("{}", "{}", {}, frange = {}, set_done = {}, refresh_assets = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
                                                                                             self.asset.file.replace('\\', '/'),
                                                                                             nspace_list,
                                                                                             self.out_range,
-                                                                                            set_done)
+                                                                                            set_done,
+                                                                                            refresh_assets)
 
                 elif self.asset.stage == defaults._animation_ and not auto_hair:
                     command += 'from softwares.maya_wizard.export_anim import export_anim\n'
-                    command += 'export_anim("{}", "{}", {}, frange = {}, set_done = {}).export_anim()'.format(utils.asset_to_string(self.asset),
+                    command += 'export_anim("{}", "{}", {}, frange = {}, set_done = {}, refresh_assets = {}).export_anim()'.format(utils.asset_to_string(self.asset),
                                                                                             self.asset.file.replace('\\', '/'),
                                                                                             nspace_list,
                                                                                             self.out_range,
-                                                                                            set_done)
+                                                                                            set_done,
+                                                                                            refresh_assets)
+
                 elif self.asset.stage == defaults._cfx_:
                     command = 'from softwares.maya_wizard.export_fur import export_fur\n'
-                    command += 'export_fur("{}", "{}", {}, {}).export_fur()'.format(utils.asset_to_string(self.asset),
+                    command += 'export_fur("{}", "{}", {}, {}, refresh_assets = {}).export_fur()'.format(utils.asset_to_string(self.asset),
                                                                                         self.asset.file.replace('\\', '/'),
                                                                                         nspace_list,
-                                                                                        self.out_range)
+                                                                                        self.out_range,
+                                                                                        refresh_assets)
+
             else:
                 if cam_nspace_list == []:
                     logger.warning("Please select at least an asset")
@@ -209,10 +224,12 @@ class Main(QtWidgets.QWidget):
 
                 if self.asset.software == defaults._maya_:
                     command += '\nfrom softwares.maya_wizard.export_anim import export_anim\n'
-                    command += 'export_anim("{}", "{}", {}, frange = {}).export_cam()'.format(utils.asset_to_string(self.asset),
+                    command += 'export_anim("{}", "{}", {}, frange = {}, refresh_assets = {}).export_cam()'.format(utils.asset_to_string(self.asset),
                                                                                             self.asset.file.replace('\\', '/'),
                                                                                             cam_nspace_list,
-                                                                                            self.out_range)
+                                                                                            self.out_range,
+                                                                                            refresh_assets)
+
 
             if command != '':
 
@@ -239,6 +256,7 @@ class Main(QtWidgets.QWidget):
                 show_ornaments = self.ui.playblast_ornaments_checkBox.isChecked()
                 show_playblast = self.ui.playblast_show_checkBox.isChecked()
                 items_list = self.ui.export_ma_assets_listWidget.selectedItems()
+                refresh_assets = self.ui.export_m_refresh_assets_checkBox.isChecked()
 
                 nspace_list = []
                 for item in items_list:
@@ -249,9 +267,12 @@ class Main(QtWidgets.QWidget):
 
                     command = 'import sys\nsys.path.append("{}")\n'.format(env_path)
                     command += 'from wizard.tools.playblast import playblast\n'
-                    command += 'playblast("{}", {}).playblast("{}", {}, {})'.format(utils.asset_to_string(self.asset),
-                                                                                        self.out_range, nspace_list[-1],
-                                                                                        show_ornaments, show_playblast)
+                    command += 'playblast("{}", {}, {}).playblast("{}", {}, {})'.format(utils.asset_to_string(self.asset),
+                                                                                        self.out_range,
+                                                                                        refresh_assets,
+                                                                                        nspace_list[-1],
+                                                                                        show_ornaments,
+                                                                                        show_playblast)
 
                     file = utils.temp_file_from_command(command)
                     

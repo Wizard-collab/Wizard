@@ -95,6 +95,14 @@ class prefs:
         return user_prefs.set_context(asset)
 
     @property
+    def tab_context(self):
+        return user_prefs.get_tab_context()
+
+    def set_tab_context(self, tab):
+        return user_prefs.set_tab_context(tab)
+    
+
+    @property
     def quit_on_close(self):
         return user_prefs.get_quit_on_close()
 
@@ -292,6 +300,20 @@ class prefs:
             @property
             def range(self):
                 return asset_prefs.name(self.asset).get_frame_range()
+
+            @property
+            def preroll(self):
+                return asset_prefs.name(self.asset).get_preroll()
+            
+            @property
+            def postroll(self):
+                return asset_prefs.name(self.asset).get_postroll()
+
+            def set_preroll(self, preroll):
+                return asset_prefs.name(self.asset).set_preroll(preroll)
+
+            def set_postroll(self, postroll):
+                return asset_prefs.name(self.asset).set_postroll(postroll)
 
             def set_range(self, range):
                 return asset_prefs.name(self.asset).set_frame_range(range)

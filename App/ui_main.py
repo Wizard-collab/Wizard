@@ -65,7 +65,6 @@ import dialog_merge_projects
 import dialog_new_version
 import ui_error_handler
 import user_scripts_widget
-import scene
 from wizard.signal.signal_server import signal_server
 from wizard.prefs.user_scripts import user_scripts
 import inspect
@@ -149,6 +148,7 @@ class Main(QtWidgets.QMainWindow):
             self.init_user_scripts_widget()
             self.show_task_info_widget()
             self.init_local_server()
+            self.go_to_tab()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -577,6 +577,11 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def go_to_tab(self, tab = None):
+        if not tab:
+            tab = self.prefs.tab_context
+        self.ui.main_tabWidget.setCurrentIndex(tab)
+
     def main_tab_changed(self, index):
         try:
             
@@ -592,6 +597,9 @@ class Main(QtWidgets.QMainWindow):
                 self.playblasts_widget.refresh_all(self.asset)
             elif index == 5:
                 self.tickets_widget.refresh_all(self.asset)
+
+            self.prefs.set_tab_context(index)
+
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -693,7 +701,7 @@ class Main(QtWidgets.QMainWindow):
             self.update_image()
             self.update_lock()
             self.update_tabs()
-            scene.set_current_asset(self.asset)
+            api.scene.set_current_asset(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -908,12 +916,18 @@ class Main(QtWidgets.QMainWindow):
     def modify_frame_range(self):
         try:
             frange = self.selected_asset_prefs.name.range
+            preroll = self.selected_asset_prefs.name.preroll
+            postroll = self.selected_asset_prefs.name.postroll
 
-            self.dialog_modify_range = dialog_modify_range.Main(frange)
+            self.dialog_modify_range = dialog_modify_range.Main(frange, preroll, postroll)
             if build.launch_running_dialog(self.dialog_modify_range):
                 inFrame = self.dialog_modify_range.inFrame
                 outFrame = self.dialog_modify_range.outFrame
+                preroll = self.dialog_modify_range.preroll
+                postroll = self.dialog_modify_range.postroll
                 self.selected_asset_prefs.name.set_range([inFrame, outFrame])
+                self.selected_asset_prefs.name.set_preroll(preroll)
+                self.selected_asset_prefs.name.set_postroll(postroll)
         except:
             logger.critical(str(traceback.format_exc()))
 
