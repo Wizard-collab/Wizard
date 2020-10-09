@@ -29,7 +29,8 @@ class Main(QtWidgets.QDialog):
         self.move(posx, posy)
 
     def create_shot(self):
-        self.shot_name = str(self.ui.shote_name_spinBox.value()).zfill(4)
+        #self.shot_name = str(self.ui.shote_name_spinBox.value()).zfill(4)
+        self.shot_name = self.ui.shot_name_lineEdit.text()
         self.inFrame = self.ui.shot_inFrame_spinBox.value()
         self.outFrame = self.ui.shot_outFrame_spinBox.value()
         self.accept()
