@@ -125,6 +125,7 @@ _stockshot_ = 'stockshot'
 _video_ = 'video'
 _cyclo_ = 'cyclo'
 _fx_setup_ = 'fx_setup'
+_material_ = 'material'
 
 # Editing categories
 _video_edit_ = "video_edit"
@@ -136,7 +137,7 @@ _editing_stages_dic_[_sound_edit_] = _sound_edit_
 
 
 
-_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_]
+_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
 _lib_stages_dic_ = {}
 _lib_stages_dic_[_autorig_] = _autorig_
 _lib_stages_dic_[_cam_rig_] = _cam_rig_
@@ -151,6 +152,7 @@ _lib_stages_dic_[_scripts_] = _scripts_
 _lib_stages_dic_[_sons_] = _sons_
 _lib_stages_dic_[_stockshot_] = _stockshot_
 _lib_stages_dic_[_video_] = _video_
+_lib_stages_dic_[_material_] = _material_
 
 # Asset stages library
 _design_ = 'design'
@@ -184,22 +186,6 @@ _cfx_ = 'cfx'
 _fx_ = 'fx'
 _compositing_ = 'compositing'
 _camera_ = 'camera'
-
-
-_reference_autorization_dic_ = {}
-_reference_autorization_dic_[_geo_] = [_geo_]
-_reference_autorization_dic_[_rig_] = [_geo_, _texturing_, _autorig_]
-_reference_autorization_dic_[_texturing_] = [_geo_]
-_reference_autorization_dic_[_shading_] = [_geo_, _texturing_, _hair_, _cam_rig_, _cyclo_]
-_reference_autorization_dic_[_hair_] = [_geo_]
-_reference_autorization_dic_[_layout_] = [_geo_, _cam_rig_]
-_reference_autorization_dic_[_animation_] = [_layout_, _rig_, _cam_rig_]
-_reference_autorization_dic_[_lighting_] = [_layout_, _animation_, _cfx_, _fx_, _shading_, _render_pass_]
-_reference_autorization_dic_[_compositing_] = [_lighting_]
-_reference_autorization_dic_[_cfx_] = [_hair_, _geo_, _animation_, _layout_]
-_reference_autorization_dic_[_fx_] = [_hair_, _geo_, _animation_, _layout_, _cfx_, _fx_setup_]
-_reference_autorization_dic_[_cyclo_] = [_geo_]
-
 
 # Sequences stages list
 _sequences_stages_ = [_concept_,
@@ -465,6 +451,7 @@ _stockshot_icon_ = 'stockshot.png'
 _video_icon_ = 'video.png'
 _video_edit_icon_ = 'video_edit.png'
 _sound_edit_icon_ = 'sound_edit.png'
+_material_icon_ = 'material.png'
 
 _design_icon_large_ = _icon_path_ + 'design_large.png'
 _geo_icon_large_ = _icon_path_ + 'modeling_large.png'
@@ -494,6 +481,7 @@ _stockshot_icon_large_ = _icon_path_ + 'stockshot_large.png'
 _video_icon_large_ = _icon_path_ + 'video_large.png'
 _video_edit_icon_large_ = _icon_path_ + 'video_edit_large.png'
 _sound_edit_icon_large_ = _icon_path_ + 'sound_edit_large.png'
+_material_icon_large_ = _icon_path_ + 'video_edit_large.png'
 
 
 _stage_icon_={}
@@ -526,6 +514,7 @@ _stage_icon_[_stockshot_] = _icon_path_ + _stockshot_icon_
 _stage_icon_[_video_] = _icon_path_ + _video_icon_
 _stage_icon_[_video_edit_] = _icon_path_ + _video_edit_icon_
 _stage_icon_[_sound_edit_] = _icon_path_ + _sound_edit_icon_
+_stage_icon_[_material_] = _icon_path_ + _material_icon_
 
 
 
@@ -753,6 +742,7 @@ _script_software_env_dic_[_houdini_]='PYTHONPATH'
 _script_software_env_dic_[_zbrush_]='PYTHONPATH'
 _script_software_env_dic_[_guerilla_]='GUERILLA_CONF'
 _script_software_env_dic_[_painter_]='SUBSTANCE_PAINTER_PLUGINS_PATH'
+_script_software_env_dic_[_designer_]='SBS_DESIGNER_PYTHON_PATH'
 _script_software_env_dic_[_blender_]='PYTHONPATH'
 _script_software_env_dic_[_3dsmax_]='PYTHONPATH'
 _script_software_env_dic_[_resolve_]='PYTHONPATH'
@@ -767,7 +757,7 @@ _extension_dic_[_maya_yeti_]='ma'
 _extension_dic_[_photoshop_]='psd'
 _extension_dic_[_krita_]='kra'
 _extension_dic_[_painter_]='spp'
-_extension_dic_[_designer_]='SBSAR'
+_extension_dic_[_designer_]='sbs'
 _extension_dic_[_zbrush_]='zpr'
 _extension_dic_[_marvelous_]='hw'
 _extension_dic_[_guerilla_]='gproject'
@@ -832,6 +822,7 @@ _stage_softs_dic_[_stockshot_] = [_folder_]
 _stage_softs_dic_[_video_] = [_folder_]
 _stage_softs_dic_[_video_edit_] = [_resolve_]
 _stage_softs_dic_[_sound_edit_] = [_reaper_]
+_stage_softs_dic_[_material_] = [_designer_, _photoshop_]
 
 
 # Game icons library
@@ -1254,6 +1245,7 @@ _design_node_icon_ = _icon_path_ + 'design_node_main.png'
 _concept_node_icon_ = _icon_path_ + 'concept_node_main.png'
 _missing_node_icon_ = _icon_path_ + 'missing_node_main.png'
 _auto_rig_node_icon_ = _icon_path_ + 'auto_rig_node_main.png'
+_material_node_icon_ = _icon_path_ + 'material_node_main.png'
 _cam_rig_node_icon_ = _icon_path_ + 'cam_rig_node_main.png'
 _cyclo_node_icon_ = _icon_path_ + 'cyclo_node_main.png'
 _gizmo_node_icon_ = _icon_path_ + 'gizmo_node_main.png'
@@ -1299,6 +1291,7 @@ _nodes_icons_dic_[_stockshot_] = _stockshot_node_icon_
 _nodes_icons_dic_[_video_] = _video_node_icon_
 _nodes_icons_dic_[_video_edit_] = _video_edit_node_icon_
 _nodes_icons_dic_[_sound_edit_] = _sound_edit_node_icon_
+_nodes_icons_dic_[_material_] = _material_node_icon_
 
 _python_27_zip_ = 'plugins/Guerilla Render/python27.zip'
 _python_27_dll_ = 'plugins/Guerilla Render/python27.dll'

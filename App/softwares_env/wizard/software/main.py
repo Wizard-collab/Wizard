@@ -128,6 +128,7 @@ class subThread(QThread):
 
             wizard_path = os.path.abspath('')
             python_path = os.path.abspath('ressources\\python27')
+            python37_path = os.path.abspath('ressources\\python37')
             ocio_path = os.path.abspath('ressources\\plugins\\color_managment\\aces_1.0.3\\config.ocio')
 
             rel_site_script_path = os.path.join(defaults._softwares_scripts_path_)
@@ -171,6 +172,10 @@ class subThread(QThread):
 
             if self.asset.software == defaults._painter_:
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'painter_wizard')
+
+            if self.asset.software == defaults._designer_:
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'designer_wizard')
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python37_path + '\\Lib\\site-packages'
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)     
