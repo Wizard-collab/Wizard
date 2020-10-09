@@ -463,6 +463,9 @@ class prefs:
             def remove_version(self, version):
                 return asset_prefs.software(self.asset).remove_version(version=version)
 
+            def merge_version(self, file):
+                return asset_prefs.software(self.asset).merge_version(file)
+
             @property
             def references(self):
                 return asset_prefs.software(self.asset).get_references()
