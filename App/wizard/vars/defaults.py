@@ -591,6 +591,7 @@ _pub_ext_dic_[_cam_rig_] = {}
 _pub_ext_dic_[_cam_rig_][_maya_] = 'ma'
 _pub_ext_dic_[_texturing_] = {}
 _pub_ext_dic_[_texturing_][_painter_] = 'exr'
+_pub_ext_dic_[_texturing_][_designer_] = 'sbsar'
 _pub_ext_dic_[_shading_] = {}
 _pub_ext_dic_[_shading_][_guerilla_] = 'gnode'
 _pub_ext_dic_[_shading_][_maya_] = 'ma'
@@ -628,6 +629,11 @@ _pub_ext_dic_[_camera_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_] = {}
 _pub_ext_dic_[_cyclo_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
+_pub_ext_dic_[_material_] = {}
+_pub_ext_dic_[_material_][_designer_] = 'sbsar'
+_pub_ext_dic_[_material_][_photoshop_] = 'png'
+
+
 
 _custom_ext_dic_key_ = "custom_ext_dic"
 
