@@ -136,7 +136,7 @@ class subThread(QThread):
 
             env = os.environ.copy()
 
-            if self.asset.software != defaults._guerilla_:
+            if self.asset.software != defaults._guerilla_ and self.asset.software != defaults._designer_:
                 env[defaults._script_software_env_dic_[self.asset.software]] = abs_site_script_path
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
@@ -174,8 +174,10 @@ class subThread(QThread):
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'painter_wizard')
 
             if self.asset.software == defaults._designer_:
+                env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + python37_path + '\\Lib\\site-packages'
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'designer_wizard')
-                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python37_path + '\\Lib\\site-packages'
+
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)     

@@ -69,8 +69,8 @@ class Main(QtWidgets.QWidget):
 
     def change_comment(self):
         self.dialog_comment = dialog_comment.Main(self.asset, 0)
-        build.launch_dialog_comment(self.dialog_comment)
-        self.ui.version_widget_comment_label.setText(self.dialog_comment.comment)
+        if build.launch_dialog_comment(self.dialog_comment):
+            self.ui.version_widget_comment_label.setText(self.dialog_comment.comment)
 
     def delete_version(self):
         self.dialog_delete_asset = dialog_delete_asset.Main()

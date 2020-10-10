@@ -9,10 +9,7 @@ import shutil
 # Wizard modules
 from wizard.tools import log
 from wizard.tools import utility as util
-try:
-    from wizard.project import main as project
-except:
-    pass
+from wizard.project import main as project
 from wizard.prefs.main import prefs
 from wizard.asset import checker
 from wizard.asset.folder import folder

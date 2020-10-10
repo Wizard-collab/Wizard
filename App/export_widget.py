@@ -85,8 +85,8 @@ class Main(QtWidgets.QWidget):
 
     def change_comment(self):
         self.dialog_comment = dialog_comment.Main(self.asset)
-        build.launch_dialog_comment(self.dialog_comment)
-        self.ui.export_widget_comment_label.setText(self.dialog_comment.comment)
+        if build.launch_dialog_comment(self.dialog_comment):
+            self.ui.export_widget_comment_label.setText(self.dialog_comment.comment)
 
     def make_tx(self):
         folder = prefs.asset(self.asset).export.version_folder

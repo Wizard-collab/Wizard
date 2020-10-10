@@ -80,8 +80,8 @@ class Main(QtWidgets.QWidget):
 
     def change_comment(self):
         self.dialog_comment = dialog_comment.Main(self.asset, 0, self.version)
-        build.launch_dialog_comment(self.dialog_comment)
-        self.ui.playblast_widget_comment_label.setText(self.dialog_comment.comment)
+        if build.launch_dialog_comment(self.dialog_comment):
+            self.ui.playblast_widget_comment_label.setText(self.dialog_comment.comment)
 
     def connect_functions(self):
         self.ui.playblast_widget_view_pushButton.clicked.connect(self.open_file)

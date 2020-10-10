@@ -16,16 +16,16 @@ prefs = prefs()
 
 class playblast():
 
-    def __init__(self, string_asset, frange, refresh_assets):
+    def __init__(self, string_asset, frange, refresh_assets, is_preroll = None):
         self.string_asset = string_asset
         self.frange = frange
         self.asset = asset_core.string_to_asset(string_asset)
         self.refresh_assets = refresh_assets
+        self.is_preroll = is_preroll
 
     def playblast(self, cam_namespace, ornaments, show_playblast):
 
         self.temp_directory = utils.temp_dir()
-        print(self.temp_directory)
 
         pb_command = 'from softwares.maya_wizard.do_playblast import do_playblast\n'
         pb_command += 'do_playblast("{}", "{}", "{}", {}, {}).do_playblast("{}")'.format(self.string_asset,
@@ -90,6 +90,11 @@ class playblast():
 
         for file in os.listdir(self.temp_directory):
             file = os.path.join(self.temp_directory, file)
+
+            current_frame = f+frange[0]
+            if self.is_preroll:
+                current_frame= current_frame-int(preroll)
+
             string = 'project: {} | scene: {}-{}-{}-{}-{} | user: {} | frame range: {}-{} | frame: {} | focal: {}'.format(self.asset.project, self.asset.category,
                                                                                 self.asset.name,
                                                                                 self.asset.stage,
@@ -98,7 +103,7 @@ class playblast():
                                                                                 user,
                                                                                 frange[0],
                                                                                 frange[-1],
-                                                                                str(f+frange[0]-int(preroll)),
+                                                                                str(current_frame),
                                                                                 str(self.focal))
             convert_playblast.convert_image(file, string)
             f+=1

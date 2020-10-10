@@ -96,3 +96,26 @@ Version date : 2020-10-04
 - Debug - Compil is way more clean
 - Debug - No more updater.exe in the install
 '''
+
+updates['0.9.7.87-b'] = '''Version updates : 0.9.7.87-b
+
+Version date : 2020-10-10
+
+- Substance designer is now accessible from wizard
+- Substance designer plugin ( Save and SBSAR exports )
+- Clean API sctructure
+- You can now merge files in wizard by drag and drop files in versions tab
+- Stage information in reference list items
+- Yeti - Abc workflow available
+- Batch export - Refresh auto option for exports and playblasts
+- You can now set prerolls and postrolls for shots
+- Preroll and postroll button in Maya/Wizard shelf
+- You can now playblast from the published camera of the shot in any Maya scene
+- Updates history is now accessible
+- Wizard now references all exported assets ( char_1_anim, char_2_anim, etc... )
+- Debug - Maya + Yeti shelf icons are back !
+- Debug - Wizard memorize the user current tab
+- Debug - No needed category icons were appearing when refreshing tree
+- Debug - Crash when cancelling version, playblast or export comment
+- Debug - Tabs are not movable anymore
+'''

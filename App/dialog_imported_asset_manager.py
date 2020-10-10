@@ -58,7 +58,6 @@ class Main(QtWidgets.QDialog):
 
     def variant_changed(self):
         self.asset.variant = self.ui.variant_comboBox.currentText()
-        logger.info(self.ui.variant_comboBox.currentText())
         self.refresh_exported_asset()
 
     def export_asset_changed(self):

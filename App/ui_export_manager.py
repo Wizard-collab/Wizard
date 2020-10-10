@@ -21,6 +21,7 @@ import ui_subprocess_manager
 from wizard.prefs import software as software_prefs
 from wizard.software import main as software
 from wizard.asset.reference import references
+from wizard.asset import checker
 
 logger = log.pipe_log(__name__)
 
@@ -87,15 +88,18 @@ class Main(QtWidgets.QWidget):
         if (self.asset.domain == defaults._sequences_) and (self.action == defaults._playblast_) and not self.is_cam:
             cam_asset = copy.deepcopy(self.asset)
             cam_asset.stage = defaults._camera_
-            for variant in prefs.asset(cam_asset).stage.variants:
-                cam_asset.variant = variant
-                cam_asset.export_asset = prefs.asset(cam_asset).export_root.default_export_asset
-                if cam_asset.export_asset:
-                    cam_asset.export_version = prefs.asset(cam_asset).export.last_version
-                    cam_asset.software =  prefs.asset(cam_asset).export.version_software
-                    if cam_asset.export_version and cam_asset.software:
-                        
-                        self.add_sequence_camera(cam_asset)
+
+            if checker.check_stage_existence(cam_asset):
+
+                for variant in prefs.asset(cam_asset).stage.variants:
+                    cam_asset.variant = variant
+                    cam_asset.export_asset = prefs.asset(cam_asset).export_root.default_export_asset
+                    if cam_asset.export_asset:
+                        cam_asset.export_version = prefs.asset(cam_asset).export.last_version
+                        cam_asset.software =  prefs.asset(cam_asset).export.version_software
+                        if cam_asset.export_version and cam_asset.software:
+                            
+                            self.add_sequence_camera(cam_asset)
 
                         
 
@@ -156,8 +160,10 @@ class Main(QtWidgets.QWidget):
         try:
             if apply_pre_post_roll:
                 self.out_range = [int(in_frame)-int(self.preroll), int(self.postroll)+int(out_frame)] 
+                self.is_preroll = 1
             else:
                 self.out_range = [int(in_frame), int(out_frame)]
+                self.is_preroll = 0
         except:
             self.out_range = None
 
@@ -267,9 +273,10 @@ class Main(QtWidgets.QWidget):
 
                     command = 'import sys\nsys.path.append("{}")\n'.format(env_path)
                     command += 'from wizard.tools.playblast import playblast\n'
-                    command += 'playblast("{}", {}, {}).playblast("{}", {}, {})'.format(utils.asset_to_string(self.asset),
+                    command += 'playblast("{}", {}, {}, is_preroll={}).playblast("{}", {}, {})'.format(utils.asset_to_string(self.asset),
                                                                                         self.out_range,
                                                                                         refresh_assets,
+                                                                                        self.is_preroll,
                                                                                         nspace_list[-1],
                                                                                         show_ornaments,
                                                                                         show_playblast)
