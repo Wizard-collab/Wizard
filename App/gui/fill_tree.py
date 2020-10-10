@@ -18,7 +18,7 @@ def build_tree(widget, value):
             categories_list.sort()
             for item in categories_list:
                 category = item
-                category_parent = add_item(widget, domain_parent, item, editable=False)
+                category_parent = add_item(widget, domain_parent, item, editable=False, need_icon=False)
 
                 if category_parent:
                     names_list = list(value[domain][category].keys())
@@ -96,7 +96,7 @@ def build_tree(widget, value):
                 add_item(widget, domain_parent, defaults._new_item_label_, create=1, editable=True)
 
 
-def add_item(widget, parent, name, create=None, editable=False, stage=None):
+def add_item(widget, parent, name, create=None, editable=False, stage=None, need_icon=True):
     add = True
 
     for i in range(parent.childCount()):
@@ -104,7 +104,7 @@ def add_item(widget, parent, name, create=None, editable=False, stage=None):
         if name == parent.child(i).text(0):
             add = False
             new_item = parent.child(i)
-            refresh_item(new_item, name, create)
+            refresh_item(new_item, name, create, need_icon)
             break
 
     if add:
@@ -139,7 +139,7 @@ def add_item(widget, parent, name, create=None, editable=False, stage=None):
             tree_get.reset_data_text(new_item)
             tree_get.set_icon(new_item)
 
-        if icon:
+        if icon and need_icon:
 
             new_item.setIcon(0, QtGui.QIcon(icon))
 
@@ -147,16 +147,17 @@ def add_item(widget, parent, name, create=None, editable=False, stage=None):
 
     return new_item
 
-def refresh_item(item, name, create):
+def refresh_item(item, name, create, need_icon):
     if not create:
         tree_get.disable_edit(item)
         tree_get.remove_icon(item)
         tree_get.set_white(item)
         tree_get.reset_data_text(item)
-        tree_get.set_icon(item)
-        icon = get_icon_from_name(name)
-        if icon:
-            item.setIcon(0, QtGui.QIcon(icon))
+        if need_icon:
+            tree_get.set_icon(item)
+            icon = get_icon_from_name(name)
+            if icon:
+                item.setIcon(0, QtGui.QIcon(icon))
 
 
 def get_icon_from_name(name):
