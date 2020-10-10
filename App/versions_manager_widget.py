@@ -9,6 +9,7 @@ from wizard.prefs.main import prefs
 import version_widget
 import copy
 import shutil
+import os
 
 logger = log.pipe_log(__name__)
 
@@ -22,6 +23,7 @@ class Main(QtWidgets.QWidget):
     def __init__(self):
         super(Main, self).__init__()
         # Build the ui from ui converted file
+        self.setAcceptDrops(True)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
@@ -119,3 +121,28 @@ class Main(QtWidgets.QWidget):
             self.sanity = 1
         else:
             self.sanity = 0
+
+    def merge_file_as_new_version(self, file):
+        if os.path.splitext(file)[-1].replace('.','') == defaults._extension_dic_[self.asset.software]:
+            if prefs.asset(self.asset).software.merge_version(file):
+                self.refresh_all(self.asset)
+        else:
+            logger.warning(f"{file} is not a valid {self.asset.software} file.")
+
+    def dragEnterEvent(self, e):
+
+        self.setStyleSheet('#pb_ma_scrollArea{border: 2px solid white;}')
+        e.accept()
+
+    def dragLeaveEvent(self, e):
+
+        self.setStyleSheet('#pb_ma_scrollArea{border: 0px solid white;}')
+
+    def dropEvent(self, e):
+        self.setStyleSheet('#pb_ma_scrollArea{border: 0px solid white;}')
+        data = e.mimeData()
+        urls = data.urls()
+        for url in urls:
+            if url and url.scheme() == 'file':
+                path = str(url.path())[1:]
+                self.merge_file_as_new_version(path)

@@ -73,6 +73,12 @@ def add_fx_setup():
         project[defaults._library_][defaults._fx_setup_] = dict()
         write_project(project)
 
+def add_material():
+    project = read_project()
+    if defaults._material_ not in project[defaults._library_].keys():
+        project[defaults._library_][defaults._material_] = dict()
+        write_project(project)
+
 
 def check_tree_file():
     project_tree = get_project_tree()

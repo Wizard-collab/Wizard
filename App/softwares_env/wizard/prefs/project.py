@@ -97,6 +97,18 @@ def set_frame_rate(f_rate):
     settings[defaults._frame_rate_key_] = f_rate
     write_pref_file(settings)
 
+def set_custom_pub_ext_dic(pub_ext_dic = defaults._pub_ext_dic_):
+    settings = open_pref_file()
+    settings[defaults._custom_ext_dic_key_] = pub_ext_dic
+    write_pref_file(settings)
+
+def get_custom_pub_ext_dic():
+    settings = open_pref_file()
+    if defaults._custom_ext_dic_key_ not in settings.keys():
+        set_custom_pub_ext_dic()
+        settings = open_pref_file()
+    return settings[defaults._custom_ext_dic_key_]
+
 def get_color_managment():
     settings = open_pref_file()
     return settings[defaults._color_management_key_]

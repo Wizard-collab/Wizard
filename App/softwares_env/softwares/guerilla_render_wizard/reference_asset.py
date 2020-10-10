@@ -78,41 +78,64 @@ def import_cfx(reload=0):
     grooming_GRP = add_GRP('CFX')
 
     for imported_asset in asset_list:
-        if imported_asset[0].stage == defaults._cfx_:
 
-            nodes_list = []
+        fur_ext = prefs().custom_pub_ext_dic[defaults._cfx_][defaults._maya_]
 
-            folder = os.path.split(imported_asset[2])[0]
-            for file in os.listdir(folder):
-                if file.endswith('.fur'):
-                    file = file.replace(file.split('.')[-2], '%04d')
-                    node_tuple = [file.split('.')[-3], os.path.join(folder, file)]
-                    if node_tuple not in nodes_list:
-                        nodes_list.append(node_tuple)
+        if fur_ext == 'fur':
+            if imported_asset[0].stage == defaults._cfx_:
+
+                nodes_list = []
+
+                folder = os.path.split(imported_asset[2])[0]
+                for file in os.listdir(folder):
+                    if file.endswith('.fur'):
+                        file = file.replace(file.split('.')[-2], '%04d')
+                        node_tuple = [file.split('.')[-3], os.path.join(folder, file)]
+                        if node_tuple not in nodes_list:
+                            nodes_list.append(node_tuple)
 
 
-            if imported_asset[1] not in get_all_nodes() and not reload:
-                for node_tuple in nodes_list:
-                    with Modifier() as mod:
+                if imported_asset[1] not in get_all_nodes() and not reload:
+                    for node_tuple in nodes_list:
+                        with Modifier() as mod:
+
+                            nspace_GRP = add_GRP(imported_asset[1], grooming_GRP)
+
+                            node_name = '{}:{}'.format(imported_asset[1], node_tuple[0])
+
+                            yeti_node = mod.createnode(node_name, "Yeti", nspace_GRP)
+                            yeti_node.File.set(node_tuple[1])
+                            yeti_node.HierarchyMode.set(2)
+                            yeti_node.Membership.set(node_tuple[0])
+
+                elif imported_asset[1] in get_all_nodes() and reload:
+                    for node_tuple in nodes_list:
 
                         nspace_GRP = add_GRP(imported_asset[1], grooming_GRP)
 
                         node_name = '{}:{}'.format(imported_asset[1], node_tuple[0])
 
-                        yeti_node = mod.createnode(node_name, "Yeti", nspace_GRP)
+                        yeti_node = get_node_from_name(node_name)
                         yeti_node.File.set(node_tuple[1])
-                        yeti_node.HierarchyMode.set(2)
-                        yeti_node.Membership.set(node_tuple[0])
 
-            elif imported_asset[1] in get_all_nodes() and reload:
-                for node_tuple in nodes_list:
+        if fur_ext == "abc":
+            if imported_asset[0].stage == defaults._cfx_:
 
-                    nspace_GRP = add_GRP(imported_asset[1], grooming_GRP)
+                folder = os.path.split(imported_asset[2])[0]
+                file = os.path.join(folder, os.listdir(folder)[0])
+                hair_tag = file.split('.')[-3]
 
-                    node_name = '{}:{}'.format(imported_asset[1], node_tuple[0])
+                if imported_asset[1] not in get_all_nodes() and not reload:
+                    with Modifier() as mod:
 
-                    yeti_node = get_node_from_name(node_name)
-                    yeti_node.File.set(node_tuple[1])
+                        refNode, topNodes = mod.createref(imported_asset[1], file, grooming_GRP)
+                        refNode.Membership.set(hair_tag)
+                        refNode.Membership.set(hair_tag)
+                        
+                elif imported_asset[1] in get_all_nodes() and reload:
+                    refNode = get_node_from_name(imported_asset[1])
+                    refNode.ReferenceFileName.set(file)
+
 
 def import_anim(reload=0):
     asset_list = get_asset_list()

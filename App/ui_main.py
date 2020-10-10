@@ -99,6 +99,8 @@ class Main(QtWidgets.QMainWindow):
 
             self.wizard_version_update()
 
+            project.add_material()
+
             self.init_log_widget()
             self.init_log_ui()
             self.init_log_button()

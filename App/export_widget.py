@@ -61,7 +61,7 @@ class Main(QtWidgets.QWidget):
             if list_dir == [] or not list_dir:
                 icon = defaults._missing_file_export_list_icon_
             else:
-                if defaults._pub_ext_dic_[self.asset.stage][prefs.asset(self.asset).export.version_software] in list_dir[0]:
+                if (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][prefs.asset(self.asset).export.version_software] in list_dir[0]:
                     icon = defaults._export_list_icon_
                 else:
                     icon = defaults._missing_file_export_list_icon_
@@ -93,7 +93,7 @@ class Main(QtWidgets.QWidget):
         file_names_list = os.listdir(folder)
         files_list = []
 
-        extension = defaults._pub_ext_dic_[self.asset.stage][self.asset.software]
+        extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
 
         for file in file_names_list:
             if file.endswith(extension):

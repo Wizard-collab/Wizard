@@ -95,6 +95,14 @@ class prefs:
         return user_prefs.set_context(asset)
 
     @property
+    def tab_context(self):
+        return user_prefs.get_tab_context()
+
+    def set_tab_context(self, tab):
+        return user_prefs.set_tab_context(tab)
+    
+
+    @property
     def quit_on_close(self):
         return user_prefs.get_quit_on_close()
 
@@ -153,6 +161,13 @@ class prefs:
     @property
     def frame_rate(self):
         return project_prefs.get_frame_rate()
+
+    @property
+    def custom_pub_ext_dic(self):
+        return project_prefs.get_custom_pub_ext_dic()
+
+    def set_custom_pub_ext_dic(self, pub_ext_dic):
+        project_prefs.set_custom_pub_ext_dic(pub_ext_dic)
 
     @property
     def format(self):
@@ -454,6 +469,9 @@ class prefs:
 
             def remove_version(self, version):
                 return asset_prefs.software(self.asset).remove_version(version=version)
+
+            def merge_version(self, file):
+                return asset_prefs.software(self.asset).merge_version(file)
 
             @property
             def references(self):

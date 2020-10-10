@@ -163,6 +163,13 @@ class prefs:
         return project_prefs.get_frame_rate()
 
     @property
+    def custom_pub_ext_dic(self):
+        return project_prefs.get_custom_pub_ext_dic()
+
+    def set_custom_pub_ext_dic(self, pub_ext_dic):
+        project_prefs.set_custom_pub_ext_dic(pub_ext_dic)
+
+    @property
     def format(self):
         return project_prefs.get_format()
 
@@ -462,6 +469,9 @@ class prefs:
 
             def remove_version(self, version):
                 return asset_prefs.software(self.asset).remove_version(version=version)
+
+            def merge_version(self, file):
+                return asset_prefs.software(self.asset).merge_version(file)
 
             @property
             def references(self):

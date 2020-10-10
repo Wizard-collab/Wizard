@@ -12,6 +12,11 @@ from wizard.prefs.user import user
 # Wizard asset modules
 from wizard.asset.folder import folder
 
+from wizard.prefs import project as project_prefs
+
+import traceback
+
+import shutil
 # Create the main logger
 logger = log.pipe_log(__name__)
 
@@ -212,7 +217,7 @@ class variant():
         return self.settings[defaults._default_software_key_]
 
     def get_publish_file(self):
-        ext = defaults._pub_ext_dic_[self.asset.stage]
+        ext = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
         file = '{}/{}_{}_{}_{}.{}'.format(self.path, self.asset.stage, self.asset.category, self.asset.name,
                                           self.asset.variant, ext)
         return file
@@ -605,6 +610,17 @@ class software():
         self.settings[defaults._versions_list_key_][new_version] = new_version_settings
         self.write()
         return new_version
+
+    def merge_version(self, file):
+        self.asset.version = self.get_new_version()
+        try:
+            if not os.path.isfile(self.asset.file):
+                shutil.copy(file, self.asset.file)
+            self.new_version(version = self.asset.version, comment='Manually merged version')
+            return 1
+        except:
+            logger.critical(str(traceback.format_exc()))
+            return 0
 
     def remove_version(self, version):
         if version != '0000':

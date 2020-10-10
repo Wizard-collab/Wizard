@@ -640,6 +640,8 @@ _pub_ext_dic_[_cyclo_] = {}
 _pub_ext_dic_[_cyclo_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 
+_custom_ext_dic_key_ = "custom_ext_dic"
+
 # Publish extension dictionary
 
 _project_extension_dic_key_ = 'extensions_dic'
@@ -751,6 +753,7 @@ _script_software_env_dic_[_houdini_]='PYTHONPATH'
 _script_software_env_dic_[_zbrush_]='PYTHONPATH'
 _script_software_env_dic_[_guerilla_]='GUERILLA_CONF'
 _script_software_env_dic_[_painter_]='SUBSTANCE_PAINTER_PLUGINS_PATH'
+_script_software_env_dic_[_designer_]='SBS_DESIGNER_PYTHON_PATH'
 _script_software_env_dic_[_blender_]='PYTHONPATH'
 _script_software_env_dic_[_3dsmax_]='PYTHONPATH'
 _script_software_env_dic_[_resolve_]='PYTHONPATH'
@@ -765,7 +768,7 @@ _extension_dic_[_maya_yeti_]='ma'
 _extension_dic_[_photoshop_]='psd'
 _extension_dic_[_krita_]='kra'
 _extension_dic_[_painter_]='spp'
-_extension_dic_[_designer_]='SBSAR'
+_extension_dic_[_designer_]='sbs'
 _extension_dic_[_zbrush_]='zpr'
 _extension_dic_[_marvelous_]='hw'
 _extension_dic_[_guerilla_]='gproject'
@@ -981,6 +984,7 @@ _scene_current_asset_ = "scene_current_asset"
 # Project settings keys library
 _project_name_key_ = 'project_name'
 _frame_rate_key_ = 'frame_rate'
+_yeti_as_abc_key_ = 'yeti_as_abc'
 _format_key_ = 'format'
 _color_management_key_ = 'color_management'
 _sampling_rate_key_ = 'sampling_rate'
@@ -1013,6 +1017,7 @@ _software_key_ = 'software'
 # User pref dic variables library
 _user_name_key_ = 'user_name'
 _asset_context_ = 'asset'
+_tab_context_ = 'current_tab'
 _popup_prefs_key_ = 'popup'
 _user_screen_index_key_ = 'screen_index'
 _user_theme_key_ = 'theme'
