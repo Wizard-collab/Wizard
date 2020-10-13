@@ -8,7 +8,9 @@ from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
 import wall_widget
 from wizard.tools import utility as utils
+from wizard.asset.tickets import tickets
 import tickets_widget
+import time
 
 logger = log.pipe_log(__name__)
 
@@ -32,6 +34,12 @@ class Main(QtWidgets.QWidget):
             QtGui.QPixmap(defaults._xp_icon_).scaled(16, 16, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
         self.ui.stats_pushButton.setIcon(QtGui.QIcon(defaults._user_events_icon_))
         self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._gray_ticket_icon_))
+
+
+        # self.ticket_gif = QtGui.QMovie(defaults._notif_ticket_icon_)
+        # self.ticket_gif.start()
+        # self.ticket_gif.frameChanged.connect(self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(self.ticket_gif.currentPixmap() )))
+
         self.ui.stats_pushButton.setIconSize(QtCore.QSize(14, 14))
         self.ui.user_tickets_pushButton.setIconSize(QtCore.QSize(14, 14))
 
@@ -56,6 +64,19 @@ class Main(QtWidgets.QWidget):
         self.round_image(self.ui.user_image_pushButton, user_image)
         self.ui.level_label_number.setText(level)
         self.ui.xp_progressBar.setValue(xp)
+
+        # Change tickets button icon if some are adressed to user
+        self.tickets = tickets()
+        self.tickets.open()
+        tickets_data = self.tickets.settings[defaults._all_tickets_]
+        for ticket in tickets_data:
+            logger.info(ticket)
+            logger.info(prefs.user)
+            if tickets_data[ticket]['adress'] == prefs.user:
+                # logger.info(ticket)
+                # logger.info(prefs.user)
+                self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._red_ticket_icon_))
+                break
 
     def show_user_wall(self):
         self.user_wall = wall_widget.Main(self, user=1)
