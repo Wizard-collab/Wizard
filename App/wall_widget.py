@@ -17,6 +17,7 @@ from gui.date_widget import Ui_Date_widget
 from gui.seen_widget import Ui_Seen_widget
 import popup
 from wizard.chat.client import client
+from wizard.signal import send_signal
 import dialog_comment
 import yaml
 
@@ -132,6 +133,7 @@ class Main(QtWidgets.QWidget):
                 self.client = client()
                 self.client.start()
                 self.client.receive.connect(self.build_wall_event)
+                self.client.refresh.connect(send_signal.refresh_signal)
                 #self.client.receive.connect(self.popup_event)
                 self.client.stopped.connect(self.restart)
         except:
