@@ -5,6 +5,7 @@ from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
 from wizard.asset.tickets import tickets
+from wizard.signal import send_signal
 import open_ticket_widget
 from gui import build
 
@@ -57,6 +58,8 @@ class Main(QtWidgets.QWidget):
         self.refresh_visible()
 
     def closeEvent(self, event):
+        logger.info('Close tickets list')
+        send_signal.refresh_signal()
         event.ignore()
         self.hide()
 
@@ -80,7 +83,7 @@ class Main(QtWidgets.QWidget):
     def open_ticket(self):
         self.open_ticket_widget = open_ticket_widget.Main(self.asset)
         build.launch_normal_as_child(self.open_ticket_widget)
-    
+
     def refresh_all(self, asset = None):
         self.clear_all()
         self.asset = asset
@@ -109,7 +112,7 @@ class Main(QtWidgets.QWidget):
         adress = self.tickets.get_ticket_adress(ticket_id)
         comment = self.tickets.get_ticket_comment(ticket_id)
         close_user = self.tickets.get_ticket_close_user(ticket_id)
-        
+
         new_ticket_widget = ticket_widget.Main(user, adress, date, message, state, ticket_id, close_date, comment, close_user, self.tickets)
         self.ui.tickets_layout.addWidget(new_ticket_widget)
         new_ticket_widget.close_signal.connect(self.refresh_visible)

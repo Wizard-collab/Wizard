@@ -6,8 +6,11 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
-import wall_widget
+from wizard.asset.tickets import tickets
+from wizard.signal import send_signal
 from wizard.tools import utility as utils
+import wizard.api as api
+import wall_widget
 import tickets_widget
 
 logger = log.pipe_log(__name__)
@@ -56,6 +59,18 @@ class Main(QtWidgets.QWidget):
         self.round_image(self.ui.user_image_pushButton, user_image)
         self.ui.level_label_number.setText(level)
         self.ui.xp_progressBar.setValue(xp)
+
+        # Change tickets button icon if some are adressed to user
+        self.tickets = tickets()
+        self.tickets.open()
+        tickets_data = self.tickets.settings[defaults._all_tickets_]
+        for ticket in tickets_data:
+            ticket_adress_to_user = tickets_data[ticket]['adress']
+            if tickets_data[ticket]['adress'] == pref.user:
+                self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._red_ticket_icon_))
+                # send_signal.refresh_signal()
+                # api.scene.refresh_ui()
+                break
 
     def show_user_wall(self):
         self.user_wall = wall_widget.Main(self, user=1)
