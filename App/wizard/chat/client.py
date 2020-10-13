@@ -15,6 +15,7 @@ prefs = prefs()
 class client(QThread):
     receive = pyqtSignal(str)
     stopped = pyqtSignal(str)
+    refresh = pyqtSignal(str)
 
     def __init__(self):
         super(client, self).__init__()
@@ -48,6 +49,8 @@ class client(QThread):
                             if isinstance(message, (bytes, bytearray)):
                                 message = message.decode('utf8')
                             self.receive.emit(message)
+                    if target == 'refresh_team' and project ==  prefs.project_name:
+                        self.refresh.emit('')
                 except ConnectionResetError:
                     self.is_server = 0
                     self.stopped.emit('')

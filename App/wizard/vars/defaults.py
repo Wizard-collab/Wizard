@@ -6,7 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.86-b'
+_wizard_version_ = '0.9.7.87-b'
 _doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -591,6 +591,7 @@ _pub_ext_dic_[_cam_rig_] = {}
 _pub_ext_dic_[_cam_rig_][_maya_] = 'ma'
 _pub_ext_dic_[_texturing_] = {}
 _pub_ext_dic_[_texturing_][_painter_] = 'exr'
+_pub_ext_dic_[_texturing_][_designer_] = 'sbsar'
 _pub_ext_dic_[_shading_] = {}
 _pub_ext_dic_[_shading_][_guerilla_] = 'gnode'
 _pub_ext_dic_[_shading_][_maya_] = 'ma'
@@ -628,6 +629,11 @@ _pub_ext_dic_[_camera_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_] = {}
 _pub_ext_dic_[_cyclo_][_maya_] = 'abc'
 _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
+_pub_ext_dic_[_material_] = {}
+_pub_ext_dic_[_material_][_designer_] = 'sbsar'
+_pub_ext_dic_[_material_][_photoshop_] = 'png'
+
+
 
 _custom_ext_dic_key_ = "custom_ext_dic"
 

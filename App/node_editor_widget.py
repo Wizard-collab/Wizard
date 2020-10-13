@@ -9,6 +9,8 @@ from wizard.prefs.main import prefs
 from wizard.asset.reference import references
 from wizard.asset import main as asset_core
 
+import pickle
+
 logger = log.pipe_log(__name__)
 
 prefs = prefs()
@@ -138,21 +140,21 @@ class Main(QtWidgets.QWidget):
 
     def dropEvent(self, e):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
-        mimeData = e.mimeData().text()#.encode('utf-8')
-        asset = asset_core.string_to_asset(mimeData)
-        if self.asset.software == defaults._painter_:
-            if prefs.asset(self.asset).software.references == {}:
-                self.create_reference(asset)
+        mimeData = e.mimeData().text()
+        string_assets_list = pickle.loads(mimeData.encode())
+        for string_asset in string_assets_list:
+            asset = asset_core.string_to_asset(string_asset)
+            if self.asset.software == defaults._painter_:
+                if prefs.asset(self.asset).software.references == {}:
+                    self.create_reference(asset)
+                else:
+                    logger.warning(f"{defaults._painter_} accepts only 1 reference...")
             else:
-                logger.warning(f"{defaults._painter_} accepts only 1 reference...")
-        else:
-            if self.asset.category == defaults._set_dress_ and prefs.asset(asset).export.is_proxy:
-                proxy = 1
-            else:
-                proxy = 0
-            self.create_reference(asset, proxy = proxy)
-        #else:
-        #logger.info(f"Can't reference a {asset.stage} in a {self.asset.stage}")
+                if self.asset.category == defaults._set_dress_ and prefs.asset(asset).export.is_proxy:
+                    proxy = 1
+                else:
+                    proxy = 0
+                self.create_reference(asset, proxy = proxy)
 
     def delete_asset(self, widget=None):
         if not widget:

@@ -77,6 +77,14 @@ def add_material():
     project = read_project()
     if defaults._material_ not in project[defaults._library_].keys():
         project[defaults._library_][defaults._material_] = dict()
+
+        material_pub_ext_dic = defaults._pub_ext_dic_[defaults._material_]
+        texturing_designer_pub_ext_dic = defaults._pub_ext_dic_[defaults._texturing_][defaults._designer_]
+        custom_publish_dic = prefs.custom_pub_ext_dic
+        custom_publish_dic[defaults._material_] = material_pub_ext_dic
+        custom_publish_dic[defaults._texturing_][defaults._designer_] = texturing_designer_pub_ext_dic
+        prefs.set_custom_pub_ext_dic(custom_publish_dic)
+
         write_project(project)
 
 

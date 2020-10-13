@@ -72,18 +72,12 @@ from wizard.user_scripts import user_scripts_library
 from wizard import api
 import tickets_widget
 import task_progress_info_widget
-'''
-try:
-    import mss
-except:
-    pass 
-'''
+
 import ui_about
 
 logger = log.pipe_log()
 
 prefs = prefs()
-#sct = mss.mss()
 
 class Main(QtWidgets.QMainWindow):
     move_signal = pyqtSignal(str)
@@ -864,8 +858,8 @@ class Main(QtWidgets.QMainWindow):
                 # If asset not created, remove the item
                 tree_get.remove_item(item)
             # Update the UI
-            self.update_tree()
-            self.asset_item_changed()
+            #self.update_tree()
+            #self.asset_item_changed()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1254,8 +1248,10 @@ class Main(QtWidgets.QMainWindow):
                 self.pin = False
                 self.refresh_pinned_item(pin=0)
                 self.pinned_item = None
-                tree_get.select_asset(self.ui.treeWidget, self.asset)
                 self.pinned_asset = None
+                tree_get.select_asset(self.ui.treeWidget, self.asset)
+                self.asset_item_changed()
+                #self.focus_asset(utils.asset_to_string(self.asset))
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))

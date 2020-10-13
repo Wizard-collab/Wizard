@@ -26,11 +26,26 @@ class Main(QtWidgets.QWidget):
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
 
+        self.ui.updates_history_plainTextEdit.setVisible(0)
+
         self.connect_functions()
         self.fill_updates()
 
     def show_updates(self):
         prefs.set_show_updates(self.ui.show_startup_checkBox.isChecked())
+
+    def show_history(self):
+
+        if not self.ui.updates_history_plainTextEdit.isVisible():
+
+            self.ui.updates_history_plainTextEdit.setVisible(1)
+
+            for key in updates.updates.keys():
+                self.ui.updates_history_plainTextEdit.appendPlainText(updates.updates[key])
+
+        else:
+            self.ui.updates_history_plainTextEdit.setVisible(0)
+            self.ui.updates_history_plainTextEdit.clear()
 
     def fill_updates(self):
         if defaults._wizard_version_ in updates.updates.keys():
@@ -43,6 +58,7 @@ class Main(QtWidgets.QWidget):
         self.ui.update_doc_pushButton.clicked.connect(self.show_doc)
         self.ui.update_web_pushButton.clicked.connect(self.show_web)
         self.ui.show_startup_checkBox.stateChanged.connect(self.show_updates)
+        self.ui.updates_history_pushButton.clicked.connect(self.show_history)
 
     def show_doc(self):
         os.startfile(os.path.abspath(defaults._doc_index_path_))

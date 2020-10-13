@@ -132,6 +132,10 @@ class shelf:
         f_range += 'reload(scene_setup)\n'
         f_range += 'scene_setup.set_f_range()'
 
+        f_range_preroll = 'from maya_wizard import scene_setup\n'
+        f_range_preroll += 'reload(scene_setup)\n'
+        f_range_preroll += 'scene_setup.set_f_range(preroll=1)'
+
         set_format = 'from maya_wizard import scene_setup\n'
         set_format += 'reload(scene_setup)\n'
         set_format += 'scene_setup.setFormatToMaya()'
@@ -168,5 +172,6 @@ class shelf:
         '''
         self.addButon(label="GTags", icon='maya_guerilla.png', command=tag, docTag='Tags')
         self.addButon(label="Match frame range", icon='maya_frame_range.png', command=f_range, docTag='Range')
+        self.addButon(label="Match frame range with preroll and postroll", icon='maya_frame_range_preroll.png', command=f_range_preroll, docTag='Range + preroll/postroll')
         self.addButon(label="Match project format", icon='maya_format.png', command=set_format, docTag='Format')
         self.addButon(label="Clean selection", icon='maya_clean.png', command=clean_obj, docTag='Clean')

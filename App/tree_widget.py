@@ -13,6 +13,8 @@ from wizard.prefs.main import prefs
 import options_widget
 from gui import build
 
+import pickle
+
 logger = log.pipe_log(__name__)
 
 prefs = prefs()
@@ -48,36 +50,66 @@ class treeWidget(QtWidgets.QTreeWidget):
 
     def startDrag(self, event):
         if not self.parent.pin:
+
             logger.warning("Please 'pin' an asset before importing something...")
+
         elif not self.parent.selected_asset.stage:
+
             logger.warning("Must import a stage...")
-        #elif self.parent.asset.stage == self.parent.selected_asset.stage and \
-        #self.parent.asset.name == self.parent.selected_asset.name:
-        #logger.warning("Can't import the asset itself...")
+
         else:
+
+            assets_list = []
             asset = copy.deepcopy(self.parent.selected_asset)
-            for variant in prefs.asset(asset).stage.variants:
-                asset.variant = variant
-                asset.export_asset = prefs.asset(asset).export_root.default_export_asset
-                if asset.export_asset:
+
+            default_variant = prefs.asset(asset).stage.default_variant
+            variants_list = prefs.asset(asset).stage.variants
+
+            variants_list.remove(default_variant)
+
+            asset.variant = default_variant
+            exported_assets_list = prefs.asset(asset).export_root.exported_assets_list
+            if exported_assets_list != []:
+                for exported_asset in exported_assets_list:
+                    asset.export_asset = exported_asset
                     asset.export_version = prefs.asset(asset).export.last_version
                     asset.software =  prefs.asset(asset).export.version_software
                     if asset.export_version:
                         string_asset = utils.asset_to_string(asset)
-                        mimeData = QtCore.QMimeData()
-                        mimeData.setText(string_asset)
-                        drag = QtGui.QDrag(self)
-                        drag.setMimeData(mimeData)
-                        # Si l'on veut une icône ...
-                        icon = defaults._nodes_icons_dic_[self.parent.selected_asset.stage]
-                        pixmap = QtGui.QPixmap(icon).scaled(38, 38, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-                        drag.setPixmap(pixmap)
-                        drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height()))
-                        drag.setPixmap(pixmap)
-                        result = drag.exec_(QtCore.Qt.MoveAction)
+                        assets_list.append(string_asset)
+
+            if assets_list == []:
+
+                for variant in variants_list:
+                    
+                    asset.variant = variant
+                    exported_assets_list = prefs.asset(asset).export_root.exported_assets_list
+
+                    if exported_assets_list != []:
+
+                        for exported_asset in exported_assets_list:
+                            asset.export_asset = exported_asset
+                            asset.export_version = prefs.asset(asset).export.last_version
+                            asset.software =  prefs.asset(asset).export.version_software
+                            if asset.export_version:
+                                string_asset = utils.asset_to_string(asset)
+                                assets_list.append(string_asset)
                         break
-                else:
-                    logger.warning("No publish found...")
+
+            if assets_list != []:
+                mimeData = QtCore.QMimeData()
+                mimeData.setText((pickle.dumps(assets_list, 0)).decode())
+                drag = QtGui.QDrag(self)
+                drag.setMimeData(mimeData)
+                # Si l'on veut une icône ...
+                icon = defaults._nodes_icons_dic_[self.parent.selected_asset.stage]
+                pixmap = QtGui.QPixmap(icon).scaled(38, 38, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+                drag.setPixmap(pixmap)
+                drag.setHotSpot(QtCore.QPoint(pixmap.width() / 2, pixmap.height()))
+                drag.setPixmap(pixmap)
+                result = drag.exec_(QtCore.Qt.MoveAction)
+            else:
+                logger.warning("No publish found...")
 
     def refresh_all(self):
 
