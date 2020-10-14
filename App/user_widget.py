@@ -9,7 +9,6 @@ from wizard.prefs.stats import stats
 from wizard.asset.tickets import tickets
 from wizard.signal import send_signal
 from wizard.tools import utility as utils
-from wizard.chat import send
 import wizard.api as api
 import wall_widget
 import tickets_widget
@@ -69,7 +68,6 @@ class Main(QtWidgets.QWidget):
             ticket_adress_to_user = tickets_data[ticket]['adress']
             if tickets_data[ticket]['adress'] == pref.user:
                 self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._red_ticket_icon_))
-                send.team_refresh()
                 break
 
     def show_user_wall(self):
