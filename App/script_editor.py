@@ -61,6 +61,9 @@ class SimplePythonEditor(QsciScintilla):
         # Current line visible with special background color
         self.setCaretLineVisible(True)
         self.setCaretLineBackgroundColor(QColor("#191921"))
+        self.setCaretForegroundColor(QColor("#ffffff"))
+        self.setMatchedBraceBackgroundColor(QColor("#555569"))
+        self.setMatchedBraceForegroundColor(QColor("#8ca0ff"))
 
         # Set Python lexer
         # Set style for Python comments (style number 1) to a fixed-width
@@ -81,6 +84,8 @@ class SimplePythonEditor(QsciScintilla):
         lexer.setColor(QColor("#ff8ce2"), lexer.FunctionMethodName)
         lexer.setColor(QColor("#b1ff7d"), lexer.Operator)
         self.setLexer(lexer)
+
+        self.setUtf8(1)
 
         text = bytearray(str.encode("Arial"))
 # 32, "Courier New"         

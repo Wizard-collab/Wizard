@@ -24,12 +24,19 @@ class Main(QtWidgets.QWidget):
         # Build the ui from ui converted file
         self.ui = Ui_log_widget()
         self.ui.setupUi(self)
-        #self.ui.log_py_plainTextEdit = script_editor_plainTextEdit()
         self.ui.log_py_plainTextEdit = script_editor.SimplePythonEditor()
         self.ui.log_py_plainTextEdit.setStyleSheet(build.load_stylesheet())
         self.ui.script_editor_layout.addWidget(self.ui.log_py_plainTextEdit)
+        try:
+            self.set_script_cache()
+        except:
+            logger.critical(str(traceback.format_exc()))
         self.init_buttons()
         self.connect_functions()
+
+    def set_script_cache(self):
+        script_cache = prefs.script_cache
+        self.ui.log_py_plainTextEdit.setText(script_cache)
 
     def connect_functions(self):
         self.ui.log_clear_pushButton.clicked.connect(self.ui.log_textEdit.clear)
@@ -37,12 +44,7 @@ class Main(QtWidgets.QWidget):
         execute_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Return'), self)
         execute_shortcut.activated.connect(self.run_py)
         self.ui.log_execute_pushButton.clicked.connect(lambda: self.run_py(all=1))
-        #self.ui.log_py_plainTextEdit.textChanged.connect(self.update_lines)
-        #self.py_scroll = self.ui.log_py_plainTextEdit.verticalScrollBar()
-        #self.lines_scroll = self.ui.log_lines_plainTextEdit.verticalScrollBar()
-        #self.py_scroll.valueChanged.connect(self.update_lines_scroll)
-        #self.py_scroll.rangeChanged.connect(self.update_lines_scroll)
-        #self.ui.log_py_plainTextEdit.textChanged.connect(self.update_lines_scroll)
+        self.ui.log_py_plainTextEdit.textChanged.connect(self.save_cache)
 
     def closeEvent(self, event):
         event.ignore()
@@ -56,19 +58,6 @@ class Main(QtWidgets.QWidget):
         self.ui.log_clear_pushButton.setIconSize(QtCore.QSize(15, 15))
         self.ui.log_execute_pushButton.setIconSize(QtCore.QSize(13, 13))
 
-    '''
-    def update_lines_scroll(self):
-        self.lines_scroll.setValue(self.py_scroll.value())
-
-    def update_lines(self):
-        self.ui.log_lines_plainTextEdit.clear()
-        lines = self.ui.log_py_plainTextEdit.blockCount()
-        text = '1'
-        for line in range(2, lines + 1):
-            text += '\n' + str(line)
-        self.ui.log_lines_plainTextEdit.setPlainText(text)
-    '''
-
     def launch_report_dialog(self):
         try:
             error = self.ui.log_textEdit.toHtml()
@@ -77,8 +66,17 @@ class Main(QtWidgets.QWidget):
         except:
             logger.error(str(traceback.format_exc()))
 
+    def save_cache(self):
+        script_cache = self.get_code()
+        prefs.set_script_cache(script_cache)
+
+    def get_code(self):
+        code = self.ui.log_py_plainTextEdit.text()
+        code = code.decode('utf-8')
+        return code
+
     def run_py(self, all=None):
-        py_script = self.ui.log_py_plainTextEdit.text()
+        py_script = self.get_code()
         if py_script != '' and py_script:
             try:
                 # create file-like string to capture output
