@@ -37,6 +37,10 @@ QWidget {
 	color:gray;
 }
 
+#file_viewer_main_frame{
+	background-color:rgb(_background_color_)
+}
+
 #update_web_pushButton:hover, #update_doc_pushButton:hover{
 	color:white;
 }

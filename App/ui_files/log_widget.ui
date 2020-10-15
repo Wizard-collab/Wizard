@@ -159,7 +159,33 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="script_editor_layout"/>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="python_0">
+         <attribute name="title">
+          <string>Python</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="script_editor_layout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>10</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </widget>
       </item>
      </layout>
     </widget>

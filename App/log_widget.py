@@ -54,9 +54,11 @@ class Main(QtWidgets.QWidget):
         self.ui.log_report_pushButton.setIcon(QtGui.QIcon(defaults._email_flat_icon_))
         self.ui.log_clear_pushButton.setIcon(QtGui.QIcon(defaults._clear_icon_))
         self.ui.log_execute_pushButton.setIcon(QtGui.QIcon(defaults._execute_icon_))
+        self.ui.tabWidget.setTabIcon(0, QtGui.QIcon(defaults._script_node_icon_))  # <---
         self.ui.log_report_pushButton.setIconSize(QtCore.QSize(22, 22))
         self.ui.log_clear_pushButton.setIconSize(QtCore.QSize(15, 15))
         self.ui.log_execute_pushButton.setIconSize(QtCore.QSize(13, 13))
+        self.ui.tabWidget.setIconSize(QtCore.QSize(18, 18))
 
     def launch_report_dialog(self):
         try:

@@ -63,18 +63,27 @@ class Ui_log_widget(object):
         spacerItem = QtWidgets.QSpacerItem(40, 3, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.script_editor_layout = QtWidgets.QVBoxLayout()
+        self.tabWidget = QtWidgets.QTabWidget(self.frame)
+        self.tabWidget.setObjectName("tabWidget")
+        self.python_0 = QtWidgets.QWidget()
+        self.python_0.setObjectName("python_0")
+        self.script_editor_layout = QtWidgets.QVBoxLayout(self.python_0)
+        self.script_editor_layout.setContentsMargins(0, 10, 0, 0)
+        self.script_editor_layout.setSpacing(0)
         self.script_editor_layout.setObjectName("script_editor_layout")
-        self.verticalLayout_2.addLayout(self.script_editor_layout)
+        self.tabWidget.addTab(self.python_0, "")
+        self.verticalLayout_2.addWidget(self.tabWidget)
         self.verticalLayout.addWidget(self.frame)
 
         self.retranslateUi(log_widget)
+        self.tabWidget.setCurrentIndex(0)
         log_widget.destroyed.connect(log_widget.hide)
         QtCore.QMetaObject.connectSlotsByName(log_widget)
 
     def retranslateUi(self, log_widget):
         _translate = QtCore.QCoreApplication.translate
         log_widget.setWindowTitle(_translate("log_widget", "Form"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.python_0), _translate("log_widget", "Python"))
 
 
 if __name__ == "__main__":

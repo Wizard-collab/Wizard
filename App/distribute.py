@@ -10,7 +10,7 @@ if os.path.isdir('dist'):
 if os.path.isdir('build'):
 	shutil.rmtree('build')
 
-command_line = "PyInstaller wizard_site.spec"
+command_line = "PyInstaller --hidden-import=PyQt5.QtPrintSupport wizard_site.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
@@ -26,7 +26,7 @@ shutil.copytree('wizard', destination)
 destination = 'dist/wizard/softwares_env/softwares'
 shutil.copytree('softwares_env/softwares', destination)
 
-command_line = "PyInstaller wizard_site_debug.spec"
+command_line = "PyInstaller --hidden-import=PyQt5.QtPrintSupport wizard_site_debug.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
@@ -35,7 +35,7 @@ dest = 'dist/wizard/wizard_console.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/wizard_console')
 
-command_line = "PyInstaller pywizard.spec"
+command_line = "PyInstaller --hidden-import=PyQt5.QtPrintSupport pywizard.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
@@ -44,7 +44,7 @@ dest = 'dist/wizard/pywizard.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/pywizard')
 
-command_line = "PyInstaller file_viewer.spec"
+command_line = "PyInstaller --hidden-import=PyQt5.QtPrintSupport file_viewer.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
@@ -53,7 +53,7 @@ dest = 'dist/wizard/file_viewer.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/file_viewer')
 
-command_line = "PyInstaller server.spec"
+command_line = "PyInstaller --hidden-import=PyQt5.QtPrintSupport server.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
