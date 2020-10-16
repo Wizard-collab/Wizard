@@ -392,6 +392,7 @@ _chat_file_icon_ = _icon_path_ + 'chat_file_icon.png'
 _wizard_load_image_ = _icon_path_ + 'wizard_load_image.png'
 _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
+_python_blue_icon_ = _icon_path_ + "python_blue.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -1320,3 +1321,8 @@ _task_value_ = 'value'
 _task_signal_ = 'task_signal'
 _task_name_signal_ = 'task_name_signal'
 _task_name_ = 'task_name'
+
+# Script editor library
+_widget_key_ = 'widget'
+_name_key_ = 'name'
+_index_key_ = 'index'

@@ -11,6 +11,7 @@ from gui import build
 import script_editor
 
 import sys
+import os
 from io import StringIO
 
 logger = log.pipe_log(__name__)
@@ -27,12 +28,109 @@ class Main(QtWidgets.QWidget):
         self.ui.log_py_plainTextEdit = script_editor.SimplePythonEditor()
         self.ui.log_py_plainTextEdit.setStyleSheet(build.load_stylesheet())
         self.ui.script_editor_layout.addWidget(self.ui.log_py_plainTextEdit)
+        self.tabs_dict = dict()
         try:
             self.set_script_cache()
         except:
             logger.critical(str(traceback.format_exc()))
         self.init_buttons()
         self.connect_functions()
+        self.refresh_scripts_files_tree()
+
+    def refresh_scripts_files_tree(self):
+        self.ui.log_widget_scripts_listWidget.clear()
+        self.get_files_list()
+        for key in self.files_dic.keys():
+            self.ui.log_widget_scripts_listWidget.addItem(key)
+
+    def get_files_list(self):
+        folder = defaults._user_custom_scripts_path_
+        self.files_dic = dict()
+        for file in os.listdir(folder):
+            file_name = os.path.splitext(file)[0]
+            file_ext = os.path.splitext(file)[-1]
+            if file_ext == '.py':
+                self.files_dic[file] = os.path.join(folder, file)
+
+    def open_script_from_item(self, item):
+        script_name = item.text()
+        script_file = self.files_dic[script_name]
+        if os.path.isfile(script_file):
+            with open(script_file, 'r') as f:
+                script_data = f.read()
+            #self.ui.log_py_plainTextEdit.setText(script_data)
+            self.add_tab(script_name, script_file, script_data)
+        else:
+            row = self.ui.log_widget_scripts_listWidget.currentRow()
+            self.ui.log_widget_scripts_listWidget.takeItem(row)
+
+    def add_tab(self, name, file, data):
+        already_exists = 0
+        index = None
+
+        if name in self.tabs_dict.keys():
+            already_exists = 1
+            index = self.tabs_dict[name][defaults._index_key_]
+
+        if not already_exists:
+            self.script_editor = script_editor.SimplePythonEditor()
+            self.script_editor.setText(data)
+            self.script_editor.textChanged.connect(self.tab_text_changed)
+            index = self.ui.tabWidget.addTab(self.script_editor, QtGui.QIcon(defaults._python_blue_icon_), name)
+
+
+            self.tabs_dict[name] = dict()
+            self.tabs_dict[name][defaults._file_key_] = file
+            self.tabs_dict[name][defaults._widget_key_] = self.script_editor
+            self.tabs_dict[name][defaults._index_key_] = index
+
+        if index:
+            self.ui.tabWidget.setCurrentIndex(index)
+
+    def save_script(self):
+        name = self.get_script_name()
+        if name != "Default":
+            
+            full_path = self.tabs_dict[name][defaults._file_key_]
+            editor_widget = self.tabs_dict[name][defaults._widget_key_]
+            index = self.tabs_dict[name][defaults._index_key_]
+            script_data = editor_widget.text().decode('utf-8')
+            with open(full_path, 'w') as f:
+                f.write(script_data)
+            tab_name = self.ui.tabWidget.tabText(index)
+            if tab_name.endswith(' *'):
+                tab_name = tab_name[:-2]
+                self.ui.tabWidget.setTabText(index, tab_name)
+
+        self.refresh_scripts_files_tree()
+
+    def close_tab(self, index):
+
+        name = self.get_script_name(index)
+        if name != 'Default' and index != 0:
+            self.ui.tabWidget.removeTab(index)
+            if name in self.tabs_dict.keys():
+                del self.tabs_dict[name]
+
+        for tab_index in range(1, self.ui.tabWidget.count()):
+            name = self.get_script_name(tab_index)
+            if name != "Default":
+                if name in self.tabs_dict.keys():
+                    self.tabs_dict[name][defaults._index_key_] = tab_index
+
+    def tab_text_changed(self):
+        current_tab_name = self.get_script_name()
+        if not current_tab_name.endswith(" *"):
+            current_tab_name+=" *"
+            self.ui.tabWidget.setTabText(self.ui.tabWidget.currentIndex(), current_tab_name)
+
+    def get_script_name(self, index=None):
+        if not index:
+            index = self.ui.tabWidget.currentIndex()
+        current_tab_name = self.ui.tabWidget.tabText(index)
+        if current_tab_name.endswith(' *'):
+            current_tab_name = current_tab_name[:-2]
+        return current_tab_name
 
     def set_script_cache(self):
         script_cache = prefs.script_cache
@@ -41,10 +139,15 @@ class Main(QtWidgets.QWidget):
     def connect_functions(self):
         self.ui.log_clear_pushButton.clicked.connect(self.ui.log_textEdit.clear)
         self.ui.log_report_pushButton.clicked.connect(self.launch_report_dialog)
+        self.ui.log_widget_save_pushButton.clicked.connect(self.save_script)
         execute_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+Return'), self)
         execute_shortcut.activated.connect(self.run_py)
+        save_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+S'), self)
+        save_shortcut.activated.connect(self.save_script)
         self.ui.log_execute_pushButton.clicked.connect(lambda: self.run_py(all=1))
         self.ui.log_py_plainTextEdit.textChanged.connect(self.save_cache)
+        self.ui.tabWidget.tabCloseRequested.connect(self.close_tab)
+        self.ui.log_widget_scripts_listWidget.itemDoubleClicked.connect(self.open_script_from_item)
 
     def closeEvent(self, event):
         event.ignore()
@@ -54,9 +157,12 @@ class Main(QtWidgets.QWidget):
         self.ui.log_report_pushButton.setIcon(QtGui.QIcon(defaults._email_flat_icon_))
         self.ui.log_clear_pushButton.setIcon(QtGui.QIcon(defaults._clear_icon_))
         self.ui.log_execute_pushButton.setIcon(QtGui.QIcon(defaults._execute_icon_))
-        self.ui.tabWidget.setTabIcon(0, QtGui.QIcon(defaults._script_node_icon_))  # <---
+        self.ui.log_widget_save_pushButton.setIcon(QtGui.QIcon(defaults._save_icon_))
+        self.ui.log_widget_add_script_pushButton.setIcon(QtGui.QIcon(defaults._add_icon_))
+        self.ui.tabWidget.setTabIcon(0, QtGui.QIcon(defaults._python_blue_icon_))  # <---
         self.ui.log_report_pushButton.setIconSize(QtCore.QSize(22, 22))
         self.ui.log_clear_pushButton.setIconSize(QtCore.QSize(15, 15))
+        self.ui.log_widget_save_pushButton.setIconSize(QtCore.QSize(13, 13))
         self.ui.log_execute_pushButton.setIconSize(QtCore.QSize(13, 13))
         self.ui.tabWidget.setIconSize(QtCore.QSize(18, 18))
 
@@ -73,9 +179,16 @@ class Main(QtWidgets.QWidget):
         prefs.set_script_cache(script_cache)
 
     def get_code(self):
-        code = self.ui.log_py_plainTextEdit.text()
-        code = code.decode('utf-8')
-        return code
+        name = self.get_script_name()
+        if name != "Default":
+            full_path = self.tabs_dict[name][defaults._file_key_]
+            editor_widget = self.tabs_dict[name][defaults._widget_key_]
+            index = self.tabs_dict[name][defaults._index_key_]
+            script_data = editor_widget.text().decode('utf-8')
+        else:
+            script_data = self.ui.log_py_plainTextEdit.text()
+            script_data = script_data.decode('utf-8')
+        return script_data
 
     def run_py(self, all=None):
         py_script = self.get_code()
@@ -97,49 +210,3 @@ class Main(QtWidgets.QWidget):
 
             except:
                 logger.error(str(traceback.format_exc()))
-
-
-class script_editor_plainTextEdit(QtWidgets.QPlainTextEdit):
-    def __init__(self):
-        super(script_editor_plainTextEdit, self).__init__()
-        self.setPlainText(prefs.script_cache)
-        self.connect_functions()
-
-    def dragEnterEvent(self, event):
-        self.setStyleSheet('border : 2px solid white;')
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            event.acceptProposedAction()
-
-    def dragMoveEvent(self, event):
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            event.acceptProposedAction()
-
-    def dropEvent(self, event):
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            filepath = str(urls[0].path())[1:]
-            if filepath:
-                self.read_file(filepath)
-
-    def read_file(self, filepath):
-        self.setStyleSheet('border:none;')
-        extension = filepath.split('.')[-1]
-        if extension == 'py' or extension == 'pyw':
-            with open(filepath) as f:
-                text = f.read()
-            if text:
-                self.setPlainText(text)
-        else:
-            logger.warning('Reader accept only ".log" or ".wd"')
-
-    def save_cache(self):
-        script_cache = self.toPlainText()
-        prefs.set_script_cache(script_cache)
-
-    def connect_functions(self):
-        self.textChanged.connect(self.save_cache)

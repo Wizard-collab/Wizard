@@ -1507,6 +1507,13 @@ QTabWidget::pane { /* The tab widget frame */
 	background-color : rgb(_background_color_);
 }
 
+ QTabBar::close-button {
+     image: url(ressources/images/close_tab.png)
+ }
+ QTabBar::close-button:hover {
+     image: url(ressources/images/close_tab_hover.png)
+ }
+
 QTabWidget::tab-bar {
     background-color : rgb(_background_color_);
 }

@@ -154,13 +154,16 @@ class Main(QtWidgets.QMainWindow):
 
     def init_local_server(self):
         self.signal_server = signal_server()
-        self.signal_server.refresh_signal.connect(lambda:self.update_tree(0))
-        self.signal_server.refresh_signal.connect(self.asset_item_changed)
+        self.signal_server.refresh_signal.connect(self.refresh_main_ui)
         self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
-        #self.signal_server.save_signal.connect(self.asset_item_changed)
         self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
         self.signal_server.task_name_signal.connect(logger.info)
         self.signal_server.start()
+
+    def refresh_main_ui(self):
+        self.asset_item_changed()
+        self.update_tree(0)
+        self.user_widget.refresh_widget()
 
     def add_user_to_project(self):
         try:
