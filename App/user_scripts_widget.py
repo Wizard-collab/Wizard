@@ -39,7 +39,7 @@ class Main(QtWidgets.QWidget):
 
     def create_script(self):
         self.create_user_script_widget = create_user_script_widget.Main()
-        self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
+        #self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
         build.launch_normal_as_child(self.create_user_script_widget)
 
     def add_button(self, script_dic, key):
@@ -53,7 +53,7 @@ class Main(QtWidgets.QWidget):
 
     def modify_script(self, key, script_dic):
         self.create_user_script_widget = create_user_script_widget.Main([key, script_dic[key]])
-        self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
+        #self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
         build.launch_normal_as_child(self.create_user_script_widget)
 
     def delete_script(self, key):

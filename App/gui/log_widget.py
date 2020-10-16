@@ -109,7 +109,7 @@ class Ui_log_widget(object):
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setSpacing(0)
+        self.horizontalLayout.setSpacing(1)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.log_execute_pushButton = QtWidgets.QPushButton(self.frame_2)
         self.log_execute_pushButton.setMinimumSize(QtCore.QSize(28, 28))
@@ -129,6 +129,11 @@ class Ui_log_widget(object):
         self.log_widget_add_script_pushButton.setText("")
         self.log_widget_add_script_pushButton.setObjectName("log_widget_add_script_pushButton")
         self.horizontalLayout.addWidget(self.log_widget_add_script_pushButton)
+        self.log_widget_create_shelf_tool_pushButton = QtWidgets.QPushButton(self.frame_2)
+        self.log_widget_create_shelf_tool_pushButton.setMinimumSize(QtCore.QSize(120, 0))
+        self.log_widget_create_shelf_tool_pushButton.setMaximumSize(QtCore.QSize(16777215, 28))
+        self.log_widget_create_shelf_tool_pushButton.setObjectName("log_widget_create_shelf_tool_pushButton")
+        self.horizontalLayout.addWidget(self.log_widget_create_shelf_tool_pushButton)
         spacerItem1 = QtWidgets.QSpacerItem(40, 3, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
@@ -170,6 +175,7 @@ class Ui_log_widget(object):
         _translate = QtCore.QCoreApplication.translate
         log_widget.setWindowTitle(_translate("log_widget", "Form"))
         self.label.setText(_translate("log_widget", "/Documents/Wizard/Scripts/"))
+        self.log_widget_create_shelf_tool_pushButton.setText(_translate("log_widget", "Create shelf tool"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.python_0), _translate("log_widget", "Default"))
 
 

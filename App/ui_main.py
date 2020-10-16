@@ -164,6 +164,7 @@ class Main(QtWidgets.QMainWindow):
         self.asset_item_changed()
         self.update_tree(0)
         self.user_widget.refresh_widget()
+        self.user_scripts_widget.refresh_scripts()
 
     def add_user_to_project(self):
         try:

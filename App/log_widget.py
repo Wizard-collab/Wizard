@@ -13,6 +13,7 @@ import script_editor
 import sys
 import os
 from io import StringIO
+import create_user_script_widget
 
 logger = log.pipe_log(__name__)
 prefs = prefs()
@@ -52,6 +53,11 @@ class Main(QtWidgets.QWidget):
             if file_ext == '.py':
                 self.files_dic[file] = os.path.join(folder, file)
 
+    def create_shelf_tool_from_script(self):
+        script_data = self.get_script_data()
+        self.create_user_script_widget = create_user_script_widget.Main(new_script=script_data)
+        build.launch_normal_as_child(self.create_user_script_widget)
+
     def open_script_from_item(self, item):
         script_name = item.text()
         script_file = self.files_dic[script_name]
@@ -86,6 +92,18 @@ class Main(QtWidgets.QWidget):
 
         if index:
             self.ui.tabWidget.setCurrentIndex(index)
+
+    def get_script_data(self, index=None):
+        name = self.get_script_name(index)
+        if name != "Default":
+            
+            full_path = self.tabs_dict[name][defaults._file_key_]
+            editor_widget = self.tabs_dict[name][defaults._widget_key_]
+            index = self.tabs_dict[name][defaults._index_key_]
+            script_data = editor_widget.text().decode('utf-8')
+        else:
+            script_data = self.ui.log_py_plainTextEdit.text().decode('utf-8')
+        return script_data
 
     def save_script(self):
         name = self.get_script_name()
@@ -148,6 +166,7 @@ class Main(QtWidgets.QWidget):
         self.ui.log_py_plainTextEdit.textChanged.connect(self.save_cache)
         self.ui.tabWidget.tabCloseRequested.connect(self.close_tab)
         self.ui.log_widget_scripts_listWidget.itemDoubleClicked.connect(self.open_script_from_item)
+        self.ui.log_widget_create_shelf_tool_pushButton.clicked.connect(self.create_shelf_tool_from_script)
 
     def closeEvent(self, event):
         event.ignore()
