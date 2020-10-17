@@ -8,8 +8,6 @@ from wizard.asset.tickets import tickets
 from wizard.signal import send_signal
 import open_ticket_widget
 from gui import build
-from wizard.signal import send_signal
-import wizard.api as api
 import ticket_widget
 
 logger = log.pipe_log(__name__)
@@ -59,9 +57,7 @@ class Main(QtWidgets.QWidget):
         self.refresh_visible()
 
     def closeEvent(self, event):
-        logger.info('Close tickets list')
         send_signal.refresh_signal()
-        # api.scene.refresh_team_ui()
         event.ignore()
         self.hide()
 
