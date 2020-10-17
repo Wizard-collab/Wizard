@@ -22,6 +22,7 @@ import traceback
 import sys
 import dialog_accept
 import ui_about
+import script_editor
 
 logger = log.pipe_log(__name__)
 
@@ -31,11 +32,9 @@ class Main(QtWidgets.QMainWindow):
 
     def __init__(self, do_close = 1):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.file_viewer_plainTextEdit = file_viewer_plainTextEdit()
-        self.ui.file_viewer_plainTextEdit.import_signal.connect(self.update_file)
+        self.ui.file_viewer_plainTextEdit = script_editor.SimplePythonEditor(yaml=1, python=0)
         self.ui.verticalLayout.addWidget(self.ui.file_viewer_plainTextEdit)
         self.file = None
         qtHandler = log_to_gui.log_viewer(self.ui)
@@ -79,7 +78,6 @@ class Main(QtWidgets.QMainWindow):
         return run
 
     def update_file(self):
-        self.file = self.ui.file_viewer_plainTextEdit.file
         self.file_modified(modified=0)
 
     def save_file(self, save_as = None):
@@ -99,7 +97,7 @@ class Main(QtWidgets.QMainWindow):
                     logger.info("Saved - {}".format(self.file))
 
             else:
-                data = self.ui.file_viewer_plainTextEdit.toPlainText()
+                data = self.ui.file_viewer_plainTextEdit.text().decode('utf-8')
                 options = QFileDialog.Options()
                 filename, _ = QFileDialog.getSaveFileName(self, 'Save wd file', 'modified.wd', "Prefs Files (*.wd)", options=options)
                 extension = filename.split('.')[-1]
@@ -119,7 +117,7 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
     def save(self, file, prefs = 1):
-        data = self.ui.file_viewer_plainTextEdit.toPlainText()
+        data = self.ui.file_viewer_plainTextEdit.text().decode('utf-8')
         if prefs:
             utils.database().write(0, file, data, 1)
         else:
@@ -147,12 +145,12 @@ class Main(QtWidgets.QMainWindow):
                 fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
                                                           "All Files (*);;Wd Files (*.wd)", options=options)
                 if fileName:
-                    self.ui.file_viewer_plainTextEdit.read_file(fileName)
+                    self.read_file(fileName)
                     self.file = fileName
                     self.file_modified(modified=0)
                     logger.info("Opened - {}".format(self.file))
             else:
-                self.ui.file_viewer_plainTextEdit.read_file(file)
+                self.read_file(file)
                 self.file = file
                 self.file_modified(modified=0)
                 logger.info("Opened - {}".format(self.file))
@@ -166,6 +164,24 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def read_file(self, filepath):
+        extension = filepath.split('.')[-1]
+        if extension == 'wd':
+            self.ui.file_viewer_plainTextEdit.set_lexer(python = 0, yaml = 1)
+            self.ui.file_viewer_plainTextEdit.setText(utils.database().read(0, filepath, 1).decode('utf-8'))
+            self.file = filepath
+            self.update_file()
+        else:
+            with open(filepath, 'r') as f:
+                data = f.read()
+            if os.path.splitext(filepath)[-1] == '.py':
+                self.ui.file_viewer_plainTextEdit.set_lexer(python = 1, yaml = 0)
+            else:
+                self.ui.file_viewer_plainTextEdit.set_lexer(python = 0, yaml = 0)
+            self.ui.file_viewer_plainTextEdit.setText(data)
+            self.file = filepath
+            self.update_file()
+
     def connect_functions(self):
         self.ui.actionNew.triggered.connect(self.new_file)
         self.ui.actionOpen.triggered.connect(self.open_file)
@@ -175,6 +191,7 @@ class Main(QtWidgets.QMainWindow):
         self.ui.actionAbout.triggered.connect(self.show_about)
         self.ui.file_viewer_plainTextEdit.textChanged.connect(self.file_modified)
 
+'''
 class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
     import_signal = pyqtSignal(str)
 
@@ -216,6 +233,7 @@ class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
             self.setPlainText(data)
             self.file = filepath
             self.import_signal.emit('')
+'''
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

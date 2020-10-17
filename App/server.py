@@ -64,7 +64,7 @@ class server(Thread):
                 conn_id = [conn, time.time()]
                 self.list_of_clients.append([conn, time.time()])
                 Thread(target=self.clientThread, args=(conn_id, addr)).start()
-                time.sleep(0.1)
+                time.sleep(0.05)
                 logger.info("New client : "+str(conn_id) + str(addr))
             except:
                 logger.error(str(traceback.format_exc()))

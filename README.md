@@ -16,4 +16,6 @@
 	* pyautogui
 	* DesktopMagic
 	* pywin32
+	* QScintilla
+	
 * Compilation with _PyInstaller_
