@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="file_viewer_main_frame">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -46,7 +46,7 @@
         <number>1</number>
        </property>
        <property name="topMargin">
-        <number>1</number>
+        <number>20</number>
        </property>
        <property name="rightMargin">
         <number>1</number>

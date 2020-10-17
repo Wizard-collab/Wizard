@@ -9,6 +9,8 @@ from wizard.prefs.user_scripts import user_scripts
 import icons_list_dialog
 from gui import build
 import os
+import script_editor
+from wizard.signal import send_signal
 
 logger = log.pipe_log(__name__)
 
@@ -16,20 +18,24 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
-    create_signal = pyqtSignal(str)
+    #create_signal = pyqtSignal(str)
 
-    def __init__(self, script_dic=None):
+    def __init__(self, script_dic=None, new_script=None):
         super(Main, self).__init__()
         # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.icon = defaults._log_icon_
+        self.ui.script_editor = script_editor.SimplePythonEditor()
+        self.ui.script_editor_layout.addWidget(self.ui.script_editor)
         self.update_icon()
         self.connect_functions()
         self.script_dic = script_dic
         if self.script_dic:
             self.fill_ui()
             self.ui.create_user_script_tittle_label.setText("Modify script")
+        if new_script:
+            self.ui.script_editor.setText(new_script)
 
     def update_icon(self):
         self.ui.script_icon_pushButton.setIcon(QtGui.QIcon(self.icon))
@@ -39,14 +45,14 @@ class Main(QtWidgets.QWidget):
         script = self.script_dic[-1][defaults._user_script_]
         self.icon = self.script_dic[-1][defaults._user_script_image_]
         self.ui.script_name_lineEdit.setText(name)
-        self.ui.script_plainTextEdit.appendPlainText(script)
+        self.ui.script_editor.setText(script)
         self.ui.script_icon_pushButton.setIcon(QtGui.QIcon(self.icon))
 
     def create(self):
         name = self.ui.script_name_lineEdit.text()
-        script = self.ui.script_plainTextEdit.toPlainText()
+        script = self.ui.script_editor.text().decode('utf-8')
         user_scripts().create_user_script(name, self.icon, script)
-        self.create_signal.emit("")
+        send_signal.refresh_signal()
         self.hide()
 
     def select_icon(self):

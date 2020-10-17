@@ -1,7 +1,7 @@
 *.pyc
 __pycache__
-*.log
 *Thumbs.db
 *.prefs
+*.log
 dist
 build
