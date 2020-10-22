@@ -165,6 +165,7 @@ class Main(QtWidgets.QMainWindow):
         self.asset_item_changed()
         self.user_widget.refresh_widget()
         self.user_scripts_widget.refresh_scripts()
+        self.refresh_server(0)
 
     def add_user_to_project(self):
         try:
@@ -320,21 +321,22 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def refresh_server(self):
+    def refresh_server(self, do_log=1):
         try:
             if client.test_conn_once():
-                self.refresh_conn(1)
+                self.refresh_conn(1, do_log)
                 self.restart_wall()
             else:
-                self.refresh_conn(0)
+                self.refresh_conn(0, do_log)
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def refresh_conn(self, is_conn):
+    def refresh_conn(self, is_conn, do_log=1):
         try:
             if is_conn:
                 icon = defaults._server_on_icon_
-                logger.info('Wizard is connected to the server !')
+                if do_log:
+                    logger.info('Wizard is connected to the server !')
                 self.ui.server_pushButton.setIcon(QtGui.QIcon(icon))
             else:
                 icon = defaults._server_off_icon_
