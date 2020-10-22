@@ -9,11 +9,13 @@ import traceback
 import dialog_report
 from gui import build
 import script_editor
+from wizard.tools import utility as utils
 
 import sys
 import os
 from io import StringIO
 import create_user_script_widget
+import ui_subprocess_manager
 
 logger = log.pipe_log(__name__)
 prefs = prefs()
@@ -167,6 +169,7 @@ class Main(QtWidgets.QWidget):
         self.ui.tabWidget.tabCloseRequested.connect(self.close_tab)
         self.ui.log_widget_scripts_listWidget.itemDoubleClicked.connect(self.open_script_from_item)
         self.ui.log_widget_create_shelf_tool_pushButton.clicked.connect(self.create_shelf_tool_from_script)
+        self.ui.log_execute_sub_pushButton.clicked.connect(self.execute_as_subprocess)
 
     def closeEvent(self, event):
         event.ignore()
@@ -178,6 +181,7 @@ class Main(QtWidgets.QWidget):
         self.ui.log_execute_pushButton.setIcon(QtGui.QIcon(defaults._execute_icon_))
         self.ui.log_widget_save_pushButton.setIcon(QtGui.QIcon(defaults._save_icon_))
         self.ui.log_widget_add_script_pushButton.setIcon(QtGui.QIcon(defaults._add_icon_))
+        self.ui.log_execute_sub_pushButton.setIcon(QtGui.QIcon(defaults._execute_sub_icon_))
         self.ui.tabWidget.setTabIcon(0, QtGui.QIcon(defaults._python_blue_icon_))  # <---
         self.ui.log_report_pushButton.setIconSize(QtCore.QSize(22, 22))
         self.ui.log_clear_pushButton.setIconSize(QtCore.QSize(15, 15))
@@ -208,6 +212,13 @@ class Main(QtWidgets.QWidget):
             script_data = self.ui.log_py_plainTextEdit.text()
             script_data = script_data.decode('utf-8')
         return script_data
+
+    def execute_as_subprocess(self):
+
+        file = utils.temp_file_from_command(self.get_code())
+        env = os.environ.copy()
+        self.ui_subprocess_manager = ui_subprocess_manager.Main(f"PyWizard {file}", env)
+        build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 0)
 
     def run_py(self, all=None):
         py_script = self.get_code()
