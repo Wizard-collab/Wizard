@@ -161,8 +161,8 @@ class Main(QtWidgets.QMainWindow):
         self.signal_server.start()
 
     def refresh_main_ui(self):
-        self.asset_item_changed()
         self.update_tree(0)
+        self.asset_item_changed()
         self.user_widget.refresh_widget()
         self.user_scripts_widget.refresh_scripts()
 
