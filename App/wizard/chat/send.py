@@ -27,10 +27,11 @@ def send_message(message):
         else:
             logger.warning("No server ip defined, can't connect to any server")
     except:
-        logger.critical(str(traceback.format_exc()))   
+        logger.critical(str(traceback.format_exc()))
         logger.warning('Probably no server, no event will be saved...')
 
 def team_refresh():
+    logger.info("Trying to update ui")
     try:
         host_name = prefs.server_ip
         if host_name:
@@ -48,5 +49,5 @@ def team_refresh():
         else:
             logger.warning("No server ip defined, can't connect to any server")
     except:
-        logger.critical(str(traceback.format_exc()))   
+        logger.critical(str(traceback.format_exc()))
         logger.warning('Probably no server, no event will be saved...')
