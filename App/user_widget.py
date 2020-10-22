@@ -6,8 +6,10 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
-import wall_widget
+from wizard.asset.tickets import tickets
+from wizard.signal import send_signal
 from wizard.tools import utility as utils
+import wall_widget
 import tickets_widget
 
 logger = log.pipe_log(__name__)
@@ -56,6 +58,8 @@ class Main(QtWidgets.QWidget):
         self.round_image(self.ui.user_image_pushButton, user_image)
         self.ui.level_label_number.setText(level)
         self.ui.xp_progressBar.setValue(xp)
+
+        self.check_opened_tickets()
 
     def show_user_wall(self):
         self.user_wall = wall_widget.Main(self, user=1)
@@ -107,3 +111,22 @@ class Main(QtWidgets.QWidget):
         icon = QtGui.QIcon()
         icon.addPixmap(label.target)
         label.setIcon(icon)
+
+
+    def check_opened_tickets(self):
+        ''' Change tickets button icon if some are adressed to user. '''
+        self.tickets = tickets()
+        self.tickets.open()
+        tickets_data = self.tickets.settings[defaults._all_tickets_]
+        tickets_opened = 0
+        for ticket in tickets_data:
+            ticket_adress_to_user = tickets_data[ticket]['adress']
+            ticket_state = tickets_data[ticket]['state']
+            if tickets_data[ticket]['adress'] == pref.user and ticket_state == 'opened':
+                tickets_opened += 1
+        if tickets_opened != 0:
+            self.ui.user_tickets_pushButton.setToolTip(f'{tickets_opened} ticket(s) still opened')
+            self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._red_ticket_icon_))
+        else:
+            self.ui.user_tickets_pushButton.setToolTip(f'0 ticket still opened')
+            self.ui.user_tickets_pushButton.setIcon(QtGui.QIcon(defaults._gray_ticket_icon_))

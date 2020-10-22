@@ -108,18 +108,18 @@ class Main(QtWidgets.QWidget):
         try:
             self.loading_gif = QtGui.QMovie(defaults._loading_gif_)
             self.ui.subprocess_manager_loading_label.setMovie(self.loading_gif)
-            self.loading_gif.setScaledSize(QtCore.QSize(30, 30))
+            self.loading_gif.setScaledSize(QtCore.QSize(20, 20))
             self.loading_gif.setSpeed(200)
             self.loading_gif.start()
         except:
             logger.critical(str(traceback.format_exc()))
 
     def stop_loading_gif(self):
-        self.ui.subprocess_manager_loading_label.setPixmap(QtGui.QPixmap(defaults._export_list_icon_).scaled(28, 28, QtCore.Qt.KeepAspectRatio,
+        self.ui.subprocess_manager_loading_label.setPixmap(QtGui.QPixmap(defaults._export_list_icon_).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
                                                                               QtCore.Qt.SmoothTransformation))
 
     def stopped_process_icon(self):
-        self.ui.subprocess_manager_loading_label.setPixmap(QtGui.QPixmap(defaults._missing_file_export_list_icon_).scaled(28, 28, QtCore.Qt.KeepAspectRatio,
+        self.ui.subprocess_manager_loading_label.setPixmap(QtGui.QPixmap(defaults._missing_file_export_list_icon_).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
                                                                               QtCore.Qt.SmoothTransformation))
 
     def launch_report_dialog(self):
