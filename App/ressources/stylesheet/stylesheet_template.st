@@ -1599,3 +1599,7 @@ QMenuBar::item {
 QMenuBar::item:selected { 
 	background-color: rgb(_hover_widget_color_);	
 }
+
+QSplitter::handle {
+    image: url(ressources/images/split_handle.png);
+}
