@@ -150,7 +150,7 @@
          <enum>Qt::Vertical</enum>
         </property>
         <property name="childrenCollapsible">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <widget class="QFrame" name="frame">
          <property name="minimumSize">
@@ -193,7 +193,7 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <property name="spacing">
            <number>1</number>
