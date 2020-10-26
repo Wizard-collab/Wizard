@@ -53,7 +53,7 @@ class launch():
         env = prefs.software(self.asset.software).env
 
 
-        
+
 
     def open(self):
         # Launch the " asset " object with the corresponding software
@@ -93,12 +93,12 @@ class ear_handler(FileSystemEventHandler, QObject):
             version = folder(self.asset).version_from_file(event.src_path)
             if version.isdigit():
                 self.asset.version = prefs.asset(self.asset).software.new_version(version=version)
-                time.sleep(1)     
-                try: 
+                time.sleep(1)
+                try:
                     im_file = prefs.asset(self.asset).software.image
                     screen_tools.screen_shot_current_screen(im_file)
                 except:
-                    logger.critical(str(traceback.format_exc()))    
+                    logger.critical(str(traceback.format_exc()))
 
                 # Try refreshing the ui
                 try:
@@ -140,7 +140,7 @@ class subThread(QThread):
                 env[defaults._script_software_env_dic_[self.asset.software]] = abs_site_script_path
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
-                
+
 
             if self.asset.software == defaults._houdini_ or self.asset.software == defaults._nuke_:
                 env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + wizard_path + '\\softwares_env'
@@ -161,7 +161,7 @@ class subThread(QThread):
                         env[key]=path
                     else:
                         pass
-                        
+
             if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_:
                 env[defaults._maya_icon_path_] = os.path.abspath(defaults._icon_path_)
 
@@ -178,20 +178,23 @@ class subThread(QThread):
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'designer_wizard')
 
+            if self.asset.software == defaults._blender_:
+                env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + python37_path + '\\Lib\\site-packages'
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env'
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + os.path.join(abs_site_script_path, 'blender_wizard')
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
-            env[defaults._asset_var_] = utils.asset_to_string(self.asset)     
-
+            env[defaults._asset_var_] = utils.asset_to_string(self.asset)
             if self.asset.software == defaults._houdini_ or self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
             else:
                 self.process = subprocess.Popen(self.command, env=env)
             self.process.wait()
-            
+
             self.earThread.observer.stop()
             self.earThread.observer.join()
             #prefs.asset(self.asset).software.set_running(0)
-            
+
             string_asset = utils.short_asset_to_string(self.asset)
             running_assets_list = os.environ[defaults._current_assets_list_].split(':')
             if string_asset in running_assets_list:

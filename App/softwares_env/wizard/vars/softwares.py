@@ -23,6 +23,8 @@ _guerilla_cmd_ = '''"{}" "{}" --pycmd "execfile('{}')"'''.format(_executable_key
 
 _nuke_cmd_ =  '"{}" --nukex "{}"'.format(_executable_key_, _file_key_)
 
+_blender_cmd_ = '"{}" "{}" --python "{}"'.format(_executable_key_, _file_key_, _script_key_)
+
 _cmd_dic_ = dict()
 _cmd_dic_[defaults._maya_] = _maya_cmd_
 _cmd_dic_[defaults._maya_yeti_] = _maya_cmd_
@@ -30,7 +32,7 @@ _cmd_dic_[defaults._mayapy_] = _maya_cmd_
 _cmd_dic_[defaults._photoshop_] = _default_cmd_
 _cmd_dic_[defaults._krita_] = _default_cmd_
 _cmd_dic_[defaults._zbrush_] = _default_cmd_
-_cmd_dic_[defaults._blender_] = _default_cmd_
+_cmd_dic_[defaults._blender_] = _blender_cmd_
 _cmd_dic_[defaults._3dsmax_] = _default_cmd_
 _cmd_dic_[defaults._marvelous_] = _default_cmd_
 _cmd_dic_[defaults._painter_] = _painter_cmd_
@@ -50,6 +52,7 @@ _scripts_dic_[defaults._maya_] = os.path.abspath(os.path.join(defaults._software
 _scripts_dic_[defaults._maya_yeti_] = os.path.abspath(os.path.join(defaults._softwares_scripts_path_+defaults._mel_startup_))
 _scripts_dic_[defaults._mayapy_] = os.path.abspath(os.path.join(defaults._softwares_scripts_path_+defaults._mel_startup_))
 _scripts_dic_[defaults._guerilla_] = os.path.abspath('').replace('\\', '/') + '/softwares_env/softwares/guerilla_render_wizard/startup.py'
+_scripts_dic_[defaults._blender_] = os.path.abspath(os.path.join(defaults._softwares_scripts_path_+defaults._blender_startup_))
 
 def get_cmd(software, file, reference = None):
 
