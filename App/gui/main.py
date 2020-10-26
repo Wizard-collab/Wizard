@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\main.ui'
+# Form implementation generated from reading ui file 'C:\Script\Wizard\App\ui_files\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -21,7 +21,7 @@ class Ui_Wizard(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
-        self.centralwidget.setMinimumSize(QtCore.QSize(1700, 0))
+        self.centralwidget.setMinimumSize(QtCore.QSize(1500, 0))
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -495,7 +495,7 @@ class Ui_Wizard(object):
         self.verticalLayout.addLayout(self.horizontalLayout_8)
         Wizard.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Wizard)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1700, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1700, 22))
         self.menubar.setObjectName("menubar")
         self.menuProject = QtWidgets.QMenu(self.menubar)
         self.menuProject.setObjectName("menuProject")

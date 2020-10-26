@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\log_widget.ui'
+# Form implementation generated from reading ui file 'C:\Script\Wizard\App\ui_files\log_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_log_widget(object):
     def setupUi(self, log_widget):
         log_widget.setObjectName("log_widget")
-        log_widget.resize(1066, 675)
+        log_widget.resize(1066, 673)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -52,7 +52,17 @@ class Ui_log_widget(object):
         self.horizontalLayout_3.addItem(spacerItem)
         self.horizontalLayout_2.addLayout(self.horizontalLayout_3)
         self.verticalLayout.addWidget(self.frame_4)
-        self.frame = QtWidgets.QFrame(log_widget)
+        self.widget = QtWidgets.QWidget(log_widget)
+        self.widget.setObjectName("widget")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.splitter = QtWidgets.QSplitter(self.widget)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter.setChildrenCollapsible(True)
+        self.splitter.setObjectName("splitter")
+        self.frame = QtWidgets.QFrame(self.splitter)
         self.frame.setMinimumSize(QtCore.QSize(0, 50))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -66,12 +76,13 @@ class Ui_log_widget(object):
         self.log_textEdit.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.log_textEdit.setObjectName("log_textEdit")
         self.verticalLayout_2.addWidget(self.log_textEdit)
-        self.verticalLayout.addWidget(self.frame)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.layoutWidget = QtWidgets.QWidget(self.splitter)
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(1)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.frame_5 = QtWidgets.QFrame(log_widget)
+        self.frame_5 = QtWidgets.QFrame(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -100,7 +111,7 @@ class Ui_log_widget(object):
         self.verticalLayout_5.setContentsMargins(0, -1, -1, -1)
         self.verticalLayout_5.setSpacing(1)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.frame_2 = QtWidgets.QFrame(log_widget)
+        self.frame_2 = QtWidgets.QFrame(self.layoutWidget)
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
@@ -144,7 +155,7 @@ class Ui_log_widget(object):
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.verticalLayout_5.addWidget(self.frame_2)
-        self.frame_3 = QtWidgets.QFrame(log_widget)
+        self.frame_3 = QtWidgets.QFrame(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -170,7 +181,8 @@ class Ui_log_widget(object):
         self.horizontalLayout_5.addWidget(self.tabWidget)
         self.verticalLayout_5.addWidget(self.frame_3)
         self.horizontalLayout_4.addLayout(self.verticalLayout_5)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_6.addWidget(self.splitter)
+        self.verticalLayout.addWidget(self.widget)
 
         self.retranslateUi(log_widget)
         self.tabWidget.setCurrentIndex(0)
