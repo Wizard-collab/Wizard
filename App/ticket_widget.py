@@ -1,29 +1,48 @@
+# coding: utf8
+
+# Import python base libraries
+from time import strftime
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal
+
+# Import wizard gui libraries
 from gui.ticket_widget import Ui_Form
+from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
 from wizard.asset.tickets import tickets
-from time import strftime
+
+# Import wizard widgets
 import dialog_close_ticket
-from gui import build
 
+# Init the main logger and prefs module
 logger = log.pipe_log(__name__)
-
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
     close_signal = pyqtSignal(int)
 
-    def __init__(self, user, adress, date, message, state, id, close_date, comment, close_user, tickets_obj):
+    def __init__(self,
+                 user,
+                 adress,
+                 date,
+                 message,
+                 state,
+                 id,
+                 close_date,
+                 comment,
+                 close_user,
+                 tickets_obj):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.user = user
         self.adress = adress
         self.date = date
@@ -34,11 +53,8 @@ class Main(QtWidgets.QWidget):
         self.comment = comment
         self.tickets_obj = tickets_obj
         self.close_user = close_user
-
         self.setup_ui()
         self.connect_functions()
-        #self.add_icon()
-
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(5)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))
@@ -53,8 +69,8 @@ class Main(QtWidgets.QWidget):
             icon = defaults._red_ticket_icon_
 
         self.ui.ticket_icon_label.setPixmap(
-                    QtGui.QPixmap(icon).scaled(24, 24, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
+                QtGui.QPixmap(icon).scaled(24, 24, QtCore.Qt.KeepAspectRatio,
+                                            QtCore.Qt.SmoothTransformation))
 
     def connect_functions(self):
         self.ui.change_ticket_state_pushButton.clicked.connect(self.change_state)
@@ -83,12 +99,9 @@ class Main(QtWidgets.QWidget):
         self.setup_ui()
 
     def setup_ui(self):
-
         date = strftime("%m/%d/%Y, %H:%M:%S", self.date)
-
         self.ui.ticket_user_label.setText(self.user)
         self.ui.ticket_adress_label.setText(self.adress)
-
         self.ui.ticket_date_label.setText(date)
         self.ui.ticket_message_label.setText(self.message)
         self.ui.ticket_state_label.setText(self.state)
@@ -97,22 +110,18 @@ class Main(QtWidgets.QWidget):
             self.ui.close_date_label.setText(close_date)
         else:
             self.ui.close_date_label.setText('')
-
-
         if self.state == defaults._ticket_open_:
             self.add_icon()
             self.ui.change_ticket_state_pushButton.setText('Close')
         else:
             self.ui.change_ticket_state_pushButton.setText('Open again')
             self.add_icon(1)
-
         if self.comment:
             self.ui.ticket_comment_label.setVisible(1)
             self.ui.ticket_comment_label.setText(self.comment)
         else:
             self.ui.ticket_comment_label.setVisible(0)
             self.ui.ticket_comment_label.setText('')
-
         if self.close_user:
             self.ui.ticket_close_user_label.setText('by {}'.format(self.close_user))
         else:

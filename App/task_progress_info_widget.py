@@ -1,3 +1,6 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5.QtWidgets import *
 
 class Main(QWidget):

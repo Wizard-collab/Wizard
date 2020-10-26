@@ -1,30 +1,38 @@
 # coding: utf8
 
+# Import python base libraries
+import subprocess
+import traceback
+import os
+import sys
+import copy
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
+# Import wizard gui libraries
 from gui.export_manager import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.prefs.main import prefs
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.tools import utility as utils
 from wizard.asset import main as asset_core
-import traceback
-import dialog_report
-import subprocess
-import sys
-import os
-import copy
-import ui_subprocess_manager
 from wizard.prefs import software as software_prefs
 from wizard.software import main as software
 from wizard.asset.reference import references
 from wizard.asset import checker
 
-logger = log.pipe_log(__name__)
+# Import wizard widgets
+import dialog_report
+import ui_subprocess_manager
 
+# Initializing the logger and the prefs module
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
@@ -62,7 +70,9 @@ class Main(QtWidgets.QWidget):
         self.ui.export_m_postroll_lineEdit.setText(str(self.postroll))
         self.change_range()
 
-        self.ui.export_ma_sequence_lineEdit.setText('{} - {} - {}'.format(self.asset.category, self.asset.name, self.asset.variant))
+        self.ui.export_ma_sequence_lineEdit.setText('{} - {} - {}'.format(self.asset.category,
+                                                                            self.asset.name,
+                                                                            self.asset.variant))
 
         self.references = prefs.asset(self.asset).software.references
 

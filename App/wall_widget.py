@@ -89,11 +89,6 @@ class Main(QtWidgets.QWidget):
         settings = wall().open_wall_file()
         keys_list = keys_list[-self.count:]
 
-        self.ui.wall_environment_label_2.setText(environment)
-        self.ui.notif_image_label.setPixmap(
-            QtGui.QPixmap(defaults._wall_icon_).scaled(35, 35, QtCore.Qt.KeepAspectRatio,
-                                                       QtCore.Qt.SmoothTransformation))
-
         if len(keys_list) >= 1:
             for key in keys_list:
                 if key in settings.keys():
@@ -107,10 +102,8 @@ class Main(QtWidgets.QWidget):
         self.init_wall()
 
     def refresh_wall(self):
-        creation = self.ui.creation_filter_pushButton.isChecked()
-        publish = self.ui.publish_filter_pushButton.isChecked()
-        remove = self.ui.remove_filter_pushButton.isChecked()
-        new = self.ui.new_filter_pushButton.isChecked()
+        pass
+        '''
         for widget in self.creation_widgets:
             is_new = 1
             if new:
@@ -126,6 +119,7 @@ class Main(QtWidgets.QWidget):
             if new:
                 is_new = (widget in self.new_widgets)
             widget.setVisible(remove * is_new)
+        '''
 
     def start_wall(self):
         try:
@@ -134,7 +128,6 @@ class Main(QtWidgets.QWidget):
                 self.client.start()
                 self.client.receive.connect(self.build_wall_event)
                 self.client.refresh.connect(send_signal.refresh_signal)
-                #self.client.receive.connect(self.popup_event)
                 self.client.stopped.connect(self.restart)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -157,15 +150,9 @@ class Main(QtWidgets.QWidget):
             user = event[defaults._creation_user_key_]
             id = event[defaults._wall_id_key_]
             message = event[defaults._message_key_]
-            #user = self.wall.get_user(event)
-            #date = self.wall.get_date(event)
             date = event[defaults._creation_date_key_]
-            #message = self.wall.get_message(event)
-            #id = self.wall.get_id(event)
-            #time_id = self.wall.get_time_id(event)
             time_id = event[defaults._wall_time_id_key_]
             asset = event[defaults._asset_key_]
-            #asset = self.wall.get_asset(event)
             if self.previous_widget and date:
                 if strftime("%d", self.previous_widget.date) != strftime("%d", date):
                     self.continuity = 0
@@ -240,10 +227,6 @@ class Main(QtWidgets.QWidget):
     def connect_functions(self):
         area_scroll_bar = self.ui.wall_scrollArea.verticalScrollBar()
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
-        self.ui.creation_filter_pushButton.clicked.connect(self.refresh_wall)
-        self.ui.publish_filter_pushButton.clicked.connect(self.refresh_wall)
-        self.ui.remove_filter_pushButton.clicked.connect(self.refresh_wall)
-        self.ui.new_filter_pushButton.clicked.connect(self.refresh_wall)
 
     def add_comment(self, asset):
         self.dialog_comment = dialog_comment.Main(asset)

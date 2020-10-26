@@ -1,11 +1,19 @@
+# coding: utf8
+
+# Import PyQt5 libraries 
 from PyQt5 import QtWidgets, QtGui, QtCore
 
+# Import wizard gui libraries
 from gui.about import Ui_Form
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 
+# Import python base libraries
 import os
 
+# Init the main logger
 logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QWidget):
@@ -32,7 +40,6 @@ class Main(QtWidgets.QWidget):
     def add_license(self):
         with open(defaults._license_file_, 'r') as f:
             license = f.read()
-
         self.ui.about_license_textEdit.setText( license )
 
     def add_install_dir(self):

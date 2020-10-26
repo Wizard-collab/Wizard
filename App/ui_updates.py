@@ -1,33 +1,38 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
+
+# Import wizard gui libraries
 from gui.updates import Ui_Form
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.prefs.main import prefs
 from wizard.tools import log
-import webbrowser
-import os
 from wizard.vars import updates
 
-logger = log.pipe_log(__name__)
+# Import python base librariess
+import webbrowser
+import os
 
+# Init the main logger and prefs module
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(8)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
-
         self.ui.updates_history_plainTextEdit.setVisible(0)
-
         self.connect_functions()
         self.fill_updates()
 
@@ -35,14 +40,10 @@ class Main(QtWidgets.QWidget):
         prefs.set_show_updates(self.ui.show_startup_checkBox.isChecked())
 
     def show_history(self):
-
         if not self.ui.updates_history_plainTextEdit.isVisible():
-
             self.ui.updates_history_plainTextEdit.setVisible(1)
-
             for key in updates.updates.keys():
                 self.ui.updates_history_plainTextEdit.appendPlainText(updates.updates[key])
-
         else:
             self.ui.updates_history_plainTextEdit.setVisible(0)
             self.ui.updates_history_plainTextEdit.clear()

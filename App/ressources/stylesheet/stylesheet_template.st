@@ -724,12 +724,18 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #wall_event_frame{
-	background-color: rgb(_top_level_widget_color_);
+	background-color: rgba(_top_level_widget_color_, 200);
 	margin : 0px;
+	border-radius:10px;
+	border-top-left-radius:0px;
+}
+
+#color_id_frame{
+	border-radius:5px;
 }
 
 #wall_event_frame:hover{
-	border: 1px solid gray;
+	background-color: rgb(_top_level_widget_color_);
 }
 
 #date_widget_frame, #seen_widget_frame{

@@ -65,7 +65,6 @@ class Main_application():
 	The application is created here.
 	All the processes will depends of this function.
 	'''
-
     def __init__(self):
 
         # Create the pyqt5 application
@@ -125,48 +124,36 @@ class Main_application():
             if run :
                 # Call the loading ui
                 self.ui_load = ui_load.Main()
-
                 # Launch the loading ui with the module "gui.build"
                 build.launch_normal_as_child_frameless_no_transparent(self.ui_load)
-
                 # When the ui is showed, start the wizard introduction gif
                 #self.ui_load.start_gif()
-
                 # Wait for the wizard introduction gif to end
                 #while not self.ui_load.go :
-
                     # Refresh the ui while the wizard gif is running
                 QApplication.processEvents()
-
                 self.prefs = prefs()
-
                 # Fake some loadings
                 # Need to remove that
                 self.ui_load.ui.loading_user_label.setText('User : {}'.format(self.prefs.user))
                 self.ui_load.ui.loading_project_label.setText('Project : {}'.format(self.prefs.project_name))
                 self.update_loading_infos('Reading project...', 65)
-
                 # Call the main ui but don't launch it - This function is the longest to run
                 self.ui_main = ui_main.Main()
-
                 self.update_loading_infos('Launching main ui...', 85)
                 self.update_loading_infos('Launching main ui...', 90)
                 self.update_loading_infos('Launching main ui...', 100)
-
                 # Close the loading ui
                 self.ui_load.close()
-
                 # Call the desktop shutter and give it the main ui object
                 shutter = prefs.shutter
                 if shutter:
                     self.wizard_desktop = ui_wizard_desktop.wizard_desktop(self.ui_main)
-
                 # Show the main ui with the "build" module (from wizard)
                 build.launch_stray_as_child(self.ui_main, self.app, title=f'Wizard - Project : {self.prefs.project_name}')
 
                 # Refresh the main ui
                 self.ui_main.asset_item_changed()
-
                 # Show the wizard desktop tray icon with the "build" module ( from wizard )
                 if shutter:
                     build.launch_wizard_desktop(self.wizard_desktop)
@@ -176,16 +163,12 @@ class Main_application():
         '''
 		This function update the loading ui
 		'''
-
         # Refresh the application
         QApplication.processEvents()
-
         # Change the text in the loading ui
         self.ui_load.ui.loading_label.setText(text)
-
         # Change the percent in the loading ui
         self.ui_load.ui.loading_progressBar.setValue(percent)
-
         # Refresh the application
         QApplication.processEvents()
 

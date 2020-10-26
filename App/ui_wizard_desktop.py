@@ -1,16 +1,23 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
+
+# Import wizard gui libraries
 from gui.wizard_desktop import Ui_Form
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 
+# Init the main logger and prefs module
 logger = log.pipe_log(__name__)
-
 prefs = prefs()
 
 class wizard_desktop(QtWidgets.QWidget):
+    
     def __init__(self, main_ui):
-
         super(wizard_desktop, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)

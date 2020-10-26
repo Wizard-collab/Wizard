@@ -1,24 +1,32 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
+
+# Import wizard gui libraries
 from gui.tickets_widget import Ui_Form
+from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
 from wizard.asset.tickets import tickets
 from wizard.signal import send_signal
+
+# Import wizard widgets
 import open_ticket_widget
-from gui import build
 import ticket_widget
 
+# Init the main logger and pref module
 logger = log.pipe_log(__name__)
-
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
     def __init__(self, user = None):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.connect_functions()

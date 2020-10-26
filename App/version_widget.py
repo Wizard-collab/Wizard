@@ -1,18 +1,29 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal
+
+# Import python base libraries
 import os
+
+# Import wizard gui libraries
 from gui.version_widget import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
+
+# Import wizard widgets
 import options_widget
 import dialog_comment
 import dialog_delete_asset
 
+# Init the main logger and prefs module
 logger = log.pipe_log(__name__)
-
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
@@ -21,7 +32,6 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self, asset, sanity, count):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.asset = asset
@@ -35,21 +45,16 @@ class Main(QtWidgets.QWidget):
         self.ui.version_widget_comment_pushButton.setIcon(QtGui.QIcon(defaults._comment_icon_))
         self.ui.version_open_software_pushButton.setIcon(QtGui.QIcon(defaults._soft_icons_dic_[self.asset.software]))
         version_prefs = prefs.asset(self.asset).software
-
         self.ui.version_widget_version_label.setText(self.asset.version)
         self.ui.version_widget_comment_label.setText(version_prefs.version_comment)
         self.ui.version_widget_date_label.setText(version_prefs.version_date)
         self.ui.version_widget_user_label.setText(version_prefs.version_user)
-
         if self.count:
             self.ui.list_version_widget_frame.setStyleSheet('''#list_version_widget_frame{background-color:rgba(255,255,255,5);}
                 #list_version_widget_frame:hover{
                 
                 }''')
-
         self.update_sanity(self.sanity)
-
-
 
     def update_sanity(self, sanity):
         if sanity:

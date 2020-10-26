@@ -1,7 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
-
 from gui.image_viewer import Ui_Form
-
 
 class Main(QtWidgets.QWidget):
 

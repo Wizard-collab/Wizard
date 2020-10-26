@@ -36,155 +36,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="wall_widget_header_frame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="notif_image_label">
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="wall_environment_label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Concern :</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="wall_environment_label_2">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QPushButton" name="creation_filter_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>60</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Creation</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="publish_filter_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>60</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Publish</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="remove_filter_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>60</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Remove</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="new_filter_pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>New</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -222,24 +73,24 @@
            <x>0</x>
            <y>0</y>
            <width>316</width>
-           <height>720</height>
+           <height>801</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_10">
           <property name="spacing">
-           <number>1</number>
+           <number>10</number>
           </property>
           <property name="leftMargin">
-           <number>0</number>
+           <number>10</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>10</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>10</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>10</number>
           </property>
           <item>
            <spacer name="verticalSpacer">

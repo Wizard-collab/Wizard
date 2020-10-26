@@ -1,24 +1,34 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication
+
+# Import wizard gui libraries
 from gui.welcome import Ui_Dialog
+
+# Import wizard core libraries
 from wizard.vars import defaults
+from wizard.prefs.main import prefs
+from wizard.chat.client import test_conn_once
+
+# Import wizard widgets
 import create_user_widget
 import create_project_widget
 import server_info_widget
-from wizard.prefs.main import prefs
-from wizard.chat.client import test_conn_once
+
+# Import python base libraries
 import os
 
+# Init prefs module
 prefs = prefs()
 
 class Main(QtWidgets.QDialog):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(8)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))
@@ -47,8 +57,6 @@ class Main(QtWidgets.QDialog):
         else:
             if not prefs.project_name:
                 self.add_project_widget()
-            else:
-                self.add_server_info_widget()
 
     def add_logos(self):
         self.ui.welcome_left_pushButton.setIcon(QtGui.QIcon(defaults._previous_icon_))
@@ -77,25 +85,6 @@ class Main(QtWidgets.QDialog):
         self.create_user_widget.show()
         QApplication.processEvents()
 
-    def add_server_info_widget(self):
-        if not test_conn_once():
-            '''
-            QApplication.processEvents()
-            self.clear_layout()
-            self.server_info_widget.show()
-            QApplication.processEvents()
-            '''
-            self.launch_server()
-            self.need = 0
-            self.accept()
-        else:
-            self.need = 0
-            self.accept()
-
     def clear_layout(self):
         for i in reversed(range(self.ui.welcome_main_widget_layout.count())):
             self.ui.welcome_main_widget_layout.itemAt(i).widget().hide()
-
-    def launch_server(self):
-        pass
-        #os.startfile('wizard server.exe')
