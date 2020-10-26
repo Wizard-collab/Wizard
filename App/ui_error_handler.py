@@ -1,13 +1,22 @@
+# coding: utf8
+
+# Import pytohn base libraries
+import traceback
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 
+# Import wizard gui libraries
 from gui.error_handler import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
-import traceback
 from wizard.email import main as email
 from wizard.prefs.main import prefs
 
+# Initializing the logger and the prefs module
 logger = log.pipe_log(__name__)
 prefs = prefs()
 
@@ -15,7 +24,6 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self, record):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.record = record

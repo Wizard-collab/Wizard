@@ -1,26 +1,47 @@
+# coding: utf8
+
+# Importing python base libraries
 import os
+import traceback
+import time
+import inspect
+import random
+import copy
+import webbrowser 
+
+# Importing PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import pyqtSignal
-import traceback
-import time
 
-from gui.main import Ui_Wizard
-import gui.fill_tree as fill
-from wizard.asset import main as asset_core
-from gui.tree_get import tree
+# Importing wizard gui libraries
 import gui.tree_get as tree_get
+import gui.fill_tree as fill
+import gui.log_to_gui as log_to_gui
+from gui.tree_get import tree
 from gui import build
+from gui import stats_to_gui
+from gui.main import Ui_Wizard
+
+# Importing wizard core libraries
+from wizard.asset import main as asset_core
 from wizard.vars import defaults
 from wizard.project import main as project
 from wizard.prefs.main import prefs
 import wizard.prefs.project as project_prefs
 from wizard.tools import log
+from wizard.tools import utility as utils
+from wizard.email import main as send_email
+from wizard.chat import client
+from wizard.signal.signal_server import signal_server
+from wizard.prefs.user_scripts import user_scripts
+from wizard.user_scripts import user_scripts_library
+from wizard import api
+
+# Importing wizard widgets
 import dialog_new_variant
 import dialog_softwares_prefs
-import gui.log_to_gui as log_to_gui
 import ui_image_viewer
-from gui import stats_to_gui
 import dialog_new_project
 import dialog_projects
 import dialog_new_user
@@ -34,7 +55,6 @@ import wall_widget
 import ui_wizard_desktop
 import node_editor_widget
 import tree_widget
-import copy
 import options_widget
 import file_viewer
 import ui_subprocess_manager
@@ -45,10 +65,6 @@ import exports_widget
 import versions_manager_widget
 import reference_list_widget
 import running_widget
-from wizard.tools import utility as utils
-from wizard.email import main as send_email
-from wizard.chat import client
-import random
 import dialog_confirm_email
 import dialog_shot_creation
 import dialog_modify_range
@@ -56,45 +72,40 @@ import dialog_asset_creation
 import dialog_quit_popup
 import ui_welcome
 import ui_workflow
-import ui_stats_viewer
 import ui_export_manager
 import playblasts_widget
 import ui_updates
-import webbrowser 
 import dialog_merge_projects
 import dialog_new_version
 import ui_error_handler
 import user_scripts_widget
-from wizard.signal.signal_server import signal_server
-from wizard.prefs.user_scripts import user_scripts
-import inspect
-from wizard.user_scripts import user_scripts_library
-from wizard import api
 import tickets_widget
 import task_progress_info_widget
-
 import ui_about
 
+# Initializing the logger and the prefs module
 logger = log.pipe_log()
-
 prefs = prefs()
 
-class Main(QtWidgets.QMainWindow):
+class Main(QtWidgets.QMainWindow): # The main wizard class
+
+    # Signal emitted when the is moved
     move_signal = pyqtSignal(str)
 
     def __init__(self):
         try:
             super(Main, self).__init__()
 
+            # Init ui
             self.stylesheet = build.load_stylesheet()
-
             self.ui = Ui_Wizard()
             self.ui.setupUi(self)
+            self.displace_animation = QtCore.QPropertyAnimation(self, b"pos", self)
+            self.displace_animation.finished.connect(self.hide)
+            self.resize_window()
 
+            # Init widgets
             self.wizard_version_update()
-
-            project.add_material()
-
             self.init_log_widget()
             self.init_log_ui()
             self.init_log_button()
@@ -102,22 +113,11 @@ class Main(QtWidgets.QMainWindow):
             self.init_wall_button()
             self.init_running_button()
             self.init_settings_button()
-            #self.init_chat_button()
             self.init_server_button()
             self.init_main_tab()
-            self.prefs = prefs
-            self.selected_asset = None
-            self.asset = None
-            self.old_exports_tab_asset = None
-            self.old_graph_tab_asset = None
-            self.old_history_tab_asset = None
-            self.pin = False
-            self.pinned_asset = None
             self.init_user_widget()
             self.init_jokes_widget()
             self.init_tree_widget()
-            self.displace_animation = QtCore.QPropertyAnimation(self, b"pos", self)
-            self.displace_animation.finished.connect(self.hide)
             self.init_wizard_desktop()
             self.init_pin_button()
             self.init_folder_button()
@@ -128,44 +128,62 @@ class Main(QtWidgets.QMainWindow):
             self.init_tickets_widget()
             self.init_versions_manager_widget()
             self.init_image()
+            self.init_wall_widget()
+            self.init_main_refresh_button()
+            self.init_user_scripts_widget()
+
+            # Init vars
+            self.prefs = prefs
+            self.selected_asset = None
+            self.asset = None
+            self.old_exports_tab_asset = None
+            self.old_graph_tab_asset = None
+            self.old_history_tab_asset = None
+            self.pin = False
+            self.pinned_asset = None
+
+            # Refresh ui and start threads
             self.update_tree(1)
-            self.connect_functions()
             self.update_infos()
             self.start_stats()
-            self.init_launch_button()
             self.asset_item_changed()
-            self.init_wall_widget()
-            #self.init_chat()
-            self.resize_window()
-            self.node_editor_widget.refresh_scene(self.asset)
-            self.init_main_refresh_button()
             self.show_updates()
             self.add_user_to_project()
-            self.init_user_scripts_widget()
             self.show_task_info_widget()
-            self.init_local_server()
             self.go_to_tab()
+            self.connect_functions()
+            self.init_local_server()
+            
         except:
             logger.critical(str(traceback.format_exc()))
 
     def show_task_info_widget(self):
-        self.task_progress_info_widget = task_progress_info_widget.Main()
-        self.ui.task_info_widget_layout.addWidget(self.task_progress_info_widget)
+        try:
+            self.task_progress_info_widget = task_progress_info_widget.Main()
+            self.ui.task_info_widget_layout.addWidget(self.task_progress_info_widget)
+        except:
+            logger.critical(str(traceback.format_exc()))
 
     def init_local_server(self):
-        self.signal_server = signal_server()
-        self.signal_server.refresh_signal.connect(self.refresh_main_ui)
-        self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
-        self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
-        self.signal_server.task_name_signal.connect(logger.info)
-        self.signal_server.start()
+        try:
+            self.signal_server = signal_server()
+            self.signal_server.refresh_signal.connect(self.refresh_main_ui)
+            self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
+            self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
+            self.signal_server.task_name_signal.connect(logger.info)
+            self.signal_server.start()
+        except:
+            logger.critical(str(traceback.format_exc()))
 
     def refresh_main_ui(self):
-        self.update_tree(0)
-        self.asset_item_changed()
-        self.user_widget.refresh_widget()
-        self.user_scripts_widget.refresh_scripts()
-        self.refresh_server(0)
+        try:
+            self.update_tree(0)
+            self.asset_item_changed()
+            self.user_widget.refresh_widget()
+            self.user_scripts_widget.refresh_scripts()
+            self.refresh_server(0)
+        except:
+            logger.critical(str(traceback.format_exc()))
 
     def add_user_to_project(self):
         try:
@@ -196,8 +214,7 @@ class Main(QtWidgets.QMainWindow):
 
     def wizard_version_update(self):
         try:
-            project.add_set_dress()
-            project.add_fx_setup()
+            project.add_material()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -375,7 +392,6 @@ class Main(QtWidgets.QMainWindow):
     def init_log_widget(self):
         try:
             self.log_widget = log_widget.Main()
-            # self.log_widget.hide()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -471,7 +487,6 @@ class Main(QtWidgets.QMainWindow):
 
     def update_tree(self, init = None):
         try:
-            # The main function to update the concerned ui
             project_tree = project.read_project()
             if project_tree:
                 fill.build_tree(self.ui.treeWidget, project_tree)
@@ -501,11 +516,8 @@ class Main(QtWidgets.QMainWindow):
 
     def update_variants(self):
         try:
-
             self.connect_variants(0)
-
             self.ui.variants_comboBox.clear()
-
             if self.asset.stage:
                 variants = self.asset.variants
                 main_variant = self.asset_prefs.stage.default_variant
@@ -516,7 +528,6 @@ class Main(QtWidgets.QMainWindow):
                     self.asset.variant = main_variant
                     self.variant_changed()
                     self.connect_variants()
-
                     if self.asset.variant:
                         self.ui.main_frame.setEnabled(1)
                 else:
@@ -580,13 +591,15 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
     def go_to_tab(self, tab = None):
-        if not tab:
-            tab = self.prefs.tab_context
-        self.ui.main_tabWidget.setCurrentIndex(tab)
+        try:
+            if not tab:
+                tab = self.prefs.tab_context
+            self.ui.main_tabWidget.setCurrentIndex(tab)
+        except:
+            logger.critical(str(traceback.format_exc()))
 
     def main_tab_changed(self, index):
         try:
-            
             if index == 0:
                 self.node_editor_widget.refresh_scene(self.asset)
             if index == 1:
@@ -599,19 +612,14 @@ class Main(QtWidgets.QMainWindow):
                 self.playblasts_widget.refresh_all(self.asset)
             elif index == 5:
                 self.tickets_widget.refresh_all(self.asset)
-
             self.prefs.set_tab_context(index)
-
         except:
             logger.critical(str(traceback.format_exc()))
 
     def update_softwares(self):
         try:
-
             self.connect_softwares(0)
-
             self.ui.software_comboBox.clear()
-
             if self.asset.stage and self.asset.variant:
                 softwares = self.asset.softwares
                 default_software = self.asset_prefs.variant.default_software
@@ -643,8 +651,6 @@ class Main(QtWidgets.QMainWindow):
 
     def software_changed(self):
         try:
-
-
             software = self.ui.software_comboBox.currentText()
             if software:
                 self.asset.software = software
@@ -656,12 +662,8 @@ class Main(QtWidgets.QMainWindow):
 
     def update_versions(self):
         try:
-
-
             self.connect_versions(0)
-
             self.ui.versions_comboBox.clear()
-
             if self.asset.stage and self.asset.variant:
                 versions = prefs.asset(self.asset).software.versions#[-10:]
                 if versions:
@@ -694,7 +696,6 @@ class Main(QtWidgets.QMainWindow):
 
     def version_changed(self):
         try:
-
             version = self.ui.versions_comboBox.currentText()
             self.asset.version = version
             self.update_creation_date()
@@ -751,12 +752,6 @@ class Main(QtWidgets.QMainWindow):
             user_name = self.prefs.user
             project_name = self.prefs.project_name
             project_path = self.prefs.project_path
-            if user_name:
-                pass
-                # self.ui.user_name_label.setText(user_name)
-            else:
-                pass
-                # self.ui.user_name_label.setText(defaults._missing_user_)
             if project_name:
                 self.ui.project_name_label.setText(project_name)
                 self.ui.project_path_label.setText(project_path)
@@ -801,19 +796,14 @@ class Main(QtWidgets.QMainWindow):
                     text = f'Locked ({lock})'
                     if lock != self.prefs.user:
                         self.ui.lock_pushButton.setEnabled(False)
-                        # self.ui.launch_pushButton.setEnabled(False)
-                        # self.ui.launch_pushButton_Frame.setEnabled(False)
                         self.ui.launch_pushButton.setText(f'Locked by {lock}')
                         self.ui.lock_pushButton.setStyleSheet("#lock_pushButton{background-color: #eb5250;}")
                         self.update_launch_button()
                     else:
                         self.ui.lock_pushButton.setEnabled(True)
-                        # self.ui.launch_pushButton.setEnabled(True)
-                        # self.ui.launch_pushButton_Frame.setEnabled(True)
                         self.ui.lock_pushButton.setStyleSheet("")
                         self.update_launch_button()
                     self.ui.lock_pushButton.setIcon(QtGui.QIcon(image))
-
                 else:
                     self.reset_lock_button()
             else:
@@ -855,17 +845,12 @@ class Main(QtWidgets.QMainWindow):
         try:
             logger.info('Creating asset...')
             QApplication.processEvents()
-            # Create asset from selected item
             self.refresh_asset(item)
             QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
             created = self.selected_asset.create(in_out)
             QApplication.restoreOverrideCursor()
             if not created:
-                # If asset not created, remove the item
                 tree_get.remove_item(item)
-            # Update the UI
-            #self.update_tree()
-            #self.asset_item_changed()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -890,7 +875,6 @@ class Main(QtWidgets.QMainWindow):
                     item.text(0) != defaults._new_item_label_ and \
                     item.text(0) != defaults._new_shot_label_:
                 self.create(item)
-
             elif tree_get.check_add_item(item) and \
                     item.text(0) != defaults._new_item_label_ and \
                     item.text(0) == defaults._new_shot_label_:
@@ -900,15 +884,12 @@ class Main(QtWidgets.QMainWindow):
                     inFrame = self.dialog_shot_creation.inFrame
                     outFrame = self.dialog_shot_creation.outFrame
                     item.setText(0, name)
-
                     self.create(item, [inFrame, outFrame])
-
             elif item.text(0) == defaults._new_item_label_:
                 self.dialog_asset_creation = dialog_asset_creation.Main()
                 if build.launch_running_dialog(self.dialog_asset_creation):
                     name = self.dialog_asset_creation.asset_name
                     item.setText(0, name)
-
                     self.create(item)
             else:
                 self.open(item)
@@ -920,7 +901,6 @@ class Main(QtWidgets.QMainWindow):
             frange = self.selected_asset_prefs.name.range
             preroll = self.selected_asset_prefs.name.preroll
             postroll = self.selected_asset_prefs.name.postroll
-
             self.dialog_modify_range = dialog_modify_range.Main(frange, preroll, postroll)
             if build.launch_running_dialog(self.dialog_modify_range):
                 inFrame = self.dialog_modify_range.inFrame
@@ -946,7 +926,7 @@ class Main(QtWidgets.QMainWindow):
     def init_launch_button(self):
         try:
             software = self.asset.software
-            lock = self.asset_prefs.software.get_lock
+            lock = self.prefs.asset(self.asset).software.get_lock
             if software:
                 if lock != self.prefs.user and lock != '0' and lock != 0:
                     text = f'Locked by {lock}'
@@ -961,8 +941,7 @@ class Main(QtWidgets.QMainWindow):
                 self.ui.launch_image_label.setPixmap(QtGui.QPixmap(defaults._asset_icon_).scaled(40, 40, QtCore.Qt.KeepAspectRatio,
                                                                                   QtCore.Qt.SmoothTransformation))
         except:
-            pass
-            # logger.critical(str(traceback.format_exc()))
+            logger.critical(str(traceback.format_exc()))
 
     def update_launch_button(self):
         try:
@@ -982,7 +961,6 @@ class Main(QtWidgets.QMainWindow):
                     self.ui.launch_pushButton.setText('Launch')
                     self.ui.launch_image_label.setPixmap(QtGui.QPixmap(defaults._asset_icon_).scaled(40, 40, QtCore.Qt.KeepAspectRatio,
                                                                                   QtCore.Qt.SmoothTransformation))
-                # running_assets_list = os.environ[defaults._current_assets_list_].split(':')
                 string_asset = utils.short_asset_to_string(self.asset)
                 if string_asset in os.environ[defaults._current_assets_list_].split(':'):
                     self.start_launch_gif()
@@ -997,10 +975,8 @@ class Main(QtWidgets.QMainWindow):
 
     def refresh_asset(self, item):
         try:
-            # Build the tree class from tree_get script
             if item:
                 current_tree = tree(item)
-                # Create asset from selected item
                 self.selected_asset = asset_core.asset(
                     domain=current_tree.get_domain(),
                     category=current_tree.get_category(),
@@ -1016,9 +992,7 @@ class Main(QtWidgets.QMainWindow):
             if not self.pin:
                 if self.selected_asset:
                     self.asset = copy.deepcopy(self.selected_asset)
-
                     self.asset_prefs = prefs.asset(self.asset)
-
                     asset_label = f'{self.asset.domain} / {self.asset.category} / {self.asset.name} / {self.asset.stage}'
                     self.ui.current_asset_label.setText(asset_label)
             else:
@@ -1056,12 +1030,15 @@ class Main(QtWidgets.QMainWindow):
             logger.critical(str(traceback.format_exc()))
 
     def add_asset_to_shelf(self):
-        icon = defaults._stage_icon_[self.asset.stage]
-        name = f"import {self.asset.category}-{self.asset.name}-{self.asset.stage}-{self.asset.variant}"
-        string_asset = utils.asset_to_string(self.asset)
-        script = user_scripts_library.import_asset_script.replace('ASSET_STRING', string_asset)
-        user_scripts().create_user_script(name, icon, script)
-        self.user_scripts_widget.refresh_scripts()
+        try:
+            icon = defaults._stage_icon_[self.asset.stage]
+            name = f"import {self.asset.category}-{self.asset.name}-{self.asset.stage}-{self.asset.variant}"
+            string_asset = utils.asset_to_string(self.asset)
+            script = user_scripts_library.import_asset_script.replace('ASSET_STRING', string_asset)
+            user_scripts().create_user_script(name, icon, script)
+            self.user_scripts_widget.refresh_scripts()
+        except:
+            logger.critical(str(traceback.format_exc()))
 
     def start_launch_gif(self):
         try:
@@ -1084,12 +1061,6 @@ class Main(QtWidgets.QMainWindow):
             name = self.ui.search_lineEdit.text()
             if name != '' and len(name) > 1:
                 tree_get.search(self.ui.treeWidget, name)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
-    def send_message(self):
-        try:
-            pass
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1124,7 +1095,6 @@ class Main(QtWidgets.QMainWindow):
                     build.launch_normal_as_child(self.ui_error_handler)
                 else:
                     self.ui_error_handler.submit_error()
-
             self.ui.log_lineEdit.setStyleSheet(text_color)
             self.ui.log_frame.setStyleSheet(background_color)
             self.ui.log_lineEdit.setText(record)
@@ -1167,7 +1137,6 @@ class Main(QtWidgets.QMainWindow):
                 if self.asset.create():
                     self.asset_prefs.stage.set_default_variant(variant)
                     self.update_variants()
-
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1176,7 +1145,7 @@ class Main(QtWidgets.QMainWindow):
             self.dialog_new_project = dialog_new_project.Main()
             if build.launch_dialog_as_child(self.dialog_new_project):
                 QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
-                time.sleep(1)
+                time.sleep(0.5)
                 restart_ui(self)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1186,7 +1155,7 @@ class Main(QtWidgets.QMainWindow):
             self.dialog_projects = dialog_projects.Main()
             if build.launch_dialog_as_child(self.dialog_projects):
                 QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
-                time.sleep(1)
+                time.sleep(0.5)
                 restart_ui(self)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1194,8 +1163,7 @@ class Main(QtWidgets.QMainWindow):
     def merge_project(self):
         try:
             self.dialog_merge_projects = dialog_merge_projects.Main()
-            if build.launch_dialog_as_child(self.dialog_merge_projects):
-                pass
+            build.launch_dialog_as_child(self.dialog_merge_projects)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1257,7 +1225,6 @@ class Main(QtWidgets.QMainWindow):
                 self.pinned_asset = None
                 tree_get.select_asset(self.ui.treeWidget, self.asset)
                 self.asset_item_changed()
-                #self.focus_asset(utils.asset_to_string(self.asset))
             else:
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))
@@ -1270,7 +1237,6 @@ class Main(QtWidgets.QMainWindow):
                     self.pinned_asset = self.asset
                 else:
                     logger.info("No asset to pin")
-
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1336,12 +1302,9 @@ class Main(QtWidgets.QMainWindow):
 
     def mousePressEvent(self, event):
         try:
-
             self.ui.log_frame.setStyleSheet(self.stylesheet)
             self.ui.log_lineEdit.setStyleSheet(self.stylesheet)
-
             event.accept()
-
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1400,8 +1363,6 @@ class Main(QtWidgets.QMainWindow):
 
     def show_version_manager(self):
         try:
-
-            #new_version = version.check_version().check_version()
             new_version = None
             if new_version:
                 self.dialog_new_version = dialog_new_version.Main(new_version)
@@ -1409,7 +1370,6 @@ class Main(QtWidgets.QMainWindow):
                     self.close()
             else:
                 logger.info("Wizard is up to date !")
-
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1434,23 +1394,22 @@ class Main(QtWidgets.QMainWindow):
 
     def connect_functions(self):
         try:
+            software_settings_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), self)
+            software_settings_shortcut.activated.connect(self.launch_software_prefs_ui)
+            logShortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F1), self)
+            logShortcut.activated.connect(self.open_log_widget)
+
             self.ui.treeWidget.itemDoubleClicked.connect(self.double_click_item)
             self.ui.treeWidget.itemSelectionChanged.connect(self.asset_item_changed)
             self.ui.search_lineEdit.textChanged.connect(self.search)
             self.ui.variants_comboBox.currentIndexChanged.connect(self.variant_changed)
             self.ui.software_comboBox.currentIndexChanged.connect(self.software_changed)
             self.ui.versions_comboBox.currentIndexChanged.connect(self.version_changed)
-            logShortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F1), self)
-            logShortcut.activated.connect(self.open_log_widget)
-            #pop = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F3), self)
-            #pop.activated.connect(self.show_popup)
             self.ui.log_pushButton.clicked.connect(self.open_log_widget)
             self.ui.wall_pushButton.clicked.connect(self.open_wall_widget)
             self.ui.running_pushButton.clicked.connect(self.show_running_widget)
             self.ui.settings_pushButton.clicked.connect(self.launch_preferences_ui)
             self.ui.locked_assets_pushButton.clicked.connect(self.show_locked_widget)
-            software_settings_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), self)
-            software_settings_shortcut.activated.connect(self.launch_software_prefs_ui)
             self.ui.add_variant_pushButton.clicked.connect(self.add_variant)
             self.ui.launch_pushButton.clicked.connect(self.open)
             self.ui.image_button.clicked.connect(self.open_image)
@@ -1482,7 +1441,6 @@ class Main(QtWidgets.QMainWindow):
             self.ui.actionProcess_manager.triggered.connect(self.show_process_manager)
             self.ui.actionLast_version.triggered.connect(self.show_version_manager)
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
-
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1533,13 +1491,14 @@ class Main(QtWidgets.QMainWindow):
         except:
             logger.critical(str(traceback.format_exc()))
 
-
 def restart_ui(self):
     try:
         self.stop_threads()
         self.close()
         self.prefs.set_context(None)
-        os.startfile('wizard.exe')        
+        if not os.path.isfile('wizard.exe'):
+            os.startfile('wizard_site.bat')
+        else:
+            os.startfile('wizard.exe')        
     except:
         logger.critical(str(traceback.format_exc()))
-

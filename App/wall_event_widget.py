@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# coding: utf8
+
 
 from PyQt5 import QtWidgets, QtCore
 from gui.wall_event_widget import Ui_Form
@@ -19,18 +20,14 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self, user, date, message, id, time_id, asset=None):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
-
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.user = user
         self.date = date
         self.message = message
         self.id = id
         self.time_id = time_id
         self.asset = asset
-
         self.convert_ui()
 
     def convert_ui(self):
@@ -58,12 +55,7 @@ class Main(QtWidgets.QWidget):
                 except:
                     logger.warning("Can't open that, please access via wizard project tree !")
 
-    def show_infos(self):
-        pass
-
     def show_options_menu(self):
         self.options_widget = options_widget.Main()
         self.options_widget.add_item('Explorer', self.explorer)
-        if self.asset and self.id == defaults._wall_publish_event_:
-            self.options_widget.add_item('Show infos', self.show_infos)
         build.launch_options(self.options_widget)

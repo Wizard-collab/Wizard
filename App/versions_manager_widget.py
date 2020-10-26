@@ -1,18 +1,29 @@
+# coding: utf8
+
+# Import PyQT5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication
+
+# Import wizard gui libraries
 from gui.versions_manager_widget import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
+
+# Import wizard widget
 import version_widget
+
+# Import python base libraries
 import copy
 import shutil
 import os
 
+# Init main logger and prefs modul
 logger = log.pipe_log(__name__)
-
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
@@ -22,13 +33,10 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.setAcceptDrops(True)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.asset = None
-
         self.full = 0
         self.sanity = 1
         self.widgets_list = []
@@ -36,7 +44,6 @@ class Main(QtWidgets.QWidget):
         self.step = 3
         self.count = 1
         self.connect_functions()
-
         self.ui.sanity_exports_pushButton.setIcon(QtGui.QIcon(defaults._export_list_icon_gray_))
         self.ui.show_all_exports_pushButton.setIcon(QtGui.QIcon(defaults._sd_icon_))
         self.ui.add_empty_file_pushButton.setIcon(QtGui.QIcon(defaults._add_empty_file_icon_))
@@ -58,11 +65,9 @@ class Main(QtWidgets.QWidget):
         self.versions_list = []
         if self.asset.variant:
             self.versions_list = prefs.asset(self.asset).software.versions
-
         self.update_all()
 
     def add_version(self):
-
         self.asset.version = prefs.asset(self.asset).software.get_new_version()
         shutil.copyfile(defaults._init_file__dic_[self.asset.software],
                                     self.asset.file)
@@ -71,20 +76,15 @@ class Main(QtWidgets.QWidget):
 
     def update_all(self):
         self.widgets_list=[]
-
         self.get_params()
         self.clear_all()
-
         versions_list = []
         if self.versions_list and self.versions_list != []:
-
             if not self.full:
                 versions_list = self.versions_list[-self.number:]
             else:
                 versions_list = self.versions_list
-
         self.ui.versions_number_label.setText('( {}/{} )'.format(len(versions_list), len(self.versions_list)))
-        
         for version in versions_list:
             asset = copy.deepcopy(self.asset)
             asset.version = version
@@ -130,12 +130,10 @@ class Main(QtWidgets.QWidget):
             logger.warning(f"{file} is not a valid {self.asset.software} file.")
 
     def dragEnterEvent(self, e):
-
         self.setStyleSheet('#pb_ma_scrollArea{border: 2px solid white;}')
         e.accept()
 
     def dragLeaveEvent(self, e):
-
         self.setStyleSheet('#pb_ma_scrollArea{border: 0px solid white;}')
 
     def dropEvent(self, e):

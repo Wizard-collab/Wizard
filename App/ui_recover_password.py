@@ -1,16 +1,24 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication
 
+# Import wizard gui libraries
 from gui.recover_password import Ui_Dialog
+from gui import log_to_gui
+
+# Import wizard core libraries
 from wizard.prefs.user import user
 from wizard.prefs.site import site
 from wizard.tools import log
-from gui import log_to_gui
-import time
 from wizard.tools import password as pwd
 
-logger = log.pipe_log(__name__)
+# Import python base libraries
+import time
 
+# Init main logger
+logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QDialog):
 
@@ -19,7 +27,6 @@ class Main(QtWidgets.QDialog):
         self.site = site()
         self.user = user()
         QtWidgets.QDialog.__init__(self, parent)
-        # Build the ui from ui converted file
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.connect_functions()
@@ -35,14 +42,10 @@ class Main(QtWidgets.QDialog):
         self.hide()
 
     def update_users(self):
-        # Get all the users from the ite prefs
         users_list = self.site.get_users_list()
-        # Get the current user
         current_user = self.user.get_user()
         if current_user:
-            # Get the current user index
             index = list(users_list.keys()).index(current_user)
-            # Add each users to the ui
         else:
             index = 0
         if users_list:

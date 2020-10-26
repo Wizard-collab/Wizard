@@ -1,22 +1,26 @@
+# coding: utf8
+
+# Import python base libraries
+import os
+import time
+import random
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication
-import os
-import time
+# Import wizard gui modules
 from gui.loading import Ui_loading_Form
+# Import wizard core libraries
 from wizard.vars import defaults
-import random
 
 class Main(QtWidgets.QWidget):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_loading_Form()
         self.ui.setupUi(self)
         self.conform_ui()
         self.go = None
-
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(8)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))

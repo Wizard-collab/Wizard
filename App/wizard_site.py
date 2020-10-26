@@ -16,22 +16,20 @@ class wizard():
     def __init__(self):
         
         os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
         # Create the pyqt5 application
         self.app = QtWidgets.QApplication(sys.argv)
         self.app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-        
         # Add the default wizard icon
         self.app.setWindowIcon(QtGui.QIcon(defaults._wizard_ico_))
-
         if not site.is_site():
             self.dialog_add_site = dialog_add_site.Main()
             if build.launch_dialog_as_child(self.dialog_add_site):
                 site_path = self.dialog_add_site.site_path
-
                 site.modify_site(site_path)
-
-                os.startfile('wizard.exe')
+                if not os.path.isfile('wizard.exe'):
+                    os.startfile('wizard_site.bat')
+                else:
+                    os.startfile('wizard.exe')
         else:
             import wizard_ui
             wizard_ui.Main_application()

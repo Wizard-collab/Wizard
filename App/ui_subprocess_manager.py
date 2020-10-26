@@ -1,14 +1,21 @@
 # coding: utf8
 
+# Import PyQt6 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QFileDialog
 
+# Import wizard gui libraries
 from gui.subprocess_manager import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.tools import utility as utils
+from wizard.signal import send_signal
+
+# Import python base libraries ( or installed with pip )
 import traceback
 import dialog_report
 import subprocess
@@ -16,9 +23,9 @@ import sys
 import os
 import pyperclip
 import contextlib
-from wizard.signal import send_signal
 import time
 
+# Init main logger
 logger = log.pipe_log(__name__)
 
 
@@ -26,13 +33,11 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self, command = None, env=None, cwd = 'softwares_env'):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.command = command
         self.env = env
         self.cwd = cwd
-
         if command:
             self.ui.subprocess_command_textEdit.setText(str(self.command))
         else:
@@ -136,12 +141,10 @@ class Main(QtWidgets.QWidget):
     def get_logs(self):
         stdout = self.ui.process_stdout_textEdit.toPlainText()
         stderr = self.ui.process_stderr_textEdit.toPlainText()
-
         logs = 'Subprocess manager LOGS\n\n\nSTDOUT :\n\n'
         logs+= stdout
         logs+= '\n\nSTDERR :\n\n'
         logs+= stderr
-
         return logs
 
     def execute(self):
@@ -167,11 +170,8 @@ class run_subprocess(QThread):
         self.cwd = cwd
 
     def run(self):
-
         self.process = subprocess.Popen(self.command, shell=True,stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = self.env, cwd=self.cwd)
-
         self.parent.ui.subprocess_ma_stop_pushButton.clicked.connect(self.kill_process)
-
         self.errThread = errThread(self.process, self)
         self.errThread.start()
         self.timerThread = timerThread()
@@ -187,20 +187,17 @@ class run_subprocess(QThread):
         self.outThread.task_signal.connect(self.task_signal.emit)
         self.outThread.status_signal.connect(self.status_signal.emit)
         self.outThread.percent_signal.connect(self.percent_signal.emit)
-
         while not (self.process.poll() == 0 or self.stop):
             QApplication.processEvents()
-
+            time.sleep(0.1)
         self.outThread.quit()
         self.errThread.quit()
 
     def kill_process(self, manual = 1):
         try:
-
             if manual:
                 self.out_signal.emit("Process manualy stopped")
                 self.status_signal.emit("Stopped")
-
             subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=self.process.pid))
             self.timerThread.running = 0  
             self.stop = 1     
@@ -267,11 +264,8 @@ class outThread(QThread):
     def run(self):
 
         while not self.run_process.stop:
-
             QApplication.processEvents()
-
             output = self.process.stdout.readline()
-
             if output == '' and self.process.poll() is not None:
                 break
                 self.out_signal.emit('status:finished')
@@ -283,6 +277,7 @@ class outThread(QThread):
                 out = convert_string(out)
                 if self.check_string(out):
                     self.out_signal.emit(out)
+            time.sleep(0.1)
 
     def check_string(self, string):
         if defaults._percent_signal_ in string:

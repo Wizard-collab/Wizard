@@ -1,7 +1,14 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QFileDialog
+
+# Import wizard gui libraries
 from gui.user_widget import Ui_Form
 from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
@@ -9,18 +16,19 @@ from wizard.prefs.stats import stats
 from wizard.asset.tickets import tickets
 from wizard.signal import send_signal
 from wizard.tools import utility as utils
+
+# Import wizard widgets
 import wall_widget
 import tickets_widget
 
+# Init the main logger and prefs module
 logger = log.pipe_log(__name__)
-
 pref = prefs()
 
 class Main(QtWidgets.QWidget):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.init_icons()
@@ -58,7 +66,6 @@ class Main(QtWidgets.QWidget):
         self.round_image(self.ui.user_image_pushButton, user_image)
         self.ui.level_label_number.setText(level)
         self.ui.xp_progressBar.setValue(xp)
-
         self.check_opened_tickets()
 
     def show_user_wall(self):
@@ -89,29 +96,23 @@ class Main(QtWidgets.QWidget):
     def round_image(self, label, image):
         label.Antialiasing = True
         label.radius = 35
-
         label.target = QtGui.QPixmap(label.size())
         label.target.fill(QtCore.Qt.transparent)
-
         p = QtGui.QPixmap(image).scaled(
             70, 70, QtCore.Qt.KeepAspectRatioByExpanding, QtCore.Qt.SmoothTransformation)
-
         painter = QtGui.QPainter(label.target)
         if label.Antialiasing:
             painter.setRenderHint(QtGui.QPainter.Antialiasing, True)
             painter.setRenderHint(QtGui.QPainter.HighQualityAntialiasing, True)
             painter.setRenderHint(QtGui.QPainter.SmoothPixmapTransform, True)
-
         path = QtGui.QPainterPath()
         path.addRoundedRect(
             0, 0, label.width(), label.height(), label.radius, label.radius)
-
         painter.setClipPath(path)
         painter.drawPixmap(0, 0, p)
         icon = QtGui.QIcon()
         icon.addPixmap(label.target)
         label.setIcon(icon)
-
 
     def check_opened_tickets(self):
         ''' Change tickets button icon if some are adressed to user. '''

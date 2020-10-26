@@ -1,23 +1,33 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
+
+# Import wizard gui libraries
 from gui.user_scripts_widget import Ui_Form
+from gui import build
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.user_scripts import user_scripts
-from gui import build
+
+# Import wizard widgets
 import create_user_script_widget
-import traceback
 import options_widget
 
-logger = log.pipe_log(__name__)
+# Import python base libraries
+import traceback
 
+# Init the main logger and the prefs module
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
     def __init__(self):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.connect_functions()
@@ -39,7 +49,6 @@ class Main(QtWidgets.QWidget):
 
     def create_script(self):
         self.create_user_script_widget = create_user_script_widget.Main()
-        #self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
         build.launch_normal_as_child(self.create_user_script_widget)
 
     def add_button(self, script_dic, key):
@@ -53,7 +62,6 @@ class Main(QtWidgets.QWidget):
 
     def modify_script(self, key, script_dic):
         self.create_user_script_widget = create_user_script_widget.Main([key, script_dic[key]])
-        #self.create_user_script_widget.create_signal.connect(self.refresh_scripts)
         build.launch_normal_as_child(self.create_user_script_widget)
 
     def delete_script(self, key):
@@ -77,7 +85,6 @@ class customButton(QtWidgets.QPushButton):
     def mousePressEvent(self, event):
         self.setStyleSheet("background-color: rgb(16,16,23);")
         if event.button() == QtCore.Qt.RightButton :
-            #emittion du signal rightClick
             self.show_options_menu()
         else:
             self.parent.execute_script(self.script_dic[self.key][defaults._user_script_])

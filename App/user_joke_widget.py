@@ -1,17 +1,23 @@
+# coding: utf8
+
+# Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtGui
 
+# Import wizard gui libraries
 from gui.user_joke_widget import Ui_Form
+
+# Import wizard core libraries
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.jokes import jokes
 
+# Init the main logger
 logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QDialog):
 
     def __init__(self, joke_data, joke_id):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.joke_data = joke_data
