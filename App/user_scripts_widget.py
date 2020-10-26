@@ -13,12 +13,15 @@ from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.user_scripts import user_scripts
 
+# Import wizard widgets
 import create_user_script_widget
-import traceback
 import options_widget
 
-logger = log.pipe_log(__name__)
+# Import python base libraries
+import traceback
 
+# Init the main logger and the prefs module
+logger = log.pipe_log(__name__)
 prefs = prefs()
 
 class Main(QtWidgets.QWidget):
