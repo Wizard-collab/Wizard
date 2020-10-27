@@ -33,7 +33,7 @@ class WizardPanel(bpy.types.Panel):
         c = l.column()
         c.label(text="Wizard Tools")
         c.operator(SaveFile.bl_idname, text="Save", icon_value=custom_icons["save_icon"].icon_id)
-        c.operator(PublishFile.bl_idname, text="Publish", icon_value=custom_icons["publish_icon"].icon_id)
+        # c.operator(PublishFile.bl_idname, text="Publish", icon_value=custom_icons["publish_icon"].icon_id)
 
 
 class SaveFile(bpy.types.Operator):
