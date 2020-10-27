@@ -381,8 +381,8 @@ class asset():
                     # If the file doesn't exists, copy it from the wizard install
                     # Getting the path using the "_init_file_dic_" dictionnary
                     # from the "defaults" wizard module
-                    shutil.copyfile(defaults._init_file__dic_[self.software],
-                                    self.work)
+                    shutil.copyfile(os.path.abspath(defaults._init_file__dic_[self.software],
+                                    self.work))
 
                 # As long as "Substance painter" is not scriptable
                 # Wizard get the referenced file here to launch the software
