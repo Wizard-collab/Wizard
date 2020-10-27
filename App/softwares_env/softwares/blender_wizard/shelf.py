@@ -33,7 +33,8 @@ class WizardPanel(bpy.types.Panel):
         c = l.column()
         c.label(text="Wizard Tools")
         c.operator(SaveFile.bl_idname, text="Save", icon_value=custom_icons["save_icon"].icon_id)
-        # c.operator(PublishFile.bl_idname, text="Publish", icon_value=custom_icons["publish_icon"].icon_id)
+        c.operator(PublishFile.bl_idname, text="Publish", icon_value=custom_icons["publish_icon"].icon_id)
+        c.operator(CreateExportGrp.bl_idname, text="Create Export grp", icon_value=custom_icons["export_grp_icon"].icon_id)
 
 
 class SaveFile(bpy.types.Operator):
@@ -48,9 +49,7 @@ class SaveFile(bpy.types.Operator):
 
     def execute(slef, context):
         plugin.save()
-        print("File saved.")
         return {'FINISHED'}
-
 
 class PublishFile(bpy.types.Operator):
     bl_idname = "wm.publish_file"
@@ -63,14 +62,30 @@ class PublishFile(bpy.types.Operator):
         return True
 
     def execute(slef, context):
-        print("File published.")
+        plugin.export()
         return {'FINISHED'}
+
+class CreateExportGrp(bpy.types.Operator):
+    bl_idname = "wm.create_export_grp"
+    bl_label = "Create Export Grp"
+    bl_description = "Create export group/collection. The content will be published."
+
+    @classmethod
+    def poll(cls, context):
+        '''Enable or not the button '''
+        return True
+
+    def execute(slef, context):
+        plugin.create_export_GRP()
+        return {'FINISHED'}
+
 
 custom_icons = None
 
 def register():
     bpy.utils.register_class(SaveFile)
     bpy.utils.register_class(PublishFile)
+    bpy.utils.register_class(CreateExportGrp)
     bpy.utils.register_class(WizardPanel)
     # load custom icons
     global custom_icons
@@ -78,10 +93,12 @@ def register():
     custom_icons.load("wizard_icon", defaults._wizard_icon_, 'IMAGE')
     custom_icons.load("save_icon", defaults._maya_save_icon_, 'IMAGE')
     custom_icons.load("publish_icon", defaults._maya_export_icon_, 'IMAGE')
+    custom_icons.load("export_grp_icon", defaults._maya_group_icon_, 'IMAGE')
 
 def unregister():
     bpy.utils.unregister_class(SaveFile)
     bpy.utils.unregister_class(PublishFile)
+    bpy.utils.unregister_class(CreateExportGrp)
     bpy.utils.unregister_class(WizardPanel)
     # Unload custom icons
     global custom_icons

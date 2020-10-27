@@ -119,3 +119,19 @@ Version date : 2020-10-10
 - Debug - Crash when cancelling version, playblast or export comment
 - Debug - Tabs are not movable anymore
 '''
+
+updates['0.9.7.88-b'] = '''Version updates : 0.9.7.88-b
+
+Version date : 2020-10-27
+
+- New script editor
+- New file viewer
+- User open tickets information
+- Wizard memorize the last tab
+- Blender is now working with wizard ( save + )
+- New wall appearance
+- 4K screens wrong DPI solved 
+- Debug - Refresh server on refresh ui
+- Debug - Refresh user widget on refresh ui
+- Debug - Init file relative path bug resolved
+'''

@@ -6,7 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.7.87-b'
+_wizard_version_ = '0.9.7.88-b'
 _doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -353,6 +353,7 @@ _export_icon_ = _icon_path_ + 'export_icon.png'
 _maya_save_icon_ = _icon_path_ + 'save.png'
 _maya_export_icon_ = _icon_path_ + 'maya_export.png'
 _maya_import_icon_ = _icon_path_ + 'maya_import.png'
+_maya_group_icon_ = _icon_path_ + 'maya_group_icon.png'
 _guerilla_import_icon_ = _icon_path_ + 'guerilla_import.png'
 _guerilla_reload_icon_ = _icon_path_ + 'guerilla_reload.png'
 _guerilla_export_icon_ = _icon_path_ + 'guerilla_export.png'
