@@ -307,6 +307,7 @@ _remove_pop_icon_ = _icon_path_ + 'remove_pop.gif'
 _email_flat_icon_ = _icon_path_ + 'email.png'
 _clear_icon_ = _icon_path_ + 'clear.png'
 _execute_icon_ = _icon_path_ + 'execute.png'
+_execute_sub_icon_ = _icon_path_ + 'execute_sub.png'
 _close_popup_icon_ = _icon_path_ + 'close_popup.png'
 _avatar_images_path_ = 'Data/avatars/'
 _neutral_avatar_ = _icon_path_ + 'admin.png'
@@ -349,6 +350,7 @@ _tickets_icon_ = _icon_path_ + 'tickets_icon.png'
 _show_playblast_icon_ = _icon_path_ + 'show_playblast_icon.png'
 _versions_manager_icon_ = _icon_path_ + 'versions_manager_icon.png'
 _export_icon_ = _icon_path_ + 'export_icon.png'
+_maya_save_icon_ = _icon_path_ + 'save.png'
 _maya_export_icon_ = _icon_path_ + 'maya_export.png'
 _maya_import_icon_ = _icon_path_ + 'maya_import.png'
 _guerilla_import_icon_ = _icon_path_ + 'guerilla_import.png'
@@ -392,6 +394,7 @@ _chat_file_icon_ = _icon_path_ + 'chat_file_icon.png'
 _wizard_load_image_ = _icon_path_ + 'wizard_load_image.png'
 _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
+_python_blue_icon_ = _icon_path_ + "python_blue.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -736,6 +739,8 @@ _mel_startup_ = 'maya_wizard/startup.mel'
 _guerilla_conf_file_ = 'guerilla.conf'
 _guerilla_custom_python_ = 'GUERILLA_PYTHON_LIBRARY'
 _guerilla_node_type_ = 'SceneGraphNode'
+
+_blender_startup_ = 'blender_wizard/startup.py'
 
 _script_software_env_dic_=dict()
 _script_software_env_dic_[_maya_]='PYTHONPATH'
@@ -1320,3 +1325,8 @@ _task_value_ = 'value'
 _task_signal_ = 'task_signal'
 _task_name_signal_ = 'task_name_signal'
 _task_name_ = 'task_name'
+
+# Script editor library
+_widget_key_ = 'widget'
+_name_key_ = 'name'
+_index_key_ = 'index'
