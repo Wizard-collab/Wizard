@@ -6,13 +6,13 @@ from wizard.vars import defaults
 from wizard.project import wall
 import os
 
-
 import bpy
 
 logger = log.pipe_log(__name__)
 
 prefs = prefs()
 
+global error_message
 
 def save():
     '''Save file in an incremental version.'''
@@ -58,13 +58,14 @@ def export_geo():
         bpy.ops.object.select_all(action='DESELECT')
         # add guerilla tags to mesh object - NOT SUPPORTED
         for mesh in geo_GRP.objects:
-            if bpy.data.objects[mesh].type == 'MESH':
+            if mesh.type == 'MESH':
                 # auto_tag.tagGuerillaAuto()
                 # it's a mesh so add it to selection
-                bpy.data.objects[mesh].select_set(True)
+                mesh.select_set(True)
                 pass
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+        ## ERROR next line - waiting for answers
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
         time_range = prefs.asset(asset).name.range
         export_abc(time_range, file, selected=True)
@@ -109,22 +110,38 @@ def create_export_GRP():
     logger.info('{} created.'.format(grp_name))
 
 
+def error_popup(self, context):
+    '''Builds popup window. Displays the text of the global error_message var.'''
+    global error_message
+    self.layout.label(text=error_message)
+def raise_error(message):
+    '''Takes message and call a popup window with it.'''
+    global error_message
+    error_message = message
+    bpy.context.window_manager.popup_menu(error_popup, title="Wizard Error", icon='ERROR')
+
+
 def sanity(grp):
+    '''Check if export_GRP exists and if it's not empty.'''
     grp_existence = 0
     grp_childs = 0
 
-    if bpy.data.objects.get(grp) is None:
+    if bpy.data.collections.get(grp) is not None:
         grp_existence = 1
     else:
-        logger.warning("{} missing".format(grp))
-    if grp_existence and bpy.data.collections[grp].objects >= 1:
+        raise_error('{} missing'.format(grp))
+        logger.warning('{} missing'.format(grp))
+        return 0
+    if grp_existence and len(bpy.data.collections[grp].objects) >= 1:
         grp_childs = 1
     else:
-        logger.warning("{} has no childs".format(grp))
+        raise_error('{} has no childs'.format(grp))
+        logger.warning('{} has no childs'.format(grp))
+        return 0
     if grp_existence and grp_childs:
-        logger.info('{} is clean.'.format(grp))
         return 1
     else:
+        raise_error('{} is not clean.'.format(grp))
         logger.warning('{} is not clean.'.format(grp))
         return 0
 

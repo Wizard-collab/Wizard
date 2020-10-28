@@ -47,7 +47,7 @@ class SaveFile(bpy.types.Operator):
         '''Enable or not the button '''
         return True
 
-    def execute(slef, context):
+    def execute(self, context):
         plugin.save()
         return {'FINISHED'}
 
@@ -61,7 +61,7 @@ class PublishFile(bpy.types.Operator):
         '''Enable or not the button '''
         return True
 
-    def execute(slef, context):
+    def execute(self, context):
         plugin.export()
         return {'FINISHED'}
 
@@ -75,7 +75,7 @@ class CreateExportGrp(bpy.types.Operator):
         '''Enable or not the button '''
         return True
 
-    def execute(slef, context):
+    def execute(self, context):
         plugin.create_export_GRP()
         return {'FINISHED'}
 
