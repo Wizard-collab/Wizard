@@ -2,6 +2,7 @@ import bpy
 import bpy.utils.previews
 import os
 import plugin
+import reference_asset
 from wizard.vars import defaults
 
 bl_info = {
@@ -42,11 +43,6 @@ class SaveFile(bpy.types.Operator):
     bl_label = "Save File"
     bl_description = "Save file in Wizard's hierarchy"
 
-    @classmethod
-    def poll(cls, context):
-        '''Enable or not the button '''
-        return True
-
     def execute(self, context):
         plugin.save()
         return {'FINISHED'}
@@ -56,24 +52,23 @@ class PublishFile(bpy.types.Operator):
     bl_label = "Publish File"
     bl_description = "Publish file in Wizard's hierarchy"
 
-    @classmethod
-    def poll(cls, context):
-        '''Enable or not the button '''
-        return True
-
     def execute(self, context):
         plugin.export()
+        return {'FINISHED'}
+
+class ImportAll(bpy.types.Operator):
+    bl_idname = "wm.import_all"
+    bl_label = "Import all"
+    bl_description = "Import all the references defined in Wizard."
+
+    def execute(self, context):
+        reference_asset.import_all()
         return {'FINISHED'}
 
 class CreateExportGrp(bpy.types.Operator):
     bl_idname = "wm.create_export_grp"
     bl_label = "Create Export Grp"
     bl_description = "Create export group/collection. The content will be published."
-
-    @classmethod
-    def poll(cls, context):
-        '''Enable or not the button '''
-        return True
 
     def execute(self, context):
         plugin.create_export_GRP()
