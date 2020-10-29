@@ -92,8 +92,8 @@ def import_geo():
         if asset[0].stage == defaults._geo_:
             # check if ref already linked
             if bpy.data.collections(asset[1]).library is None:
-                # linked file
-                if
+                # import file
+                bpy.ops.wm.alembic_import(filepath=asset[2])
                 # parent ref under GEO collection if
                 if bpy.data.objects.get(asset[0].export_asset) is not None:
                     bpy.data.objects[asset[0].export_asset].parent = bpy.data.collections.get('GEO')
