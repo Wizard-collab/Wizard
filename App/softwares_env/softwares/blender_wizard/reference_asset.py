@@ -4,7 +4,7 @@ from wizard.tools import log
 from wizard.vars import defaults
 from wizard.asset.reference import references
 from wizard.prefs import project as project_prefs
-from softwares.maya_wizard import create_ai_surface
+# from softwares.maya_wizard import create_ai_surface
 
 import os
 
@@ -81,7 +81,7 @@ def import_geo():
     asset_list = get_asset_list()
 
     # check ig 'GEO' collection exists
-    if not bpy.data.collections.get('GEO') is None:
+    if bpy.data.collections.get('GEO') is None:
         # create 'GEO' collection
         geo_collection = bpy.data.collections.new('GEO')
         bpy.context.scene.collection.children.link(geo_collection)
@@ -91,12 +91,30 @@ def import_geo():
         # check stage and proceed if 'geo'
         if asset[0].stage == defaults._geo_:
             # check if ref already linked
-            if bpy.data.collections(asset[1]).library is None:
+            if bpy.data.objects.get('geo_GRP') is None:
                 # import file
+                geo_GRP = bpy.data.collections.new('geo_GRP')
+                bpy.context.scene.collection.children.link(geo_GRP)
+                # deselect all
+                bpy.ops.object.select_all(action='DESELECT')
+                ############## select collection
+                bpy.data.collections[geo_GRP].select = True #### don't work
+                # import alembic
                 bpy.ops.wm.alembic_import(filepath=asset[2])
-                # parent ref under GEO collection if
-                if bpy.data.objects.get(asset[0].export_asset) is not None:
-                    bpy.data.objects[asset[0].export_asset].parent = bpy.data.collections.get('GEO')
+                # bpy.data.objects['geo_GRP'].parent = bpy.data.collections.get('geo_GRP')
+                # replace empty 'geo_GRP' by collection
+                delete_object('geo_GRP')
+                # parent ref under GEO collection
+                # if bpy.data.objects.get(asset[0].export_asset) is not None:
+                #     bpy.data.objects['geo_GRP'].parent = bpy.data.collections.get('GEO')
+
+def delete_object(object):
+    # deselect all
+    bpy.ops.object.select_all(action='DESELECT')
+    # selection
+    bpy.data.objects[object].select = True
+    # remove it
+    bpy.ops.object.delete()
 
 
 def import_anim(namespace = None):

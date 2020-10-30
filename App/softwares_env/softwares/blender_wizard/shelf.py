@@ -35,6 +35,7 @@ class WizardPanel(bpy.types.Panel):
         c.label(text="Wizard Tools")
         c.operator(SaveFile.bl_idname, text="Save", icon_value=custom_icons["save_icon"].icon_id)
         c.operator(PublishFile.bl_idname, text="Publish", icon_value=custom_icons["publish_icon"].icon_id)
+        c.operator(ImportAll.bl_idname, text="Import", icon_value=custom_icons["import_icon"].icon_id)
         c.operator(CreateExportGrp.bl_idname, text="Create Export grp", icon_value=custom_icons["export_grp_icon"].icon_id)
 
 
@@ -80,6 +81,7 @@ custom_icons = None
 def register():
     bpy.utils.register_class(SaveFile)
     bpy.utils.register_class(PublishFile)
+    bpy.utils.register_class(ImportAll)
     bpy.utils.register_class(CreateExportGrp)
     bpy.utils.register_class(WizardPanel)
     # load custom icons
@@ -88,11 +90,13 @@ def register():
     custom_icons.load("wizard_icon", defaults._wizard_icon_, 'IMAGE')
     custom_icons.load("save_icon", defaults._maya_save_icon_, 'IMAGE')
     custom_icons.load("publish_icon", defaults._maya_export_icon_, 'IMAGE')
+    custom_icons.load("import_icon", defaults._maya_import_icon_, 'IMAGE')
     custom_icons.load("export_grp_icon", defaults._maya_group_icon_, 'IMAGE')
 
 def unregister():
     bpy.utils.unregister_class(SaveFile)
     bpy.utils.unregister_class(PublishFile)
+    bpy.utils.unregister_class(ImportAll)
     bpy.utils.unregister_class(CreateExportGrp)
     bpy.utils.unregister_class(WizardPanel)
     # Unload custom icons
