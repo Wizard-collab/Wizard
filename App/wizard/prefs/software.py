@@ -99,7 +99,7 @@ class software:
             settings = self.database.read(2, settings_file)
             return settings
         else:
-            logger.warning('No setup for this software : {}'.format(self.software))
+            logger.debug('No setup for this software : {}'.format(self.software))
             return None
 
     def get_path(self):

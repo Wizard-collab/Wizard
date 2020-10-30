@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QFileDialog
 from gui.preferences import Ui_Form
@@ -6,8 +6,11 @@ from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.user import user
+from wizard.prefs.site import site
 from wizard.prefs.main import prefs
 from playsound import playsound
+import ui_recover_password
+from wizard.tools import password as pwd
 
 logger = log.pipe_log(__name__)
 
@@ -26,6 +29,13 @@ class Main(QtWidgets.QWidget):
         self.init_windows_prefs()
         self.connect_buttons()
         self.set_icons()
+        self.init_listWidget()
+        self.init_show_pass_icon()
+
+    def init_listWidget(self):
+        self.ui.preferences_ui_listWidget.FocusPolicy = QtCore.Qt.NoFocus
+        self.ui.preferences_ui_listWidget.setCurrentRow(0)
+        self.ui.preferences_ui_listWidget.currentRowChanged.connect(self.ui.stackedWidget.setCurrentIndex)
 
     def init_windows_prefs(self):
         self.init_screen_prefs()
@@ -46,10 +56,9 @@ class Main(QtWidgets.QWidget):
         local_project_path = prefs.local_project_path
         shutter = prefs.shutter
         server_ip = prefs.server_ip
-        logger.info(local_project_path)
         self.ui.versions_updates_checkBox.setChecked(show_updates)
-        self.ui.new_version_checkBox.setChecked(show_new_version)
-        self.ui.error_handler_checkBox.setChecked(1-show_error_handler)
+        #self.ui.new_version_checkBox.setChecked(show_new_version)
+        #self.ui.error_handler_checkBox.setChecked(1-show_error_handler)
         self.ui.local_project_path_lineEdit.setText(local_project_path)
         self.ui.shutter_checkBox.setChecked(shutter)
         self.ui.preferences_server_ip_lineEdit.setText(server_ip)
@@ -138,14 +147,10 @@ class Main(QtWidgets.QWidget):
 
     def set_general_prefs(self):
         show_updates = self.ui.versions_updates_checkBox.isChecked()
-        show_new_version = self.ui.new_version_checkBox.isChecked()
-        show_error_handler = self.ui.error_handler_checkBox.isChecked()
         local_project_path = self.ui.local_project_path_lineEdit.text()
         shutter = self.ui.shutter_checkBox.isChecked()
         server_ip = self.ui.preferences_server_ip_lineEdit.text()
         prefs.set_show_updates(show_updates)
-        prefs.set_show_new_version(show_new_version)
-        prefs.set_show_error_handler(1-show_error_handler)
         prefs.set_local_project_path(local_project_path)
         prefs.set_shutter(shutter)
         prefs.set_server_ip(server_ip)
@@ -161,3 +166,64 @@ class Main(QtWidgets.QWidget):
         self.ui.popup_sounds_comboBox.currentIndexChanged.connect(self.play_popup_sound)
         self.ui.screens_comboBox.currentIndexChanged.connect(self.move_main_ui)
         self.ui.local_folder_pushButton.clicked.connect(self.open_local_path_finder)
+        self.ui.change_password_pushButton.clicked.connect(self.change)
+        self.ui.confirm_lineEdit.textChanged.connect(self.check_confirm)
+        self.ui.new_lineEdit.textChanged.connect(self.check_confirm)
+        self.ui.show_pass_pushButton.clicked.connect(self.show_passwords)
+        self.ui.recover_pushButton.clicked.connect(self.recover)
+
+    def init_show_pass_icon(self):
+            self.show_pw = 0
+            self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._hide_icon_))
+            self.ui.show_pass_pushButton.setIconSize(QtCore.QSize(15, 15))
+
+    def change(self):
+        old_pass = self.ui.old_lineEdit.text()
+        user = self.user.get_user()
+        if not site().password_check(user, old_pass):
+            logger.error('Wrong password...')
+        elif not self.check_confirm():
+            logger.error("Passwords doesn't matches...")
+        else:
+            QApplication.processEvents()
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+            self.ui.change_password_pushButton.setText('Changing password...')
+            QApplication.processEvents()
+            new_pass = self.ui.new_lineEdit.text()
+            encrypted_pass = pwd.encrypt(new_pass)
+            site().change_user_password(user, encrypted_pass)
+            QApplication.processEvents()
+            logger.info('Password changed !')
+            QApplication.processEvents()
+            self.ui.change_password_pushButton.setText('Password changed !')
+            QApplication.processEvents()
+            QApplication.restoreOverrideCursor()
+            QApplication.processEvents()
+
+    def recover(self):
+        self.ui_recover_password = ui_recover_password.Main(self)
+        build.launch_dialog_as_child(self.ui_recover_password)
+
+    def show_passwords(self):
+        if self.show_pw == 0:
+            self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._show_icon_))
+            self.show_pw = 1
+        else:
+            self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._hide_icon_))
+            self.show_pw = 0
+
+    def check_confirm(self):
+        password = self.ui.new_lineEdit.text()
+        confirm = self.ui.confirm_lineEdit.text()
+        if confirm != password:
+            self.ui.confirm_lineEdit.setStyleSheet('border:1px solid Red;')
+            return 0
+        else:
+            self.ui.confirm_lineEdit.setStyleSheet('border:1px solid Green;')
+            return 1

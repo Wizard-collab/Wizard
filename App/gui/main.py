@@ -562,7 +562,6 @@ class Ui_Wizard(object):
         self.menuUser.addAction(self.actionNew_2)
         self.menuUser.addAction(self.actionChange)
         self.menuUser.addAction(self.actionUnlog)
-        self.menuUser.addAction(self.actionSettings_2)
         self.menuUser.addSeparator()
         self.menuHelp.addAction(self.actionContact)
         self.menuHelp.addAction(self.actionLast_updates)

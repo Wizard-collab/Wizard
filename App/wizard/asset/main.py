@@ -12,7 +12,6 @@ from wizard.vars import defaults
 
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
-from wizard.signal import send_signal
 # Creates the main logger
 logger = log.pipe_log(__name__)
 

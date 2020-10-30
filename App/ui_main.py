@@ -47,7 +47,6 @@ import dialog_projects
 import dialog_new_user
 import dialog_users
 import dialog_contact
-import dialog_change_password
 import log_widget
 import popup
 import preferences_ui
@@ -83,6 +82,7 @@ import tickets_widget
 import task_progress_info_widget
 import ui_about
 import ui_project_workflow
+import ui_project_preferences
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -1202,13 +1202,6 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def change_password(self):
-        try:
-            self.dialog_change_password = dialog_change_password.Main()
-            build.launch_dialog_as_child(self.dialog_change_password)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
     def show_popup(self):
         try:
             popup.popup().creation_pop()
@@ -1327,8 +1320,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def show_workflow(self):
         try:
-            self.ui_workflow = ui_workflow.Main()
-            build.launch_normal_as_child(self.ui_workflow)
+            self.ui_project_preferences = ui_project_preferences.Main()
+            build.launch_normal_as_child(self.ui_project_preferences)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1442,7 +1435,6 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionWizard_API.triggered.connect(self.launch_docs)
             self.ui.actionLast_updates.triggered.connect(lambda:self.show_updates(force=1))
             self.ui.actionPreferences.triggered.connect(self.launch_preferences_ui)
-            self.ui.actionSettings_2.triggered.connect(self.change_password)
             self.ui.actionSoftwares.triggered.connect(self.launch_software_prefs_ui)
             self.ui.actionNew.triggered.connect(self.new_project)
             self.ui.actionOpen.triggered.connect(self.open_project)

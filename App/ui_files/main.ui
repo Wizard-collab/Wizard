@@ -1407,7 +1407,6 @@
     <addaction name="actionNew_2"/>
     <addaction name="actionChange"/>
     <addaction name="actionUnlog"/>
-    <addaction name="actionSettings_2"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">

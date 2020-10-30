@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QApplication
 
 # Import wizard gui libraries
 from gui.recover_password import Ui_Dialog
-from gui import log_to_gui
 
 # Import wizard core libraries
 from wizard.prefs.user import user
@@ -30,8 +29,6 @@ class Main(QtWidgets.QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.connect_functions()
-        self.qtHandler = log_to_gui.log_viewer(self.ui)
-        logger.main_logger.addHandler(self.qtHandler)
         self.update_users()
 
     def connect_functions(self):
@@ -66,11 +63,9 @@ class Main(QtWidgets.QDialog):
             QApplication.processEvents()
             new_pwd = pwd.recover(user, email)
             if new_pwd:
-                self.site.change_user_password(user, encrypted)
+                self.site.change_user_password(user, new_pwd)
                 QApplication.processEvents()
                 logger.info('We sent you a new password by email!')
-                QApplication.processEvents()
                 QApplication.restoreOverrideCursor()
-                time.sleep(1)
                 QApplication.processEvents()
                 self.accept()

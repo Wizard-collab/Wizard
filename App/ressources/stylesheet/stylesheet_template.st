@@ -1341,25 +1341,33 @@ QListView::item {
 	margin: 1px;
 	background-color:rgba(255,255,255,4);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:hover {
 	padding:3px;
-	background-color: rgb(_tree_hover_item_color_);
+	background-color: rgba(_top_level_widget_color_, 100);
 	border-radius:0px;	
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:selected {
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:selected:active{
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QComboBox::drop-down:hover, QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDateTimeEdit::up-button:hover, QDateTimeEdit::down-button:hover
