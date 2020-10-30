@@ -727,7 +727,15 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	background-color: rgba(_top_level_widget_color_, 200);
 	margin : 0px;
 	border-radius:10px;
+	border-top-right-radius:0px;
 	border-top-left-radius:0px;
+}
+
+#wall_event_top_frame{
+	margin : 0px;
+	border-radius:10px;
+	border-bottom-right-radius:0px;
+	border-bottom-left-radius:0px;
 }
 
 #color_id_frame{
@@ -780,9 +788,10 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #popup_background_frame{
-	background-color : rgba(_middle_level_widget_color_, 245);
+	background-color : rgb(_top_level_widget_color_);
 	padding : 0px;
 	margin : 0px;
+	border-radius: 15px;
 }
 
 #save_popup_frame{

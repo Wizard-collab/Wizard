@@ -31,8 +31,10 @@ class Main(QtWidgets.QWidget):
         self.update_icon()
         self.connect_functions()
         self.script_dic = script_dic
+        self.edit = None
         if self.script_dic:
             self.fill_ui()
+            self.edit = 1
             self.ui.create_user_script_tittle_label.setText("Modify script")
         if new_script:
             self.ui.script_editor.setText(new_script)
@@ -51,9 +53,16 @@ class Main(QtWidgets.QWidget):
     def create(self):
         name = self.ui.script_name_lineEdit.text()
         script = self.ui.script_editor.text().decode('utf-8')
-        user_scripts().create_user_script(name, self.icon, script)
-        send_signal.refresh_signal()
-        self.hide()
+        if name != '':
+            logger.info(user_scripts().get_scripts_as_dic())
+            if name in user_scripts().get_scripts_as_dic()[defaults._user_scripts_].keys() and not self.edit:
+                logger.warning(f'{name} already exists')
+            else:
+                user_scripts().create_user_script(name, self.icon, script)
+                send_signal.refresh_signal()
+                self.hide()
+        else:
+            logger.warning('Please enter a script name')
 
     def select_icon(self):
         self.icons_list_dialog = icons_list_dialog.Main()

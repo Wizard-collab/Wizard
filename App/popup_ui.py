@@ -39,12 +39,14 @@ class popup(QtWidgets.QWidget):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.hideAnimation)
 
+        '''
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(8)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
+        '''
 
     def setup_infos(self):
         if self.image.split('.')[-1] == 'gif':

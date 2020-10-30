@@ -189,7 +189,7 @@ class run_subprocess(QThread):
         self.outThread.percent_signal.connect(self.percent_signal.emit)
         while not (self.process.poll() == 0 or self.stop):
             QApplication.processEvents()
-            time.sleep(0.1)
+            #time.sleep(0.1)
         self.outThread.quit()
         self.errThread.quit()
 

@@ -16,6 +16,7 @@ from wizard.asset.folder import folder
 from wizard.vars import defaults
 from wizard.project.wall import wall
 from wizard.nodes import core as nodes
+from wizard.signal import send_signal
 
 # Creating the main logger
 logger = log.pipe_log(__name__)
@@ -60,7 +61,8 @@ def create_category(asset):
 
             # Emit the event with the "wall" module ( from wizard )
             wall().create_event(asset)
-
+            send_signal.refresh_signal()
+            
             # Return the success
             return 1
         else:
@@ -136,6 +138,7 @@ def create_name(asset, in_out=None):
 
                 # Create the wall event
                 wall().create_event(asset)
+                send_signal.refresh_signal()
 
                 # Return the success
                 return 1
@@ -172,6 +175,7 @@ def remove_name(asset):
 
             # Create the "wall" event using the wizard "wall" module
             wall().remove_event(asset)
+            send_signal.refresh_signal()
 
             # Return the success to the user
             return 1
@@ -214,7 +218,6 @@ def create_stage(asset):
                 # Init the asset stage prefs
                 prefs.asset(asset).stage.write()
 
-
                 # Return and log the success to user
                 logger.debug('Stage {} added to asset.wd'.format(asset.stage))
                 return 1
@@ -253,6 +256,7 @@ def remove_stage(asset):
 
             # Create the "wall" event using the wizard "wall" module
             wall().remove_event(asset)
+            send_signal.refresh_signal()
 
             # Return the success to the user
             return 1
@@ -325,7 +329,8 @@ def create_variant(asset):
 
                         # Create the wall event with the "wall" wizard module
                         wall().create_event(asset)
-
+                        send_signal.refresh_signal()
+                        
                         # Return the success
                         return 1
                     else:

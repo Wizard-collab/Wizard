@@ -1387,7 +1387,7 @@
      <x>0</x>
      <y>0</y>
      <width>1700</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProject">
@@ -1398,6 +1398,7 @@
     <addaction name="actionOpen"/>
     <addaction name="actionMerge"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionWorkflow"/>
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
@@ -1552,6 +1553,11 @@
   <action name="actionPyWizard">
    <property name="text">
     <string>PyWizard</string>
+   </property>
+  </action>
+  <action name="actionWorkflow">
+   <property name="text">
+    <string>Workflow</string>
    </property>
   </action>
  </widget>

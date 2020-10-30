@@ -12,6 +12,7 @@ from wizard.vars import defaults
 
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
+from wizard.signal import send_signal
 # Creates the main logger
 logger = log.pipe_log(__name__)
 
@@ -381,8 +382,8 @@ class asset():
                     # If the file doesn't exists, copy it from the wizard install
                     # Getting the path using the "_init_file_dic_" dictionnary
                     # from the "defaults" wizard module
-                    shutil.copyfile(os.path.abspath(defaults._init_file__dic_[self.software],
-                                    self.work))
+                    shutil.copyfile(os.path.abspath(defaults._init_file__dic_[self.software]),
+                                    self.work)
 
                 # As long as "Substance painter" is not scriptable
                 # Wizard get the referenced file here to launch the software

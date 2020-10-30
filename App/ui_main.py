@@ -82,6 +82,7 @@ import user_scripts_widget
 import tickets_widget
 import task_progress_info_widget
 import ui_about
+import ui_project_workflow
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -153,6 +154,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.go_to_tab()
             self.connect_functions()
             self.init_local_server()
+            self.first_tab_refresh()
             
         except:
             logger.critical(str(traceback.format_exc()))
@@ -181,7 +183,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.asset_item_changed()
             self.user_widget.refresh_widget()
             self.user_scripts_widget.refresh_scripts()
-            self.refresh_server(0)
+            #self.refresh_server(0)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -589,6 +591,14 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 self.tickets_widget.refresh_all(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def first_tab_refresh(self):
+        self.node_editor_widget.refresh_scene(self.asset)
+        self.reference_list_widget.refresh_scene(self.asset)
+        self.exports_widget.refresh_all(self.asset)
+        self.playblasts_widget.refresh_all(self.asset)
+        self.versions_manager_widget.refresh_all(self.asset)
+        self.tickets_widget.refresh_all(self.asset)
 
     def go_to_tab(self, tab = None):
         try:
@@ -1354,6 +1364,13 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def show_project_workflow(self):
+        try:
+            self.ui_project_workflow = ui_project_workflow.Main()
+            build.launch_normal_as_child(self.ui_project_workflow)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
     def show_process_manager(self):
         try:
             self.ui_subprocess_manager = ui_subprocess_manager.Main()
@@ -1441,6 +1458,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionProcess_manager.triggered.connect(self.show_process_manager)
             self.ui.actionLast_version.triggered.connect(self.show_version_manager)
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
+            self.ui.actionWorkflow.triggered.connect(self.show_project_workflow)
         except:
             logger.critical(str(traceback.format_exc()))
 

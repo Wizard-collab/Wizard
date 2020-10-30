@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Script\Wizard\App\ui_files\main.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -495,7 +495,7 @@ class Ui_Wizard(object):
         self.verticalLayout.addLayout(self.horizontalLayout_8)
         Wizard.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Wizard)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1700, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1700, 26))
         self.menubar.setObjectName("menubar")
         self.menuProject = QtWidgets.QMenu(self.menubar)
         self.menuProject.setObjectName("menuProject")
@@ -552,10 +552,13 @@ class Ui_Wizard(object):
         self.actionProcess_manager.setObjectName("actionProcess_manager")
         self.actionPyWizard = QtWidgets.QAction(Wizard)
         self.actionPyWizard.setObjectName("actionPyWizard")
+        self.actionWorkflow = QtWidgets.QAction(Wizard)
+        self.actionWorkflow.setObjectName("actionWorkflow")
         self.menuProject.addAction(self.actionNew)
         self.menuProject.addAction(self.actionOpen)
         self.menuProject.addAction(self.actionMerge)
         self.menuProject.addAction(self.actionSettings)
+        self.menuProject.addAction(self.actionWorkflow)
         self.menuUser.addAction(self.actionNew_2)
         self.menuUser.addAction(self.actionChange)
         self.menuUser.addAction(self.actionUnlog)
@@ -631,6 +634,7 @@ class Ui_Wizard(object):
         self.actionLast_version.setText(_translate("Wizard", "Versions"))
         self.actionProcess_manager.setText(_translate("Wizard", "Process manager"))
         self.actionPyWizard.setText(_translate("Wizard", "PyWizard"))
+        self.actionWorkflow.setText(_translate("Wizard", "Workflow"))
 
 
 if __name__ == "__main__":
