@@ -7,7 +7,8 @@ import time
 import inspect
 import random
 import copy
-import webbrowser 
+import webbrowser
+import sys
 
 # Importing PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -37,6 +38,7 @@ from wizard.signal.signal_server import signal_server
 from wizard.prefs.user_scripts import user_scripts
 from wizard.user_scripts import user_scripts_library
 from wizard import api
+from wizard.tools.batch_asset_creation import batch_asset_creation
 
 # Importing wizard widgets
 import dialog_new_variant
@@ -132,6 +134,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_wall_widget()
             self.init_main_refresh_button()
             self.init_user_scripts_widget()
+            self.init_sandbox_button()
 
             # Init vars
             self.prefs = prefs
@@ -197,6 +200,12 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.ui.refresh_pushButton.setIcon(QtGui.QIcon(defaults._refresh_icon_))
             self.ui.refresh_pushButton.clicked.connect(lambda:self.update_tree(0))
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def init_sandbox_button(self):
+        try:
+            self.ui.sandbox_pushButton.setIcon(QtGui.QIcon(defaults._sandbox_icon_))
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -853,14 +862,21 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def create(self, item, in_out=None):
         try:
-            logger.info('Creating asset...')
-            QApplication.processEvents()
             self.refresh_asset(item)
-            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+            '''
             created = self.selected_asset.create(in_out)
             QApplication.restoreOverrideCursor()
             if not created:
                 tree_get.remove_item(item)
+            '''
+            file = batch_asset_creation(self.selected_asset, in_out)
+            env = os.environ.copy()
+            python_system = 'pywizard'
+            if sys.argv[0].endswith('.py'):
+                python_system = 'python'
+            self.ui_subprocess_manager = ui_subprocess_manager.Main(f"{python_system} {file}", env, cwd=os.path.abspath(''))
+            build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
+
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1259,6 +1275,14 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def open_sandbox(self):
+        try:
+            if not os.path.isdir(self.asset.sandbox):
+                os.makedirs(self.asset.sandbox)
+            os.startfile(self.asset.sandbox)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
     def steal_asset(self):
         try:
             locker_user = self.asset_prefs.software.get_lock
@@ -1427,6 +1451,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.comment_pushButton.clicked.connect(self.comment)
             self.ui.pin_pushButton.clicked.connect(self.toggle_pin)
             self.ui.open_folder_pushButton.clicked.connect(self.open_folder)
+            self.ui.sandbox_pushButton.clicked.connect(self.open_sandbox)
             self.ui.launch_pushButton.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
             self.ui.launch_pushButton.customContextMenuRequested.connect(self.launch_options_widget)
             self.ui.main_tabWidget.currentChanged.connect(self.main_tab_changed)
@@ -1434,8 +1459,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionGitHub.triggered.connect(self.show_git)
             self.ui.actionWizard_API.triggered.connect(self.launch_docs)
             self.ui.actionLast_updates.triggered.connect(lambda:self.show_updates(force=1))
-            self.ui.actionPreferences.triggered.connect(self.launch_preferences_ui)
-            self.ui.actionSoftwares.triggered.connect(self.launch_software_prefs_ui)
+            self.ui.actionPreferences_2.triggered.connect(self.launch_preferences_ui)
             self.ui.actionNew.triggered.connect(self.new_project)
             self.ui.actionOpen.triggered.connect(self.open_project)
             self.ui.actionMerge.triggered.connect(self.merge_project)
@@ -1450,7 +1474,6 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionProcess_manager.triggered.connect(self.show_process_manager)
             self.ui.actionLast_version.triggered.connect(self.show_version_manager)
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
-            self.ui.actionWorkflow.triggered.connect(self.show_project_workflow)
         except:
             logger.critical(str(traceback.format_exc()))
 

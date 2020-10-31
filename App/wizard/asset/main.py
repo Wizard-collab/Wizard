@@ -4,6 +4,9 @@
 import os
 import shutil
 import traceback
+import sys
+import time
+
 # Wizard modules
 from wizard.asset import builder as build
 from wizard.asset.folder import folder
@@ -135,6 +138,14 @@ class asset():
             return folder(self).domain
 
     @property
+    def sandbox(self):
+
+        # Return the asset folder
+        # in function of which variables are declared in the asset
+        if self.stage:
+            return folder(self).sandbox
+
+    @property
     def image(self):
 
         # Get the asset screenshot with the "prefs" wizard module
@@ -167,10 +178,15 @@ class asset():
             self.export_version = None
 
 
-    def create(self, in_out=None):
+    def create(self, in_out=None, batch=None):
         # Call the "stats" wizard object
         # To interact with it
         stats_prefs = stats()
+
+        print(f'current_task:Creating {self.domain} - {self.category} - {self.name} - {self.stage} - {self.variant}')
+        print('current_status:Starting...')
+        print('percent:0')
+        sys.stdout.flush()
 
         # Check if a category was given to the "asset" class
         # Check if a name was given to the "asset" class
@@ -190,6 +206,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0
@@ -204,6 +223,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0
@@ -223,6 +245,9 @@ class asset():
                     stats_prefs.add_xp(20)
 
                     # Return the succeed of the "build" wizard function
+                    print('percent:100')
+                    sys.stdout.flush()
+                    time.sleep(0.1)
                     return 1
                 else:
                     return 0
@@ -237,6 +262,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0

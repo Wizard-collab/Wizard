@@ -1307,9 +1307,9 @@ QTextEdit{
 
 QComboBox::drop-down, QSpinBox::up-button, QSpinBox::down-button, QDateTimeEdit::up-button, QDateTimeEdit::down-button
 {
-     width: 15px;
-     color: rgb(_text_color_);
-     padding-left: 10px;
+    width: 15px;
+    color: rgb(_text_color_);
+    padding-left: 10px;
 	background-color: rgb(_low_level_widget_color_);
  }
 QComboBox::down-arrow {
@@ -1329,7 +1329,7 @@ QSpinBox::down-arrow,  QDateTimeEdit::down-arrow {
 QSpinBox::up-arrow,  QDateTimeEdit::up-arrow {
     border: 0px;
     background-repeat: no-repeat;
-    image: url(ressources/images/up_arrow.png);
+    image: url(ressources/images/tree_up_arrow.png);
 	width:20px;
 	padding-right:9px;
 }

@@ -217,7 +217,7 @@ class Main(QtWidgets.QWidget):
 
         file = utils.temp_file_from_command(self.get_code())
         env = os.environ.copy()
-        self.ui_subprocess_manager = ui_subprocess_manager.Main(f"PyWizard {file}", env)
+        self.ui_subprocess_manager = ui_subprocess_manager.Main(f"python {file}", env, cwd=os.path.abspath(''))
         build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 0)
 
     def run_py(self, all=None):

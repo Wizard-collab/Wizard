@@ -167,6 +167,7 @@ _user_script_name_ = 'name'
 _user_script_image_ = 'image'
 _user_script_ = 'script'
 _user_scripts_ = 'scripts'
+_subprocess_ = 'subprocess'
 
 # Asset stages list
 _assets_stages_ = [_design_,
@@ -243,6 +244,7 @@ _error_ = 'error'
 #_light_rigs_ = 'light_rigs'
 
 _make_tx_ = 'ressources/plugins/maketx/maketx.exe'
+_sandbox_ = '_SANDBOX'
 
 #subprocess manager library
 _percent_signal_ = 'percent:'
@@ -395,6 +397,7 @@ _wizard_load_image_ = _icon_path_ + 'wizard_load_image.png'
 _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
+_sandbox_icon_ = _icon_path_ + "sandbox.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -969,6 +972,7 @@ _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
+_project_script_file_ = 'scripts.yaml'
 _user_custom_scripts_path_ = _user_path_ + 'scripts'
 _user_custom_icons_ = _user_path_ + 'custom_icons'
 _wall_ = 'wall.log'

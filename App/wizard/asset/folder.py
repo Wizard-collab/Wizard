@@ -230,6 +230,25 @@ class folder():
         else:
             return 0
 
+    @property
+    def sandbox(self):
+
+        # Check if the requested part is assigned to the "asset" object
+        if self.asset.software:
+
+            # Build the path and return it
+            path = os.path.join(
+                self.asset.project,
+                self.asset.domain,
+                self.asset.category,
+                self.asset.name,
+                self.asset.stage,
+                self.asset.variant,
+                defaults._sandbox_)
+            return path
+        else:
+            return 0
+
     def is_software(self):
 
         # Check if the requested software folder is existing

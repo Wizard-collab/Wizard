@@ -2,6 +2,7 @@
 
 # Import PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtWidgets import QApplication
 
 # Import wizard gui libraries
 from gui.project_preferences import Ui_Form
@@ -14,15 +15,20 @@ from wizard.prefs.main import prefs
 from wizard.prefs import project as project_prefs
 from wizard.prefs import software as software_prefs
 from wizard.vars import softwares
+from wizard.prefs.site import site
+from wizard.tools import password as pwd
+from wizard.tools import utility as utils
 
 # Import wizard widgets
 import project_widget
 
 # Import python base libraries
 import sys
+import os
 
 # Init main logger
 logger = log.pipe_log(__name__)
+prefs = prefs()
 
 ICON_SIZE = 18
 
@@ -39,6 +45,23 @@ class Main(QtWidgets.QWidget):
         self.refresh_ui()
         self.connect_functions()
         self.fill_workflow_ui()
+        self.init_show_pass_icon()
+        self.fill_project_infos()
+
+    def fill_project_infos(self):
+        site_path = os.environ[defaults._wizard_site_]
+        project_path = prefs.project_path
+        project_name = prefs.project_name
+        project_size = 0
+        start_path = project_path  # To get size of current directory
+        for path, dirs, files in os.walk(start_path):
+            for f in files:
+                fp = os.path.join(path, f)
+                project_size += os.path.getsize(fp)
+        self.ui.site_path_label.setText(site_path)
+        self.ui.project_path_label.setText(project_path)
+        self.ui.project_name_label.setText(project_name)
+        self.ui.project_size_label.setText(str(utils.convert_size(project_size)))
 
     def init_listWidget(self):
         self.ui.preferences_ui_listWidget.FocusPolicy = QtCore.Qt.NoFocus
@@ -123,6 +146,61 @@ class Main(QtWidgets.QWidget):
     def connect_functions(self):
         self.ui.setup_softwares_comboBox.currentIndexChanged.connect(self.refresh_ui)
         self.ui.save_setup_pushButton.clicked.connect(self.update_prefs)
+        self.ui.change_password_pushButton.clicked.connect(self.change)
+        self.ui.confirm_lineEdit.textChanged.connect(self.check_confirm)
+        self.ui.new_lineEdit.textChanged.connect(self.check_confirm)
+        self.ui.show_pass_pushButton.clicked.connect(self.show_passwords)
+
+    def init_show_pass_icon(self):
+        self.show_pw = 0
+        self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._hide_icon_))
+        self.ui.show_pass_pushButton.setIconSize(QtCore.QSize(15, 15))
+
+    def change(self):
+        old_pass = self.ui.old_lineEdit.text()
+        project = prefs.project_name
+        if not site().project_password_check(project, old_pass):
+            logger.error('Wrong password...')
+        elif not self.check_confirm():
+            logger.error("Passwords doesn't matches...")
+        else:
+            QApplication.processEvents()
+            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+            self.ui.change_password_pushButton.setText('Changing password...')
+            QApplication.processEvents()
+            new_pass = self.ui.new_lineEdit.text()
+            encrypted_pass = pwd.encrypt(new_pass)
+            site().change_project_password(project, encrypted_pass)
+            QApplication.processEvents()
+            logger.info('Password changed !')
+            QApplication.processEvents()
+            self.ui.change_password_pushButton.setText('Password changed !')
+            QApplication.processEvents()
+            QApplication.restoreOverrideCursor()
+
+    def show_passwords(self):
+        if self.show_pw == 0:
+            self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._show_icon_))
+            self.show_pw = 1
+        else:
+            self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._hide_icon_))
+            self.show_pw = 0
+
+    def check_confirm(self):
+        password = self.ui.new_lineEdit.text()
+        confirm = self.ui.confirm_lineEdit.text()
+        if confirm != password:
+            self.ui.confirm_lineEdit.setStyleSheet('border:1px solid Red;')
+            return 0
+        else:
+            self.ui.confirm_lineEdit.setStyleSheet('border:1px solid Green;')
+            return 1
 
     def fill_workflow_ui(self):
         self.ui.p_w_modeling_label.setPixmap(

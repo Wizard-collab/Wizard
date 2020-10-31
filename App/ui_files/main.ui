@@ -475,6 +475,25 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="sandbox_pushButton">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -1398,7 +1417,6 @@
     <addaction name="actionOpen"/>
     <addaction name="actionMerge"/>
     <addaction name="actionSettings"/>
-    <addaction name="actionWorkflow"/>
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
@@ -1408,6 +1426,7 @@
     <addaction name="actionChange"/>
     <addaction name="actionUnlog"/>
     <addaction name="separator"/>
+    <addaction name="actionPreferences_2"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1417,13 +1436,6 @@
     <addaction name="actionLast_updates"/>
     <addaction name="separator"/>
     <addaction name="actionWizard_API"/>
-   </widget>
-   <widget class="QMenu" name="menuSOftware">
-    <property name="title">
-     <string>Settings</string>
-    </property>
-    <addaction name="actionSoftwares"/>
-    <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuWizard">
     <property name="title">
@@ -1445,7 +1457,6 @@
    <addaction name="menuWizard"/>
    <addaction name="menuProject"/>
    <addaction name="menuUser"/>
-   <addaction name="menuSOftware"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -1557,6 +1568,11 @@
   <action name="actionWorkflow">
    <property name="text">
     <string>Workflow</string>
+   </property>
+  </action>
+  <action name="actionPreferences_2">
+   <property name="text">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>
