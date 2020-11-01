@@ -6,6 +6,8 @@ from wizard.asset.reference import references
 from wizard.prefs import project as project_prefs
 # from softwares.maya_wizard import create_ai_surface
 
+import tools
+
 import os
 
 import bpy
@@ -96,88 +98,44 @@ def build_blender_geo_ref_file():
     # save file
     # quit
 
+#
+# def import_alembic():
+#     # link references
+#     for asset in asset_list:
+#         # check stage and proceed if 'geo'
+#         if asset[0].stage == defaults._geo_:
+#             # check if ref already linked
+#             asset_group = 'geo_GRP'
+#             if bpy.data.collections.get(asset_group) is not None:
+#                 bpy.data.collections.remove(bpy.data.collections[asset_group])
+#                 ########## /!\ THE NEXT COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+#                 ##
+#                 ##
+#                 bpy.data.orphans_purge()
+#                 ##
+#                 ##
+#                 ########## /!\ THE PREVIOUS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+#             # import alembic
+#             bpy.ops.wm.alembic_import(filepath=asset[2])
+#             # convert Maya groups to collectons
+#             return bpy.data.objects.get(asset_group)
 
-def import_alembic():
-    # link references
-    for asset in asset_list:
-        # check stage and proceed if 'geo'
-        if asset[0].stage == defaults._geo_:
-            # check if ref already linked
-            asset_group = 'geo_GRP'
-            if bpy.data.collections.get(asset_group) is not None:
-                bpy.data.collections.remove(bpy.data.collections[asset_group])
-                ########## /!\ THE NEXT COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
-                ##
-                ##
-                bpy.data.orphans_purge()
-                ##
-                ##
-                ########## /!\ THE PREVIOUS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
-            # import alembic
-            bpy.ops.wm.alembic_import(filepath=asset[2])
-            # convert Maya groups to collectons
-            root = bpy.data.objects.get(asset_group)
-            replace_maya_grp_by_collection(root)
+def import_alembic(filepath):
 
-
-def replace_maya_grp_by_collection(root, namespace):
-    '''
-    Detect all Maya groups base on pattern ('EMPTY' type node with '_grp' extension),
-    stores datas and rebuilds hierarchy with Blender's node type Collection.
-    Inverse of replace_blender_collection_by_maya_grp().
-    '''
-    all_objects = list(bpy.context.scene.objects)
-    maya_grp = []
-    blender_grp = []
-    for object in all_objects:
-        if object.name.endswith('_grp') or object.name.endswith('_GRP') and object.type == 'EMPTY':
-            object_data = {'name': object.name, 'parent': object.parent}
-            maya_grp.append(object_data)
-    # create all new collections
-    for group in maya_grp:
-        new_coll = bpy.data.collections.new(group['name'])
-        bpy.context.scene.collection.children.link(new_coll)
-        blender_grp.append(new_coll)
-    # parent all collections under its parent
-    for collection in blender_grp:
-        for group in maya_grp:
-            if collection.name == group['name']:
-                if group['parent'] is None:
-                    continue
-                parent = group['parent'].name
-                bpy.data.collections[parent].children.link(collection)
-                bpy.context.scene.collection.children.unlink(collection)
-    # reorder object in hierarchy
-    for object in maya_grp:
-        for children in bpy.data.objects[object['name']].children:
-            if children.name.endswith('_grp') or children.name.endswith('_GRP') or children.name.endswith('Shape') or children.type == 'EMPTY':
-                continue
-            children.parent = None
-            parent = children.parent
-            old_coll = children.users_collection
-            bpy.data.collections[object['name']].objects.link(children)
-            for coll in old_coll:
-                coll.objects.unlink(children)
-    # delete Maya grp (empties)
-    for grp in maya_grp:
-        delete_object(bpy.data.objects[grp['name']])
-    delete_object(root)
-
-def replace_blender_collection_by_maya_grp():
-    '''
-    Detect all Blender collections, stores datas and rebuilds
-    hierarchy with Maya node group (empties with '_grp' extension).
-    Inverse of replace_maya_grp_by_collection().
-    '''
-    # TO DO next #
-    pass
-
-
-def delete_object(object):
-    try:
-        bpy.data.objects.remove(object, do_unlink=True)
-    except:
-        pass
+    asset_group = 'geo_GRP'
+    if bpy.data.collections.get(asset_group) is not None:
+        bpy.data.collections.remove(bpy.data.collections[asset_group])
+        ########## /!\ THE NEXT COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+        ##
+        ##
+        bpy.data.orphans_purge()
+        ##
+        ##
+        ########## /!\ THE PREVIOUS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+    # import alembic
+    bpy.ops.wm.alembic_import(filepath=asset[2])
+    # convert Maya groups to collectons
+    return bpy.data.objects.get(asset_group)
 
 
 def import_anim(namespace = None):
