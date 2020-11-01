@@ -1,1 +1,1 @@
-python wizard_site.py >> ..\critical_error.log 2>&1
+python wizard.py

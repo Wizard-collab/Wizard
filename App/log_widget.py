@@ -224,19 +224,8 @@ class Main(QtWidgets.QWidget):
         py_script = self.get_code()
         if py_script != '' and py_script:
             try:
-                # create file-like string to capture output
-                codeOut = StringIO()
-                # capture output and errors
-                sys.stdout = codeOut
-
                 exec(py_script)
-
-                # restore stdout and stderr
-                sys.stdout = sys.__stdout__
-                s = codeOut.getvalue()
-                if str(s).rstrip() != '' and s:
-                    logger.info(str(s).rstrip())
-                codeOut.close()
-
+                sys.stdout.flush()
             except:
-                logger.error(str(traceback.format_exc()))
+                print(str(traceback.format_exc()))
+                sys.stdout.flush()

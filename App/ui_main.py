@@ -173,6 +173,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.signal_server = signal_server()
             self.signal_server.refresh_signal.connect(self.refresh_main_ui)
+            self.signal_server.focus_signal.connect(self.focus_wizard)
             self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
             self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
             self.signal_server.task_name_signal.connect(logger.info)
@@ -1476,6 +1477,20 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def focus_wizard(self):
+        shutter = self.prefs.shutter
+        if shutter:
+            if not self.isVisible():
+                self.show_animation()
+        else:
+            if self.windowState() != QtCore.Qt.WindowMaximized:
+                self.showMaximized()
+            else:
+                self.showMaximized()
+        self.raise_()
+        self.activateWindow()
+        self.show()
 
     def show_animation(self):
         try:

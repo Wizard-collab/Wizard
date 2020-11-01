@@ -1116,6 +1116,7 @@ _data_path_ = 'Data/'
 _log_citical_file_ = _data_path_ + 'log_files/critical_error.log'
 
 _log_file_ = _log_path_ + 'main.log'
+_lock_file_ = _log_path_ + '.lock'
 
 # Asset default library
 _main_variant_ = 'main'
@@ -1324,6 +1325,7 @@ _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins
 # Signal keys library
 _signal_type_key_ = 'type'
 _refresh_signal_ = 'refresh'
+_focus_signal_ = 'focus'
 _save_signal_ = 'save'
 _task_value_ = 'value'
 _task_signal_ = 'task_signal'

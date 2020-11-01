@@ -81,6 +81,7 @@ class Main(QtWidgets.QWidget):
     def execute_script(self, script):
         try:
             exec(script)
+            sys.stdout.flush()
         except:
             logger.error(str(traceback.format_exc()))
 
