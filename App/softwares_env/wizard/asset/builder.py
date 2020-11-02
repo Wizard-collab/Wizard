@@ -5,6 +5,7 @@
 # Basic python modules
 import os
 import shutil
+import sys
 
 # Wizard modules
 from wizard.tools import log
@@ -16,6 +17,7 @@ from wizard.asset.folder import folder
 from wizard.vars import defaults
 from wizard.project.wall import wall
 from wizard.nodes import core as nodes
+from wizard.signal import send_signal
 
 # Creating the main logger
 logger = log.pipe_log(__name__)
@@ -28,6 +30,10 @@ def create_category(asset):
     # First read the project dictionnary
     project_dic = project.read_project()
 
+    print('current_task:Creating category')
+    print('percent:0')
+    sys.stdout.flush()
+
     if not util.check_illegal(asset.category) or asset.category == "None" or asset.category == "none":
 
         # Return the fail and log the problem to the user
@@ -38,6 +44,11 @@ def create_category(asset):
 
         # Check if category doesn't exists
         # Using the wizard "checker" module
+
+        print('current_task:Updating project')
+        print('percent:33')
+        sys.stdout.flush()
+
         if not checker.check_category_existence(asset):
 
             # Add the category to the project dictionnary
@@ -48,6 +59,10 @@ def create_category(asset):
             # Write the project dictionnary to the tree.wd
             project.write_project(project_dic)
 
+            print('current_task:Creating folders')
+            print('percent:66')
+            sys.stdout.flush()
+
             # Build the folders
             create_folders(asset)
 
@@ -57,10 +72,14 @@ def create_category(asset):
             # Log the success to user
             logger.debug('Sequence {} added to asset.wd'.format(asset.category))
             logger.info('{} created'.format(asset.category))
+            print('current_task:Category created')
+            print('percent:100')
+            sys.stdout.flush()
 
             # Emit the event with the "wall" module ( from wizard )
             wall().create_event(asset)
-
+            send_signal.refresh_signal()
+            
             # Return the success
             return 1
         else:
@@ -96,6 +115,14 @@ def remove_category(asset):
 
 def create_name(asset, in_out=None):
 
+    print('current_task:Creating name')
+    print('percent:0')
+    sys.stdout.flush()
+
+    print('current_task:Updating project')
+    print('percent:33')
+    sys.stdout.flush()
+
     # Creates a new name with an "asset" object in arg
     # First read the project dictionnary
     project_dic = project.read_project()
@@ -123,6 +150,10 @@ def create_name(asset, in_out=None):
                 # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
+                print('current_task:Creating folders')
+                print('percent:66')
+                sys.stdout.flush()
+
                 # Build the folders
                 create_folders(asset)
 
@@ -133,9 +164,13 @@ def create_name(asset, in_out=None):
                 logger.debug('Asset {} added to asset.wd'.format(asset.name))
                 logger.info('{} created'.format(asset.name))
 
+                print('current_task:Name created')
+                print('percent:100')
+                sys.stdout.flush()
 
                 # Create the wall event
                 wall().create_event(asset)
+                send_signal.refresh_signal()
 
                 # Return the success
                 return 1
@@ -172,6 +207,7 @@ def remove_name(asset):
 
             # Create the "wall" event using the wizard "wall" module
             wall().remove_event(asset)
+            send_signal.refresh_signal()
 
             # Return the success to the user
             return 1
@@ -188,6 +224,13 @@ def remove_name(asset):
 
 
 def create_stage(asset):
+    print('current_task:Creating {}'.format(asset.stage))
+    print('percent:0')
+    sys.stdout.flush()
+
+    print('current_task:Updating project')
+    print('percent:33')
+    sys.stdout.flush()
 
     # Creates a new stage with an "asset" object in arg
     # First read the project dictionnary
@@ -208,12 +251,19 @@ def create_stage(asset):
                 # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
+                print('current_task:Creating folders')
+                print('percent:66')
+                sys.stdout.flush()
+
                 # Build the folders
                 create_folders(asset)
 
                 # Init the asset stage prefs
                 prefs.asset(asset).stage.write()
 
+                print('current_task:Stage created')
+                print('percent:100')
+                sys.stdout.flush()
 
                 # Return and log the success to user
                 logger.debug('Stage {} added to asset.wd'.format(asset.stage))
@@ -253,6 +303,7 @@ def remove_stage(asset):
 
             # Create the "wall" event using the wizard "wall" module
             wall().remove_event(asset)
+            send_signal.refresh_signal()
 
             # Return the success to the user
             return 1
@@ -265,6 +316,13 @@ def remove_stage(asset):
 
 
 def create_variant(asset):
+    print('current_task:Creating {}'.format(asset.variant))
+    print('percent:0')
+    sys.stdout.flush()
+
+    print('current_task:Updating project')
+    print('percent:33')
+    sys.stdout.flush()
 
     # Creates a new variant with an "asset" object in arg
     # First read the project dictionnary
@@ -304,6 +362,10 @@ def create_variant(asset):
                         # Write the project dictionnary to the tree.wd
                         project.write_project(project_dic)
 
+                        print('current_task:Creating folders')
+                        print('percent:66')
+                        sys.stdout.flush()
+
                         # Build the folders
                         create_folders(asset)
 
@@ -316,6 +378,7 @@ def create_variant(asset):
                         # Create the softwares prefs and folders, childs of variant
                         create_softwares(asset)
                         create_export_root(asset)
+                        create_sandbox(asset)
                         create_playblast(asset)
 
                         # Log the success to user
@@ -323,9 +386,14 @@ def create_variant(asset):
                                                                   asset.stage,
                                                                   asset.variant))
 
+                        print('current_task:Variant created')
+                        print('percent:100')
+                        sys.stdout.flush()
+
                         # Create the wall event with the "wall" wizard module
                         wall().create_event(asset)
-
+                        send_signal.refresh_signal()
+                        
                         # Return the success
                         return 1
                     else:
@@ -347,6 +415,13 @@ def create_variant(asset):
 
 
 def create_softwares(asset):
+    print('current_task:Creating software')
+    print('percent:0')
+    sys.stdout.flush()
+
+    print('current_task:Updating project')
+    print('percent:33')
+    sys.stdout.flush()
 
     # Creates a new software with an "asset" object in arg
     # First read the project dictionnary
@@ -358,6 +433,8 @@ def create_softwares(asset):
             checker.check_stage_existence(asset) and \
             checker.check_variant_existence(asset):
 
+        percent_step = 33/len(prefs.asset(asset).stage.softwares)
+        percent = 33
         # Loop, add every softwares of the concerned stage
         for software in prefs.asset(asset).stage.softwares:
 
@@ -378,6 +455,13 @@ def create_softwares(asset):
                 # Write the project dictionnary to the tree.wd
                 project.write_project(project_dic)
 
+                percent+=percent_step
+
+                print('current_task:Creating {} folders'.format(software))
+                print('percent:{}'.format(int(percent)))
+                sys.stdout.flush()
+
+
                 # Build the folders
                 create_software_folder(asset)
 
@@ -391,6 +475,11 @@ def create_export_root(asset):
 
     # First read the project dictionnary
     project_dic = project.read_project()
+
+    print('current_task:Creating export_root folder')
+    print('percent:78')
+    sys.stdout.flush()
+
 
     # Check if category, name, stage and variant exists
     if checker.check_category_existence(asset) and \
@@ -407,7 +496,19 @@ def create_export_root(asset):
         # Log the success to user
         # And return the path
         logger.debug('Export root folder created')
+        print('current_task:export_root folder created')
+        print('percent:80')
+        sys.stdout.flush()
         return path
+
+def create_sandbox(asset):
+    logger.debug('Creating sandbox folder')
+    print('current_task:creating sandbox folder')
+    sys.stdout.flush()
+
+    path = folder(asset).sandbox
+    if not os.path.isdir(path):
+        os.makedirs(path)
 
 def create_export(asset, version = None):
 

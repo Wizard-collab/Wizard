@@ -224,7 +224,7 @@ def remove_name(asset):
 
 
 def create_stage(asset):
-    print(f'current_task:Creating {asset.stage}')
+    print('current_task:Creating {}'.format(asset.stage))
     print('percent:0')
     sys.stdout.flush()
 
@@ -316,7 +316,7 @@ def remove_stage(asset):
 
 
 def create_variant(asset):
-    print(f'current_task:Creating {asset.variant}')
+    print('current_task:Creating {}'.format(asset.variant))
     print('percent:0')
     sys.stdout.flush()
 
@@ -457,8 +457,8 @@ def create_softwares(asset):
 
                 percent+=percent_step
 
-                print(f'current_task:Creating {software} folders')
-                print(f'percent:{int(percent)}')
+                print('current_task:Creating {} folders'.format(software))
+                print('percent:{}'.format(int(percent)))
                 sys.stdout.flush()
 
 

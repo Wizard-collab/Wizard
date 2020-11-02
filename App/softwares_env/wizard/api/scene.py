@@ -13,6 +13,7 @@ from wizard.tools import log # The wizard main logger
 from wizard.asset import main as asset_core # Import the asset main module to manipulate assets
 from wizard.asset.reference import references # Import the asset reference module to create references
 from wizard.signal import send_signal
+from wizard.chat import send
 
 import os
 
@@ -30,6 +31,9 @@ def current_asset():
 
 def refresh_ui():
 	send_signal.refresh_signal()
+
+def refresh_team_ui():
+	send.team_refresh()
 
 def update_main_progress_bar(percent):
 	send_signal.task_signal(percent)

@@ -21,14 +21,14 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='wizard_console',
+          name='wizard',
           debug=False,
           bootloader_ignore_signals=True,
           strip=False,
           upx=True,
-          console=True,
+          console=False,
           version = 'version.rc',
-          icon="C:\\Users\\conta\\Documents\\script\\Wizard\\App\\ressources\\images\\console.ico")
+          icon="C:\\Users\\conta\\Documents\\script\\Wizard\\App\\ressources\\images\\wizard_icon.ico")
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -36,4 +36,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='wizard_console')
+               name='wizard')

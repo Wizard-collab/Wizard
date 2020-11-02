@@ -185,9 +185,9 @@ class Main(QtWidgets.QWidget):
         self.ui.tabWidget.setTabIcon(0, QtGui.QIcon(defaults._python_blue_icon_))  # <---
         self.ui.log_report_pushButton.setIconSize(QtCore.QSize(22, 22))
         self.ui.log_clear_pushButton.setIconSize(QtCore.QSize(15, 15))
-        self.ui.log_widget_save_pushButton.setIconSize(QtCore.QSize(13, 13))
-        self.ui.log_execute_pushButton.setIconSize(QtCore.QSize(13, 13))
+        self.ui.log_widget_save_pushButton.setIconSize(QtCore.QSize(16, 16))
         self.ui.tabWidget.setIconSize(QtCore.QSize(18, 18))
+        self.ui.log_widget_create_shelf_tool_pushButton.setIcon(QtGui.QIcon(defaults._create_shelf_icon_))
 
     def launch_report_dialog(self):
         try:

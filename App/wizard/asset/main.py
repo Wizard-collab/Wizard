@@ -183,7 +183,11 @@ class asset():
         # To interact with it
         stats_prefs = stats()
 
-        print(f'current_task:Creating {self.domain} - {self.category} - {self.name} - {self.stage} - {self.variant}')
+        print('current_task:Creating {} - {} - {} - {} - {}'.format(self.domain,
+                                                                   self.category,
+                                                                   self.name,
+                                                                   self.stage,
+                                                                   self.variant))
         print('current_status:Starting...')
         print('percent:0')
         sys.stdout.flush()

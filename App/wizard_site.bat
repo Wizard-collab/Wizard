@@ -1,1 +1,1 @@
-python wizard.py
+python wizard_main.py

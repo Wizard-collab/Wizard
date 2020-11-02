@@ -26,10 +26,10 @@ class wizard():
             if build.launch_dialog_as_child(self.dialog_add_site):
                 site_path = self.dialog_add_site.site_path
                 site.modify_site(site_path)
-                if not os.path.isfile('wizard.exe'):
-                    os.startfile('wizard_site.bat')
-                else:
-                    os.startfile('wizard.exe')
+                #if not os.path.isfile('wizard.exe'):
+                #os.startfile('wizard_site.bat')
+                #else:
+                os.startfile('wizard.exe')
         else:
             import wizard_ui
             wizard_ui.Main_application()
