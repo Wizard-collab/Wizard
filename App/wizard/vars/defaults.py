@@ -1325,6 +1325,8 @@ _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins
 # Signal keys library
 _signal_type_key_ = 'type'
 _refresh_signal_ = 'refresh'
+_log_signal_ = 'log'
+_log_line_ = 'line'
 _focus_signal_ = 'focus'
 _save_signal_ = 'save'
 _task_value_ = 'value'

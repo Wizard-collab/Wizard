@@ -18,6 +18,13 @@ def send_signal(signal_as_str):
     except:
         pass
 
+def log_line(value):
+    signal_dic = dict()
+    signal_dic[defaults._signal_type_key_] = defaults._log_signal_
+    signal_dic[defaults._log_line_] = value
+    signal_as_str = yaml.dump(signal_dic)
+    send_signal(signal_as_str)
+
 def refresh_signal():
     signal_dic = dict()
     signal_dic[defaults._signal_type_key_] = defaults._refresh_signal_

@@ -173,6 +173,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.signal_server = signal_server()
             self.signal_server.refresh_signal.connect(self.refresh_main_ui)
+            self.signal_server.log_signal.connect(self.log_widget.ui.log_textEdit.append)
             self.signal_server.focus_signal.connect(self.focus_wizard)
             self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
             self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
@@ -1093,11 +1094,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def init_log_ui(self):
         try:
-            self.widget_handler = log_to_gui.log_widget_viewer(self)
             self.main_handler = log_to_gui.main_ui_log_viewer(self)
-            logger.main_logger.addHandler(self.widget_handler)
             logger.main_logger.addHandler(self.main_handler)
-            self.widget_handler.new_record.connect(self.log_widget.ui.log_textEdit.append)
             self.main_handler.new_record.connect(self.update_log_lineEdit)
         except:
             logger.critical(str(traceback.format_exc()))

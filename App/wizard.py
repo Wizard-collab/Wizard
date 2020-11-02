@@ -44,7 +44,10 @@ def wizard_with_main_log():
         file_output(message)
 
 def stream_output(line):
-    print(convert_output(line))
+    log = convert_output(line)
+    print(log)
+    if log and log != '':
+        send_signal.log_line(log)
     
 def file_output(line):
     with open(log_file, 'a+') as log:
