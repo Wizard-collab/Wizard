@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1059</width>
-    <height>34</height>
+    <height>33</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,19 +30,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="Line" name="line_7">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>1</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QFrame" name="list_export_widget_frame">
      <property name="maximumSize">
       <size>
@@ -61,7 +48,7 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>11</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
        <number>0</number>
@@ -88,6 +75,9 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -233,6 +223,12 @@
       </item>
       <item>
        <widget class="Line" name="line">
+        <property name="maximumSize">
+         <size>
+          <width>1</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>

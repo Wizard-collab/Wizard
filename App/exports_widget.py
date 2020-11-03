@@ -4,6 +4,7 @@ from gui.exports_widget import Ui_Form
 from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
+from wizard.tools import batch_export
 from wizard.prefs.main import prefs
 import export_widget
 import export_asset_widget
@@ -137,6 +138,16 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
             self.refresh_all()
 
     def batch_export(self):
+        if self.asset.domain == defaults._sequences_:
+            self.export_shot()
+        elif self.asset.domain == defaults._assets_:
+            self.export_asset()
+
+    def export_asset(self):
+        print("exporting_asset")
+        batch_export.batch_export(self.asset)
+
+    def export_shot(self):
         self.ui_export_manager = ui_export_manager.Main(self.asset)
         build.launch_normal_as_child(self.ui_export_manager)
 

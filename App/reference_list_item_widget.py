@@ -36,6 +36,8 @@ class Main(QtWidgets.QWidget):
 
         icon = defaults._nodes_icons_dic_[self.asset.stage]
 
+        
+        
         self.ui.refresh_reference_widget_item.setIcon(QtGui.QIcon(defaults._refresh_icon_))
         self.ui.remove_reference_widget_item.setIcon(QtGui.QIcon(defaults._trash_large_icon_))
         self.ui.parameters_reference_list_item_pushButton.setIcon(QtGui.QIcon(defaults._settings_icon_))

@@ -10,6 +10,7 @@ from wizard.asset.reference import references
 import reference_list_item_widget
 from wizard.asset import main as asset_core
 import pickle
+import editable_list_widget
 
 logger = log.pipe_log(__name__)
 
@@ -58,6 +59,10 @@ class Main(QtWidgets.QWidget):
             proxy = ref_asset[2]
             count = ref_asset[1]
             asset = ref_asset[0]
+            #widget = editable_list_widget.list_widget(asset = asset, icon = defaults._stage_icon_[asset.stage])
+            #widget.add_label(asset.stage)
+            #widget.add_label(asset.name)
+            #self.add_item_to_list(widget)
             widget = reference_list_item_widget.Main(self, asset, count, proxy, visible)
             self.add_item_to_list(widget)
             self.refresh_references_label()
