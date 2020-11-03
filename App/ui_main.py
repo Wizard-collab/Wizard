@@ -9,6 +9,8 @@ import random
 import copy
 import webbrowser
 import sys
+from PIL import Image
+
 
 # Importing PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -797,6 +799,17 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 self.ui.image_button.setIcon(QtGui.QIcon(image))
             else:
                 self.ui.image_button.setIcon(QtGui.QIcon(defaults._nopicture_image_))
+            self.resize_image_button(image)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def resize_image_button(self, image):
+        try:
+            im = Image.open(image)
+            width, height = im.size
+            ratio = width/height
+            button_height = 363/ratio
+            self.ui.image_button.setFixedSize(QtCore.QSize(363, button_height))
         except:
             logger.critical(str(traceback.format_exc()))
 

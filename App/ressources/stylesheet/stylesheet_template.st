@@ -338,6 +338,10 @@ QWidget {
 	background-color:transparent;
 }
 
+#main_frame_2{
+	background-color:rgb(_background_color_);
+}
+
 #Infos_frame{
 	background-color:rgb(_middle_level_widget_color_);
 	border-radius:0px;
@@ -617,7 +621,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #header_frame{
-	background-color: rgb(_middle_level_widget_color_);
+	background-color: transparent;
 }
 
 #chat_server_frame{
@@ -974,7 +978,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #main_frame{
-	background-color:transparent;
+	background-color:rgb(_background_color_);
 }
 
 #image_button{
@@ -984,6 +988,9 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	margin:Opx;
 }
 
+#launcher_frame{
+	background-color:transparent;
+}
 
 #jokes_main_verticalFrame{
 	background-color:transparent;
@@ -1116,7 +1123,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 
 
 #asset_comment_textEdit{
-	background-color: transparent;
+	background-color: rgba(_low_level_widget_color_, 160);
 }
 
 #comment_frame{
@@ -1126,11 +1133,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	padding-top:9px;
 	padding-bottom:9px;
 	margin:0px;
-}
-
-#comment_pushButton{
-	border-image: url(ressources/images/comment.png) 0 0 0 0 stretch stretch;
-	background-color:transparent;
 }
 
 #variants_comboBox, #software_comboBox, #versions_comboBox{
@@ -1159,15 +1161,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 
-#comment_pushButton:hover{
-	border-image: url(ressources/images/comment_hover.png) 0 0 0 0 stretch stretch;
-}
-
-#comment_pushButton:pressed{
-	border-image: url(ressources/images/comment_clicked.png) 0 0 0 0 stretch stretch;
-}
-
-
 #send_message_frame{
 	background-color: rgba(_background_color_, 120);
 	margin:0px;
@@ -1177,6 +1170,14 @@ QToolBox::tab:selected { /* italicize selected tabs */
 QLabel{
 	background-color:transparent;
 	padding-bottom:3px;
+}
+
+#launcher_frame_2{
+	background-color: rgb(_middle_level_widget_color_);
+}
+
+#launch_button_frame{
+	background-color:transparent;
 }
 
 QTreeView {
@@ -1624,5 +1625,11 @@ QMenuBar::item:selected {
 }
 
 QSplitter::handle {
-    image: url(ressources/images/split_handle.png);
+	background-color: rgb(_top_level_widget_color_);
+}
+QSplitter::handle:hover {
+	background-color: rgb(_hover_widget_color_);
+}
+QSplitter::handle:pressed {
+	background-color: rgb(_pressed_widget_color_);
 }
