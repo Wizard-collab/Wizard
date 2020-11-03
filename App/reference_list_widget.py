@@ -70,7 +70,7 @@ class Main(QtWidgets.QWidget):
 
     def add_item_to_list(self, widget):
         item = QtWidgets.QListWidgetItem() 
-        item.setSizeHint(QtCore.QSize(0, 34))
+        item.setSizeHint(QtCore.QSize(0, 28))
         widget.parent_item = item
         self.ui.reference_list_listWidget.addItem(item)
         self.ui.reference_list_listWidget.setItemWidget(item, widget)

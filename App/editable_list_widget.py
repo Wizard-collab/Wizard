@@ -1,44 +1,42 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
+from gui.editable_list_item_widget import Ui_Form
+from gui import build
 
 class list_widget(QtWidgets.QWidget):
-    def __init__(self, asset = None, icon = None, name = None):
+    def __init__(self):
 
         super(list_widget, self).__init__()
 
-        self.asset = asset
-        self.icon = icon
-        self.name = name
+        # Build the ui from ui converted file
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+        self.setStyleSheet(build.load_stylesheet())
 
-        self.setMinimumSize(QtCore.QSize(0, 34))
-        self.setMaximumSize(QtCore.QSize(100000, 34))
+    def set_icon(self, icon):
+        self.ui.icon_label.setPixmap(QtGui.QPixmap(icon).scaled(22, 22, QtCore.Qt.KeepAspectRatio,
+                                                                                  QtCore.Qt.SmoothTransformation))
 
-
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.horizontalLayout.setContentsMargins(3, 3, 3, 3)
-        self.horizontalLayout.setSpacing(1)
-
-        
-
-        if self.icon:
-            self.icon_label = QtWidgets.QLabel()
-            self.icon_label.setFixedSize(QtCore.QSize(22,22))
-            self.icon_label.setPixmap(QtGui.QPixmap(self.icon).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-
-            self.horizontalLayout.addWidget(self.icon_label)
-
-    def add_label(self, data, width = 150, color = None):
+    def add_label(self, data, name, width = 130):
         self.add_line()
         label = QtWidgets.QLabel(self)
         label.setText(data)
         label.setMinimumSize(QtCore.QSize(width, 0))
         label.setMaximumSize(QtCore.QSize(width, 1000))
-        self.horizontalLayout.addWidget(label)
+        label.setObjectName(name)
+        self.ui.datas_list.addWidget(label)
+        return label
 
     def add_line(self):
         line = QtWidgets.QFrame(self)
         line.setMaximumSize(QtCore.QSize(1, 16777215))
         line.setFrameShape(QtWidgets.QFrame.VLine)
         line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.horizontalLayout.addWidget(line)
+        self.ui.datas_list.addWidget(line)
+
+    def add_button(self, icon):
+        button = QtWidgets.QPushButton(self)
+        button.setIcon(QtGui.QIcon(icon))
+        button.setFixedSize(QtCore.QSize(20, 20))
+        button.setIconSize(QtCore.QSize(16, 16))
+        self.ui.buttons_list.addWidget(button)
+        return button
