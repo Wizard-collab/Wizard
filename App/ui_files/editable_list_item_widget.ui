@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1022</width>
-    <height>28</height>
+    <height>30</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
-       <number>4</number>
+       <number>2</number>
       </property>
       <property name="leftMargin">
        <number>2</number>
@@ -57,18 +57,21 @@
        <widget class="QLabel" name="icon_label">
         <property name="minimumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>24</width>
+          <height>24</height>
          </size>
         </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

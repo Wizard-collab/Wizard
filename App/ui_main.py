@@ -798,7 +798,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                     image = defaults._nopicture_image_
                 self.ui.image_button.setIcon(QtGui.QIcon(image))
             else:
-                self.ui.image_button.setIcon(QtGui.QIcon(defaults._nopicture_image_))
+                image = defaults._nopicture_image_
+                self.ui.image_button.setIcon(QtGui.QIcon(image))
             self.resize_image_button(image)
         except:
             logger.critical(str(traceback.format_exc()))

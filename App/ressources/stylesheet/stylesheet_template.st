@@ -285,11 +285,15 @@ QWidget {
 	color:gray;
 }
 
-#reference_list_listWidget, #icons_list_listWidget{
+#reference_list_listWidget, #icons_list_listWidget, #exports_treeWidget{
 	background-color:transparent;
 }
 
-#reference_list_listWidget::item{
+#exports_treeWidget::Item{
+	margin:1px;
+}
+
+#reference_list_listWidget::item, #exports_treeWidget::Item{
 	padding:0px;
 	border-radius:3px;	
 	background-color: rgba(_middle_level_widget_color_, 110);
@@ -303,12 +307,12 @@ QWidget {
 	color: rgb(_text_color_);
 }
 
-#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover {
+#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover, #exports_treeWidget::Item:hover{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 }
 
-#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected {
+#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected, #exports_treeWidget::Item:selected{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 	color: rgb(_text_color_);
@@ -1219,7 +1223,7 @@ QTreeView::branch{
 
 QTreeView::branch:has-children:!has-siblings:closed,
 QTreeView::branch:closed:has-children:has-siblings {
-        image: url(ressources/images/folder_closed.png);
+        image: url(ressources/images/QTreeViewRight.png);
         background-color:rgba(_low_level_widget_color_, 110)
 }
 
@@ -1229,12 +1233,14 @@ QTreeView::item:has-children{
 
 QTreeView::branch:open:has-children:!has-siblings,
 QTreeView::branch:open:has-children:has-siblings  {
-        image: url(ressources/images/folder_opened.png);
+        image: url(ressources/images/QTreeViewDown.png);
         background-color:rgba(_low_level_widget_color_, 110)
 }
 QTreeView, QTreeWidget {
     show-decoration-selected: 0;
 }
+
+
 
 QTreeView::branch {
     background-color: transparent;
@@ -1632,4 +1638,10 @@ QSplitter::handle:hover {
 }
 QSplitter::handle:pressed {
 	background-color: rgb(_pressed_widget_color_);
+}
+
+QToolTip {
+	background-color: rgb(_middle_level_widget_color_);
+	border : 1px solid rgb(_low_level_widget_color_);
+	color: white;
 }

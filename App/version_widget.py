@@ -33,8 +33,6 @@ class Main(list_widget):
 
     def __init__(self, asset, sanity, count):
         super(Main, self).__init__()
-        #self.ui = Ui_Form()
-        #self.ui.setupUi(self)
         self.asset = asset
         self.count = count
         self.sanity = sanity
@@ -46,14 +44,11 @@ class Main(list_widget):
         self.version_widget_delete_pushButton = self.add_button(defaults._trash_large_icon_)
         self.version_widget_comment_pushButton = self.add_button(defaults._comment_icon_)
         self.version_open_software_pushButton = self.add_button(defaults._soft_icons_dic_[self.asset.software])
-
         version_prefs = prefs.asset(self.asset).software
-
         self.version_widget_version_label = self.add_label(self.asset.version, "version_widget_version_label", 40)
-        self.version_widget_user_label = self.add_label(version_prefs.version_user, "version_widget_user_label", 60)
+        self.version_widget_user_label = self.add_label(version_prefs.version_user, "version_widget_user_label", 120)
         self.version_widget_date_label = self.add_label(version_prefs.version_date, "version_widget_date_label", 180)
-        self.version_widget_comment_label = self.add_label(version_prefs.version_comment, "version_widget_comment_label", 230)
-
+        self.version_widget_comment_label = self.add_label(version_prefs.version_comment, "version_widget_comment_label", 230, QtCore.Qt.AlignLeft)
         self.update_sanity(self.sanity)
 
     def update_sanity(self, sanity):
@@ -65,7 +60,6 @@ class Main(list_widget):
                 icon = defaults._export_list_icon_
         else:
             icon = defaults._export_list_neutral_icon_
-
         self.set_icon(icon)
 
     def open_folder(self):

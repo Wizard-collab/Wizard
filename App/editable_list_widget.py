@@ -13,16 +13,17 @@ class list_widget(QtWidgets.QWidget):
         self.setStyleSheet(build.load_stylesheet())
 
     def set_icon(self, icon):
-        self.ui.icon_label.setPixmap(QtGui.QPixmap(icon).scaled(22, 22, QtCore.Qt.KeepAspectRatio,
+        self.ui.icon_label.setPixmap(QtGui.QPixmap(icon).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
                                                                                   QtCore.Qt.SmoothTransformation))
 
-    def add_label(self, data, name, width = 130):
+    def add_label(self, data, name, width = 130, alignment = QtCore.Qt.AlignCenter):
         self.add_line()
         label = QtWidgets.QLabel(self)
         label.setText(data)
         label.setMinimumSize(QtCore.QSize(width, 0))
         label.setMaximumSize(QtCore.QSize(width, 1000))
         label.setObjectName(name)
+        label.setAlignment(alignment)
         self.ui.datas_list.addWidget(label)
         return label
 

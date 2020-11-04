@@ -36,7 +36,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
-       <number>5</number>
+       <number>8</number>
       </property>
       <property name="leftMargin">
        <number>11</number>
@@ -226,65 +226,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QScrollArea" name="pb_ma_scrollArea">
-        <property name="widgetResizable">
-         <bool>true</bool>
+       <widget class="QLabel" name="playblast_number_label">
+        <property name="text">
+         <string>( 0/0 )</string>
         </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>974</width>
-           <height>662</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="playblast_list_verticalLayout_2">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>5</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="playblast_number_label">
-            <property name="text">
-             <string>( 0/0 )</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="playblast_list_verticalLayout">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-           </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
        </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="reference_list_listWidget"/>
       </item>
       <item>
        <widget class="QFrame" name="manual_publish_horizontalFrame">

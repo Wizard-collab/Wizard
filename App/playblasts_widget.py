@@ -34,7 +34,6 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.step = 3
         self.count = 1
         self.connect_functions()
-
         self.ui.sanity_exports_pushButton.setIcon(QtGui.QIcon(defaults._export_list_icon_gray_))
         self.ui.show_all_exports_pushButton.setIcon(QtGui.QIcon(defaults._sd_icon_))
         self.ui.batch_playblast_pushButton.setIcon(QtGui.QIcon(defaults._batch_playblast_icon_))
@@ -83,31 +82,27 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
     def update_all(self):
         self.get_params()
         self.clear_all()
-        
         versions_list =[]
-
         if self.versions_list and self.versions_list != []:
             if not self.full:
                 versions_list = self.versions_list[-self.number:]
             else:
                 versions_list = self.versions_list
-
         self.ui.playblast_number_label.setText('( {}/{} )'.format(len(versions_list), len(self.versions_list)))
-
         for version in versions_list:
             pb_widget = playblast_asset_widget.Main(self.asset, version, self.count, self.sanity)
-            self.ui.playblast_list_verticalLayout.addWidget(pb_widget)
+            self.add_item_to_list(pb_widget)
             self.widgets_list.append([pb_widget, version])
-            self.count = 1-self.count
+
+    def add_item_to_list(self, widget):
+        item = QtWidgets.QListWidgetItem() 
+        item.setSizeHint(QtCore.QSize(0, 28))
+        widget.parent_item = item
+        self.ui.reference_list_listWidget.addItem(item)
+        self.ui.reference_list_listWidget.setItemWidget(item, widget)
 
     def clear_all(self):
-        QApplication.processEvents()
-
-        for i in reversed(range(self.ui.playblast_list_verticalLayout.count())):
-            widget = self.ui.playblast_list_verticalLayout.itemAt(i).widget()
-            if widget:
-                widget.setParent(None)
-
+        self.ui.reference_list_listWidget.clear()
         self.widgets_list = []
 
     def do_playblast_1(self):
@@ -115,9 +110,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
             if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_:
                 command = 'from wizard.tools.playblast import playblast\n'
                 command += 'playblast("{}").playblast()'.format(utils.asset_to_string(self.asset))
-
                 file = utils.temp_file_from_command(command)
-
                 self.ui_subprocess_manager = ui_subprocess_manager.Main(["python", "-u", file])
                 build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
 

@@ -15,6 +15,9 @@ from maya_wizard import reference_asset
 from maya_wizard import plugin
 import os
 
+cmds.loadPlugin( 'AbcImport.mll' )
+cmds.loadPlugin( 'AbcExport.mll' )
+
 class do_playblast():
     def __init__(self, string_asset, file, temp_dir, frange, refresh_assets=0):
 
