@@ -16,6 +16,8 @@ import ui_export_manager
 import playblast_asset_widget
 from editable_list_widget import icon_widget
 import os
+import options_widget
+import dialog_comment
 
 logger = log.pipe_log(__name__)
 
@@ -47,7 +49,10 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.ui.show_all_exports_pushButton.clicked.connect(self.update_all)
         self.ui.show_more_pushButton.clicked.connect(self.add_number)
         self.ui.show_less_pushButton.clicked.connect(self.remove_number)
+        self.ui.reference_list_listWidget.itemDoubleClicked.connect(self.open_file)
         self.ui.display_pushButton.clicked.connect(self.change_view)
+        self.ui.reference_list_listWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) # Open the right-click menu strategy
+        self.ui.reference_list_listWidget.customContextMenuRequested.connect(self.show_options_menu) # Binding event
 
     def change_view(self):
         self.as_list = 1-self.as_list
@@ -109,6 +114,39 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
                 pb_widget = playblast_asset_widget.icon(self.asset, version, self.count, self.sanity)
             self.add_item_to_list(pb_widget)
 
+
+    def open_file(self, item):
+
+        widget_list = self.get_selected_widgets()
+
+        for widget in widget_list:
+            file = prefs.asset(widget.asset).playblast.full_file(widget.version)
+            if os.path.isfile(file):
+                os.startfile(file)
+            else:
+                logger.info('{} not found'.format(file))
+
+    def get_selected_widgets(self):
+        items_list = self.ui.reference_list_listWidget.selectedItems()
+        widgets_list = []
+        for item in items_list:
+            widgets_list.append(self.ui.reference_list_listWidget.itemWidget(item))
+        return widgets_list
+
+    def open_folder(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            folder = prefs.asset(widget.asset).playblast.folder
+            os.startfile(folder)
+
+    def change_comment(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.dialog_comment = dialog_comment.Main(widget.asset, 0, widget.version)
+            if build.launch_dialog_comment(self.dialog_comment):
+                #widget.playblast_widget_comment_label.setText(self.dialog_comment.comment)
+                self.update_all()
+
     def add_item_to_list(self, widget):
         item = QtWidgets.QListWidgetItem() 
         item.setSizeHint(widget.sizeHint())
@@ -136,3 +174,12 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
     def closeEvent(self, event):
         event.ignore()
         self.hide()
+
+    def show_options_menu(self):
+        self.options_widget = options_widget.Main()
+        self.options_widget.add_item("Change comment", self.change_comment)
+        self.options_widget.add_item("Explorer", self.open_folder)
+        self.options_widget.add_item("Show", self.open_file)
+        build.launch_options(self.options_widget)
+
+    
