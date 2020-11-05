@@ -150,6 +150,7 @@ class asset():
 
         # Get the asset screenshot with the "prefs" wizard module
         return self.asset_prefs.software.image
+    
 
     @property
     def export_image(self):
@@ -320,13 +321,10 @@ class asset():
             # Using the "os" pytohn module
             return os.path.join(path, file)
 
-    def playblast(self):
+    def playblast(self, version):
 
         # This function create the defaults playblast folder in the asset variant folder
         # and return the playblast file
-
-        # Get a new playblast version using the "prefs" wizard module
-        version = self.asset_prefs.playblast.get_new_version()
 
         # Add the new version to the "playblast.wd" file
         self.asset_prefs.playblast.new_version(version)

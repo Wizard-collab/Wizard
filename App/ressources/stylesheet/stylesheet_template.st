@@ -32,6 +32,10 @@ QWidget {
 	color:white;
 }
 
+#display_pushButton{
+	border-radius:14px;
+}
+
 #update_web_pushButton, #update_doc_pushButton{
 	background:transparent;
 	color:gray;
@@ -285,7 +289,7 @@ QWidget {
 	color:gray;
 }
 
-#reference_list_listWidget, #icons_list_listWidget, #exports_treeWidget{
+#reference_list_listWidget, #icons_list_listWidget, #exports_treeWidget, #icons_listWidget{
 	background-color:transparent;
 }
 
@@ -293,7 +297,7 @@ QWidget {
 	margin:1px;
 }
 
-#reference_list_listWidget::item, #exports_treeWidget::Item{
+#reference_list_listWidget::item, #exports_treeWidget::Item, #icons_listWidget::Item{
 	padding:0px;
 	border-radius:3px;	
 	background-color: rgba(_middle_level_widget_color_, 110);
@@ -307,12 +311,12 @@ QWidget {
 	color: rgb(_text_color_);
 }
 
-#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover, #exports_treeWidget::Item:hover{
+#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover, #exports_treeWidget::Item:hover, #icons_listWidget::Item:hover{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 }
 
-#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected, #exports_treeWidget::Item:selected{
+#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected, #exports_treeWidget::Item:selected, #icons_listWidget::Item:selected{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 	color: rgb(_text_color_);

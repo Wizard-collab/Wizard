@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from gui.editable_list_item_widget import Ui_Form
+from gui.editable_list_item_widget import Ui_Form as list_form
+from gui.editable_icon_item_widget import Ui_Form as icon_form
 from gui import build
 
 class list_widget(QtWidgets.QWidget):
@@ -8,7 +9,7 @@ class list_widget(QtWidgets.QWidget):
         super(list_widget, self).__init__()
 
         # Build the ui from ui converted file
-        self.ui = Ui_Form()
+        self.ui = list_form()
         self.ui.setupUi(self)
         self.setStyleSheet(build.load_stylesheet())
 
@@ -41,3 +42,29 @@ class list_widget(QtWidgets.QWidget):
         button.setIconSize(QtCore.QSize(16, 16))
         self.ui.buttons_list.addWidget(button)
         return button
+
+class icon_widget(QtWidgets.QWidget):
+    def __init__(self):
+
+        super(icon_widget, self).__init__()
+
+        # Build the ui from ui converted file
+        self.ui = icon_form()
+        self.ui.setupUi(self)
+        self.setStyleSheet(build.load_stylesheet())
+
+    def set_image(self, icon):
+        self.ui.image_label.setPixmap(QtGui.QPixmap(icon).scaled(263, 148, QtCore.Qt.KeepAspectRatio,
+                                                                                  QtCore.Qt.SmoothTransformation))
+
+    def set_name(self, name):
+        self.ui.name_label.setText(name)
+
+    def set_icon(self, icon):
+        self.ui.icon_label.setPixmap(QtGui.QPixmap(icon).scaled(16, 16, QtCore.Qt.KeepAspectRatio,
+                                                                                  QtCore.Qt.SmoothTransformation))
+
+    def set_comment(self, comment):
+        self.ui.comment_label.setText(comment)
+
+

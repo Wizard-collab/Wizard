@@ -339,6 +339,11 @@ class playblast():
     def get_file(self, version):
         return folder(self.asset).playblast_file(version)
 
+    def get_version_image(self, version):
+        folder_obj = folder(self.asset)
+        path = os.path.join(folder_obj.playblast(), folder_obj.playblast_image(version))
+        return path
+
     def get_folder(self):
         return folder(self.asset).playblast()
 

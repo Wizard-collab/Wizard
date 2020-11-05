@@ -342,6 +342,7 @@ _projects_icon_ = _icon_path_ + 'projects.png'
 _project_folder_icon_ = _icon_path_ + 'project_folder.png'
 _node_icon_ = _icon_path_ + 'node_icon.png'
 _reference_list_icon_ = _icon_path_ + 'reference_list_icon.png'
+_icon_mode_view_ = _icon_path_ + 'icon_mode_view.png'
 _sd_icon_ = _icon_path_ + 'sd_icon.png'
 _welcom_user_image_ = _icon_path_ + 'welcome_user.png'
 _prod_manager_user_image_ = _icon_path_ + 'prod_manager_user_image.png'
@@ -399,6 +400,7 @@ _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
 _sandbox_icon_ = _icon_path_ + "sandbox.png"
+_missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
