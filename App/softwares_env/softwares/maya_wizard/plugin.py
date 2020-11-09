@@ -19,9 +19,10 @@ prefs = prefs()
 def save():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     asset.version = prefs.asset(asset).software.get_new_version()
+    if os.path.isfile(asset.file):
+        asset.version = str(int(asset.version) + 1).zfill(4)
     cmds.file(rename=asset.file)
     cmds.file(save=True, type='mayaAscii')
-
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])

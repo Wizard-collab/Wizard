@@ -69,18 +69,18 @@ class Main(QtWidgets.QDialog):
         build.launch_dialog_as_child(self.ui_recover_password)
 
     def show_passwords(self):
-        if self.show == 0:
+        if self.show_pw == 0:
             self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
             self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
             self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
             self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._show_icon_))
-            self.show = 1
+            self.show_pw = 1
         else:
             self.ui.confirm_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
             self.ui.new_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
             self.ui.old_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
             self.ui.show_pass_pushButton.setIcon(QtGui.QIcon(defaults._hide_icon_))
-            self.show = 0
+            self.show_pw = 0
 
     def check_confirm(self):
         password = self.ui.new_lineEdit.text()

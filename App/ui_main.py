@@ -7,7 +7,10 @@ import time
 import inspect
 import random
 import copy
-import webbrowser 
+import webbrowser
+import sys
+from PIL import Image
+
 
 # Importing PyQt5 libraries
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -37,6 +40,7 @@ from wizard.signal.signal_server import signal_server
 from wizard.prefs.user_scripts import user_scripts
 from wizard.user_scripts import user_scripts_library
 from wizard import api
+from wizard.tools.batch_asset_creation import batch_asset_creation
 
 # Importing wizard widgets
 import dialog_new_variant
@@ -47,7 +51,6 @@ import dialog_projects
 import dialog_new_user
 import dialog_users
 import dialog_contact
-import dialog_change_password
 import log_widget
 import popup
 import preferences_ui
@@ -82,6 +85,8 @@ import user_scripts_widget
 import tickets_widget
 import task_progress_info_widget
 import ui_about
+import ui_project_workflow
+import ui_project_preferences
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -131,6 +136,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_wall_widget()
             self.init_main_refresh_button()
             self.init_user_scripts_widget()
+            self.init_sandbox_button()
 
             # Init vars
             self.prefs = prefs
@@ -153,6 +159,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.go_to_tab()
             self.connect_functions()
             self.init_local_server()
+            self.first_tab_refresh()
             
         except:
             logger.critical(str(traceback.format_exc()))
@@ -168,6 +175,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.signal_server = signal_server()
             self.signal_server.refresh_signal.connect(self.refresh_main_ui)
+            self.signal_server.log_signal.connect(self.log_widget.ui.log_textEdit.append)
+            self.signal_server.focus_signal.connect(self.focus_wizard)
             self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
             self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
             self.signal_server.task_name_signal.connect(logger.info)
@@ -181,7 +190,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.asset_item_changed()
             self.user_widget.refresh_widget()
             self.user_scripts_widget.refresh_scripts()
-            self.refresh_server(0)
+            #self.refresh_server(0)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -195,6 +204,12 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.ui.refresh_pushButton.setIcon(QtGui.QIcon(defaults._refresh_icon_))
             self.ui.refresh_pushButton.clicked.connect(lambda:self.update_tree(0))
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def init_sandbox_button(self):
+        try:
+            self.ui.sandbox_pushButton.setIcon(QtGui.QIcon(defaults._sandbox_icon_))
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -590,6 +605,14 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def first_tab_refresh(self):
+        self.node_editor_widget.refresh_scene(self.asset)
+        self.reference_list_widget.refresh_scene(self.asset)
+        self.exports_widget.refresh_all(self.asset)
+        self.playblasts_widget.refresh_all(self.asset)
+        self.versions_manager_widget.refresh_all(self.asset)
+        self.tickets_widget.refresh_all(self.asset)
+
     def go_to_tab(self, tab = None):
         try:
             if not tab:
@@ -775,7 +798,19 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                     image = defaults._nopicture_image_
                 self.ui.image_button.setIcon(QtGui.QIcon(image))
             else:
-                self.ui.image_button.setIcon(QtGui.QIcon(defaults._nopicture_image_))
+                image = defaults._nopicture_image_
+                self.ui.image_button.setIcon(QtGui.QIcon(image))
+            self.resize_image_button(image)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def resize_image_button(self, image):
+        try:
+            im = Image.open(image)
+            width, height = im.size
+            ratio = width/height
+            button_height = 363/ratio
+            self.ui.image_button.setFixedSize(QtCore.QSize(363, button_height))
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -843,14 +878,21 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def create(self, item, in_out=None):
         try:
-            logger.info('Creating asset...')
-            QApplication.processEvents()
             self.refresh_asset(item)
-            QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+            '''
             created = self.selected_asset.create(in_out)
             QApplication.restoreOverrideCursor()
             if not created:
                 tree_get.remove_item(item)
+            '''
+            file = batch_asset_creation(self.selected_asset, in_out)
+            env = os.environ.copy()
+            python_system = 'pywizard'
+            if sys.argv[0].endswith('.py'):
+                python_system = 'python'
+            self.ui_subprocess_manager = ui_subprocess_manager.Main(f"{python_system} {file}", env, cwd=os.path.abspath(''))
+            build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
+
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1066,11 +1108,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def init_log_ui(self):
         try:
-            self.widget_handler = log_to_gui.log_widget_viewer(self)
             self.main_handler = log_to_gui.main_ui_log_viewer(self)
-            logger.main_logger.addHandler(self.widget_handler)
             logger.main_logger.addHandler(self.main_handler)
-            self.widget_handler.new_record.connect(self.log_widget.ui.log_textEdit.append)
             self.main_handler.new_record.connect(self.update_log_lineEdit)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1192,13 +1231,6 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def change_password(self):
-        try:
-            self.dialog_change_password = dialog_change_password.Main()
-            build.launch_dialog_as_child(self.dialog_change_password)
-        except:
-            logger.critical(str(traceback.format_exc()))
-
     def show_popup(self):
         try:
             popup.popup().creation_pop()
@@ -1253,6 +1285,14 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
     def open_folder(self):
         try:
             os.startfile(self.asset.folder)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def open_sandbox(self):
+        try:
+            if not os.path.isdir(self.asset.sandbox):
+                os.makedirs(self.asset.sandbox)
+            os.startfile(self.asset.sandbox)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1317,8 +1357,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def show_workflow(self):
         try:
-            self.ui_workflow = ui_workflow.Main()
-            build.launch_normal_as_child(self.ui_workflow)
+            self.ui_project_preferences = ui_project_preferences.Main()
+            build.launch_normal_as_child(self.ui_project_preferences)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1351,6 +1391,13 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.ui_about = ui_about.Main()
             build.launch_normal_as_child(self.ui_about)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def show_project_workflow(self):
+        try:
+            self.ui_project_workflow = ui_project_workflow.Main()
+            build.launch_normal_as_child(self.ui_project_workflow)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1417,6 +1464,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.comment_pushButton.clicked.connect(self.comment)
             self.ui.pin_pushButton.clicked.connect(self.toggle_pin)
             self.ui.open_folder_pushButton.clicked.connect(self.open_folder)
+            self.ui.sandbox_pushButton.clicked.connect(self.open_sandbox)
             self.ui.launch_pushButton.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
             self.ui.launch_pushButton.customContextMenuRequested.connect(self.launch_options_widget)
             self.ui.main_tabWidget.currentChanged.connect(self.main_tab_changed)
@@ -1424,9 +1472,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionGitHub.triggered.connect(self.show_git)
             self.ui.actionWizard_API.triggered.connect(self.launch_docs)
             self.ui.actionLast_updates.triggered.connect(lambda:self.show_updates(force=1))
-            self.ui.actionPreferences.triggered.connect(self.launch_preferences_ui)
-            self.ui.actionSettings_2.triggered.connect(self.change_password)
-            self.ui.actionSoftwares.triggered.connect(self.launch_software_prefs_ui)
+            self.ui.actionPreferences_2.triggered.connect(self.launch_preferences_ui)
             self.ui.actionNew.triggered.connect(self.new_project)
             self.ui.actionOpen.triggered.connect(self.open_project)
             self.ui.actionMerge.triggered.connect(self.merge_project)
@@ -1443,6 +1489,20 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def focus_wizard(self):
+        shutter = self.prefs.shutter
+        if shutter:
+            if not self.isVisible():
+                self.show_animation()
+        else:
+            if self.windowState() != QtCore.Qt.WindowMaximized:
+                self.showMaximized()
+            else:
+                self.showMaximized()
+        self.raise_()
+        self.activateWindow()
+        self.show()
 
     def show_animation(self):
         try:

@@ -90,15 +90,19 @@ class Main(QtWidgets.QWidget):
             asset.version = version
             self.version_widget = version_widget.Main(asset, self.sanity, self.count)
             self.version_widget.open_signal.connect(self.open_signal.emit)
-            self.ui.versions_manager_mainLayout.addWidget(self.version_widget)
+            self.add_item_to_list(self.version_widget)
             self.count = 1-self.count
             self.widgets_list.append(self.version_widget)
 
+    def add_item_to_list(self, widget):
+        item = QtWidgets.QListWidgetItem() 
+        item.setSizeHint(QtCore.QSize(0, 28))
+        widget.parent_item = item
+        self.ui.reference_list_listWidget.addItem(item)
+        self.ui.reference_list_listWidget.setItemWidget(item, widget)
+
     def clear_all(self):
-        for i in reversed(range(self.ui.versions_manager_mainLayout.count())):
-            widget = self.ui.versions_manager_mainLayout.itemAt(i).widget()
-            if widget:
-                widget.setParent(None)
+        self.ui.reference_list_listWidget.clear()
 
     def connect_functions(self):
         self.ui.sanity_exports_pushButton.clicked.connect(self.update_sanity)

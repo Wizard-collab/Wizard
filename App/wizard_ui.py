@@ -69,7 +69,7 @@ class Main_application():
 
         # Create the pyqt5 application
         os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
+        
         self.app = QtWidgets.QApplication(sys.argv)
         self.app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
         #self.app.setStyle(QtWidgets.QStyleFactory.create("Fusion"))

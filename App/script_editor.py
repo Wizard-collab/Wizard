@@ -69,7 +69,7 @@ class SimplePythonEditor(QsciScintilla):
         self.SendScintilla(QsciScintilla.SCI_STYLESETFONT, 1, text)
         self.SendScintilla(QsciScintilla.SCI_SETHSCROLLBAR, 0)
 
-        self.setMinimumSize(600, 450)
+        self.setMinimumSize(0, 200)
 
     def set_lexer(self, python = 0, yaml = 1):
         if python:

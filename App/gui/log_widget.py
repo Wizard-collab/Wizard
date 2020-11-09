@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Script\Wizard\App\ui_files\log_widget.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\log_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -14,13 +14,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_log_widget(object):
     def setupUi(self, log_widget):
         log_widget.setObjectName("log_widget")
-        log_widget.resize(1066, 673)
+        log_widget.resize(1108, 855)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(log_widget.sizePolicy().hasHeightForWidth())
         log_widget.setSizePolicy(sizePolicy)
-        log_widget.setMinimumSize(QtCore.QSize(550, 0))
+        log_widget.setMinimumSize(QtCore.QSize(0, 0))
         self.verticalLayout = QtWidgets.QVBoxLayout(log_widget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(1)
@@ -147,8 +147,9 @@ class Ui_log_widget(object):
         self.log_widget_add_script_pushButton.setObjectName("log_widget_add_script_pushButton")
         self.horizontalLayout.addWidget(self.log_widget_add_script_pushButton)
         self.log_widget_create_shelf_tool_pushButton = QtWidgets.QPushButton(self.frame_2)
-        self.log_widget_create_shelf_tool_pushButton.setMinimumSize(QtCore.QSize(120, 0))
-        self.log_widget_create_shelf_tool_pushButton.setMaximumSize(QtCore.QSize(16777215, 28))
+        self.log_widget_create_shelf_tool_pushButton.setMinimumSize(QtCore.QSize(28, 28))
+        self.log_widget_create_shelf_tool_pushButton.setMaximumSize(QtCore.QSize(28, 28))
+        self.log_widget_create_shelf_tool_pushButton.setText("")
         self.log_widget_create_shelf_tool_pushButton.setObjectName("log_widget_create_shelf_tool_pushButton")
         self.horizontalLayout.addWidget(self.log_widget_create_shelf_tool_pushButton)
         spacerItem1 = QtWidgets.QSpacerItem(40, 3, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -193,7 +194,6 @@ class Ui_log_widget(object):
         _translate = QtCore.QCoreApplication.translate
         log_widget.setWindowTitle(_translate("log_widget", "Form"))
         self.label.setText(_translate("log_widget", "/Documents/Wizard/Scripts/"))
-        self.log_widget_create_shelf_tool_pushButton.setText(_translate("log_widget", "Create shelf tool"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.python_0), _translate("log_widget", "Default"))
 
 

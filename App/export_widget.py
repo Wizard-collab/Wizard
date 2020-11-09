@@ -1,7 +1,8 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 import os
-from gui.export_widget import Ui_Form
+#from gui.export_widget import Ui_Form
+from editable_list_widget import list_widget
 from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
@@ -15,13 +16,10 @@ logger = log.pipe_log(__name__)
 
 prefs = prefs()
 
-class Main(QtWidgets.QWidget):
+class Main(list_widget):
 
     def __init__(self, asset, sanity, count):
         super(Main, self).__init__()
-        # Build the ui from ui converted file
-        self.ui = Ui_Form()
-        self.ui.setupUi(self)
         self.sanity = sanity
         self.count = count
         self.asset = asset
@@ -29,30 +27,22 @@ class Main(QtWidgets.QWidget):
         self.connect_functions()
 
     def init_ui(self):
-        self.ui.export_widget_folder_pushButton.setIcon(QtGui.QIcon(defaults._folder_icon_))
-        self.ui.export_widget_comment_pushButton.setIcon(QtGui.QIcon(defaults._comment_icon_))
-        self.ui.export_widget_tx_pushButton.setIcon(QtGui.QIcon(defaults._tx_icon_))
+
+        self.export_widget_folder_pushButton = self.add_button(defaults._folder_icon_)
+        self.export_widget_comment_pushButton = self.add_button(defaults._comment_icon_)
+        self.export_widget_tx_pushButton = self.add_button(defaults._tx_icon_)
         icon = defaults._export_list_neutral_icon_
         export_prefs = prefs.asset(self.asset).export
-
-        self.ui.export_widget_version_label.setText(self.asset.export_version)
-        self.ui.export_widget_comment_label.setText(export_prefs.version_comment)
-        self.ui.export_widget_date_label.setText(export_prefs.version_date)
-        self.ui.export_widget_user_label.setText(export_prefs.version_user)
+        self.export_widget_version_label = self.add_label(self.asset.export_version, "export_widget_version_label", 40)
+        self.export_widget_user_label = self.add_label(export_prefs.version_user, "export_widget_user_label", 120)
+        self.export_widget_date_label = self.add_label(export_prefs.version_date, "export_widget_date_label", 180)
+        self.export_widget_comment_label = self.add_label(export_prefs.version_comment, "export_widget_comment_label", 230, QtCore.Qt.AlignLeft)
         try:
             self.ui.export_widget_software_label.setText(f'From {export_prefs.version_software}')
         except:
             pass
-        if self.count:
-            self.ui.list_export_widget_frame.setStyleSheet('''#list_export_widget_frame{background-color:rgba(255,255,255,5);}
-                #list_export_widget_frame:hover{
-                
-                }''')
-
         if self.asset.stage != defaults._texturing_:
-            self.ui.export_widget_tx_pushButton.setVisible(0)
-            self.ui.tx_line.setVisible(0)
-
+            self.export_widget_tx_pushButton.setVisible(0)
         self.update_sanity(self.sanity)
 
     def update_sanity(self, sanity):
@@ -67,17 +57,7 @@ class Main(QtWidgets.QWidget):
                     icon = defaults._missing_file_export_list_icon_
         else:
             icon = defaults._export_list_neutral_icon_
-        self.ui.export_widget_image_label.setPixmap(
-            QtGui.QPixmap(icon).scaled(22, 22, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
-
-    def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.RightButton:
-            self.show_options_menu()
-
-    def show_options_menu(self):
-        self.options_widget = options_widget.Main()
-        self.options_widget.add_item('Explorer', self.open_folder)
-        build.launch_options(self.options_widget)
+        self.set_icon(icon)
 
     def open_folder(self):
         file = prefs.asset(self.asset).export.version_folder
@@ -86,24 +66,22 @@ class Main(QtWidgets.QWidget):
     def change_comment(self):
         self.dialog_comment = dialog_comment.Main(self.asset)
         if build.launch_dialog_comment(self.dialog_comment):
-            self.ui.export_widget_comment_label.setText(self.dialog_comment.comment)
+            self.export_widget_comment_label.setText(self.dialog_comment.comment)
 
     def make_tx(self):
         folder = prefs.asset(self.asset).export.version_folder
         file_names_list = os.listdir(folder)
         files_list = []
-
         extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
-
         for file in file_names_list:
             if file.endswith(extension):
                 files_list.append(os.path.join(folder, file))
         tx_from_files(files_list)
 
     def connect_functions(self):
-        self.ui.export_widget_folder_pushButton.clicked.connect(self.open_folder)
-        self.ui.export_widget_comment_pushButton.clicked.connect(self.change_comment)
-        self.ui.export_widget_tx_pushButton.clicked.connect(self.make_tx)
+        self.export_widget_folder_pushButton.clicked.connect(self.open_folder)
+        self.export_widget_comment_pushButton.clicked.connect(self.change_comment)
+        self.export_widget_tx_pushButton.clicked.connect(self.make_tx)
 
     def closeEvent(self, event):
         event.ignore()

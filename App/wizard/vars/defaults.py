@@ -167,6 +167,7 @@ _user_script_name_ = 'name'
 _user_script_image_ = 'image'
 _user_script_ = 'script'
 _user_scripts_ = 'scripts'
+_subprocess_ = 'subprocess'
 
 # Asset stages list
 _assets_stages_ = [_design_,
@@ -243,6 +244,7 @@ _error_ = 'error'
 #_light_rigs_ = 'light_rigs'
 
 _make_tx_ = 'ressources/plugins/maketx/maketx.exe'
+_sandbox_ = '_SANDBOX'
 
 #subprocess manager library
 _percent_signal_ = 'percent:'
@@ -308,6 +310,7 @@ _email_flat_icon_ = _icon_path_ + 'email.png'
 _clear_icon_ = _icon_path_ + 'clear.png'
 _execute_icon_ = _icon_path_ + 'execute.png'
 _execute_sub_icon_ = _icon_path_ + 'execute_sub.png'
+_create_shelf_icon_ = _icon_path_ + 'create_shelf_icon.png'
 _close_popup_icon_ = _icon_path_ + 'close_popup.png'
 _avatar_images_path_ = 'Data/avatars/'
 _neutral_avatar_ = _icon_path_ + 'admin.png'
@@ -339,6 +342,7 @@ _projects_icon_ = _icon_path_ + 'projects.png'
 _project_folder_icon_ = _icon_path_ + 'project_folder.png'
 _node_icon_ = _icon_path_ + 'node_icon.png'
 _reference_list_icon_ = _icon_path_ + 'reference_list_icon.png'
+_icon_mode_view_ = _icon_path_ + 'icon_mode_view.png'
 _sd_icon_ = _icon_path_ + 'sd_icon.png'
 _welcom_user_image_ = _icon_path_ + 'welcome_user.png'
 _prod_manager_user_image_ = _icon_path_ + 'prod_manager_user_image.png'
@@ -395,6 +399,8 @@ _wizard_load_image_ = _icon_path_ + 'wizard_load_image.png'
 _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
+_sandbox_icon_ = _icon_path_ + "sandbox.png"
+_missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -969,6 +975,7 @@ _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
+_project_script_file_ = 'scripts.yaml'
 _user_custom_scripts_path_ = _user_path_ + 'scripts'
 _user_custom_icons_ = _user_path_ + 'custom_icons'
 _wall_ = 'wall.log'
@@ -1112,6 +1119,7 @@ _data_path_ = 'Data/'
 _log_citical_file_ = _data_path_ + 'log_files/critical_error.log'
 
 _log_file_ = _log_path_ + 'main.log'
+_lock_file_ = _log_path_ + '.lock'
 
 # Asset default library
 _main_variant_ = 'main'
@@ -1320,6 +1328,9 @@ _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins
 # Signal keys library
 _signal_type_key_ = 'type'
 _refresh_signal_ = 'refresh'
+_log_signal_ = 'log'
+_log_line_ = 'line'
+_focus_signal_ = 'focus'
 _save_signal_ = 'save'
 _task_value_ = 'value'
 _task_signal_ = 'task_signal'

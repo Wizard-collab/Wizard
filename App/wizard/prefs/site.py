@@ -98,6 +98,15 @@ class site:
         else:
             logger.error("User {} doesn't exists".format(user))
 
+    def change_project_password(self, project, password):
+        if project in self.get_projects_list():
+            # settings = open_pref_file()
+            self.open_pref_file()
+            self.settings[defaults._projects_list_key_][project][defaults._password_key_] = password
+            self.write_pref_file()
+        else:
+            logger.error("Project {} doesn't exists".format(project))
+
     def add_project(self, project_name=None, project_path=None, password=None):
         # settings = open_pref_file()
         self.open_pref_file()

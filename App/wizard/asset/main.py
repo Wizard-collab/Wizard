@@ -4,6 +4,9 @@
 import os
 import shutil
 import traceback
+import sys
+import time
+
 # Wizard modules
 from wizard.asset import builder as build
 from wizard.asset.folder import folder
@@ -135,10 +138,19 @@ class asset():
             return folder(self).domain
 
     @property
+    def sandbox(self):
+
+        # Return the asset folder
+        # in function of which variables are declared in the asset
+        if self.stage:
+            return folder(self).sandbox
+
+    @property
     def image(self):
 
         # Get the asset screenshot with the "prefs" wizard module
         return self.asset_prefs.software.image
+    
 
     @property
     def export_image(self):
@@ -167,10 +179,19 @@ class asset():
             self.export_version = None
 
 
-    def create(self, in_out=None):
+    def create(self, in_out=None, batch=None):
         # Call the "stats" wizard object
         # To interact with it
         stats_prefs = stats()
+
+        print('current_task:Creating {} - {} - {} - {} - {}'.format(self.domain,
+                                                                   self.category,
+                                                                   self.name,
+                                                                   self.stage,
+                                                                   self.variant))
+        print('current_status:Starting...')
+        print('percent:0')
+        sys.stdout.flush()
 
         # Check if a category was given to the "asset" class
         # Check if a name was given to the "asset" class
@@ -190,6 +211,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0
@@ -204,6 +228,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0
@@ -223,6 +250,9 @@ class asset():
                     stats_prefs.add_xp(20)
 
                     # Return the succeed of the "build" wizard function
+                    print('percent:100')
+                    sys.stdout.flush()
+                    time.sleep(0.1)
                     return 1
                 else:
                     return 0
@@ -237,6 +267,9 @@ class asset():
                 stats_prefs.add_xp(20)
 
                 # Return the succeed of the "build" wizard function
+                print('percent:100')
+                sys.stdout.flush()
+                time.sleep(0.1)
                 return 1
             else:
                 return 0
@@ -288,13 +321,10 @@ class asset():
             # Using the "os" pytohn module
             return os.path.join(path, file)
 
-    def playblast(self):
+    def playblast(self, version):
 
         # This function create the defaults playblast folder in the asset variant folder
         # and return the playblast file
-
-        # Get a new playblast version using the "prefs" wizard module
-        version = self.asset_prefs.playblast.get_new_version()
 
         # Add the new version to the "playblast.wd" file
         self.asset_prefs.playblast.new_version(version)
@@ -381,8 +411,8 @@ class asset():
                     # If the file doesn't exists, copy it from the wizard install
                     # Getting the path using the "_init_file_dic_" dictionnary
                     # from the "defaults" wizard module
-                    shutil.copyfile(os.path.abspath(defaults._init_file__dic_[self.software],
-                                    self.work))
+                    shutil.copyfile(os.path.abspath(defaults._init_file__dic_[self.software]),
+                                    self.work)
 
                 # As long as "Substance painter" is not scriptable
                 # Wizard get the referenced file here to launch the software

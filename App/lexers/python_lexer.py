@@ -40,6 +40,8 @@ class python_lexer(QsciLexerCustom):
                             "for",
                             "while",
                             "return",
+                            "in",
+                            "as",
                             "=",
                             "+",
                             "*"
@@ -52,7 +54,7 @@ class python_lexer(QsciLexerCustom):
                             "@",
                             '__name__']
 
-        self.function_key_list = ['def', 'class']
+        self.function_key_list = ['def', 'class', 'wapi']
         self.class_keys_list = ['self', 'parent']
         self.string_quotes = ['"', "'"]
         self.comment_quotes = ["#"]

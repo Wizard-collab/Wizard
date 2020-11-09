@@ -171,6 +171,7 @@ class folder():
         else:
             return 0
 
+
     def is_export_root(self):
 
         # Check if the export_root path exists using the folder "export_root" function
@@ -226,6 +227,25 @@ class folder():
                 self.asset.stage,
                 self.asset.variant,
                 self.asset.software)
+            return path
+        else:
+            return 0
+
+    @property
+    def sandbox(self):
+
+        # Check if the requested part is assigned to the "asset" object
+        if self.asset.software:
+
+            # Build the path and return it
+            path = os.path.join(
+                self.asset.project,
+                self.asset.domain,
+                self.asset.category,
+                self.asset.name,
+                self.asset.stage,
+                self.asset.variant,
+                defaults._sandbox_)
             return path
         else:
             return 0
@@ -286,6 +306,23 @@ class folder():
 
         # Need to create this variable in the "defaults" wizard module
         extension = 'mov'
+
+        # Build the playblast file name
+        file_name = '{}_{}.{}'.format(file_name_template, version,
+                                      extension)
+
+        # Return the playblast file name
+        return file_name
+
+    def playblast_image(self, version):
+
+        # Build a file path+name from the "asset" object
+        # without creating it, just a return
+        # Get the filename template from the "asset" object
+        file_name_template = self.playblast_name_template
+
+        # Need to create this variable in the "defaults" wizard module
+        extension = 'png'
 
         # Build the playblast file name
         file_name = '{}_{}.{}'.format(file_name_template, version,
