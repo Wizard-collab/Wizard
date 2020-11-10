@@ -120,7 +120,8 @@ def build_blender_geo_ref_file():
 #             # convert Maya groups to collectons
 #             return bpy.data.objects.get(asset_group)
 
-def import_alembic(filepath):
+
+def import_alembic(fimlepath):
 
     asset_group = 'geo_GRP'
     if bpy.data.collections.get(asset_group) is not None:
