@@ -126,7 +126,7 @@ _video_ = 'video'
 _cyclo_ = 'cyclo'
 _fx_setup_ = 'fx_setup'
 _material_ = 'material'
-_painter_template_ = "painter template"
+_painter_template_ = "painter_template"
 
 # Editing categories
 _video_edit_ = "video_edit"
@@ -138,7 +138,7 @@ _editing_stages_dic_[_sound_edit_] = _sound_edit_
 
 
 
-_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _painter_template_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
+_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _painter_template_,_render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
 _lib_stages_dic_ = {}
 _lib_stages_dic_[_autorig_] = _autorig_
 _lib_stages_dic_[_cam_rig_] = _cam_rig_

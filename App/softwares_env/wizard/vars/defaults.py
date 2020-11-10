@@ -126,7 +126,7 @@ _video_ = 'video'
 _cyclo_ = 'cyclo'
 _fx_setup_ = 'fx_setup'
 _material_ = 'material'
-_painter_template_ = "painter template"
+_painter_template_ = "painter_template"
 
 # Editing categories
 _video_edit_ = "video_edit"
