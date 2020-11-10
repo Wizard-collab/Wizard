@@ -126,6 +126,7 @@ _video_ = 'video'
 _cyclo_ = 'cyclo'
 _fx_setup_ = 'fx_setup'
 _material_ = 'material'
+_painter_template_ = "painter template"
 
 # Editing categories
 _video_edit_ = "video_edit"
@@ -137,7 +138,7 @@ _editing_stages_dic_[_sound_edit_] = _sound_edit_
 
 
 
-_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
+_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _painter_template_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
 _lib_stages_dic_ = {}
 _lib_stages_dic_[_autorig_] = _autorig_
 _lib_stages_dic_[_cam_rig_] = _cam_rig_
@@ -145,6 +146,7 @@ _lib_stages_dic_[_cyclo_] = _cyclo_
 _lib_stages_dic_[_gizmo_] = _gizmo_
 _lib_stages_dic_[_light_rig_] = _light_rig_
 _lib_stages_dic_[_lut_] = _lut_
+_lib_stages_dic_[_painter_template_] = _painter_template_
 _lib_stages_dic_[_render_graph_] = _render_graph_
 _lib_stages_dic_[_render_pass_] = _render_pass_
 _lib_stages_dic_[_fx_setup_] = _fx_setup_
@@ -459,6 +461,7 @@ _video_icon_ = 'video.png'
 _video_edit_icon_ = 'video_edit.png'
 _sound_edit_icon_ = 'sound_edit.png'
 _material_icon_ = 'material.png'
+_painter_template_icon_ = 'material.png'
 
 _design_icon_large_ = _icon_path_ + 'design_large.png'
 _geo_icon_large_ = _icon_path_ + 'modeling_large.png'
@@ -489,6 +492,7 @@ _video_icon_large_ = _icon_path_ + 'video_large.png'
 _video_edit_icon_large_ = _icon_path_ + 'video_edit_large.png'
 _sound_edit_icon_large_ = _icon_path_ + 'sound_edit_large.png'
 _material_icon_large_ = _icon_path_ + 'video_edit_large.png'
+_painter_template_icon_large_ = _icon_path_ + 'video_edit_large.png' ## to do: add real icon
 
 
 _stage_icon_={}
@@ -522,6 +526,7 @@ _stage_icon_[_video_] = _icon_path_ + _video_icon_
 _stage_icon_[_video_edit_] = _icon_path_ + _video_edit_icon_
 _stage_icon_[_sound_edit_] = _icon_path_ + _sound_edit_icon_
 _stage_icon_[_material_] = _icon_path_ + _material_icon_
+_stage_icon_[_painter_template_] = _icon_path_ + _painter_template_icon_
 
 
 
@@ -838,6 +843,7 @@ _stage_softs_dic_[_video_] = [_folder_]
 _stage_softs_dic_[_video_edit_] = [_resolve_]
 _stage_softs_dic_[_sound_edit_] = [_reaper_]
 _stage_softs_dic_[_material_] = [_designer_, _photoshop_]
+_stage_softs_dic_[_painter_template_] = [_folder_]
 
 
 # Game icons library
@@ -1276,6 +1282,7 @@ _stockshot_node_icon_ = _icon_path_ + 'stockshot_node_main.png'
 _video_node_icon_ = _icon_path_ + 'video_node_main.png'
 _video_edit_node_icon_ = _icon_path_ + 'video_edit_node_main.png'
 _sound_edit_node_icon_ = _icon_path_ + 'sound_edit_node_main.png'
+_painter_template_node_icon_ = _icon_path_ + 'shading_node_main.png'
 
 
 _nodes_icons_dic_ = {}
@@ -1309,6 +1316,7 @@ _nodes_icons_dic_[_video_] = _video_node_icon_
 _nodes_icons_dic_[_video_edit_] = _video_edit_node_icon_
 _nodes_icons_dic_[_sound_edit_] = _sound_edit_node_icon_
 _nodes_icons_dic_[_material_] = _material_node_icon_
+_nodes_icons_dic_[_painter_template_] = _painter_template_node_icon_
 
 _python_27_zip_ = 'plugins/Guerilla Render/python27.zip'
 _python_27_dll_ = 'plugins/Guerilla Render/python27.dll'

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" This module is the user API of Wizard. 
+""" This module is the user API of Wizard.
 	It gives access to the wizard functions in a simple way
 
 	Author : BRUNEL Leo """
@@ -63,6 +63,7 @@ _cam_rig_ = defaults._cam_rig_
 _gizmo_ = defaults._gizmo_
 _light_rig_ = defaults._light_rig_
 _lut_ = defaults._lut_
+_painter_template_ = defaults._painter_template_
 _render_graph_ = defaults._render_graph_
 _render_pass_ = defaults._render_pass_
 _scripts_ = defaults._scripts_
@@ -76,6 +77,7 @@ _library_categories_list_ = [_autorig_,
 							_gizmo_,
 							_light_rig_,
 							_lut_,
+							_painter_template_,
 							_render_graph_,
 							_render_pass_,
 							_scripts_,
@@ -125,7 +127,7 @@ def get_all_users():
 def get_user_email(user=None):
 	'''This function return the email of the requested user
 		'user' : the user as string
-		If the user doesn't exists, wizard return 'None' 
+		If the user doesn't exists, wizard return 'None'
 		If no user is given, wizard return the current user email'''
 	if not user:
 		user = prefs.user
@@ -135,7 +137,7 @@ def get_user_email(user=None):
 		return None
 
 def get_user_admin(user=None):
-	'''This function check if the user is 'administrator' and return a boolean 
+	'''This function check if the user is 'administrator' and return a boolean
 		'user' : the user as string
 		If no user is given, wizard return the current user admin status'''
 	if not user:
@@ -143,7 +145,7 @@ def get_user_admin(user=None):
 	return prefs.admin_from_user(user)
 
 def get_user_full_name(user=None):
-	'''This function return the full name of the requested user 
+	'''This function return the full name of the requested user
 		'user' : the user as string
 		If the user doesn't exists, wizard return 'None'
 		If no user is given, wizard return the current user full name'''
@@ -240,6 +242,13 @@ def create_lut(name):
 	asset = asset_core.asset(_library_, _lut_, name)
 	asset.create()
 	asset = asset_core.asset(_library_, _lut_, name, _lut_)
+	asset.create()
+
+def create_painter_template(name):
+	'''Create a painter template with the given name'''
+	asset = asset_core.asset(_library_, _painter_template_, name)
+	asset.create()
+	asset = asset_core.asset(_library_, _painter_template_, name, _painter_template_)
 	asset.create()
 
 def create_render_graph(name):

@@ -239,6 +239,9 @@ class Main(QtWidgets.QWidget):
         self.ui.p_w_lut_label.setPixmap(
                     QtGui.QPixmap(defaults._stage_icon_[defaults._lut_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
                                                                               QtCore.Qt.SmoothTransformation))
+        self.ui.p_w_painter_template_label.setPixmap(
+                    QtGui.QPixmap(defaults._stage_icon_[defaults._painter_template_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
+                                                                              QtCore.Qt.SmoothTransformation))
         self.ui.p_w_material_label.setPixmap(
                     QtGui.QPixmap(defaults._stage_icon_[defaults._material_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
                                                                               QtCore.Qt.SmoothTransformation))

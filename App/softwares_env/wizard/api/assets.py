@@ -1,6 +1,6 @@
 # coding: utf-8
 
-""" This module is the user API of Wizard. 
+""" This module is the user API of Wizard.
 	It gives access to the wizard functions in a simple way
 
 	Author : BRUNEL Leo """
@@ -75,6 +75,13 @@ def create_lut(name):
 	asset = asset_core.asset(defaults._library_, defaults._lut_, name)
 	asset.create()
 	asset = asset_core.asset(defaults._library_, defaults._lut_, name, defaults._lut_)
+	asset.create()
+
+def create_painter_template(name):
+	'''Create a painter template with the given name'''
+	asset = asset_core.asset(defaults._library_, defaults._painter_template_, name)
+	asset.create()
+	asset = asset_core.asset(defaults._library_, defaults._painter_template_, name, defaults._painter_template_)
 	asset.create()
 
 def create_render_graph(name):
