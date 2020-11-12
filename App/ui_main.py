@@ -161,6 +161,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_local_server()
             self.first_tab_refresh()
             
+            prefs.set_custom_pub_ext_dic()
+
         except:
             logger.critical(str(traceback.format_exc()))
 
