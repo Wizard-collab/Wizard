@@ -53,6 +53,8 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.ui.display_pushButton.clicked.connect(self.change_view)
         self.ui.reference_list_listWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) # Open the right-click menu strategy
         self.ui.reference_list_listWidget.customContextMenuRequested.connect(self.show_options_menu) # Binding event
+        area_scroll_bar = self.ui.reference_list_listWidget.verticalScrollBar()
+        area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
 
     def change_view(self):
         self.as_list = 1-self.as_list
@@ -153,6 +155,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         widget.parent_item = item
         self.ui.reference_list_listWidget.addItem(item)
         self.ui.reference_list_listWidget.setItemWidget(item, widget)
+        QApplication.processEvents()
 
     def clear_all(self):
         self.ui.reference_list_listWidget.clear()
