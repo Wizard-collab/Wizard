@@ -167,6 +167,7 @@ _user_script_name_ = 'name'
 _user_script_image_ = 'image'
 _user_script_ = 'script'
 _user_scripts_ = 'scripts'
+_subprocess_ = 'subprocess'
 
 # Asset stages list
 _assets_stages_ = [_design_,
@@ -243,11 +244,14 @@ _error_ = 'error'
 #_light_rigs_ = 'light_rigs'
 
 _make_tx_ = 'ressources/plugins/maketx/maketx.exe'
+_sandbox_ = '_SANDBOX'
 
 #subprocess manager library
 _percent_signal_ = 'percent:'
 _subprocess_current_task_ = 'current_task:'
 _subprocess_status_ = 'status:'
+
+
 
 # Icons library
 _icon_path_ = ressources_path('ressources/images/')
@@ -308,6 +312,7 @@ _email_flat_icon_ = _icon_path_ + 'email.png'
 _clear_icon_ = _icon_path_ + 'clear.png'
 _execute_icon_ = _icon_path_ + 'execute.png'
 _execute_sub_icon_ = _icon_path_ + 'execute_sub.png'
+_create_shelf_icon_ = _icon_path_ + 'create_shelf_icon.png'
 _close_popup_icon_ = _icon_path_ + 'close_popup.png'
 _avatar_images_path_ = 'Data/avatars/'
 _neutral_avatar_ = _icon_path_ + 'admin.png'
@@ -339,6 +344,7 @@ _projects_icon_ = _icon_path_ + 'projects.png'
 _project_folder_icon_ = _icon_path_ + 'project_folder.png'
 _node_icon_ = _icon_path_ + 'node_icon.png'
 _reference_list_icon_ = _icon_path_ + 'reference_list_icon.png'
+_icon_mode_view_ = _icon_path_ + 'icon_mode_view.png'
 _sd_icon_ = _icon_path_ + 'sd_icon.png'
 _welcom_user_image_ = _icon_path_ + 'welcome_user.png'
 _prod_manager_user_image_ = _icon_path_ + 'prod_manager_user_image.png'
@@ -396,6 +402,8 @@ _wizard_load_image_ = _icon_path_ + 'wizard_load_image.png'
 _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
+_sandbox_icon_ = _icon_path_ + "sandbox.png"
+_missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -408,6 +416,12 @@ _menu_password_icon_ = _menu_icon_path_ + 'key.png'
 _menu_api_icon_ = _menu_icon_path_ + 'api.png'
 _menu_contact_icon_ = _menu_icon_path_ + 'mail.png'
 
+# Domain icons
+_domain_icons_ = dict()
+_domain_icons_[_assets_] = _assets_icon_
+_domain_icons_[_library_] = _library_icon_
+_domain_icons_[_editing_] = _edit_icon_
+_domain_icons_[_sequences_] = _sequences_icon_
 
 #Sounds library
 _sound_path_ = 'ressources/sounds/'
@@ -587,8 +601,10 @@ _pub_ext_dic_[_design_] = {}
 _pub_ext_dic_[_design_][_photoshop_] = 'png'
 _pub_ext_dic_[_geo_] = {}
 _pub_ext_dic_[_geo_][_maya_] = 'abc'
+_pub_ext_dic_[_geo_][_blender_] = 'abc'
 _pub_ext_dic_[_rig_] = {}
 _pub_ext_dic_[_rig_][_maya_] = 'ma'
+_pub_ext_dic_[_rig_][_blender_] = 'blend'
 _pub_ext_dic_[_autorig_] = {}
 _pub_ext_dic_[_autorig_][_maya_] = 'ma'
 _pub_ext_dic_[_cam_rig_] = {}
@@ -636,6 +652,66 @@ _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 _pub_ext_dic_[_material_] = {}
 _pub_ext_dic_[_material_][_designer_] = 'sbsar'
 _pub_ext_dic_[_material_][_photoshop_] = 'png'
+
+# Publish extensions lists dictionary
+_pub_ext_list_dic_ = {}
+_pub_ext_list_dic_[_design_] = {}
+_pub_ext_list_dic_[_design_][_photoshop_] = ['png']
+_pub_ext_list_dic_[_geo_] = {}
+_pub_ext_list_dic_[_geo_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_geo_][_blender_] = ['abc', 'blend']
+_pub_ext_list_dic_[_rig_] = {}
+_pub_ext_list_dic_[_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_rig_][_blender_] = ['blend']
+_pub_ext_list_dic_[_hair_] = {}
+_pub_ext_list_dic_[_hair_][_maya_] = ['ma']
+_pub_ext_list_dic_[_hair_][_maya_yeti_] = ['ma']
+_pub_ext_list_dic_[_texturing_] = {}
+_pub_ext_list_dic_[_texturing_][_painter_] = ['exr', 'png', 'tiff']
+_pub_ext_list_dic_[_texturing_][_designer_] = ['sbsar']
+_pub_ext_list_dic_[_shading_] = {}
+_pub_ext_list_dic_[_shading_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_shading_][_maya_] = ['ma']
+
+_pub_ext_list_dic_[_autorig_] = {}
+_pub_ext_list_dic_[_autorig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_cam_rig_] = {}
+_pub_ext_list_dic_[_cam_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_render_pass_] = {}
+_pub_ext_list_dic_[_render_pass_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_render_graph_] = {}
+_pub_ext_list_dic_[_render_graph_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_light_rig_] = {}
+_pub_ext_list_dic_[_light_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_light_rig_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_fx_setup_] = {}
+_pub_ext_list_dic_[_fx_setup_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_cyclo_] = {}
+_pub_ext_list_dic_[_cyclo_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_cyclo_][_guerilla_] = ['gproject']
+_pub_ext_list_dic_[_material_] = {}
+_pub_ext_list_dic_[_material_][_designer_] = ['sbsar', 'png', 'exr', 'tiff']
+_pub_ext_list_dic_[_material_][_photoshop_] = ['png']
+
+_pub_ext_list_dic_[_concept_] = {}
+_pub_ext_list_dic_[_concept_][_photoshop_] = ['png']
+_pub_ext_list_dic_[_layout_] = {}
+_pub_ext_list_dic_[_layout_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_animation_] = {}
+_pub_ext_list_dic_[_animation_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_lighting_] = {}
+_pub_ext_list_dic_[_lighting_][_maya_] = ['exr']
+_pub_ext_list_dic_[_lighting_][_guerilla_] = ['exr']
+_pub_ext_list_dic_[_cfx_] = {}
+_pub_ext_list_dic_[_cfx_][_maya_] = ['fur', 'abc']
+_pub_ext_list_dic_[_cfx_][_maya_yeti_] = ['fur', 'abc']
+_pub_ext_list_dic_[_fx_] = {}
+_pub_ext_list_dic_[_fx_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_fx_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_compositing_] = {}
+_pub_ext_list_dic_[_compositing_][_nuke_] = ['exr']
+_pub_ext_list_dic_[_camera_] = {}
+_pub_ext_list_dic_[_camera_][_maya_] = ['abc', 'ma']
 
 
 
@@ -970,6 +1046,7 @@ _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
+_project_script_file_ = 'scripts.yaml'
 _user_custom_scripts_path_ = _user_path_ + 'scripts'
 _user_custom_icons_ = _user_path_ + 'custom_icons'
 _wall_ = 'wall.log'
@@ -1113,6 +1190,7 @@ _data_path_ = 'Data/'
 _log_citical_file_ = _data_path_ + 'log_files/critical_error.log'
 
 _log_file_ = _log_path_ + 'main.log'
+_lock_file_ = _log_path_ + '.lock'
 
 # Asset default library
 _main_variant_ = 'main'
@@ -1321,6 +1399,9 @@ _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins
 # Signal keys library
 _signal_type_key_ = 'type'
 _refresh_signal_ = 'refresh'
+_log_signal_ = 'log'
+_log_line_ = 'line'
+_focus_signal_ = 'focus'
 _save_signal_ = 'save'
 _task_value_ = 'value'
 _task_signal_ = 'task_signal'

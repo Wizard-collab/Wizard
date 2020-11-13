@@ -32,6 +32,10 @@ QWidget {
 	color:white;
 }
 
+#display_pushButton{
+	border-radius:14px;
+}
+
 #update_web_pushButton, #update_doc_pushButton{
 	background:transparent;
 	color:gray;
@@ -285,11 +289,15 @@ QWidget {
 	color:gray;
 }
 
-#reference_list_listWidget, #icons_list_listWidget{
+#reference_list_listWidget, #icons_list_listWidget, #exports_treeWidget, #icons_listWidget{
 	background-color:transparent;
 }
 
-#reference_list_listWidget::item{
+#exports_treeWidget::Item{
+	margin:1px;
+}
+
+#reference_list_listWidget::item, #exports_treeWidget::Item, #icons_listWidget::Item{
 	padding:0px;
 	border-radius:3px;	
 	background-color: rgba(_middle_level_widget_color_, 110);
@@ -303,12 +311,12 @@ QWidget {
 	color: rgb(_text_color_);
 }
 
-#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover {
+#reference_list_listWidget::item:hover, #icons_list_listWidget::item:hover, #exports_treeWidget::Item:hover, #icons_listWidget::Item:hover{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 }
 
-#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected {
+#reference_list_listWidget::item:selected, #icons_list_listWidget::item:selected, #exports_treeWidget::Item:selected, #icons_listWidget::Item:selected{
 	padding:0px;
 	background-color: rgba(_top_level_widget_color_, 120);
 	color: rgb(_text_color_);
@@ -336,6 +344,10 @@ QWidget {
 
 #manual_export_main_frame_2{
 	background-color:transparent;
+}
+
+#main_frame_2{
+	background-color:rgb(_background_color_);
 }
 
 #Infos_frame{
@@ -617,7 +629,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #header_frame{
-	background-color: rgb(_middle_level_widget_color_);
+	background-color: transparent;
 }
 
 #chat_server_frame{
@@ -727,7 +739,15 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	background-color: rgba(_top_level_widget_color_, 200);
 	margin : 0px;
 	border-radius:10px;
+	border-top-right-radius:0px;
 	border-top-left-radius:0px;
+}
+
+#wall_event_top_frame{
+	margin : 0px;
+	border-radius:10px;
+	border-bottom-right-radius:0px;
+	border-bottom-left-radius:0px;
 }
 
 #color_id_frame{
@@ -780,9 +800,10 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #popup_background_frame{
-	background-color : rgba(_middle_level_widget_color_, 245);
+	background-color : rgb(_top_level_widget_color_);
 	padding : 0px;
 	margin : 0px;
+	border-radius: 15px;
 }
 
 #save_popup_frame{
@@ -965,7 +986,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 #main_frame{
-	background-color:transparent;
+	background-color:rgb(_background_color_);
 }
 
 #image_button{
@@ -975,6 +996,9 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	margin:Opx;
 }
 
+#launcher_frame{
+	background-color:transparent;
+}
 
 #jokes_main_verticalFrame{
 	background-color:transparent;
@@ -1107,7 +1131,7 @@ QToolBox::tab:selected { /* italicize selected tabs */
 
 
 #asset_comment_textEdit{
-	background-color: transparent;
+	background-color: rgba(_low_level_widget_color_, 160);
 }
 
 #comment_frame{
@@ -1117,11 +1141,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 	padding-top:9px;
 	padding-bottom:9px;
 	margin:0px;
-}
-
-#comment_pushButton{
-	border-image: url(ressources/images/comment.png) 0 0 0 0 stretch stretch;
-	background-color:transparent;
 }
 
 #variants_comboBox, #software_comboBox, #versions_comboBox{
@@ -1150,15 +1169,6 @@ QToolBox::tab:selected { /* italicize selected tabs */
 }
 
 
-#comment_pushButton:hover{
-	border-image: url(ressources/images/comment_hover.png) 0 0 0 0 stretch stretch;
-}
-
-#comment_pushButton:pressed{
-	border-image: url(ressources/images/comment_clicked.png) 0 0 0 0 stretch stretch;
-}
-
-
 #send_message_frame{
 	background-color: rgba(_background_color_, 120);
 	margin:0px;
@@ -1168,6 +1178,14 @@ QToolBox::tab:selected { /* italicize selected tabs */
 QLabel{
 	background-color:transparent;
 	padding-bottom:3px;
+}
+
+#launcher_frame_2{
+	background-color: rgb(_middle_level_widget_color_);
+}
+
+#launch_button_frame{
+	background-color:transparent;
 }
 
 QTreeView {
@@ -1209,7 +1227,7 @@ QTreeView::branch{
 
 QTreeView::branch:has-children:!has-siblings:closed,
 QTreeView::branch:closed:has-children:has-siblings {
-        image: url(ressources/images/folder_closed.png);
+        image: url(ressources/images/QTreeViewRight.png);
         background-color:rgba(_low_level_widget_color_, 110)
 }
 
@@ -1219,12 +1237,14 @@ QTreeView::item:has-children{
 
 QTreeView::branch:open:has-children:!has-siblings,
 QTreeView::branch:open:has-children:has-siblings  {
-        image: url(ressources/images/folder_opened.png);
+        image: url(ressources/images/QTreeViewDown.png);
         background-color:rgba(_low_level_widget_color_, 110)
 }
 QTreeView, QTreeWidget {
     show-decoration-selected: 0;
 }
+
+
 
 QTreeView::branch {
     background-color: transparent;
@@ -1245,6 +1265,18 @@ QTreeView::branch:hover {
 
 .QFrame{
 	background-color: rgb(_middle_level_widget_color_);
+	margin:0px;
+	border-radius:0px;
+}
+
+#workflow_stage_widget{
+	background-color: rgb(_middle_level_widget_color_);
+	margin:0px;
+	border-radius:0px;
+}
+
+#workflow_domain_widget{
+	background-color: rgb(_top_level_widget_color_);
 	margin:0px;
 	border-radius:0px;
 }
@@ -1298,9 +1330,9 @@ QTextEdit{
 
 QComboBox::drop-down, QSpinBox::up-button, QSpinBox::down-button, QDateTimeEdit::up-button, QDateTimeEdit::down-button
 {
-     width: 15px;
-     color: rgb(_text_color_);
-     padding-left: 10px;
+    width: 15px;
+    color: rgb(_text_color_);
+    padding-left: 10px;
 	background-color: rgb(_low_level_widget_color_);
  }
 QComboBox::down-arrow {
@@ -1320,7 +1352,7 @@ QSpinBox::down-arrow,  QDateTimeEdit::down-arrow {
 QSpinBox::up-arrow,  QDateTimeEdit::up-arrow {
     border: 0px;
     background-repeat: no-repeat;
-    image: url(ressources/images/up_arrow.png);
+    image: url(ressources/images/tree_up_arrow.png);
 	width:20px;
 	padding-right:9px;
 }
@@ -1332,25 +1364,33 @@ QListView::item {
 	margin: 1px;
 	background-color:rgba(255,255,255,4);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:hover {
 	padding:3px;
-	background-color: rgb(_tree_hover_item_color_);
+	background-color: rgba(_top_level_widget_color_, 100);
 	border-radius:0px;	
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:selected {
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QListView::item:selected:active{
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
 	color:white;
+	show-decoration-selected: 0;
+	outline: none;
 }
 
 QComboBox::drop-down:hover, QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDateTimeEdit::up-button:hover, QDateTimeEdit::down-button:hover
@@ -1441,6 +1481,10 @@ QRadioButton::indicator::checked{
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
     background: none;
 
+}
+
+QScrollArea{
+	background-color:transparent;
 }
 
 QScrollBar:horizontal {
@@ -1607,5 +1651,17 @@ QMenuBar::item:selected {
 }
 
 QSplitter::handle {
-    image: url(ressources/images/split_handle.png);
+	background-color: rgb(_top_level_widget_color_);
+}
+QSplitter::handle:hover {
+	background-color: rgb(_hover_widget_color_);
+}
+QSplitter::handle:pressed {
+	background-color: rgb(_pressed_widget_color_);
+}
+
+QToolTip {
+	background-color: rgb(_middle_level_widget_color_);
+	border : 1px solid rgb(_low_level_widget_color_);
+	color: white;
 }

@@ -36,6 +36,7 @@ class Main(QtWidgets.QWidget):
         self.ui.wall_event_message_label.setText(self.message)
         icon = defaults._event_icon_dic_[self.id]
         color = defaults._event_color_dic_[self.id]
+        self.ui.event_name_label.setText(self.id)
         self.ui.color_id_frame.setStyleSheet("#color_id_frame{background-color:%s;}" % color)
 
     def mousePressEvent(self, event):
@@ -47,13 +48,18 @@ class Main(QtWidgets.QWidget):
             asset = asset_core.string_to_asset(self.asset)
             if self.id == defaults._wall_publish_event_:
                 folder = prefs.asset(asset).export.version_folder
-                os.startfile(folder)
+                if os.path.isdir(folder):
+                    os.startfile(folder)
             elif self.id == defaults._wall_creation_event_:
                 try:
                     folder = prefs.asset(asset).folder
                     os.startfile(folder)
                 except:
                     logger.warning("Can't open that, please access via wizard project tree !")
+            elif self.id == defaults._wall_playblast_event_:
+                folder = prefs.asset(asset).playblast.folder
+                if os.path.isdir(folder):
+                    os.startfile(folder)
 
     def show_options_menu(self):
         self.options_widget = options_widget.Main()

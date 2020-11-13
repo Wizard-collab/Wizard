@@ -19,9 +19,10 @@ prefs = prefs()
 def save():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     asset.version = prefs.asset(asset).software.get_new_version()
+    if os.path.isfile(asset.file):
+        asset.version = str(int(asset.version) + 1).zfill(4)
     cmds.file(rename=asset.file)
     cmds.file(save=True, type='mayaAscii')
-
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
@@ -112,11 +113,15 @@ def export_sets():
         wall.wall().publish_event(asset)
 
 def export_set_dress():
-    if sanity(defaults._stage_export_grp_dic_[defaults._set_dress_]):
+
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    grp_name = '{}_GRP'.format(asset.name)
+
+    if sanity(grp_name):
 
         save()
 
-        for mesh in cmds.listRelatives(defaults._stage_export_grp_dic_[defaults._set_dress_], ad=1):
+        for mesh in cmds.listRelatives(grp_name, ad=1):
             cmds.select(clear=1)
             cmds.select(mesh)
             relatives = cmds.listRelatives(mesh)
@@ -125,11 +130,11 @@ def export_set_dress():
                     auto_tag.tagGuerillaAuto()
 
         cmds.select(clear=1)
-        cmds.select('set_dress_GRP')
+        cmds.select(grp_name)
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
         file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._set_dress_])
+        export_abc([0, 1], file, grp_name)
         wall.wall().publish_event(asset)
 
 def export_cyclo():
@@ -295,13 +300,18 @@ def export_ma(grp):
         return None
 
 def create_export_GRP():
-    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
-    grp_name = defaults._stage_export_grp_dic_[stage]
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    stage = asset.stage
+    print(stage)
+    if asset.category != defaults._sets_ and asset.category != defaults._set_dress_:
+        grp_name = defaults._stage_export_grp_dic_[stage]
+    else :
+        grp_name = "{}_GRP".format(asset.name)
+
     obj_list = cmds.ls(sl=True)
     if not cmds.objExists(grp_name):
         cmds.group( em=True, name=grp_name )
     if cmds.objExists(grp_name):
-        print(obj_list)
         for obj in obj_list:
             cmds.parent(obj, grp_name)
 
@@ -355,7 +365,6 @@ def export_grp(grp_list, file):
     for obj in grp_list:
         cmds.select(grp_list, add=1, replace=1, ne=1)
     cmds.file(file, exportSelected=1, type='mayaAscii', pr=0)
-
 
 def export_abc(range, file, grp):
     start = str(range[0])

@@ -166,7 +166,7 @@ class prefs:
     def custom_pub_ext_dic(self):
         return project_prefs.get_custom_pub_ext_dic()
 
-    def set_custom_pub_ext_dic(self, pub_ext_dic):
+    def set_custom_pub_ext_dic(self, pub_ext_dic = defaults._pub_ext_dic_):
         project_prefs.set_custom_pub_ext_dic(pub_ext_dic)
 
     @property
@@ -632,6 +632,9 @@ class prefs:
 
             def version_comment(self, version):
                 return asset_prefs.playblast(self.asset).get_version_comment(version)
+
+            def version_image(self, version):
+                return asset_prefs.playblast(self.asset).get_version_image(version)
 
             def set_version_comment(self, comment, version):
                 return asset_prefs.playblast(self.asset).set_version_comment(comment, version)

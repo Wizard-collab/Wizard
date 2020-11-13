@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['wizard_site.py'],
+a = Analysis(['wizard_main.py'],
              pathex=['C:\\Users\\conta\\Documents\\script\\Wizard\\App'],
              binaries=[],
              datas=[],

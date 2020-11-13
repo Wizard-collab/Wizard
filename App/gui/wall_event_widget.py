@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Script\Wizard\App\ui_files\wall_event_widget.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\wall_event_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -14,16 +14,33 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(257, 69)
+        Form.resize(226, 118)
         Form.setMinimumSize(QtCore.QSize(0, 69))
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(5)
+        self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setContentsMargins(0, 0, -1, 0)
-        self.verticalLayout.setSpacing(2)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(1)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.wall_event_top_frame = QtWidgets.QFrame(Form)
+        self.wall_event_top_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.wall_event_top_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.wall_event_top_frame.setObjectName("wall_event_top_frame")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.wall_event_top_frame)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.color_id_frame = QtWidgets.QFrame(self.wall_event_top_frame)
+        self.color_id_frame.setMinimumSize(QtCore.QSize(10, 10))
+        self.color_id_frame.setMaximumSize(QtCore.QSize(10, 10))
+        self.color_id_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.color_id_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.color_id_frame.setObjectName("color_id_frame")
+        self.horizontalLayout_2.addWidget(self.color_id_frame)
+        self.event_name_label = QtWidgets.QLabel(self.wall_event_top_frame)
+        self.event_name_label.setObjectName("event_name_label")
+        self.horizontalLayout_2.addWidget(self.event_name_label)
+        self.verticalLayout.addWidget(self.wall_event_top_frame)
         self.wall_event_frame = QtWidgets.QFrame(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -37,22 +54,8 @@ class Ui_Form(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setContentsMargins(10, 10, 10, 10)
-        self.verticalLayout_2.setSpacing(0)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.color_id_frame = QtWidgets.QFrame(self.wall_event_frame)
-        self.color_id_frame.setMinimumSize(QtCore.QSize(10, 10))
-        self.color_id_frame.setMaximumSize(QtCore.QSize(10, 10))
-        self.color_id_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.color_id_frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.color_id_frame.setObjectName("color_id_frame")
-        self.verticalLayout_2.addWidget(self.color_id_frame)
-        spacerItem = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem)
-        self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setContentsMargins(0, 6, 10, 6)
+        self.verticalLayout_3.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.wall_event_user_label = QtWidgets.QLabel(self.wall_event_frame)
@@ -84,6 +87,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.event_name_label.setText(_translate("Form", "Event"))
         self.wall_event_user_label.setText(_translate("Form", "user"))
         self.wall_event_message_label.setText(_translate("Form", "message"))
 

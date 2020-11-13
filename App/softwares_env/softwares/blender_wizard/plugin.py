@@ -3,7 +3,7 @@ from wizard.prefs.main import prefs
 from wizard.prefs import project as project_prefs
 from wizard.tools import log
 from wizard.vars import defaults
-from wizard.project import wall
+from wizard.project.wall import wall
 import os
 
 import bpy

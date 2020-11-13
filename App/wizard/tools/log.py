@@ -42,9 +42,9 @@ def create_logger(name=None):
     else:
         logger = logging.getLogger()
 
-    logger.addHandler(handler_stderr)
-    logger.addHandler(stream_handler)
-    logger.addHandler(file_handler)
+    #logger.addHandler(handler_stderr)
+    #logger.addHandler(stream_handler)
+    #logger.addHandler(file_handler)
 
     return (logger)
 

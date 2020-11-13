@@ -13,6 +13,8 @@ logger = log.pipe_log(__name__)
 class signal_server(QThread):
 
     refresh_signal = pyqtSignal(str)
+    log_signal = pyqtSignal(str)
+    focus_signal = pyqtSignal(str)
     save_signal = pyqtSignal(str)
     task_signal = pyqtSignal(int)
     task_name_signal = pyqtSignal(str)
@@ -52,3 +54,7 @@ class signal_server(QThread):
             self.task_signal.emit(int(signal_dic[defaults._task_value_]))
         elif signal_dic[defaults._signal_type_key_] == defaults._task_name_signal_:
             self.task_name_signal.emit(signal_dic[defaults._task_name_])
+        elif signal_dic[defaults._signal_type_key_] == defaults._focus_signal_:
+            self.focus_signal.emit(defaults._focus_signal_)
+        elif signal_dic[defaults._signal_type_key_] == defaults._log_signal_:
+            self.log_signal.emit(signal_dic[defaults._log_line_])

@@ -10,7 +10,8 @@ if os.path.isdir('dist'):
 if os.path.isdir('build'):
 	shutil.rmtree('build')
 
-command_line = "PyInstaller wizard_site.spec"
+
+command_line = "PyInstaller wizard_main.spec"
 p = subprocess.Popen(command_line)
 p.wait()
 
@@ -25,6 +26,15 @@ shutil.copytree('wizard', destination)
 
 destination = 'dist/wizard/softwares_env/softwares'
 shutil.copytree('softwares_env/softwares', destination)
+
+command_line = "PyInstaller wizard_site.spec"
+p = subprocess.Popen(command_line)
+p.wait()
+
+file = 'dist/wizard_site/wizard_site.exe'
+dest = 'dist/wizard/wizard_site.exe'
+shutil.copyfile(file, dest)
+shutil.rmtree('dist/wizard_site')
 
 command_line = "PyInstaller wizard_site_debug.spec"
 p = subprocess.Popen(command_line)

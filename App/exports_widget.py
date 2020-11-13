@@ -1,9 +1,11 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTreeWidgetItem
 from gui.exports_widget import Ui_Form
 from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
+from wizard.tools import batch_export
 from wizard.prefs.main import prefs
 import export_widget
 import export_asset_widget
@@ -38,58 +40,49 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.ui.batch_publish_pushButton.setIcon(QtGui.QIcon(defaults._batch_publish_icon_))
 
     def refresh_list(self, asset_tuple = None):
-
         if asset_tuple:
             self.export_versions_list_full = prefs.asset(asset_tuple[0]).export.versions
         else:
             self.export_versions_list_full = []
-
         self.export_versions_list = []
-
         if self.export_versions_list_full and self.export_versions_list_full != []:
             if not self.full:
                 self.export_versions_list = self.export_versions_list_full[-self.number:]
             else:
                 self.export_versions_list = self.export_versions_list_full
 
-            asset_tuple[1].ui.export_asset_widget_number_label.setText(
-                f'( {len(self.export_versions_list)}/{len(self.export_versions_list_full)} )')
-
         for version in self.export_versions_list:
             asset_tuple[0] = copy.deepcopy(asset_tuple[0])
             asset_tuple[0].export_version = version         
             widget = export_widget.Main(asset_tuple[0], self.sanity, self.count)
             self.widgets.append(widget)
-            asset_tuple[1].widgets_list.append(widget)
-            self.ui.export_list_verticalLayout_2.addWidget(widget)
-            self.count = 1 - self.count
+            new_item = QTreeWidgetItem()
+            asset_tuple[1].addChild(new_item)
+            new_item.setSizeHint(0, QtCore.QSize(100, 28))
+            self.ui.exports_treeWidget.setItemWidget(new_item, 0, widget)
 
     def update_exported_assets(self, asset=None):
+ 
+        root_parent = self.ui.exports_treeWidget.invisibleRootItem()
+
         if self.asset.variant:
             exports_list = prefs.asset(self.asset).export_root.exported_assets_list
-
             for export in exports_list:
                 asset = copy.deepcopy(self.asset)
                 asset.export_asset = export
-
-                asset_widget = export_asset_widget.Main(asset)
-                asset_tuple = [asset, asset_widget]
-                self.ui.export_list_verticalLayout_2.addWidget(asset_widget)
+                new_item = QTreeWidgetItem([asset.export_asset])
+                new_item.setSizeHint(0, QtCore.QSize(100, 28))
+                root_parent.addChild(new_item)
+                new_item.setExpanded(True)
+                asset_tuple = [asset, new_item]
                 self.refresh_list(asset_tuple)
 
-        else:
-            self.refresh_list()
+                QApplication.processEvents()
 
     def clear_all(self):
+        self.ui.exports_treeWidget.clear()
+
         QApplication.processEvents()
-
-        for i in reversed(range(self.ui.export_list_verticalLayout_2.count())):
-            widget = self.ui.export_list_verticalLayout_2.itemAt(i).widget()
-            if widget:
-                widget.setParent(None)
-
-        self.exported_asset_list = []
-        self.widgets = []
 
     def refresh_all(self, asset=None):
         self.get_params()
@@ -99,9 +92,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.update_exported_assets(asset)
 
     def update_sanity(self):
-        self.get_params()
-        for widget in self.widgets:
-            widget.update_sanity(self.sanity)
+        self.refresh_all()
 
     def show_more(self, less):
         self.get_params()
@@ -137,6 +128,16 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
             self.refresh_all()
 
     def batch_export(self):
+        if self.asset.domain == defaults._sequences_:
+            self.export_shot()
+        elif self.asset.domain == defaults._assets_:
+            self.export_asset()
+
+    def export_asset(self):
+        print("exporting_asset")
+        batch_export.batch_export(self.asset)
+
+    def export_shot(self):
         self.ui_export_manager = ui_export_manager.Main(self.asset)
         build.launch_normal_as_child(self.ui_export_manager)
 

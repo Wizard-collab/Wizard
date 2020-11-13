@@ -38,6 +38,7 @@ class Main(QtWidgets.QWidget):
         self.command = command
         self.env = env
         self.cwd = cwd
+        self.log_file = os.path.join(defaults._log_path_, f'subprocess_log_{utils.id_based_time()}.log')
         if command:
             self.ui.subprocess_command_textEdit.setText(str(self.command))
         else:
@@ -75,12 +76,22 @@ class Main(QtWidgets.QWidget):
         self.sub_thread = run_subprocess(self.command, self, self.env, self.cwd)
         self.sub_thread.start()
         self.sub_thread.time_signal.connect(self.update_clock)
-        self.sub_thread.out_signal.connect(self.ui.process_stdout_textEdit.append)
-        self.sub_thread.err_signal.connect(self.ui.process_stderr_textEdit.append)
+        self.sub_thread.out_signal.connect(self.append_out)
+        self.sub_thread.err_signal.connect(self.append_err)
+        self.sub_thread.err_signal.connect(self.write_logs_to_file)
+        self.sub_thread.out_signal.connect(self.write_logs_to_file)
         self.sub_thread.task_signal.connect(self.update_task_name)
         self.sub_thread.status_signal.connect(self.ui.subprocess_status_lineEdit.setText)
         self.sub_thread.status_signal.connect(self.update_loading)
         self.sub_thread.percent_signal.connect(self.update_progress_bar)
+
+    def append_out(self, log):
+        log = convert_string(log)
+        self.ui.process_stdout_textEdit.append(log)
+
+    def append_err(self, log):
+        log = convert_string(log)
+        self.ui.process_stderr_textEdit.append(log)
 
     def update_clock(self, int_time):
         text_time = time.strftime("%H:%M:%S", time.gmtime(int_time))
@@ -147,6 +158,10 @@ class Main(QtWidgets.QWidget):
         logs+= stderr
         return logs
 
+    def write_logs_to_file(self, log):
+        with open(self.log_file, 'a+') as f:
+            f.write(log +'\n')
+
     def execute(self):
         self.command = self.ui.subprocess_command_textEdit.toPlainText()
         if self.command and self.command != '':
@@ -189,7 +204,7 @@ class run_subprocess(QThread):
         self.outThread.percent_signal.connect(self.percent_signal.emit)
         while not (self.process.poll() == 0 or self.stop):
             QApplication.processEvents()
-            time.sleep(0.1)
+            #time.sleep(0.1)
         self.outThread.quit()
         self.errThread.quit()
 
@@ -228,7 +243,7 @@ class errThread(QThread):
                     err = error.strip().decode('utf-8')
                 except:
                     err = "{}".format(str(error.strip())) 
-                err = convert_string(err)
+                #err = convert_string(err)
                 if self.check_string(err):
                     self.err_signal.emit(err)
 
@@ -274,7 +289,7 @@ class outThread(QThread):
                     out = output.strip().decode('utf-8')
                 except:
                     out = "{}".format(str(output.strip())) 
-                out = convert_string(out)
+                #out = convert_string(out)
                 if self.check_string(out):
                     self.out_signal.emit(out)
             time.sleep(0.1)

@@ -35,5 +35,5 @@ def decrypt(stored_password, provided_password):
 def recover(user, email):
     new_pwd = str(random.randint(1000000, 10000000))
     encrypted = encrypt(new_pwd)
-    send_email.send_password(user, new_pwd)
+    send_email.send_password(email, user, new_pwd)
     return new_pwd

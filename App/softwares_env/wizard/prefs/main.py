@@ -633,6 +633,9 @@ class prefs:
             def version_comment(self, version):
                 return asset_prefs.playblast(self.asset).get_version_comment(version)
 
+            def version_image(self, version):
+                return asset_prefs.playblast(self.asset).get_version_image(version)
+
             def set_version_comment(self, comment, version):
                 return asset_prefs.playblast(self.asset).set_version_comment(comment, version)
 

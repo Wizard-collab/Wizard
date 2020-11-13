@@ -12,13 +12,17 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.user_scripts import user_scripts
+from wizard.tools import utility as utils
 
 # Import wizard widgets
 import create_user_script_widget
 import options_widget
+import ui_subprocess_manager
 
 # Import python base libraries
 import traceback
+import os
+import sys
 
 # Init the main logger and the prefs module
 logger = log.pipe_log(__name__)
@@ -38,6 +42,12 @@ class Main(QtWidgets.QWidget):
         scripts_dic = self.user_scripts.get_scripts_as_dic()
         for key in scripts_dic[defaults._user_scripts_].keys():
             self.add_button(scripts_dic[defaults._user_scripts_], key)
+        self.separator = QtWidgets.QLabel()
+        self.separator.setText('-')
+        self.ui.scripts_buttons_layout.addWidget(self.separator)
+        project_scripts_dic = self.user_scripts.get_project_scripts_as_dic()
+        for key in project_scripts_dic[defaults._user_scripts_].keys():
+            self.add_button(project_scripts_dic[defaults._user_scripts_], key)
 
     def refresh_scripts(self):
         for i in reversed(range(self.ui.scripts_buttons_layout.count())):
@@ -71,6 +81,19 @@ class Main(QtWidgets.QWidget):
     def execute_script(self, script):
         try:
             exec(script)
+            sys.stdout.flush()
+        except:
+            logger.error(str(traceback.format_exc()))
+
+    def batch_execute_script(self, script):
+        try:
+            file = utils.temp_file_from_command(script)
+            env = os.environ.copy()
+            python_system = 'pywizard'
+            if sys.argv[0].endswith('.py'):
+                python_system = 'python'
+            self.ui_subprocess_manager = ui_subprocess_manager.Main(f'{python_system} {file}', env, cwd=os.path.abspath(''))
+            build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
         except:
             logger.error(str(traceback.format_exc()))
 
@@ -87,7 +110,16 @@ class customButton(QtWidgets.QPushButton):
         if event.button() == QtCore.Qt.RightButton :
             self.show_options_menu()
         else:
-            self.parent.execute_script(self.script_dic[self.key][defaults._user_script_])
+            if defaults._subprocess_ in self.script_dic[self.key].keys():
+                if self.script_dic[self.key][defaults._subprocess_]:
+                    self.batch_execute()
+                else:
+                    self.parent.execute_script(self.script_dic[self.key][defaults._user_script_])
+            else:
+                self.parent.execute_script(self.script_dic[self.key][defaults._user_script_])
+
+    def batch_execute(self):
+        self.parent.batch_execute_script(self.script_dic[self.key][defaults._user_script_])
 
     def enterEvent(self, *args, **kwargs):
         self.setStyleSheet("background-color: rgb(50,50,57);")
@@ -109,4 +141,5 @@ class customButton(QtWidgets.QPushButton):
         self.options_widget = options_widget.Main()
         self.options_widget.add_item('Delete', self.delete_script)
         self.options_widget.add_item('Modify', self.modify_script)
+        self.options_widget.add_item('Subprocess', self.batch_execute)
         build.launch_options(self.options_widget)
