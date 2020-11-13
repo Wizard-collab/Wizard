@@ -13,9 +13,13 @@ from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
+from wizard.tools import utility as utils
 
 # Import wizard widget
 import version_widget
+import options_widget
+import dialog_comment
+import dialog_delete_asset
 
 # Import python base libraries
 import copy
@@ -79,6 +83,9 @@ class Main(QtWidgets.QWidget):
         self.widgets_list=[]
         self.get_params()
         self.clear_all()
+
+        QApplication.processEvents()
+
         versions_list = []
         if self.versions_list and self.versions_list != []:
             if not self.full:
@@ -116,6 +123,9 @@ class Main(QtWidgets.QWidget):
         self.ui.display_pushButton.clicked.connect(self.change_view)
         area_scroll_bar = self.ui.reference_list_listWidget.verticalScrollBar()
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
+        self.ui.reference_list_listWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) # Open the right-click menu strategy
+        self.ui.reference_list_listWidget.customContextMenuRequested.connect(self.show_options_menu) # Binding event
+        self.ui.reference_list_listWidget.itemDoubleClicked.connect(self.open_file)
 
     def change_view(self):
         self.as_list = 1-self.as_list
@@ -168,3 +178,39 @@ class Main(QtWidgets.QWidget):
             if url and url.scheme() == 'file':
                 path = str(url.path())[1:]
                 self.merge_file_as_new_version(path)
+
+    def change_comment(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.dialog_comment = dialog_comment.Main(widget.asset, 0)
+            if build.launch_dialog_comment(self.dialog_comment):
+                self.update_all()
+
+    def delete_version(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.dialog_delete_asset = dialog_delete_asset.Main()
+            if build.launch_dialog_as_child_frameless(self.dialog_delete_asset):
+                prefs.asset(widget.asset).software.remove_version(widget.asset.version)
+                self.update_all()
+
+    def open_file(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.open_signal.emit(utils.asset_to_string(widget.asset))
+
+    def get_selected_widgets(self):
+        items_list = self.ui.reference_list_listWidget.selectedItems()
+        widgets_list = []
+        for item in items_list:
+            widgets_list.append(self.ui.reference_list_listWidget.itemWidget(item))
+        return widgets_list
+
+    def show_options_menu(self):
+        self.options_widget = options_widget.Main()
+        self.options_widget.add_item("Change comment", self.change_comment)
+        self.options_widget.add_item("Archive", self.delete_version)
+        self.options_widget.add_item("Open", self.open_file)
+        build.launch_options(self.options_widget)
+
+   

@@ -77,8 +77,12 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
                 asset_tuple = [asset, new_item]
                 self.refresh_list(asset_tuple)
 
+                QApplication.processEvents()
+
     def clear_all(self):
         self.ui.exports_treeWidget.clear()
+
+        QApplication.processEvents()
 
     def refresh_all(self, asset=None):
         self.get_params()

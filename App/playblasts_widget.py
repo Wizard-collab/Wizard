@@ -102,6 +102,9 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
     def update_all(self):
         self.get_params()
         self.clear_all()
+
+        QApplication.processEvents()
+
         versions_list =[]
         if self.versions_list and self.versions_list != []:
             if not self.full:

@@ -1060,15 +1060,11 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             old_asset = self.asset
             self.asset = asset_core.string_to_asset(string_asset)
-            if self.asset.launch(self):
+            if self.asset.launch():
                 if not self.asset_prefs.software.get_lock:
                     self.lock()
                     self.update_lock()
-                self.asset_instance = self.asset.instance.software_process
-                self.asset_save = self.asset.instance.earThread_process.event_handler
-                self.asset_instance.signal.connect(self.asset_item_changed)
-                software = self.asset.software
-                self.asset_save.signal.connect(lambda: popup.popup().save_pop())
+                self.refresh_main_ui()
             self.asset = old_asset
         except:
             logger.critical(str(traceback.format_exc()))
