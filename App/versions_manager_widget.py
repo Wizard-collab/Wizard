@@ -13,9 +13,13 @@ from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
+from wizard.tools import utility as utils
 
 # Import wizard widget
 import version_widget
+import options_widget
+import dialog_comment
+import dialog_delete_asset
 
 # Import python base libraries
 import copy
@@ -43,6 +47,7 @@ class Main(QtWidgets.QWidget):
         self.number = 3
         self.step = 3
         self.count = 1
+        self.as_list = 0
         self.connect_functions()
         self.ui.sanity_exports_pushButton.setIcon(QtGui.QIcon(defaults._export_list_icon_gray_))
         self.ui.show_all_exports_pushButton.setIcon(QtGui.QIcon(defaults._sd_icon_))
@@ -78,6 +83,9 @@ class Main(QtWidgets.QWidget):
         self.widgets_list=[]
         self.get_params()
         self.clear_all()
+
+        QApplication.processEvents()
+
         versions_list = []
         if self.versions_list and self.versions_list != []:
             if not self.full:
@@ -85,21 +93,23 @@ class Main(QtWidgets.QWidget):
             else:
                 versions_list = self.versions_list
         self.ui.versions_number_label.setText('( {}/{} )'.format(len(versions_list), len(self.versions_list)))
+        
         for version in versions_list:
             asset = copy.deepcopy(self.asset)
             asset.version = version
-            self.version_widget = version_widget.Main(asset, self.sanity, self.count)
-            self.version_widget.open_signal.connect(self.open_signal.emit)
-            self.add_item_to_list(self.version_widget)
-            self.count = 1-self.count
-            self.widgets_list.append(self.version_widget)
+            if self.as_list:
+                v_widget = version_widget.list(asset, self.count, self.sanity)
+            else:
+                v_widget = version_widget.icon(asset, self.count, self.sanity)
+            self.add_item_to_list(v_widget)
 
     def add_item_to_list(self, widget):
         item = QtWidgets.QListWidgetItem() 
-        item.setSizeHint(QtCore.QSize(0, 28))
+        item.setSizeHint(widget.sizeHint())
         widget.parent_item = item
         self.ui.reference_list_listWidget.addItem(item)
         self.ui.reference_list_listWidget.setItemWidget(item, widget)
+        QApplication.processEvents()
 
     def clear_all(self):
         self.ui.reference_list_listWidget.clear()
@@ -110,6 +120,16 @@ class Main(QtWidgets.QWidget):
         self.ui.show_more_pushButton.clicked.connect(self.add_number)
         self.ui.show_less_pushButton.clicked.connect(self.remove_number)
         self.ui.add_empty_file_pushButton.clicked.connect(self.add_version)
+        self.ui.display_pushButton.clicked.connect(self.change_view)
+        area_scroll_bar = self.ui.reference_list_listWidget.verticalScrollBar()
+        area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
+        self.ui.reference_list_listWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) # Open the right-click menu strategy
+        self.ui.reference_list_listWidget.customContextMenuRequested.connect(self.show_options_menu) # Binding event
+        self.ui.reference_list_listWidget.itemDoubleClicked.connect(self.open_file)
+
+    def change_view(self):
+        self.as_list = 1-self.as_list
+        self.update_all()
 
     def update_sanity(self):
         self.get_params()
@@ -125,6 +145,16 @@ class Main(QtWidgets.QWidget):
             self.sanity = 1
         else:
             self.sanity = 0
+        if self.as_list:
+            self.ui.reference_list_listWidget.setMovement(QtWidgets.QListView.Static)
+            self.ui.reference_list_listWidget.setResizeMode(QtWidgets.QListView.Adjust)
+            self.ui.reference_list_listWidget.setViewMode(QtWidgets.QListView.ListMode)
+            self.ui.display_pushButton.setIcon(QtGui.QIcon(defaults._reference_list_icon_))
+        else:
+            self.ui.reference_list_listWidget.setMovement(QtWidgets.QListView.Static)
+            self.ui.reference_list_listWidget.setResizeMode(QtWidgets.QListView.Adjust)
+            self.ui.reference_list_listWidget.setViewMode(QtWidgets.QListView.IconMode)
+            self.ui.display_pushButton.setIcon(QtGui.QIcon(defaults._icon_mode_view_))
 
     def merge_file_as_new_version(self, file):
         if os.path.splitext(file)[-1].replace('.','') == defaults._extension_dic_[self.asset.software]:
@@ -148,3 +178,39 @@ class Main(QtWidgets.QWidget):
             if url and url.scheme() == 'file':
                 path = str(url.path())[1:]
                 self.merge_file_as_new_version(path)
+
+    def change_comment(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.dialog_comment = dialog_comment.Main(widget.asset, 0)
+            if build.launch_dialog_comment(self.dialog_comment):
+                self.update_all()
+
+    def delete_version(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.dialog_delete_asset = dialog_delete_asset.Main()
+            if build.launch_dialog_as_child_frameless(self.dialog_delete_asset):
+                prefs.asset(widget.asset).software.remove_version(widget.asset.version)
+                self.update_all()
+
+    def open_file(self):
+        widgets_list = self.get_selected_widgets()
+        for widget in widgets_list:
+            self.open_signal.emit(utils.asset_to_string(widget.asset))
+
+    def get_selected_widgets(self):
+        items_list = self.ui.reference_list_listWidget.selectedItems()
+        widgets_list = []
+        for item in items_list:
+            widgets_list.append(self.ui.reference_list_listWidget.itemWidget(item))
+        return widgets_list
+
+    def show_options_menu(self):
+        self.options_widget = options_widget.Main()
+        self.options_widget.add_item("Change comment", self.change_comment)
+        self.options_widget.add_item("Archive", self.delete_version)
+        self.options_widget.add_item("Open", self.open_file)
+        build.launch_options(self.options_widget)
+
+   

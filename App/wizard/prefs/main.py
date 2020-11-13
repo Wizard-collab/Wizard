@@ -166,7 +166,7 @@ class prefs:
     def custom_pub_ext_dic(self):
         return project_prefs.get_custom_pub_ext_dic()
 
-    def set_custom_pub_ext_dic(self, pub_ext_dic):
+    def set_custom_pub_ext_dic(self, pub_ext_dic = defaults._pub_ext_dic_):
         project_prefs.set_custom_pub_ext_dic(pub_ext_dic)
 
     @property
