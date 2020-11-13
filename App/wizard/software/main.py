@@ -143,9 +143,12 @@ class subThread(QThread):
 
 
             if self.asset.software == defaults._houdini_ or self.asset.software == defaults._nuke_:
-                env[defaults._script_software_env_dic_[self.asset.software]] = os.pathsep + wizard_path + '\\softwares_env'
+                env[defaults._script_software_env_dic_[self.asset.software]] = wizard_path + '\\softwares_env'
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + python_path + '\\Lib\\site-packages'
-
+            '''
+            if self.asset.software == defaults._houdini_:
+                env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + wizard_path + '\\softwares_env\\softwares\\houdini_wizard'
+            '''
             env_paths = software_prefs.software(self.asset.software).get_env_paths()
             scripts_paths = software_prefs.software(self.asset.software).get_env()
 
@@ -185,8 +188,10 @@ class subThread(QThread):
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)
-            if self.asset.software == defaults._houdini_ or self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
+            if self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
+            elif self.asset.software == defaults._houdini_:
+                self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env\\softwares\\houdini_wizard')
             else:
                 self.process = subprocess.Popen(self.command, env=env)
             self.process.wait()

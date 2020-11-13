@@ -817,6 +817,7 @@ _guerilla_custom_python_ = 'GUERILLA_PYTHON_LIBRARY'
 _guerilla_node_type_ = 'SceneGraphNode'
 
 _blender_startup_ = 'blender_wizard/startup.py'
+_houdini_startup_ = 'houdini_wizard/startup.py'
 
 _script_software_env_dic_=dict()
 _script_software_env_dic_[_maya_]='PYTHONPATH'
