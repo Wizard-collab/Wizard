@@ -1269,6 +1269,18 @@ QTreeView::branch:hover {
 	border-radius:0px;
 }
 
+#workflow_stage_widget{
+	background-color: rgb(_middle_level_widget_color_);
+	margin:0px;
+	border-radius:0px;
+}
+
+#workflow_domain_widget{
+	background-color: rgb(_top_level_widget_color_);
+	margin:0px;
+	border-radius:0px;
+}
+
 .QPushButton {
 	background-color: rgb(_top_level_widget_color_);
 	height:24px;
@@ -1469,6 +1481,10 @@ QRadioButton::indicator::checked{
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal,QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
     background: none;
 
+}
+
+QScrollArea{
+	background-color:transparent;
 }
 
 QScrollBar:horizontal {

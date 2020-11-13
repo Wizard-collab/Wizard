@@ -18,6 +18,7 @@ from wizard.vars import softwares
 from wizard.prefs.site import site
 from wizard.tools import password as pwd
 from wizard.tools import utility as utils
+import workflow_widget
 
 # Import wizard widgets
 import project_widget
@@ -44,9 +45,9 @@ class Main(QtWidgets.QWidget):
         self.update_softwares()
         self.refresh_ui()
         self.connect_functions()
-        self.fill_workflow_ui()
         self.init_show_pass_icon()
         self.fill_project_infos()
+        self.init_workflow_widget()
 
     def fill_project_infos(self):
         site_path = os.environ[defaults._wizard_site_]
@@ -67,6 +68,10 @@ class Main(QtWidgets.QWidget):
         self.ui.preferences_ui_listWidget.FocusPolicy = QtCore.Qt.NoFocus
         self.ui.preferences_ui_listWidget.setCurrentRow(0)
         self.ui.preferences_ui_listWidget.currentRowChanged.connect(self.ui.stackedWidget.setCurrentIndex)
+
+    def init_workflow_widget(self):
+        self.workflow_widget = workflow_widget.Main()
+        self.ui.stackedWidget.insertWidget(2, self.workflow_widget)
 
     def fill_project_settings(self):
         self.custom_ext_dic = project_prefs.get_custom_pub_ext_dic()
@@ -201,86 +206,3 @@ class Main(QtWidgets.QWidget):
         else:
             self.ui.confirm_lineEdit.setStyleSheet('border:1px solid Green;')
             return 1
-
-    def fill_workflow_ui(self):
-        self.ui.p_w_modeling_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._geo_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_rigging_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._rig_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_grooming_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._hair_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_texturing_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._texturing_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_shading_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._shading_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_autorig_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._autorig_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_camera_rig_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._cam_rig_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_cyclo_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._cyclo_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_fx_setup_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._fx_setup_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_gizmo_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._gizmo_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_light_rig_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._light_rig_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_lut_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._lut_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_material_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._material_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_render_graph_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._render_graph_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_render_pass_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._render_pass_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_scripts_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._scripts_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_sounds_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._sons_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_stockshots_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._stockshot_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_video_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._video_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_concept_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._concept_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_layout_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._layout_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_animation_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._animation_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_lighting_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._lighting_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_cfx_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._cfx_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_fx_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._fx_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_compositing_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._compositing_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
-        self.ui.p_w_camera_label.setPixmap(
-                    QtGui.QPixmap(defaults._stage_icon_[defaults._camera_]).scaled(ICON_SIZE, ICON_SIZE, QtCore.Qt.KeepAspectRatio,
-                                                                              QtCore.Qt.SmoothTransformation))
