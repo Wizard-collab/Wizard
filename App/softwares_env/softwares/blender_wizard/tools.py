@@ -51,6 +51,20 @@ def replace_maya_grp_by_collection(root):
     return bpy.data.collections['geo_GRP']
 
 
+def list_collections(root):
+    ''' Recursive function to go down a hierarachy of collections from the 'root' node. '''
+    yield root
+    for child in root.children:
+        yield from list_collections(child)
+
+
+def list_objects(root):
+    ''' Recursive function to go down a hierarachy of objects from the 'root' node. '''
+    yield root
+    for child in root.children:
+        yield from list_objects(child)
+
+
 def replace_blender_collection_by_maya_grp(root):
     '''
     Detect all Blender collections, stores datas and rebuilds
@@ -60,14 +74,18 @@ def replace_blender_collection_by_maya_grp(root):
     '''
     maya_grp = []
     blender_grp = []
-    for collection in bpy.data.collections:
+
+    for c in list_collections(root):
         parent = None
         for parent_collection in bpy.data.collections:
-            if collection in list(parent_collection.children):
+            if c in list(parent_collection.children):
                 parent = parent_collection
-        collection_data = {'name': collection.name, 'parent': parent}
+        collection_data = {'name': c.name, 'parent': parent}
         blender_grp.append(collection_data)
 
+    # set active object as Master scene collection to not have to unparent each grp
+    scene_collection = bpy.context.view_layer.layer_collection
+    bpy.context.view_layer.active_layer_collection = scene_collection
     # create all new groups
     for collection in blender_grp:
         bpy.ops.object.empty_add(type='PLAIN_AXES', align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
@@ -79,25 +97,33 @@ def replace_blender_collection_by_maya_grp(root):
     for group in maya_grp:
         for collection in blender_grp:
             if group.name == collection['name']:
+                if root.name == collection['name']:
+                    continue
+                # exit if no parent
                 if collection['parent'] is None:
                     continue
+                # reparent
                 parent = collection['parent'].name
                 group.parent = bpy.data.objects[parent]
 
     # reorder object in hierarchy
     for collection in blender_grp:
         for children in bpy.data.collections[collection['name']].objects:
+            # check if object is stage_GRP
+            if bpy.data.objects[collection['name']] == root.name:
+                continue
             coll = bpy.data.collections[collection['name']].name
             bpy.data.collections[collection['name']].objects.unlink(children)
             bpy.context.scene.collection.objects.link(children)
             children.parent = bpy.data.objects[collection['name']]
 
+    stage_GRP = root.name
     # delete Maya grp (empties)
     for collection in blender_grp:
         delete_collection(bpy.data.collections[collection['name']])
     delete_collection(root)
 
-    return bpy.data.objects['geo_GRP']
+    return bpy.data.objects[stage_GRP]
 
 
 def delete_object(object):

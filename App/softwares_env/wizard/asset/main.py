@@ -150,7 +150,7 @@ class asset():
 
         # Get the asset screenshot with the "prefs" wizard module
         return self.asset_prefs.software.image
-
+    
 
     @property
     def export_image(self):
@@ -166,7 +166,7 @@ class asset():
         # Check if an "export_asset" variable is assigned to the asset
         if self.export_asset:
             if version :
-                self.export_version = version
+                self.export_version = version  
             else:
 
                 # If no version is given, assign the last to the asset
@@ -197,7 +197,7 @@ class asset():
         # Check if a name was given to the "asset" class
         # Check if a stage was given to the "asset" class
         # Check if a variant was given to the "asset" class
-            # Then create the asked parts, if parts are none,
+            # Then create the asked parts, if parts are none, 
             # the parent part is created, recursively
         if self.category != None and\
                 self.name == None and\
@@ -421,7 +421,7 @@ class asset():
 
                     # Get the referenced asset using the "wizard.asset.main.asset.get_reference" wizard function
                     reference = self.get_reference()
-
+                
                 else:
 
                     # If software isn't substance painter, assign reference to "None"
@@ -496,7 +496,7 @@ class asset():
             # Check if a name was given to the "asset" class
             # Check if a stage was given to the "asset" class
             # Check if a variant was given to the "asset" class
-                # Then create the asked parts, if parts are none,
+                # Then create the asked parts, if parts are none, 
                 # the parent part is created, recursively
 
             # If only a "category" variable is given to the asset, delete it
@@ -616,7 +616,7 @@ def string_to_asset(string):
         version = '0000'
         export_asset = None
         export_version = None
-
+    
     # Create the asset object using the "wizard.asset.main.asset" wizard module
     asset_object = asset(domain,
                   category,

@@ -130,7 +130,7 @@ Version date : 2020-10-27
 - Wizard memorize the last tab
 - Blender is now working with wizard ( save + )
 - New wall appearance
-- 4K screens wrong DPI solved
+- 4K screens wrong DPI solved 
 - Wizard in now in 64-b
 - Installer is on "program files" by default ( not x86 anymore )
 - Debug - Refresh server on refresh ui

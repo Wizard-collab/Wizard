@@ -593,7 +593,7 @@ _softwares_list_ = [_maya_,
 					_reaper_,
 					_folder_]
 
-_publish_softwares_list_ = [_maya_, _maya_yeti_, _guerilla_, _nuke_]
+_publish_softwares_list_ = [_maya_, _blender_, _maya_yeti_, _guerilla_, _nuke_]
 
 # Publish extension dictionary
 _pub_ext_dic_ = {}

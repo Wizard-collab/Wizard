@@ -4,6 +4,7 @@ from wizard.prefs import project as project_prefs
 from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project.wall import wall
+import tools
 import os
 
 import bpy
@@ -56,21 +57,26 @@ def export_geo():
         geo_GRP = bpy.data.collections[defaults._stage_export_grp_dic_[defaults._geo_]]
         # unselect all
         bpy.ops.object.select_all(action='DESELECT')
-        # add guerilla tags to mesh object - NOT SUPPORTED
-        for mesh in geo_GRP.objects:
-            if mesh.type == 'MESH':
+        # select geo_GRP to convert collection to Maya grp (Empty type objects)
+        geo_GRP = tools.replace_blender_collection_by_maya_grp(geo_GRP)
+        # add guerilla tags to mesh object - NOT SUPPORTED BY BLENDER YET
+
+        for mesh in tools.list_objects(geo_GRP):
+            # if it's a mesh or an empty (= Maya groups) add it to selection
+            if mesh.type == 'MESH' or mesh.type == 'PLAIN_AXES':
                 # auto_tag.tagGuerillaAuto()
-                # it's a mesh so add it to selection
                 mesh.select_set(True)
-                pass
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        ## ERROR next line - waiting for answers
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
-        time_range = prefs.asset(asset).name.range
+        file = asset.export("{}_{}".format(asset.name, asset.variant))
+        # time_range = prefs.asset(asset).name.range
+        time_range = [1,1]
         export_abc(time_range, file, selected=True)
-        wall.wall().publish_event(asset)
+        wall().publish_event(asset)
         logger.info('Geo exported.')
+        # reload Blender file to retrieve collection hierarchy
+        bpy.ops.wm.open_mainfile(filepath=asset.file)
+
 
 def export_set_dress():
     pass
@@ -156,7 +162,7 @@ def export_abc(time_range, file, selected=False):
                             sh_open=-0.2,
                             sh_close=0.2,
                             selected=selected,
-                            flatten=True,
+                            flatten=False,
                             uvs=True,
                             export_hair=True,
                             export_particles=True)

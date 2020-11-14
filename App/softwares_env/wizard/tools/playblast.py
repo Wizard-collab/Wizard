@@ -120,12 +120,11 @@ class playblast():
 
         pb_version = prefs.asset(self.asset).playblast.get_new_version()
         pbfile = self.asset.playblast(pb_version)
+        
         pb_image = prefs.asset(self.asset).playblast.version_image(pb_version)
-        print(pb_image)
         shutil.copyfile(files_list[0], pb_image)
 
         frame_rate = prefs.frame_rate
-        #size = defaults._formats_dic_[prefs.format]
 
         create_video.make_video(files_list, pbfile)
 
