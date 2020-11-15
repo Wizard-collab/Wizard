@@ -102,7 +102,6 @@ def create_export_GRP():
     obj_list = bpy.context.selected_objects
     # create export_Grp collection if not exist
     if bpy.data.collections.get(grp_name) is None:
-        print('Creating export_GRP...')
         grp_name_collection = bpy.data.collections.new(grp_name)
         bpy.context.scene.collection.children.link(grp_name_collection)
     for obj in obj_list:
@@ -138,7 +137,7 @@ def sanity(grp):
         raise_error('{} missing'.format(grp))
         logger.warning('{} missing'.format(grp))
         return 0
-    if grp_existence and len(bpy.data.collections[grp].objects) >= 1:
+    if grp_existence and len(bpy.data.collections[grp].objects) or grp_existence and len(bpy.data.collections[grp].children)>= 1:
         grp_childs = 1
     else:
         raise_error('{} has no childs'.format(grp))

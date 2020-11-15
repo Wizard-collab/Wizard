@@ -81,62 +81,35 @@ def import_all():
 
 def import_geo():
     asset_list = get_asset_list()
+    # check if 'GEO' collection exists
+    if bpy.data.collections.get('GEO') is None:
+        # create 'GEO' collection
+        geo_collection = bpy.data.collections.new('GEO')
+        bpy.context.scene.collection.children.link(geo_collection)
 
-    # # check if 'GEO' collection exists
-    # if bpy.data.collections.get('GEO') is None:
-    #     # create 'GEO' collection
-    #     geo_collection = bpy.data.collections.new('GEO')
-    #     bpy.context.scene.collection.children.link(geo_collection)
-
-    # link modeling asset file
-
-
-def build_blender_geo_ref_file():
-    '''Function that runs when Maya publish a modeling stage.'''
-    # open modeling asset reference file
-    import_alembic()
-    # save file
-    # quit
-
-#
-# def import_alembic():
-#     # link references
-#     for asset in asset_list:
-#         # check stage and proceed if 'geo'
-#         if asset[0].stage == defaults._geo_:
-#             # check if ref already linked
-#             asset_group = 'geo_GRP'
-#             if bpy.data.collections.get(asset_group) is not None:
-#                 bpy.data.collections.remove(bpy.data.collections[asset_group])
-#                 ########## /!\ THE NEXT COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
-#                 ##
-#                 ##
-#                 bpy.data.orphans_purge()
-#                 ##
-#                 ##
-#                 ########## /!\ THE PREVIOUS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
-#             # import alembic
-#             bpy.ops.wm.alembic_import(filepath=asset[2])
-#             # convert Maya groups to collectons
-#             return bpy.data.objects.get(asset_group)
+    for asset in asset_list:
+        # check stage and proceed if 'geo'
+        if asset[0].stage == defaults._geo_:
+            asset_group = 'geo_GRP'
+            # if has already a geo_GRP (means that there is already a geo reference)
+            if bpy.data.collections.get(asset_group) is not None:
+                bpy.data.collections.remove(bpy.data.collections[asset_group])
+                bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+            asset_path = asset[2]
+            # set active object as Master scene collection to not have to unparent each grp
+            scene_collection = bpy.context.view_layer.layer_collection
+            bpy.context.view_layer.active_layer_collection = scene_collection
+            # import modeling asset file
+            import_alembic(asset_path)
+            # convert Maya groups to collectons
+            geo_root = bpy.data.objects[asset_group]
+            tools.replace_maya_grp_by_collection(geo_root)
+            logger.info('Geo imported')
 
 
-def import_alembic(fimlepath):
-
-    asset_group = 'geo_GRP'
-    if bpy.data.collections.get(asset_group) is not None:
-        bpy.data.collections.remove(bpy.data.collections[asset_group])
-        ########## /!\ THE NEXT COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
-        ##
-        ##
-        bpy.data.orphans_purge()
-        ##
-        ##
-        ########## /!\ THE PREVIOUS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+def import_alembic(filepath):
     # import alembic
-    bpy.ops.wm.alembic_import(filepath=asset[2])
-    # convert Maya groups to collectons
-    return bpy.data.objects.get(asset_group)
+    bpy.ops.wm.alembic_import(filepath=filepath)
 
 
 def import_anim(namespace = None):
