@@ -115,15 +115,6 @@ def create_export_GRP():
     logger.info('{} created.'.format(grp_name))
 
 
-def error_popup(self, context):
-    '''Builds popup window. Displays the text of the global error_message var.'''
-    global error_message
-    self.layout.label(text=error_message)
-def raise_error(message):
-    '''Takes message and call a popup window with it.'''
-    global error_message
-    error_message = message
-    bpy.context.window_manager.popup_menu(error_popup, title="Wizard Error", icon='ERROR')
 
 
 def sanity(grp):
@@ -134,19 +125,19 @@ def sanity(grp):
     if bpy.data.collections.get(grp) is not None:
         grp_existence = 1
     else:
-        raise_error('{} missing'.format(grp))
+        tools.raise_error('{} missing'.format(grp))
         logger.warning('{} missing'.format(grp))
         return 0
     if grp_existence and len(bpy.data.collections[grp].objects) or grp_existence and len(bpy.data.collections[grp].children)>= 1:
         grp_childs = 1
     else:
-        raise_error('{} has no childs'.format(grp))
+        tools.raise_error('{} has no childs'.format(grp))
         logger.warning('{} has no childs'.format(grp))
         return 0
     if grp_existence and grp_childs:
         return 1
     else:
-        raise_error('{} is not clean.'.format(grp))
+        tools.raise_error('{} is not clean.'.format(grp))
         logger.warning('{} is not clean.'.format(grp))
         return 0
 

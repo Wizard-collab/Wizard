@@ -91,20 +91,31 @@ def import_geo():
         # check stage and proceed if 'geo'
         if asset[0].stage == defaults._geo_:
             asset_group = 'geo_GRP'
-            # if has already a geo_GRP (means that there is already a geo reference)
-            if bpy.data.collections.get(asset_group) is not None:
-                bpy.data.collections.remove(bpy.data.collections[asset_group])
-                bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
             asset_path = asset[2]
+            # if already in scene skip
+            if bpy.data.collections.get(f'{asset[0].name}_{asset_group}') is not None:
+                logger.info(f'{asset[0].name} already imported. Skipped.')
+                continue
+
+            # if has already a geo_GRP object in scene stop loop (because will fail the import process)
+            if bpy.data.objects.get(asset_group) is not None:
+                tools.raise_error(f'A \'geo_GRP\' object already exists, can\'t import {asset[0].name}. Please rename or delete the existing object.')
+                logger.warning(f'A \'geo_GRP\' object already exists, can\'t import {asset[0].name}. Please rename or delete the existing object.')
+                continue
+                # these lines delete 'geo_GRP' object by force
+                # bpy.data.collections.remove(bpy.data.collections[asset_group])
+                # bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+
             # set active object as Master scene collection to not have to unparent each grp
             scene_collection = bpy.context.view_layer.layer_collection
             bpy.context.view_layer.active_layer_collection = scene_collection
             # import modeling asset file
             import_alembic(asset_path)
-            # convert Maya groups to collectons
-            geo_root = bpy.data.objects[asset_group]
+            # add namespace
+            geo_root = tools.add_namespace(bpy.data.objects[asset_group], asset[0].name)
+            # convert Maya groups to collections
             tools.replace_maya_grp_by_collection(geo_root)
-            logger.info('Geo imported')
+            logger.info(f'{asset[0].name} imported.')
 
 
 def import_alembic(filepath):

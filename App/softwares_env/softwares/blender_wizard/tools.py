@@ -14,6 +14,32 @@ def list_objects(root):
         yield from list_objects(child)
 
 
+def error_popup(self, context):
+    '''Builds popup window. Displays the text of the global error_message var.'''
+    global error_message
+    self.layout.label(text=error_message)
+
+    
+def raise_error(message):
+    '''Takes message and call a popup window with it.'''
+    global error_message
+    error_message = message
+    bpy.context.window_manager.popup_menu(error_popup, title="Wizard Error", icon='ERROR')
+
+
+def add_namespace(root, namespace):
+    '''
+    Add prefix to all objects under the 'root' node.
+    -> returns new root node
+    '''
+    for c in list_objects(root):
+        # old_name = c.name
+        # root_name = root.name
+        c.name = f'{namespace}_{c.name}'
+
+    return root
+
+
 def replace_maya_grp_by_collection(root):
     '''
     Detect all Maya groups base on pattern ('EMPTY' type node with '_grp' extension),
