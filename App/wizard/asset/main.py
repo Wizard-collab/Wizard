@@ -23,7 +23,8 @@ prefs = prefs()
 try:
     from wizard.software.main import launch
 except:
-    logger.info("Can't import wizard.software.main")
+    pass
+    #print("Can't import wizard.software.main")
 
 class asset():
     '''

@@ -1075,7 +1075,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             name = f"import {self.asset.category}-{self.asset.name}-{self.asset.stage}-{self.asset.variant}"
             string_asset = utils.asset_to_string(self.asset)
             script = user_scripts_library.import_asset_script.replace('ASSET_STRING', string_asset)
-            user_scripts().create_user_script(name, icon, script)
+            user_scripts().create_user_script(name, icon, script, 0)
             self.user_scripts_widget.refresh_scripts()
         except:
             logger.critical(str(traceback.format_exc()))

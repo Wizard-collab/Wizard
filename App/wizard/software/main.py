@@ -52,9 +52,6 @@ class launch():
         self.reference = reference
         env = prefs.software(self.asset.software).env
 
-
-
-
     def open(self):
         # Launch the " asset " object with the corresponding software
         if not self.executable:
@@ -188,6 +185,7 @@ class subThread(QThread):
 
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)
+
             if self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
             elif self.asset.software == defaults._houdini_:
@@ -198,7 +196,6 @@ class subThread(QThread):
 
             self.earThread.observer.stop()
             self.earThread.observer.join()
-            #prefs.asset(self.asset).software.set_running(0)
 
             string_asset = utils.short_asset_to_string(self.asset)
             running_assets_list = os.environ[defaults._current_assets_list_].split(':')

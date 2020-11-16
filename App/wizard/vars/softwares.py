@@ -25,7 +25,7 @@ _nuke_cmd_ =  '"{}" --nukex "{}"'.format(_executable_key_, _file_key_)
 
 _blender_cmd_ = '"{}" "{}" --python "{}"'.format(_executable_key_, _file_key_, _script_key_)
 
-_houdini_cmd_ = '"{}" waitforui "{}" "{}"'.format(_executable_key_, _script_key_, _file_key_)
+_houdini_cmd_ = '"{}" "{}" waitforui "{}" '.format(_executable_key_, _file_key_, _script_key_)
 
 _cmd_dic_ = dict()
 _cmd_dic_[defaults._maya_] = _maya_cmd_
