@@ -117,6 +117,24 @@ def create_export_GRP():
     logger.info('{} created.'.format(grp_name))
 
 
+def create_set_GRP():
+    '''Create 'set_GRP' based on the asset current stage.'''
+    stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
+    grp_name = 'export_set'
+    obj_list = bpy.context.selected_objects
+    # create export_Grp collection if not exist
+    if bpy.data.collections.get(grp_name) is None:
+        grp_name_collection = bpy.data.collections.new(grp_name)
+        bpy.context.scene.collection.children.link(grp_name_collection)
+    for obj in obj_list:
+        try:
+            old_obj_collection = obj.users_collection
+            bpy.data.collections[grp_name].objects.link(obj)
+            # for old_coll in old_obj_collection:
+            #     old_coll.objects.unlink(obj)
+        except:
+            continue
+    logger.info('{} created.'.format(grp_name))
 
 
 def sanity(grp):

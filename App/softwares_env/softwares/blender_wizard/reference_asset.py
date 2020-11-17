@@ -112,7 +112,8 @@ def import_geo():
             # import modeling asset file
             import_alembic(asset_path)
             # add namespace
-            geo_root = tools.add_namespace(bpy.data.objects[asset_group], asset[0].name)
+            asset_version = asset[2].rpartition('\\')[0].rpartition('\\')[2]
+            geo_root = tools.add_namespace(bpy.data.objects[asset_group], asset[0].name, asset_version)
             # convert Maya groups to collections
             tools.replace_maya_grp_by_collection(geo_root)
             logger.info(f'{asset[0].name} imported.')
