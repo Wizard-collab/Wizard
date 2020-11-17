@@ -29,27 +29,44 @@ class playblast():
 
         self.temp_directory = utils.temp_dir()
 
-        pb_command = 'from softwares.maya_wizard.do_playblast import do_playblast\n'
-        pb_command += 'do_playblast("{}", "{}", "{}", {}, {}).do_playblast("{}")'.format(self.string_asset,
-                                                                                        self.asset.file.replace('\\', '/'),
-                                                                                        self.temp_directory.replace('\\', '/'),
-                                                                                        self.frange,
-                                                                                        self.refresh_assets,
-                                                                                        cam_namespace)
+        if self.asset.software == defaults._maya_:
+            pb_command = 'from softwares.maya_wizard.do_playblast import do_playblast\n'
+            pb_command += 'do_playblast("{}", "{}", "{}", {}, {}).do_playblast("{}")'.format(self.string_asset,
+                                                                                            self.asset.file.replace('\\', '/'),
+                                                                                            self.temp_directory.replace('\\', '/'),
+                                                                                            self.frange,
+                                                                                            self.refresh_assets,
+                                                                                            cam_namespace)
 
-        file = utils.temp_file_from_command(pb_command)
+            file = utils.temp_file_from_command(pb_command)
+            print('status:Starting...')
+            print('status:Working...')
+            print('current_task:Playblasting...')
+            sys.stdout.flush()
+            mayapy = prefs.software(defaults._mayapy_).path
+            env = software.get_env(defaults._mayapy_, 1)
+            self.process = subprocess.Popen([mayapy, "-u", file], env = env)
+            self.process.wait()
 
-        print('status:Starting...')
-        print('status:Working...')
-        print('current_task:Playblasting...')
-        sys.stdout.flush()
+        elif self.asset.software == defaults._houdini_:
+            pb_command = "from softwares.houdini_wizard import flipbook\n"
+            pb_command += 'flipbook.do_flipbook("{}", {}, "{}", "{}")'.format(cam_namespace, 
+                                                                  self.frange,
+                                                                  self.temp_directory.replace('\\', '/'),
+                                                                  self.asset.file.replace('\\', '/')
+                                                                  )
 
-        mayapy = prefs.software(defaults._mayapy_).path
+            file = utils.temp_file_from_command(pb_command)
 
-        env = software.get_env(defaults._mayapy_, 1)
+            print('status:Starting...')
+            print('status:Working...')
+            print('current_task:Playblasting...')
+            sys.stdout.flush()
 
-        self.process = subprocess.Popen([mayapy, "-u", file], env = env)
-        self.process.wait()
+            hython = prefs.software(defaults._hython_).path
+            env = software.get_env(defaults._hython_, 1)
+            self.process = subprocess.Popen([hython, "-u", file], env = env)
+            self.process.wait()
 
         print('percent:33')
 

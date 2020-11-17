@@ -41,7 +41,7 @@ class export():
 
     def setup_export(self, job_type, f_range):
 
-        export_file = self.asset.export('{}_{}_{}'.format(self.asset.category, self.asset.name, self.asset.variant))
+        export_file = self.asset.export('{}_{}_{}'.format(self.asset.category, self.asset.name, self.asset.variant), from_asset=self.asset)
         export_path = os.path.split(export_file)[0]
         full_file = os.path.join(export_path, self.file_pattern)
 

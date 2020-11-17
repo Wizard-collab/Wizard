@@ -156,31 +156,41 @@ def decode_message(message_bytes):
 
 def asset_to_string(asset):
     string_asset = "{}".format(asset.domain)
-    string_asset += ".{}".format(asset.category)
-    string_asset += ".{}".format(asset.name)
-    string_asset += ".{}".format(asset.stage)
-    string_asset += ".{}".format(asset.variant)
-    string_asset += ".{}".format(asset.software)
-    string_asset += ".{}".format(asset.version)
-    string_asset += ".{}".format(asset.export_asset)
-    string_asset += ".{}".format(asset.export_version)
+    string_asset += "/{}".format(asset.category)
+    string_asset += "/{}".format(asset.name)
+    string_asset += "/{}".format(asset.stage)
+    string_asset += "/{}".format(asset.variant)
+    string_asset += "/{}".format(asset.software)
+    string_asset += "/{}".format(asset.version)
+    string_asset += "/{}".format(asset.export_asset)
+    string_asset += "/{}".format(asset.export_version)
     return string_asset
 
 def short_asset_to_string(asset):
     string_asset = "{}".format(asset.domain)
-    string_asset += ".{}".format(asset.category)
-    string_asset += ".{}".format(asset.name)
-    string_asset += ".{}".format(asset.stage)
-    string_asset += ".{}".format(asset.variant)
-    string_asset += ".{}".format(asset.software)
+    string_asset += "/{}".format(asset.category)
+    string_asset += "/{}".format(asset.name)
+    string_asset += "/{}".format(asset.stage)
+    string_asset += "/{}".format(asset.variant)
+    string_asset += "/{}".format(asset.software)
     return string_asset
 
 def variant_asset_to_string(asset):
     string_asset = "{}".format(asset.domain)
-    string_asset += ".{}".format(asset.category)
-    string_asset += ".{}".format(asset.name)
-    string_asset += ".{}".format(asset.stage)
-    string_asset += ".{}".format(asset.variant)
+    string_asset += "/{}".format(asset.category)
+    string_asset += "/{}".format(asset.name)
+    string_asset += "/{}".format(asset.stage)
+    string_asset += "/{}".format(asset.variant)
+    return string_asset
+
+def version_asset_to_string(asset):
+    string_asset = "{}".format(asset.domain)
+    string_asset += "/{}".format(asset.category)
+    string_asset += "/{}".format(asset.name)
+    string_asset += "/{}".format(asset.stage)
+    string_asset += "/{}".format(asset.variant)
+    string_asset += "/{}".format(asset.software)
+    string_asset += "/{}".format(asset.version)
     return string_asset
 
 

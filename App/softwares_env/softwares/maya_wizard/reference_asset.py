@@ -52,7 +52,7 @@ def duplicate_reference():
             scene_asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
             references_list = prefs().asset(scene_asset).variant.references
             if namespace in references_list.keys():
-                
+
                 asset = asset_core.string_to_asset(references_list[namespace][defaults._asset_key_])
                 count = references(scene_asset).add_reference(asset, 1, 1)
                 new_namespace = namespace.replace(namespace.split('_')[-1], count)
@@ -180,14 +180,14 @@ def show_locator(namespace):
         cmds.showHidden( locator )
 
 def setRGBColor(ctrl, color = (1,1,1)):
-    
+
     rgb = ("R","G","B")
-    
+
     cmds.setAttr(ctrl + ".overrideEnabled",1)
     cmds.setAttr(ctrl + ".overrideRGBColors",1)
-    
+
     for channel, color in zip(rgb, color):
-        
+
         cmds.setAttr(ctrl + ".overrideColor%s" %channel, color)
 
 def import_all():
@@ -270,9 +270,9 @@ def import_textures(namespace = None):
         if imported_asset[0].stage == defaults._texturing_ and run:
 
             if not cmds.namespace(exists=imported_asset[1]):
-                
+
                 shader_name = '{}:main_shader'.format(imported_asset[1])
-                
+
                 path = os.path.split(imported_asset[2])[0]
                 all_textures = os.listdir(path)
 

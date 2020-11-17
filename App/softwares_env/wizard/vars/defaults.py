@@ -251,6 +251,8 @@ _percent_signal_ = 'percent:'
 _subprocess_current_task_ = 'current_task:'
 _subprocess_status_ = 'status:'
 
+
+
 # Icons library
 _icon_path_ = ressources_path('ressources/images/')
 _settings_icon_ = _icon_path_ + 'settings.png'
@@ -342,6 +344,7 @@ _projects_icon_ = _icon_path_ + 'projects.png'
 _project_folder_icon_ = _icon_path_ + 'project_folder.png'
 _node_icon_ = _icon_path_ + 'node_icon.png'
 _reference_list_icon_ = _icon_path_ + 'reference_list_icon.png'
+_icon_mode_view_ = _icon_path_ + 'icon_mode_view.png'
 _sd_icon_ = _icon_path_ + 'sd_icon.png'
 _welcom_user_image_ = _icon_path_ + 'welcome_user.png'
 _prod_manager_user_image_ = _icon_path_ + 'prod_manager_user_image.png'
@@ -356,6 +359,7 @@ _export_icon_ = _icon_path_ + 'export_icon.png'
 _maya_save_icon_ = _icon_path_ + 'save.png'
 _maya_export_icon_ = _icon_path_ + 'maya_export.png'
 _maya_import_icon_ = _icon_path_ + 'maya_import.png'
+_maya_group_icon_ = _icon_path_ + 'maya_group_icon.png'
 _guerilla_import_icon_ = _icon_path_ + 'guerilla_import.png'
 _guerilla_reload_icon_ = _icon_path_ + 'guerilla_reload.png'
 _guerilla_export_icon_ = _icon_path_ + 'guerilla_export.png'
@@ -399,6 +403,7 @@ _refresh_icon_ = _icon_path_ + "refresh.png"
 _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
 _sandbox_icon_ = _icon_path_ + "sandbox.png"
+_missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -411,6 +416,12 @@ _menu_password_icon_ = _menu_icon_path_ + 'key.png'
 _menu_api_icon_ = _menu_icon_path_ + 'api.png'
 _menu_contact_icon_ = _menu_icon_path_ + 'mail.png'
 
+# Domain icons
+_domain_icons_ = dict()
+_domain_icons_[_assets_] = _assets_icon_
+_domain_icons_[_library_] = _library_icon_
+_domain_icons_[_editing_] = _edit_icon_
+_domain_icons_[_sequences_] = _sequences_icon_
 
 #Sounds library
 _sound_path_ = 'ressources/sounds/'
@@ -557,6 +568,7 @@ _designer_ = 'Substance Designer'
 _mari_ = 'Mari'
 _guerilla_ = 'Guerilla Render'
 _houdini_ = 'Houdini'
+_hython_ = 'Hython'
 _nuke_ = 'Nuke'
 _rumba_ = 'Rumba'
 _resolve_ = 'Resolve'
@@ -576,13 +588,14 @@ _softwares_list_ = [_maya_,
 					_mari_,
 					_guerilla_,
 					_houdini_,
+					_hython_,
 					_nuke_,
 					_rumba_,
 					_resolve_,
 					_reaper_,
 					_folder_]
 
-_publish_softwares_list_ = [_maya_, _maya_yeti_, _guerilla_, _nuke_]
+_publish_softwares_list_ = [_maya_, _blender_, _maya_yeti_, _guerilla_, _nuke_]
 
 # Publish extension dictionary
 _pub_ext_dic_ = {}
@@ -590,8 +603,10 @@ _pub_ext_dic_[_design_] = {}
 _pub_ext_dic_[_design_][_photoshop_] = 'png'
 _pub_ext_dic_[_geo_] = {}
 _pub_ext_dic_[_geo_][_maya_] = 'abc'
+_pub_ext_dic_[_geo_][_blender_] = 'abc'
 _pub_ext_dic_[_rig_] = {}
 _pub_ext_dic_[_rig_][_maya_] = 'ma'
+_pub_ext_dic_[_rig_][_blender_] = 'blend'
 _pub_ext_dic_[_autorig_] = {}
 _pub_ext_dic_[_autorig_][_maya_] = 'ma'
 _pub_ext_dic_[_cam_rig_] = {}
@@ -639,6 +654,66 @@ _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 _pub_ext_dic_[_material_] = {}
 _pub_ext_dic_[_material_][_designer_] = 'sbsar'
 _pub_ext_dic_[_material_][_photoshop_] = 'png'
+
+# Publish extensions lists dictionary
+_pub_ext_list_dic_ = {}
+_pub_ext_list_dic_[_design_] = {}
+_pub_ext_list_dic_[_design_][_photoshop_] = ['png']
+_pub_ext_list_dic_[_geo_] = {}
+_pub_ext_list_dic_[_geo_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_geo_][_blender_] = ['abc', 'blend']
+_pub_ext_list_dic_[_rig_] = {}
+_pub_ext_list_dic_[_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_rig_][_blender_] = ['blend']
+_pub_ext_list_dic_[_hair_] = {}
+_pub_ext_list_dic_[_hair_][_maya_] = ['ma']
+_pub_ext_list_dic_[_hair_][_maya_yeti_] = ['ma']
+_pub_ext_list_dic_[_texturing_] = {}
+_pub_ext_list_dic_[_texturing_][_painter_] = ['exr', 'png', 'tiff']
+_pub_ext_list_dic_[_texturing_][_designer_] = ['sbsar']
+_pub_ext_list_dic_[_shading_] = {}
+_pub_ext_list_dic_[_shading_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_shading_][_maya_] = ['ma']
+
+_pub_ext_list_dic_[_autorig_] = {}
+_pub_ext_list_dic_[_autorig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_cam_rig_] = {}
+_pub_ext_list_dic_[_cam_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_render_pass_] = {}
+_pub_ext_list_dic_[_render_pass_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_render_graph_] = {}
+_pub_ext_list_dic_[_render_graph_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_light_rig_] = {}
+_pub_ext_list_dic_[_light_rig_][_maya_] = ['ma']
+_pub_ext_list_dic_[_light_rig_][_guerilla_] = ['gnode']
+_pub_ext_list_dic_[_fx_setup_] = {}
+_pub_ext_list_dic_[_fx_setup_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_cyclo_] = {}
+_pub_ext_list_dic_[_cyclo_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_cyclo_][_guerilla_] = ['gproject']
+_pub_ext_list_dic_[_material_] = {}
+_pub_ext_list_dic_[_material_][_designer_] = ['sbsar', 'png', 'exr', 'tiff']
+_pub_ext_list_dic_[_material_][_photoshop_] = ['png']
+
+_pub_ext_list_dic_[_concept_] = {}
+_pub_ext_list_dic_[_concept_][_photoshop_] = ['png']
+_pub_ext_list_dic_[_layout_] = {}
+_pub_ext_list_dic_[_layout_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_animation_] = {}
+_pub_ext_list_dic_[_animation_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_lighting_] = {}
+_pub_ext_list_dic_[_lighting_][_maya_] = ['exr']
+_pub_ext_list_dic_[_lighting_][_guerilla_] = ['exr']
+_pub_ext_list_dic_[_cfx_] = {}
+_pub_ext_list_dic_[_cfx_][_maya_] = ['fur', 'abc']
+_pub_ext_list_dic_[_cfx_][_maya_yeti_] = ['fur', 'abc']
+_pub_ext_list_dic_[_fx_] = {}
+_pub_ext_list_dic_[_fx_][_maya_] = ['abc', 'ma']
+_pub_ext_list_dic_[_fx_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_compositing_] = {}
+_pub_ext_list_dic_[_compositing_][_nuke_] = ['exr']
+_pub_ext_list_dic_[_camera_] = {}
+_pub_ext_list_dic_[_camera_][_maya_] = ['abc', 'ma']
 
 
 
@@ -729,6 +804,7 @@ _soft_icons_dic_[_zbrush_]=_zbrush_icon_
 _soft_icons_dic_[_marvelous_]=_marvelous_icon_
 _soft_icons_dic_[_guerilla_]=_guerilla_icon_
 _soft_icons_dic_[_houdini_]=_houdini_icon_
+_soft_icons_dic_[_hython_]=_houdini_icon_
 _soft_icons_dic_[_mari_]=_mari_icon_
 _soft_icons_dic_[_nuke_]=_nuke_icon_
 _soft_icons_dic_[_rumba_]=_rumba_icon_
@@ -745,6 +821,7 @@ _guerilla_custom_python_ = 'GUERILLA_PYTHON_LIBRARY'
 _guerilla_node_type_ = 'SceneGraphNode'
 
 _blender_startup_ = 'blender_wizard/startup.py'
+_houdini_startup_ = 'houdini_wizard/startup.py'
 
 _script_software_env_dic_=dict()
 _script_software_env_dic_[_maya_]='PYTHONPATH'
@@ -754,6 +831,7 @@ _script_software_env_dic_[_photoshop_]='PYTHONPATH'
 _script_software_env_dic_[_krita_]='PYTHONPATH'
 _script_software_env_dic_[_nuke_]='NUKE_PATH'
 _script_software_env_dic_[_houdini_]='PYTHONPATH'
+_script_software_env_dic_[_hython_]='PYTHONPATH'
 _script_software_env_dic_[_zbrush_]='PYTHONPATH'
 _script_software_env_dic_[_guerilla_]='GUERILLA_CONF'
 _script_software_env_dic_[_painter_]='SUBSTANCE_PAINTER_PLUGINS_PATH'
@@ -777,6 +855,7 @@ _extension_dic_[_zbrush_]='zpr'
 _extension_dic_[_marvelous_]='hw'
 _extension_dic_[_guerilla_]='gproject'
 _extension_dic_[_houdini_]='hipnc'
+_extension_dic_[_hython_]='hipnc'
 _extension_dic_[_mari_]='Mari'
 _extension_dic_[_nuke_]='nk'
 _extension_dic_[_blender_]='blend'
@@ -801,6 +880,7 @@ _init_file__dic_[_zbrush_]='{}.{}'.format(_init_file_,_extension_dic_[_zbrush_])
 _init_file__dic_[_marvelous_]='{}.{}'.format(_init_file_,_extension_dic_[_marvelous_])
 _init_file__dic_[_guerilla_]='{}.{}'.format(_init_file_,_extension_dic_[_guerilla_])
 _init_file__dic_[_houdini_]='{}.{}'.format(_init_file_,_extension_dic_[_houdini_])
+_init_file__dic_[_hython_]='{}.{}'.format(_init_file_,_extension_dic_[_houdini_])
 _init_file__dic_[_mari_]='{}.{}'.format(_init_file_,_extension_dic_[_mari_])
 _init_file__dic_[_nuke_]='{}.{}'.format(_init_file_,_extension_dic_[_nuke_])
 _init_file__dic_[_resolve_]='null'
@@ -1019,6 +1099,7 @@ _postroll_key_ = 'postroll'
 _lock_key_ = 'lock'
 _run_key_ = 'run'
 _software_key_ = 'software'
+_from_asset_key_ = "from_asset"
 
 # User pref dic variables library
 _user_name_key_ = 'user_name'

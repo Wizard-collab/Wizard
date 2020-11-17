@@ -12,7 +12,5 @@ sys.path.append(str(os.path.dirname(os.path.abspath(__file__))))
 # from wizard.tools import log
 try:
     enable("shelf")
-    # logger.info("Wizard installed")
 except:
-    # logger.warning("Wizard addon already installed")
     print("Wizard addon already installed.")

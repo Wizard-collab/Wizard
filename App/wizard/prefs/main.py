@@ -550,12 +550,19 @@ class prefs:
             def version_software(self):
                 return asset_prefs.export(self.asset).get_version_software()  
 
+            @property
+            def from_asset(self):
+                return asset_prefs.export(self.asset).get_from_asset() 
+            
+
             def set_version_comment(self, comment):
                 return asset_prefs.export(self.asset).set_version_comment(comment)
 
             def set_version_software(self):
                 return asset_prefs.export(self.asset).set_version_software()
 
+            def set_from_asset(self, asset):
+                return asset_prefs.export(self.asset).set_from_asset(asset)
 
             def write(self):
                 return asset_prefs.export(self.asset).write()

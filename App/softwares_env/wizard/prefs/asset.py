@@ -521,10 +521,24 @@ class export():
             [defaults._software_key_] = self.asset.software
         self.write()
 
+    def set_from_asset(self, asset):
+        self.settings[defaults._versions_list_key_] \
+            [self.asset.export_version] \
+            [defaults._from_asset_key_] = util.version_asset_to_string(asset)
+        self.write()
+
     def get_version_software(self):
         return self.settings[defaults._versions_list_key_] \
             [self.asset.export_version] \
             [defaults._software_key_]
+
+    def get_from_asset(self):
+        if defaults._from_asset_key_ in self.settings[defaults._versions_list_key_][self.asset.export_version].keys():
+            return self.settings[defaults._versions_list_key_] \
+                [self.asset.export_version] \
+                [defaults._from_asset_key_]
+        else:
+            return None
 
     def is_published(self):
         return self.settings[defaults._publish_]
