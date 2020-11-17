@@ -31,7 +31,7 @@ def set_f_range(preroll=0):
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    export_file = asset.export("{}_{}".format(asset.name, asset.variant))
+    export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
     extension = os.path.splitext(export_file)[-1]
 
     if extension == ".hipnc":

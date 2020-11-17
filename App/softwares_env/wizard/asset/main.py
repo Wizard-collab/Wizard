@@ -277,7 +277,7 @@ class asset():
         else:
             return 0
 
-    def export(self, export_asset_namespace, need_proxy = 0):
+    def export(self, export_asset_namespace, need_proxy = 0, from_asset = None):
 
         # This function create the folders and writes the needed preferences
         # to the necessary .wd files
@@ -307,6 +307,9 @@ class asset():
 
         # Get the export_file using the "folder" wizard module
         file = folder(self).export_file
+
+        if from_asset :
+            self.asset_prefs.export.set_from_asset(from_asset)
 
         if need_proxy:
 
@@ -567,38 +570,42 @@ def asset_to_string(asset):
 
     # Convert the asset object to a string separated by '.'
     string_asset = "{}".format(asset.domain)
-    string_asset+= ".{}".format(asset.category)
-    string_asset+= ".{}".format(asset.name)
-    string_asset+= ".{}".format(asset.stage)
-    string_asset+= ".{}".format(asset.variant)
-    string_asset+= ".{}".format(asset.software)
-    string_asset+= ".{}".format(asset.version)
-    string_asset+= ".{}".format(asset.export_asset)
-    string_asset+= ".{}".format(asset.export_version)
+    string_asset+= "/{}".format(asset.category)
+    string_asset+= "/{}".format(asset.name)
+    string_asset+= "/{}".format(asset.stage)
+    string_asset+= "/{}".format(asset.variant)
+    string_asset+= "/{}".format(asset.software)
+    string_asset+= "/{}".format(asset.version)
+    string_asset+= "/{}".format(asset.export_asset)
+    string_asset+= "/{}".format(asset.export_version)
 
     # Return the string
     return string_asset
 
 def string_to_asset(string):
 
+    if '.' in string:
+        splitter = '.'
+    elif '/' in string:
+        splitter = '/'
     # Split the given string and get the asset variables
-    domain = string.split('.')[0]
+    domain = string.split(splitter)[0]
     if domain == "None":
         domain = None
-    category = string.split('.')[1]
+    category = string.split(splitter)[1]
     if category == "None":
         category = None
-    name = string.split('.')[2]
+    name = string.split(splitter)[2]
     if name == "None":
         name = None
-    stage = string.split('.')[3]
+    stage = string.split(splitter)[3]
     if stage == "None":
         stage = None
-    variant = string.split('.')[4]
+    variant = string.split(splitter)[4]
     if variant == "None":
         variant = None
     try:
-        software = string.split('.')[5]
+        software = string.split(splitter)[5]
     except IndexError:
         software = None
 
@@ -607,9 +614,9 @@ def string_to_asset(string):
         #-export_asset
         #-export_version
     try:
-        version = string.split('.')[6]
-        export_asset = string.split('.')[7]
-        export_version = string.split('.')[8]
+        version = string.split(splitter)[6]
+        export_asset = string.split(splitter)[7]
+        export_version = string.split(splitter)[8]
 
     # If thoses variables are not in the string,
     # Assign defaults variables

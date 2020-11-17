@@ -27,6 +27,8 @@ _blender_cmd_ = '"{}" "{}" --python "{}"'.format(_executable_key_, _file_key_, _
 
 _houdini_cmd_ = '"{}" "{}" waitforui "{}" '.format(_executable_key_, _file_key_, _script_key_)
 
+_hython_cmd_ = '"{}" "{}"'.format(_executable_key_, _file_key_)
+
 _cmd_dic_ = dict()
 _cmd_dic_[defaults._maya_] = _maya_cmd_
 _cmd_dic_[defaults._maya_yeti_] = _maya_cmd_
@@ -42,6 +44,7 @@ _cmd_dic_[defaults._designer_] = _default_cmd_
 _cmd_dic_[defaults._mari_] = _default_cmd_
 _cmd_dic_[defaults._guerilla_] = _guerilla_cmd_
 _cmd_dic_[defaults._houdini_] = _houdini_cmd_
+_cmd_dic_[defaults._hython_] = _hython_cmd_
 _cmd_dic_[defaults._nuke_] = _nuke_cmd_
 _cmd_dic_[defaults._rumba_] = _default_cmd_
 _cmd_dic_[defaults._resolve_] = _default_cmd_

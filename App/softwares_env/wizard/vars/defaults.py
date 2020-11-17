@@ -567,6 +567,7 @@ _designer_ = 'Substance Designer'
 _mari_ = 'Mari'
 _guerilla_ = 'Guerilla Render'
 _houdini_ = 'Houdini'
+_hython_ = 'Hython'
 _nuke_ = 'Nuke'
 _rumba_ = 'Rumba'
 _resolve_ = 'Resolve'
@@ -586,6 +587,7 @@ _softwares_list_ = [_maya_,
 					_mari_,
 					_guerilla_,
 					_houdini_,
+					_hython_,
 					_nuke_,
 					_rumba_,
 					_resolve_,
@@ -801,6 +803,7 @@ _soft_icons_dic_[_zbrush_]=_zbrush_icon_
 _soft_icons_dic_[_marvelous_]=_marvelous_icon_
 _soft_icons_dic_[_guerilla_]=_guerilla_icon_
 _soft_icons_dic_[_houdini_]=_houdini_icon_
+_soft_icons_dic_[_hython_]=_houdini_icon_
 _soft_icons_dic_[_mari_]=_mari_icon_
 _soft_icons_dic_[_nuke_]=_nuke_icon_
 _soft_icons_dic_[_rumba_]=_rumba_icon_
@@ -827,6 +830,7 @@ _script_software_env_dic_[_photoshop_]='PYTHONPATH'
 _script_software_env_dic_[_krita_]='PYTHONPATH'
 _script_software_env_dic_[_nuke_]='NUKE_PATH'
 _script_software_env_dic_[_houdini_]='PYTHONPATH'
+_script_software_env_dic_[_hython_]='PYTHONPATH'
 _script_software_env_dic_[_zbrush_]='PYTHONPATH'
 _script_software_env_dic_[_guerilla_]='GUERILLA_CONF'
 _script_software_env_dic_[_painter_]='SUBSTANCE_PAINTER_PLUGINS_PATH'
@@ -850,6 +854,7 @@ _extension_dic_[_zbrush_]='zpr'
 _extension_dic_[_marvelous_]='hw'
 _extension_dic_[_guerilla_]='gproject'
 _extension_dic_[_houdini_]='hipnc'
+_extension_dic_[_hython_]='hipnc'
 _extension_dic_[_mari_]='Mari'
 _extension_dic_[_nuke_]='nk'
 _extension_dic_[_blender_]='blend'
@@ -874,6 +879,7 @@ _init_file__dic_[_zbrush_]='{}.{}'.format(_init_file_,_extension_dic_[_zbrush_])
 _init_file__dic_[_marvelous_]='{}.{}'.format(_init_file_,_extension_dic_[_marvelous_])
 _init_file__dic_[_guerilla_]='{}.{}'.format(_init_file_,_extension_dic_[_guerilla_])
 _init_file__dic_[_houdini_]='{}.{}'.format(_init_file_,_extension_dic_[_houdini_])
+_init_file__dic_[_hython_]='{}.{}'.format(_init_file_,_extension_dic_[_houdini_])
 _init_file__dic_[_mari_]='{}.{}'.format(_init_file_,_extension_dic_[_mari_])
 _init_file__dic_[_nuke_]='{}.{}'.format(_init_file_,_extension_dic_[_nuke_])
 _init_file__dic_[_resolve_]='null'
@@ -1092,6 +1098,7 @@ _postroll_key_ = 'postroll'
 _lock_key_ = 'lock'
 _run_key_ = 'run'
 _software_key_ = 'software'
+_from_asset_key_ = "from_asset"
 
 # User pref dic variables library
 _user_name_key_ = 'user_name'

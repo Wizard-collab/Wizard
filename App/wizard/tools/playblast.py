@@ -63,9 +63,9 @@ class playblast():
             print('current_task:Playblasting...')
             sys.stdout.flush()
 
-            hbatch = prefs.software(defaults._houdini_).path
-            env = software.get_env(defaults._houdini_, 1)
-            self.process = subprocess.Popen([hbatch, "-u", file], env = env)
+            hython = prefs.software(defaults._hython_).path
+            env = software.get_env(defaults._hython_, 1)
+            self.process = subprocess.Popen([hython, "-u", file], env = env)
             self.process.wait()
 
         print('percent:33')

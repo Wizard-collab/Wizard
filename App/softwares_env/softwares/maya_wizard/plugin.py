@@ -5,6 +5,7 @@ from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project import wall
 from maya_wizard import auto_tag
+from wizard.tools import utility as utils
 import os
 
 reload(asset_core)
@@ -23,6 +24,7 @@ def save():
         asset.version = str(int(asset.version) + 1).zfill(4)
     cmds.file(rename=asset.file)
     cmds.file(save=True, type='mayaAscii')
+    os.environ[defaults._asset_var_] = utils.asset_to_string(asset)
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
@@ -85,7 +87,7 @@ def export_geo():
         cmds.select('geo_GRP')
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._geo_])
         wall.wall().publish_event(asset)
 
@@ -108,7 +110,7 @@ def export_sets():
         cmds.select(grp_name)
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         export_abc([0, 1], file, grp_name)
         wall.wall().publish_event(asset)
 
@@ -133,7 +135,7 @@ def export_set_dress():
         cmds.select(grp_name)
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         export_abc([0, 1], file, grp_name)
         wall.wall().publish_event(asset)
 
@@ -154,7 +156,7 @@ def export_cyclo():
         cmds.select(defaults._stage_export_grp_dic_[defaults._cyclo_])
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._cyclo_])
         wall.wall().publish_event(asset)
 
@@ -257,7 +259,7 @@ def export_layout():
         cmds.select(defaults._stage_export_grp_dic_[defaults._layout_])
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         export_abc([0, 1], file, defaults._stage_export_grp_dic_[defaults._layout_])
         wall.wall().publish_event(asset)
 
@@ -283,7 +285,7 @@ def export_fur(file):
 def export_ma(grp):
     if cmds.objExists(grp):
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export('{}_{}'.format(asset.name, asset.variant))
+        file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
         if grp == defaults._stage_export_grp_dic_[defaults._rig_]:
             export_list = [grp, defaults._rig_export_set_]
         elif grp == defaults._stage_export_grp_dic_[defaults._hair_]:
