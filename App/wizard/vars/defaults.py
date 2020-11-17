@@ -359,6 +359,7 @@ _export_icon_ = _icon_path_ + 'export_icon.png'
 _maya_save_icon_ = _icon_path_ + 'save.png'
 _maya_export_icon_ = _icon_path_ + 'maya_export.png'
 _maya_import_icon_ = _icon_path_ + 'maya_import.png'
+_maya_group_icon_ = _icon_path_ + 'maya_group_icon.png'
 _guerilla_import_icon_ = _icon_path_ + 'guerilla_import.png'
 _guerilla_reload_icon_ = _icon_path_ + 'guerilla_reload.png'
 _guerilla_export_icon_ = _icon_path_ + 'guerilla_export.png'
@@ -594,7 +595,7 @@ _softwares_list_ = [_maya_,
 					_reaper_,
 					_folder_]
 
-_publish_softwares_list_ = [_maya_, _maya_yeti_, _guerilla_, _nuke_]
+_publish_softwares_list_ = [_maya_, _blender_, _maya_yeti_, _guerilla_, _nuke_]
 
 # Publish extension dictionary
 _pub_ext_dic_ = {}
