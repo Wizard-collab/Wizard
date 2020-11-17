@@ -32,7 +32,7 @@ def create_node_without_duplicate(type, name, parent = None):
 
 def node_exists(name, parent = None):
     if not parent:
-        prent = hou.node('/obj')
+        parent = hou.node('/obj')
 
     node_path = "{}/{}".format(parent.path(), name)
     node = hou.node(node_path)

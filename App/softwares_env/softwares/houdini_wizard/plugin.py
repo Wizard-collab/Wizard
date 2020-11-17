@@ -40,6 +40,13 @@ def export(batch=None):
     elif asset.extension == "vdb":
         export_vdb(batch)
 
+def prepare_export():
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    if asset.extension == "abc":
+        export_abc(prepare = 1)
+    elif asset.extension == "vdb":
+        export_vdb(prepare = 1)
+
 def export_hipfile():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
@@ -49,10 +56,9 @@ def export_hipfile():
     shutil.copyfile(current_file, export_file)
     wall.wall().publish_event(asset)
 
-def export_abc(batch):
+def export_abc(batch=None, prepare=None):
 
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
     
     if not batch:
         abc_export_null = create_export_null_on_last_node('abc')
@@ -70,8 +76,6 @@ def export_abc(batch):
         rop_alembic_node.setInput(0, abc_object_merge_node)
         wizard_exports_node.layoutChildren()
 
-        rop_alembic_node.parm("filename").set(export_file)
-
         rop_alembic_node.parm("trange").set('normal')
         rop_alembic_node.parm("f1").setExpression('$FSTART')
         rop_alembic_node.parm("f2").setExpression('$FEND')
@@ -83,13 +87,16 @@ def export_abc(batch):
             rop_alembic_node.parm('lpostframe').set("python")
             rop_alembic_node.parm('postframe').set(by_frame_script_to_file(80))
 
-        rop_alembic_node.parm("execute").pressButton()
-        wall.wall().publish_event(asset)
+        if not prepare:
+            export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
+            rop_alembic_node.parm("filename").set(export_file)
+            rop_alembic_node.parm("execute").pressButton()
+            wall.wall().publish_event(asset)
 
     else:
         logger.warning("No abc out node")
 
-def export_vdb(batch):
+def export_vdb(batch=None, prepare=None):
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     #export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
 
@@ -121,23 +128,25 @@ def export_vdb(batch):
         rop_geometry_node.parm("trange").set('normal')
         rop_geometry_node.parm("f1").setExpression('$FSTART')
         rop_geometry_node.parm("f2").setExpression('$FEND')
-        rop_geometry_node.parm("execute").pressButton()
 
-        files_list = []
+        if not prepare:
+            rop_geometry_node.parm("execute").pressButton()
 
-        for file in os.listdir(temp_dir):
-            files_list.append(os.path.join(temp_dir, file))
+            files_list = []
 
-        publish_files_name = asset.export_multiple('{}_{}'.format(asset.name, asset.variant), files_list)
+            for file in os.listdir(temp_dir):
+                files_list.append(os.path.join(temp_dir, file))
 
-        if batch:
-            print("current_task:copying output files")
-            sys.stdout.flush()
+            publish_files_name = asset.export_multiple('{}_{}'.format(asset.name, asset.variant), files_list)
 
-        for file in files_list:
-            shutil.copyfile(file, publish_files_name[files_list.index(file)])
+            if batch:
+                print("current_task:copying output files")
+                sys.stdout.flush()
 
-        wall.wall().publish_event(asset)
+            for file in files_list:
+                shutil.copyfile(file, publish_files_name[files_list.index(file)])
+
+            wall.wall().publish_event(asset)
 
     else:
         logger.warning("No vdb out node")

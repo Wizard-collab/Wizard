@@ -1,10 +1,17 @@
 import hou
 import os
 from softwares.houdini_wizard.tools import *
+from softwares.houdini_wizard import reference_asset
+from wizard.vars import defaults
 
-def do_flipbook(namespace, frange, temp_path, scene_file):
+def do_flipbook(string_asset, namespace, frange, temp_path, scene_file, refresh_asset):
     file_path = os.path.join(temp_path, "temp.$F.png")
-    open_file(scene_file)
+    open_file(scene_file, string_asset)
+
+    reference_asset.import_all()
+    if refresh_asset:
+        reference_asset.refresh_all()
+
     opengl_node = create_rop_network()
     cam_path = get_cam_path(namespace)
     opengl_node.parm('lpostframe').set("python")
@@ -17,7 +24,8 @@ def do_flipbook(namespace, frange, temp_path, scene_file):
     opengl_node.parm('picture').set(file_path)
     opengl_node.parm('execute').pressButton()
 
-def open_file(file):
+def open_file(file, string_asset):
+    os.environ[defaults._asset_var_] = string_asset
     hou.hipFile.load(file)
 
 def create_rop_network():
