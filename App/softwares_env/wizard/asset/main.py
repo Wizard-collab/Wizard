@@ -72,7 +72,6 @@ class asset():
 
     @property
     def versions(self):
-
         # Get the versions list of the asset using the "prefs" wizard module
         return self.asset_prefs.software.versions
 
@@ -81,6 +80,11 @@ class asset():
 
         # Get the export versions list of the asset using the "prefs" wizard module
         return self.asset_prefs.export.versions
+
+    @property
+    def extension(self):
+        return self.asset_prefs.software.extension
+    
 
     @property
     def variants(self):

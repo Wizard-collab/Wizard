@@ -1,4 +1,5 @@
 import hou
+from wizard.tools import utility as utils
 
 def get_wizard_ref_node():
     wizard_ref_node_name = "wizard_references"
@@ -42,9 +43,18 @@ def connect_to_input_item(node, parent, no):
     input_item = hou.item(input_item_path)
     node.setInput(0, input_item)
 
-def create_export_null_on_last_node():
+def look_for_export_null(type):
+    out_name = "wizard_{}_export_OUT".format(type)
+    out_node = None
+    for child in hou.node('/obj').children():
+        for grandchild in child.children():
+            if grandchild.name() == out_name:
+                out_node = hou.node(grandchild.path())
+    return out_node
 
-    out_name = "wizard_export_OUT"
+def create_export_null_on_last_node(type):
+
+    out_name = "wizard_{}_export_OUT".format(type)
 
     selected = hou.selectedNodes()
     if len(selected) == 1:
@@ -55,8 +65,6 @@ def create_export_null_on_last_node():
                 if not len(child.outputConnections()):
                     last_node = hou.node(child.path())
                     break
-
-            print(last_node.name())
 
             if last_node and last_node.name() != out_name:
                 export_null_node = create_node_without_duplicate("null", out_name, node)
@@ -74,3 +82,13 @@ def create_export_null_on_last_node():
     else:
         print('Please select one node')
         return None
+
+def by_frame_script_to_file(max_percent=100):
+    command = "import hou\n"
+    command+= "frame=hou.frame()\n"
+    command+= "range=hou.playbar.playbackRange()\n"
+    command+= "inframe=range[0]\n"
+    command+= "outframe=range[1]\n"
+    command+= "percent={}*((frame-inframe)/(outframe-inframe))\n".format(max_percent)
+    command+= 'print("percent:{}".format(percent))\n'
+    return command

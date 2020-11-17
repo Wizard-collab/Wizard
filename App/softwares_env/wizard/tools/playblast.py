@@ -91,8 +91,8 @@ class playblast():
         pbfile = self.create_video()
         wall().playblast_event(self.asset)
 
-        print('status:Done !')
         print('percent:100')
+        print('status:Done !')
         sys.stdout.flush()
 
 

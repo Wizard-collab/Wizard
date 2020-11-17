@@ -288,7 +288,8 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        ###extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        extension = self.asset.extension
 
         # Build the file name
         file_name = '{}.{}'.format(file_name_template,
@@ -341,7 +342,8 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        ###extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        extension = self.asset.extension
 
         # Build the proxy file name
         file_name = '{}.{}'.format(proxy_file_name_template,
@@ -359,7 +361,8 @@ class folder():
 
         # Build the filename with the correct software extension
         # Get the extension dic from the "project_prefs" wizard module
-        extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        ###extension = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
+        extension = self.asset.extension
 
         # Build the proxy file name
         file_name = '{}.{}'.format(file_name_template,

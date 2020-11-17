@@ -13,6 +13,8 @@ class batch_export():
         
         if asset.software == defaults._maya_:
             self.batch_export_maya()
+        elif asset.software == defaults._houdini_:
+            self.batch_export_houdini()
 
     def batch_export_maya(self):
 
@@ -25,4 +27,17 @@ class batch_export():
         env[defaults._asset_var_] = utils.asset_to_string(self.asset)
 
         self.ui_subprocess_manager = ui_subprocess_manager.Main([mayapy, "-u", file], env)
+        build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
+
+    def batch_export_houdini(self):
+
+        command =  'from softwares.houdini_wizard.batch_export import batch_export\n'
+        command += 'batch_export()'
+
+        file = utils.temp_file_from_command(command)
+        hython = prefs.software(defaults._hython_).path
+        env = software.get_env(defaults._hython_, 0)
+        env[defaults._asset_var_] = utils.asset_to_string(self.asset)
+
+        self.ui_subprocess_manager = ui_subprocess_manager.Main([hython, "-u", file], env)
         build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
