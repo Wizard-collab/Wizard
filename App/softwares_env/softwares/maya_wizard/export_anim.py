@@ -17,6 +17,7 @@ from wizard.project import wall
 from maya_wizard import reference_asset
 import traceback
 import logging
+import copy
 
 #cmds.loadPlugin( allPlugins=True )
 cmds.loadPlugin( 'AbcImport.mll' )
@@ -84,6 +85,9 @@ class export_anim():
 
         cmds.select(self.shapes_list, replace = 1)
         export_variant = '{}_{}_{}'.format(self.rig_asset.name, self.rig_asset.variant, self.count)
+
+        from_asset = copy.deepcopy(self.asset)
+
         if self.camera and self.asset.domain == defaults._sequences_:
             self.asset.stage = defaults._camera_
             software = self.asset.software
@@ -92,7 +96,7 @@ class export_anim():
                 builder.create_variant(self.asset)
                 self.asset.software = software
 
-        export_file = self.asset.export(export_variant, self.comment)
+        export_file = self.asset.export(export_variant, self.comment, from_asset=from_asset)
 
         self.export_abc(export_file, self.shapes_list)
 

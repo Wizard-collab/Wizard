@@ -51,7 +51,7 @@ class Main(list_widget):
             if list_dir == [] or not list_dir:
                 icon = defaults._missing_file_export_list_icon_
             else:
-                if (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][prefs.asset(self.asset).export.version_software] in list_dir[0]:
+                if prefs.asset(self.asset).software.extension in list_dir[0]:
                     icon = defaults._export_list_icon_
                 else:
                     icon = defaults._missing_file_export_list_icon_

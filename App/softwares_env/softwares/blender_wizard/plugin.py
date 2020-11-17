@@ -4,6 +4,7 @@ from wizard.prefs import project as project_prefs
 from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project.wall import wall
+from wizard.tools import utility as utils
 import tools
 import os
 
@@ -21,6 +22,7 @@ def save():
     asset.version = prefs.asset(asset).software.get_new_version()
     bpy.ops.wm.save_as_mainfile(filepath=asset.file)
     logger.info('File saved.')
+    os.environ[defaults._asset_var_] = utils.asset_to_string(asset)
 
 
 def export():
@@ -68,7 +70,7 @@ def export_geo():
                 mesh.select_set(True)
 
         asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-        file = asset.export("{}_{}".format(asset.name, asset.variant))
+        file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset = asset) ### < J'ai rajouté ça
         # time_range = prefs.asset(asset).name.range
         time_range = [1,1]
         export_abc(time_range, file, selected=True)

@@ -1,17 +1,10 @@
 # coding: utf8
-
-import maya.cmds as cmds
-import maya.standalone
-maya.standalone.initialize()
-
-cmds.loadPlugin( 'AbcImport.mll' )
-cmds.loadPlugin( 'AbcExport.mll' )
-
-from maya_wizard import plugin
+from softwares.houdini_wizard import plugin
 from wizard.asset import main as asset_core
 from wizard.tools import log
 from wizard.vars import defaults
 import os
+import hou
 
 import sys
 
@@ -28,15 +21,15 @@ def batch_export():
 	file = asset.file
 	print('current_task:openning file {}'.format(file))
 	sys.stdout.flush()
-	cmds.file(file, o=True, f=True)
+	hou.hipFile.load(file)
 	print('percent:20')
 	sys.stdout.flush()
 
 	print('current_task:exporting asset')
 	print('percent:25')
 	sys.stdout.flush()
-	plugin.export()
-	
+	plugin.export(batch=1)
+
 	print('percent:100')
 	print('status:Done !')
 	sys.stdout.flush()

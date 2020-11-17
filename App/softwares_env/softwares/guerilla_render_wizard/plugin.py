@@ -19,28 +19,28 @@ def save():
     Document().save(asset.file)
 
 def export_cyclo(asset):
-    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     Document().save(file)
     save()
     wall.wall().publish_event(asset)
 
 def export_shading(asset):
-    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     rg_name = 'shading_GRP'.format(asset.stage, asset.name)
     export_node(file, rg_name, asset)
 
 def export_render_pass(asset):
-    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     rp_name = 'render_pass_GRP'
     export_node(file, rp_name, asset)
 
 def export_render_graph(asset):
-    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     rg_name = 'render_graph_GRP'
     export_node(file, rg_name, asset)
 
 def export_light_rig(asset):
-    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     rg_name = 'light_rig_GRP'
     export_node(file, rg_name, asset)
 

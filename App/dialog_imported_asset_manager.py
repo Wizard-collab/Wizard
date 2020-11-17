@@ -148,10 +148,11 @@ class Main(QtWidgets.QDialog):
         date = prefs.asset(self.asset).export.version_date
         comment = prefs.asset(self.asset).export.version_comment
         software = prefs.asset(self.asset).export.version_software
+        from_asset = prefs.asset(self.asset).export.from_asset
         self.ui.user_name_label.setText(user)
         self.ui.date_label.setText(date)
         self.ui.comment_label.setText(comment)
-        self.ui.software_label.setText(software)
+        self.ui.software_label.setText(from_asset)
 
     def connect_functions(self):
         self.ui.exported_version_comboBox.currentIndexChanged.connect(self.version_changed)

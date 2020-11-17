@@ -204,7 +204,6 @@ class run_subprocess(QThread):
         self.outThread.percent_signal.connect(self.percent_signal.emit)
         while not (self.process.poll() == 0 or self.stop):
             QApplication.processEvents()
-            #time.sleep(0.1)
         self.outThread.quit()
         self.errThread.quit()
 
@@ -281,7 +280,7 @@ class outThread(QThread):
         while not self.run_process.stop:
             QApplication.processEvents()
             output = self.process.stdout.readline()
-            if output == '' and self.process.poll() is not None:
+            if self.process.poll() is not None:
                 break
                 self.out_signal.emit('status:finished')
             if output:
@@ -289,10 +288,8 @@ class outThread(QThread):
                     out = output.strip().decode('utf-8')
                 except:
                     out = "{}".format(str(output.strip())) 
-                #out = convert_string(out)
-                if self.check_string(out):
-                    self.out_signal.emit(out)
-            time.sleep(0.1)
+                self.check_string(out)
+                self.out_signal.emit(out)
 
     def check_string(self, string):
         if defaults._percent_signal_ in string:

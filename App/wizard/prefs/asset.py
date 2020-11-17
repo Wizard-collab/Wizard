@@ -216,12 +216,6 @@ class variant():
     def get_default_software(self):
         return self.settings[defaults._default_software_key_]
 
-    def get_publish_file(self):
-        ext = (project_prefs.get_custom_pub_ext_dic())[self.asset.stage][self.asset.software]
-        file = '{}/{}_{}_{}_{}.{}'.format(self.path, self.asset.stage, self.asset.category, self.asset.name,
-                                          self.asset.variant, ext)
-        return file
-
     def set_default_software(self, software):
         self.settings[defaults._default_software_key_] = software
         self.write()
@@ -521,10 +515,24 @@ class export():
             [defaults._software_key_] = self.asset.software
         self.write()
 
+    def set_from_asset(self, asset):
+        self.settings[defaults._versions_list_key_] \
+            [self.asset.export_version] \
+            [defaults._from_asset_key_] = util.version_asset_to_string(asset)
+        self.write()
+
     def get_version_software(self):
         return self.settings[defaults._versions_list_key_] \
             [self.asset.export_version] \
             [defaults._software_key_]
+
+    def get_from_asset(self):
+        if defaults._from_asset_key_ in self.settings[defaults._versions_list_key_][self.asset.export_version].keys():
+            return self.settings[defaults._versions_list_key_] \
+                [self.asset.export_version] \
+                [defaults._from_asset_key_]
+        else:
+            return None
 
     def is_published(self):
         return self.settings[defaults._publish_]
@@ -548,6 +556,30 @@ class software():
             write_prefs(self.database, self.file, self.settings)
         else:
             logger.debug("Can't write software prefs")
+
+    def get_extension(self):
+        try:
+            pub_ext_dic = project_prefs.get_custom_pub_ext_dic()
+            default_ext = pub_ext_dic[self.asset.stage][self.asset.software]
+            asset_ext = self.get_asset_ext()
+            if not asset_ext:
+                return default_ext
+            else:
+                return asset_ext
+        except:
+            logger.info("No extension found")
+            return None
+
+    def set_asset_extension(self, extension):
+        self.settings[defaults._extension_key_] = extension
+        self.write()
+        return extension
+
+    def get_asset_ext(self):
+        if defaults._extension_key_ in self.settings.keys():
+            return self.settings[defaults._extension_key_]
+        else:
+            return None
 
     def get_creation_date(self):
         return self.settings[defaults._creation_date_key_]

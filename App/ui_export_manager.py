@@ -267,7 +267,7 @@ class Main(QtWidgets.QWidget):
 
     def playblast(self):
         if self.out_range:
-            if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_:
+            if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_ or self.asset.software == defaults._houdini_:
 
                 show_ornaments = self.ui.playblast_ornaments_checkBox.isChecked()
                 show_playblast = self.ui.playblast_show_checkBox.isChecked()

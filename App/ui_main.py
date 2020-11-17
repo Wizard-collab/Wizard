@@ -177,6 +177,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.signal_server = signal_server()
             self.signal_server.refresh_signal.connect(self.refresh_main_ui)
+            self.signal_server.refresh_launcher_signal.connect(self.version_changed)
             self.signal_server.log_signal.connect(self.log_widget.ui.log_textEdit.append)
             self.signal_server.focus_signal.connect(self.focus_wizard)
             self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
@@ -574,7 +575,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.update_creation_date()
             self.update_creation_user()
             self.ui.asset_comment_textEdit.clear()
-            self.update_tabs()
+            #self.update_tabs()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -682,6 +683,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 self.asset_prefs.variant.set_default_software(software)
                 self.update_versions()
                 self.update_launch_button()
+                self.update_tabs()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -728,7 +730,6 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.update_comment()
             self.update_image()
             self.update_lock()
-            self.update_tabs()
             api.scene.set_current_asset(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1052,7 +1053,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                     self.lock()
                     self.update_lock()
                 software = self.asset.software
-                self.asset_item_changed()
+                self.version_changed()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1064,7 +1065,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 if not self.asset_prefs.software.get_lock:
                     self.lock()
                     self.update_lock()
-                self.refresh_main_ui()
+                self.version_changed()
             self.asset = old_asset
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1075,7 +1076,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             name = f"import {self.asset.category}-{self.asset.name}-{self.asset.stage}-{self.asset.variant}"
             string_asset = utils.asset_to_string(self.asset)
             script = user_scripts_library.import_asset_script.replace('ASSET_STRING', string_asset)
-            user_scripts().create_user_script(name, icon, script)
+            user_scripts().create_user_script(name, icon, script, 0)
             self.user_scripts_widget.refresh_scripts()
         except:
             logger.critical(str(traceback.format_exc()))

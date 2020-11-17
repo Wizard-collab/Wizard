@@ -403,6 +403,10 @@ class prefs:
                 return asset_prefs.software(self.asset).get_creation_user()
 
             @property
+            def extension(self):
+                return asset_prefs.software(self.asset).get_extension()
+
+            @property
             def date(self):
                 return asset_prefs.software(self.asset).get_creation_date()
 
@@ -466,6 +470,9 @@ class prefs:
 
             def get_new_version(self):
                 return asset_prefs.software(self.asset).get_new_version()
+
+            def set_asset_extension(self, extension):
+                return asset_prefs.software(self.asset).set_asset_extension(extension)
 
             def remove_version(self, version):
                 return asset_prefs.software(self.asset).remove_version(version=version)
@@ -550,12 +557,19 @@ class prefs:
             def version_software(self):
                 return asset_prefs.export(self.asset).get_version_software()  
 
+            @property
+            def from_asset(self):
+                return asset_prefs.export(self.asset).get_from_asset() 
+            
+
             def set_version_comment(self, comment):
                 return asset_prefs.export(self.asset).set_version_comment(comment)
 
             def set_version_software(self):
                 return asset_prefs.export(self.asset).set_version_software()
 
+            def set_from_asset(self, asset):
+                return asset_prefs.export(self.asset).set_from_asset(asset)
 
             def write(self):
                 return asset_prefs.export(self.asset).write()
