@@ -389,6 +389,7 @@ _comment_icon_ = _icon_path_ + 'comment.png'
 _manual_publish_icon_ = _icon_path_ + 'manual_publish.png'
 _debug_icon_ = _icon_path_ + 'debug_icon.png'
 _batch_publish_icon_ = _icon_path_ + 'batch_publish.png'
+_extension_icon_ = _icon_path_ + 'extension_icon.png'
 _open_ticket_icon_ = _icon_path_ + 'open_ticket.png'
 _ticket_icon_ = _icon_path_ + 'ticket_icon.png'
 _gray_ticket_icon_ = _icon_path_ + 'gray_ticket_icon.png'
@@ -654,6 +655,8 @@ _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 _pub_ext_dic_[_material_] = {}
 _pub_ext_dic_[_material_][_designer_] = 'sbsar'
 _pub_ext_dic_[_material_][_photoshop_] = 'png'
+	
+_extension_key_ = 'extension'
 
 # Publish extensions lists dictionary
 _pub_ext_list_dic_ = {}
@@ -1407,6 +1410,7 @@ _substance_plugin_path_ = '{}/Documents//Allegorithmic/Substance Painter/plugins
 # Signal keys library
 _signal_type_key_ = 'type'
 _refresh_signal_ = 'refresh'
+_refresh_launcher_signal_ = 'refresh_launcher'
 _log_signal_ = 'log'
 _log_line_ = 'line'
 _focus_signal_ = 'focus'

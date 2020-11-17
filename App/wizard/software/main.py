@@ -205,7 +205,7 @@ class subThread(QThread):
                 running_assets_list_string = (':').join(running_assets_list)
                 os.environ[defaults._current_assets_list_] = running_assets_list_string
 
-            send_signal.refresh_signal()
+            send_signal.refresh_launcher_signal()
             logger.info('{} closed'.format(self.software))
 
         else:

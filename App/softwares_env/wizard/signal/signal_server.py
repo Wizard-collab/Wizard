@@ -13,6 +13,7 @@ logger = log.pipe_log(__name__)
 class signal_server(QThread):
 
     refresh_signal = pyqtSignal(str)
+    refresh_launcher_signal = pyqtSignal(str)
     log_signal = pyqtSignal(str)
     focus_signal = pyqtSignal(str)
     save_signal = pyqtSignal(str)
@@ -48,6 +49,8 @@ class signal_server(QThread):
         signal_dic = yaml.load(signal_as_str, Loader = yaml.Loader)
         if signal_dic[defaults._signal_type_key_] == defaults._refresh_signal_:
             self.refresh_signal.emit(defaults._refresh_signal_)
+        if signal_dic[defaults._signal_type_key_] == defaults._refresh_launcher_signal_:
+            self.refresh_launcher_signal.emit(defaults._refresh_launcher_signal_)
         elif signal_dic[defaults._signal_type_key_] == defaults._save_signal_:
             self.save_signal.emit(defaults._save_signal_)
         elif signal_dic[defaults._signal_type_key_] == defaults._task_signal_:

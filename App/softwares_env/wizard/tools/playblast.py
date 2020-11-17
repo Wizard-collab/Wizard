@@ -50,11 +50,13 @@ class playblast():
 
         elif self.asset.software == defaults._houdini_:
             pb_command = "from softwares.houdini_wizard import flipbook\n"
-            pb_command += 'flipbook.do_flipbook("{}", {}, "{}", "{}")'.format(cam_namespace, 
-                                                                  self.frange,
-                                                                  self.temp_directory.replace('\\', '/'),
-                                                                  self.asset.file.replace('\\', '/')
-                                                                  )
+            pb_command += 'flipbook.do_flipbook("{}", "{}", {}, "{}", "{}", {})'.format(self.string_asset,
+                                                                                  cam_namespace, 
+                                                                                  self.frange,
+                                                                                  self.temp_directory.replace('\\', '/'),
+                                                                                  self.asset.file.replace('\\', '/'),
+                                                                                  self.refresh_assets
+                                                                                  )
 
             file = utils.temp_file_from_command(pb_command)
 
@@ -91,8 +93,8 @@ class playblast():
         pbfile = self.create_video()
         wall().playblast_event(self.asset)
 
-        print('status:Done !')
         print('percent:100')
+        print('status:Done !')
         sys.stdout.flush()
 
 

@@ -18,7 +18,6 @@ def get_asset_list():
     for namespace in list(references_list.keys()):
         imported_asset = asset_core.string_to_asset(references_list[namespace][defaults._asset_key_])
         proxy = references_list[namespace][defaults._proxy_]
-
         folder = prefs().asset(imported_asset).export.version_folder
         from_software = prefs().asset(imported_asset).export.version_software
         imported_asset.software = from_software
@@ -34,26 +33,39 @@ def import_all():
     import_geo()
     import_cam()
 
-def import_geo():
-    asset_list = get_asset_list()
-    print(asset_list)
-    for imported_asset in asset_list:
-        asset = imported_asset[0]
-        namespace = imported_asset[1]
-        file_path = imported_asset[2]
-        print(asset.stage)
-        if asset.stage == defaults._geo_ or asset.stage == defaults._animation_:
-            create_abc_ref(namespace, file_path)
+def refresh_all():
+    import_geo(1)
+    import_cam(1)
 
-def import_cam():
+def import_geo(reload=0):
     asset_list = get_asset_list()
     for imported_asset in asset_list:
+
         asset = imported_asset[0]
         namespace = imported_asset[1]
         file_path = imported_asset[2]
+
+        if asset.stage == defaults._geo_ or asset.stage == defaults._animation_:
+            wizard_ref_node = get_wizard_ref_node()
+            if node_exists(namespace, wizard_ref_node) and not reload:
+                pass
+            else:
+                create_abc_ref(namespace, file_path)
+
+def import_cam(reload=0):
+    asset_list = get_asset_list()
+    for imported_asset in asset_list:
+
+        asset = imported_asset[0]
+        namespace = imported_asset[1]
+        file_path = imported_asset[2]
+
         if asset.stage == defaults._camera_:
-            #create_abc_ref(namespace, file_path)
-            create_cam_ref(namespace, file_path)
+            wizard_ref_node = get_wizard_ref_node()
+            if node_exists(namespace) and not reload:
+                pass
+            else:
+                create_cam_ref(namespace, file_path)
 
 def create_abc_ref(namespace, file):
     wizard_ref_node = get_wizard_ref_node()

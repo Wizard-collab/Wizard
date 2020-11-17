@@ -20,6 +20,7 @@ QWidget {
 	border: 1px solid gray;
 }
 
+
 #update_widget_frame, #update_title_frame{
 	background-color:rgb(_top_level_widget_color_);
 }
@@ -391,6 +392,28 @@ QWidget {
 
 #manual_publish_pushButton, #batch_publish_pushButton, #add_empty_file_pushButton, #batch_playblast_pushButton, #open_ticket_pushButton{
 	border-radius:24px;
+}
+
+#exports_extension_comboBox{
+	background-color:rgb(_top_level_widget_color_);
+	border-radius:24px;
+}
+
+#exports_extension_frame{
+	background-color:rgb(_top_level_widget_color_);
+	border-radius:24px;
+}
+
+#exports_extension_comboBox::drop-down{
+	background-color:rgb(_top_level_widget_color_);
+	border-radius:24px;
+	border-top-left-radius:0px;
+	border-bottom-left-radius:0px;
+	width:20px;
+}
+
+#exports_extension_comboBox::drop-down:hover{
+	background-color: rgb(_hover_widget_color_);
 }
 
 #about_author_label{

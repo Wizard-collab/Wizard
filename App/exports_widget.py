@@ -38,6 +38,38 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.ui.show_all_exports_pushButton.setIcon(QtGui.QIcon(defaults._sd_icon_))
         self.ui.manual_publish_pushButton.setIcon(QtGui.QIcon(defaults._manual_publish_icon_))
         self.ui.batch_publish_pushButton.setIcon(QtGui.QIcon(defaults._batch_publish_icon_))
+        self.ui.export_extension_icon_label.setPixmap(QtGui.QPixmap(defaults._extension_icon_).scaled(18, 18, QtCore.Qt.KeepAspectRatio,
+                                                                              QtCore.Qt.SmoothTransformation))
+
+    def refresh_extensions(self):
+        try:
+            self.ui.exports_extension_comboBox.currentIndexChanged.disconnect()
+        except:
+            pass
+        self.ui.exports_extension_comboBox.clear()
+        if self.asset.software:
+            extension = prefs.asset(self.asset).software.extension
+            try:
+                extensions_list = defaults._pub_ext_list_dic_[self.asset.stage][self.asset.software]
+                default_extension = prefs.custom_pub_ext_dic[self.asset.stage][self.asset.software]
+                
+                self.ui.exports_extension_comboBox.addItems(extensions_list)
+
+                index = extensions_list.index(extension)
+                self.ui.exports_extension_comboBox.setCurrentIndex(index)
+                self.ui.exports_extension_comboBox.addItem('default *{}'.format(default_extension))
+            except:
+                self.ui.exports_extension_comboBox.addItem('default *')
+                logger.debug('No extension found')
+
+
+        self.ui.exports_extension_comboBox.currentIndexChanged.connect(self.change_extension)
+
+    def change_extension(self):
+        extension = self.ui.exports_extension_comboBox.currentText()
+        if 'default *' in extension:
+            extension = None
+        prefs.asset(self.asset).software.set_asset_extension(extension)
 
     def refresh_list(self, asset_tuple = None):
         if asset_tuple:
@@ -90,6 +122,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         if asset:
             self.asset = asset
         self.update_exported_assets(asset)
+        self.refresh_extensions()
 
     def update_sanity(self):
         self.refresh_all()
@@ -129,7 +162,10 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
 
     def batch_export(self):
         if self.asset.domain == defaults._sequences_:
-            self.export_shot()
+            if self.asset.software == defaults._houdini_:
+                self.export_asset()
+            else:
+                self.export_shot()
         elif self.asset.domain == defaults._assets_:
             self.export_asset()
 
