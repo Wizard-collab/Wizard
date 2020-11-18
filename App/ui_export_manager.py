@@ -26,6 +26,7 @@ from wizard.prefs import software as software_prefs
 from wizard.software import main as software
 from wizard.asset.reference import references
 from wizard.asset import checker
+from wizard.tools import batch_export
 
 # Import wizard widgets
 import dialog_report
@@ -120,6 +121,12 @@ class Main(QtWidgets.QWidget):
         elif self.action == defaults._playblast_:
             self.ui.export_ma_export_pushButton.clicked.connect(self.playblast)
 
+        if self.asset.software == defaults._houdini_ and self.action != defaults._playblast_:
+            self.ui.assets_list_frame.setVisible(0)
+            self.ui.export_options_frame.setVisible(0)
+            QApplication.processEvents()
+            self.resize(self.minimumSizeHint())
+
     def add_sequence_camera(self, cam_asset):
             asset_references = references(self.asset)
             count  = asset_references.add_reference(cam_asset, 0,1)
@@ -184,7 +191,6 @@ class Main(QtWidgets.QWidget):
             nspace_list = []
             cam_nspace_list = []
             for item in items_list:
-
                 asset_item = asset_core.string_to_asset(self.references[item.text()][defaults._asset_key_])
                 if asset_item.stage == defaults._cam_rig_:
                     cam_nspace_list.append(item.text())
@@ -195,72 +201,9 @@ class Main(QtWidgets.QWidget):
             auto_hair = self.ui.export_auto_hair_checkBox.isChecked()
             refresh_assets = self.ui.export_m_refresh_assets_checkBox.isChecked()
 
-            command = ''
+            batch_export.sequence(self.asset, nspace_list, cam_nspace_list, self.out_range, refresh_assets, auto_hair)
 
-            if nspace_list != []:
-
-                if cam_nspace_list != []:
-                    set_done = 0
-                else:
-                    set_done = 1
-
-                if self.asset.stage == defaults._animation_ and auto_hair:
-                    command = 'from softwares.maya_wizard.auto_hair import auto_hair\n'
-                    command += 'auto_hair("{}", "{}", {}, frange = {}, set_done = {}, refresh_assets = {}).auto_hair()'.format(utils.asset_to_string(self.asset),
-                                                                                            self.asset.file.replace('\\', '/'),
-                                                                                            nspace_list,
-                                                                                            self.out_range,
-                                                                                            set_done,
-                                                                                            refresh_assets)
-
-                elif self.asset.stage == defaults._animation_ and not auto_hair:
-                    command += 'from softwares.maya_wizard.export_anim import export_anim\n'
-                    command += 'export_anim("{}", "{}", {}, frange = {}, set_done = {}, refresh_assets = {}).export_anim()'.format(utils.asset_to_string(self.asset),
-                                                                                            self.asset.file.replace('\\', '/'),
-                                                                                            nspace_list,
-                                                                                            self.out_range,
-                                                                                            set_done,
-                                                                                            refresh_assets)
-
-                elif self.asset.stage == defaults._cfx_:
-                    command = 'from softwares.maya_wizard.export_fur import export_fur\n'
-                    command += 'export_fur("{}", "{}", {}, {}, refresh_assets = {}).export_fur()'.format(utils.asset_to_string(self.asset),
-                                                                                        self.asset.file.replace('\\', '/'),
-                                                                                        nspace_list,
-                                                                                        self.out_range,
-                                                                                        refresh_assets)
-
-            else:
-                if cam_nspace_list == []:
-                    logger.warning("Please select at least an asset")
-                else:
-                    pass
-
-            if cam_nspace_list != []:
-
-                if self.asset.software == defaults._maya_:
-                    command += '\nfrom softwares.maya_wizard.export_anim import export_anim\n'
-                    command += 'export_anim("{}", "{}", {}, frange = {}, refresh_assets = {}).export_cam()'.format(utils.asset_to_string(self.asset),
-                                                                                            self.asset.file.replace('\\', '/'),
-                                                                                            cam_nspace_list,
-                                                                                            self.out_range,
-                                                                                            refresh_assets)
-
-
-            if command != '':
-
-                file = utils.temp_file_from_command(command)
-                mayapy = prefs.software(defaults._mayapy_).path
-                env = software.get_env(defaults._mayapy_, 0)
-                env[defaults._asset_var_] = utils.asset_to_string(self.asset)
-
-                self.ui_subprocess_manager = ui_subprocess_manager.Main([mayapy, "-u", file], env)
-                build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
-
-                self.hide()
-
-            else:
-                logger.warning('Nothing to export !')
+            self.hide()
 
         else:
             logger.warning("Please enter a valid frame range")

@@ -31,14 +31,14 @@ def set_f_range(preroll=0):
 
     hou.playbar.setFrameRange(f_range[0], f_range[1])
 
-def export(batch=None):
+def export(batch=None, frange=None):
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     if asset.extension == "hipnc":
         export_hipfile()
     elif asset.extension == "abc":
-        export_abc(batch)
+        export_abc(batch=batch, frange=frange)
     elif asset.extension == "vdb":
-        export_vdb(batch)
+        export_vdb(batch=batch, frange=frange)
 
 def prepare_export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
@@ -56,7 +56,7 @@ def export_hipfile():
     shutil.copyfile(current_file, export_file)
     wall.wall().publish_event(asset)
 
-def export_abc(batch=None, prepare=None):
+def export_abc(batch=None, prepare=None, frange=None):
 
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     
@@ -77,6 +77,10 @@ def export_abc(batch=None, prepare=None):
         wizard_exports_node.layoutChildren()
 
         rop_alembic_node.parm("trange").set('normal')
+
+        if frange:
+            hou.playbar.setFrameRange(frange[0], frange[1])
+            
         rop_alembic_node.parm("f1").setExpression('$FSTART')
         rop_alembic_node.parm("f2").setExpression('$FEND')
 
@@ -96,9 +100,8 @@ def export_abc(batch=None, prepare=None):
     else:
         logger.warning("No abc out node")
 
-def export_vdb(batch=None, prepare=None):
+def export_vdb(batch=None, prepare=None, frange=None):
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    #export_file = asset.export("{}_{}".format(asset.name, asset.variant), from_asset=asset)
 
     if not batch:
         vdb_export_null = create_export_null_on_last_node('vdb')
@@ -126,8 +129,13 @@ def export_vdb(batch=None, prepare=None):
 
         rop_geometry_node.parm('sopoutput').set(export_path)
         rop_geometry_node.parm("trange").set('normal')
+
+        if frange:
+            hou.playbar.setFrameRange(frange[0], frange[1])
+
         rop_geometry_node.parm("f1").setExpression('$FSTART')
         rop_geometry_node.parm("f2").setExpression('$FEND')
+
 
         if not prepare:
             rop_geometry_node.parm("execute").pressButton()

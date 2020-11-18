@@ -162,10 +162,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
 
     def batch_export(self):
         if self.asset.domain == defaults._sequences_:
-            if self.asset.software == defaults._houdini_:
-                self.export_asset()
-            else:
-                self.export_shot()
+            self.export_shot()
         elif self.asset.domain == defaults._assets_:
             self.export_asset()
 

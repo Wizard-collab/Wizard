@@ -289,7 +289,8 @@ class outThread(QThread):
                 except:
                     out = "{}".format(str(output.strip())) 
                 self.check_string(out)
-                self.out_signal.emit(out)
+                if 'percent:' not in out:
+                    self.out_signal.emit(out)
 
     def check_string(self, string):
         if defaults._percent_signal_ in string:
