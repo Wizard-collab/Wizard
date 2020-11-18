@@ -138,3 +138,64 @@ Version date : 2020-10-27
 - Debug - Init file relative path bug resolved
 - Debug - Maya save doesn't override existing file ( increment instead ) - Only when wizard isn't openned
 '''
+
+updates['0.9.8.00-b'] = '''Version updates : 0.9.8.00-b
+
+Version date : 2020-11-18
+
+* UI *
+	- Customizable UI ( you can now close some widgets )
+	- Icon view for playblast tab
+	- Icon view for work versions tab
+	- Sandbox shortcut added
+	- Launcher refresh optimized
+
+* SCRIPTING *
+	- Shelf tools can be processed in batch mode
+	- Python library for shelf tools
+	- Shelf tool are now project or user dependant
+	- Log widget handle all stdout of wizard ( ex : print() )
+	- Subprocess manager log are automatically saved to a file
+
+* WORKFLOW *
+	- _SANDBOX folder added
+	- Batch export is possible for assets ( maya )
+	- Customizable export workflow : project settings > workflow
+	- Asset dependent export workflow added
+	- "sets" export group > *asset_name*_GRP
+	- Fx export from Maya is possible ( with a rig referenced )
+
+* SOFTWARES *
+	> HOUDINI
+		- Shelf :
+			- Save tool
+			- Frame range tool
+			- Import all tool
+				Geometry, Animation, Camera
+			- Refresh all tool
+			- Prepare export
+				.abc, .vdb
+			- Export
+				.abc, .vdb
+
+		- Batch :
+			- Export
+				.abc, .vdb
+			- Flipbook ( playblast )
+	> BLENDER
+			- Save tool
+		- Shelf :
+			- Export
+				.abc
+			- Import
+				.abc
+	> MAYA
+		- Fx stage exports ( rig in .ma > simulation > file in .abc )
+
+* MISC *
+	- String assets are now represented as "path" ( ex assets/character/John/ )
+	- Asset creation is done in subprocess
+	- Added a "general" log to handle application crashes
+		( > User/Documents/wizard/logs/main.log )
+	- Only one wizard instance is now allowed
+'''

@@ -90,6 +90,8 @@ class Ui_Form(object):
         self.update_updates_plainTextEdit.setMinimumSize(QtCore.QSize(0, 0))
         self.update_updates_plainTextEdit.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.update_updates_plainTextEdit.setReadOnly(True)
+        self.update_updates_plainTextEdit.setPlainText("")
+        self.update_updates_plainTextEdit.setTabStopWidth(15)
         self.update_updates_plainTextEdit.setObjectName("update_updates_plainTextEdit")
         self.verticalLayout_3.addWidget(self.update_updates_plainTextEdit)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()

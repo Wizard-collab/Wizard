@@ -175,6 +175,12 @@ text-decoration: underline;</string>
         <property name="readOnly">
          <bool>true</bool>
         </property>
+        <property name="plainText">
+         <string/>
+        </property>
+        <property name="tabStopWidth">
+         <number>15</number>
+        </property>
        </widget>
       </item>
       <item>
