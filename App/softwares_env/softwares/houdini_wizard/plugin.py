@@ -72,8 +72,23 @@ def export_abc(batch=None, prepare=None, frange=None):
 
         abc_object_merge_node.parm('objpath1').set(abc_export_null.path())
 
+        gtags_node = create_node_without_duplicate('attribcreate', 'GuerillaTags', wizard_exports_node)
+        gtags_node.parm('name1').set('GuerillaTags')
+        gtags_node.parm('class1').set('detail')
+        gtags_node.parm('type1').set('index')
+        gtags_node.parm('string1').set('{}, {}, {}, {}, {}-{}-{}-{}'.format(asset.category,
+                                                                            asset.name,
+                                                                            asset.variant,
+                                                                            asset.stage,
+                                                                            asset.category,
+                                                                            asset.name,
+                                                                            asset.variant,
+                                                                            asset.stage))
+
+        gtags_node.setInput(0, abc_object_merge_node)
+
         rop_alembic_node = create_node_without_duplicate('rop_alembic', 'exports_alembic', wizard_exports_node)
-        rop_alembic_node.setInput(0, abc_object_merge_node)
+        rop_alembic_node.setInput(0, gtags_node)
         wizard_exports_node.layoutChildren()
 
         rop_alembic_node.parm("trange").set('normal')
