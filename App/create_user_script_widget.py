@@ -68,6 +68,8 @@ class Main(QtWidgets.QWidget):
 
         if defaults._project_ in self.script_dic[-1].keys():
             project = self.script_dic[-1][defaults._project_]
+            if not project:
+                project = 0
         else:
             project = 0
 

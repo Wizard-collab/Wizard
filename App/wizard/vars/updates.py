@@ -166,31 +166,18 @@ Version date : 2020-11-18
 	- Fx export from Maya is possible ( with a rig referenced )
 
 * SOFTWARES *
-	> HOUDINI
-		- Shelf :
-			- Save tool
-			- Frame range tool
-			- Import all tool
-				Geometry, Animation, Camera
-			- Refresh all tool
-			- Prepare export
-				.abc, .vdb
-			- Export
-				.abc, .vdb
-
-		- Batch :
-			- Export
-				.abc, .vdb
-			- Flipbook ( playblast )
-	> BLENDER
-			- Save tool
-		- Shelf :
-			- Export
-				.abc
-			- Import
-				.abc
-	> MAYA
-		- Fx stage exports ( rig in .ma > simulation > file in .abc )
+	> HOUDINI > Save
+	> HOUDINI > Set frame range
+	> HOUDINI > Import all ( geo, anim, cam )
+	> HOUDINI > Refresh all
+	> HOUDINI > Prepare export
+	> HOUDINI > Export ( .abc, .vdb )
+	> HYTHON  > Export ( .abc, .vdb )
+	> HYTHON  > Flipbook
+	> BLENDER > Save
+	> BLENDER > Export ( .abc )
+	> BLENDER > Import ( .abc )
+	> MAYA    > Fx stage exports ( rig in .ma > simulation > file in .abc )
 
 * MISC *
 	- String assets are now represented as "path" ( ex assets/character/John/ )
