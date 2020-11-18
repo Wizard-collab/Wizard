@@ -199,6 +199,7 @@ def import_all():
     import_camRig()
     import_layout()
     import_hair()
+    import_fx()
 
 def import_geo(namespace = None):
     asset_list = get_asset_list()
@@ -235,9 +236,30 @@ def import_anim(namespace = None):
             run = 0
         if imported_asset[0].stage == defaults._animation_ and run:
             if not cmds.namespace(exists=imported_asset[1]):
-                cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
-                if cmds.objExists(imported_asset[0].export_asset):
-                    cmds.parent(imported_asset[0].export_asset, 'ANIMATION', a=1)
+                group_name = '{}_{}'.format(imported_asset[0].export_asset, imported_asset[0].stage)
+                cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=group_name)
+                if cmds.objExists(group_name):
+                    cmds.parent(group_name, 'ANIMATION', a=1)
+
+def import_fx(namespace = None):
+    asset_list = get_asset_list()
+
+    if not cmds.objExists('FX'):
+        cmds.group( em=True, name='FX' )
+
+    for imported_asset in asset_list:
+        if namespace and imported_asset[1] == namespace:
+            run = 1
+        elif not namespace:
+            run = 1
+        else:
+            run = 0
+        if imported_asset[0].stage == defaults._fx_ and run:
+            if not cmds.namespace(exists=imported_asset[1]):
+                group_name = '{}_{}'.format(imported_asset[0].export_asset, imported_asset[0].stage)
+                cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=group_name)
+                if cmds.objExists(group_name):
+                    cmds.parent(group_name, 'FX', a=1)
 
 def import_camera(namespace = None):
     asset_list = get_asset_list()

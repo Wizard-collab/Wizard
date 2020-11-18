@@ -78,7 +78,11 @@ class maya_sequence():
 
             if self.asset.stage == defaults._animation_ and auto_hair:
                 self.auto_hair()
+            elif self.asset.stage == defaults._fx_ and auto_hair:
+                self.auto_hair()
             elif self.asset.stage == defaults._animation_ and not auto_hair:
+                self.animation()
+            elif self.asset.stage == defaults._fx_ and not auto_hair:
                 self.animation()
             elif self.asset.stage == defaults._cfx_:
                 self.fur()

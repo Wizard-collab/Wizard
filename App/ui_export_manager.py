@@ -194,7 +194,7 @@ class Main(QtWidgets.QWidget):
                 asset_item = asset_core.string_to_asset(self.references[item.text()][defaults._asset_key_])
                 if asset_item.stage == defaults._cam_rig_:
                     cam_nspace_list.append(item.text())
-                else:
+                elif asset_item.stage == defaults._rig_:
                     nspace_list.append(item.text())
 
             self.asset.version = prefs.asset(self.asset).software.last_version
