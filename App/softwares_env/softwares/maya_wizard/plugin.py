@@ -32,7 +32,7 @@ def export():
     category = asset.category
     if stage == defaults._geo_:
         if asset.category == defaults._set_dress_:
-            export_set_dress()  
+            export_set_dress()
         elif asset.category == defaults._sets_:
             export_sets()
         else:
@@ -61,6 +61,11 @@ def sanity(grp):
     else:
         logger.warning("{} missing".format(grp))
     if grp_existence and cmds.listRelatives(grp) >= 1:
+        # check if some objects are hidden and throw warning. Only if in modeling stage.
+        if grp == defaults._stage_export_grp_dic_[defaults._geo_]:
+            for obj in cmds.listRelatives(grp, allDescendents=1, fullPath=1):
+                if not cmds.getAttr(obj+'.visibility'):
+                    logger.warning("{} is hidden. May cause problem later.".format(obj))
         grp_childs = 1
     else:
         logger.warning("{} has no childs".format(grp))
@@ -163,7 +168,7 @@ def export_cyclo():
 def sanity_rig():
 
     if cmds.objExists(defaults._rig_export_set_):
-        
+
         cmds.select( defaults._rig_export_set_, replace = 1 )
         if cmds.ls( selection=True ) and cmds.ls( selection=True ) != []:
             return 1
@@ -328,12 +333,12 @@ def create_set():
         rig_set_name = defaults._rig_export_set_
         sets_name_list.append(rig_set_name)
     elif stage==defaults._hair_:
-        yeti_set__name = defaults._yeti_export_set_ 
+        yeti_set__name = defaults._yeti_export_set_
         sets_name_list.append(yeti_set__name)
         scalp_set_name = defaults._scalp_export_set_
         sets_name_list.append(scalp_set_name)
     elif stage==defaults._cam_rig_:
-        camera_set_name = defaults._camrig_export_set_ 
+        camera_set_name = defaults._camrig_export_set_
         sets_name_list.append(camera_set_name)
 
     for set_name in sets_name_list:
