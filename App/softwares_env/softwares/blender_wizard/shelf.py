@@ -96,7 +96,7 @@ class RefreshAll(bpy.types.Operator):
     bl_description = "Refresh all references in scene according to version set in Wizard desktop UI."
 
     def execute(self, context):
-        plugin.refresh_all()
+        reference_asset.refresh_all()
         return {'FINISHED'}
 
 class MatchFrameRange(bpy.types.Operator):

@@ -7,6 +7,13 @@ def list_collections(root):
         yield from list_collections(child)
 
 
+def list_objects_in_collections(root):
+    ''' Recursive function to go down a hierarachy of objects from the 'root' collection node. '''
+    yield root
+    for child in list(root.objects):
+        yield from list_objects_in_collections(child)
+
+
 def list_objects(root):
     ''' Recursive function to go down a hierarachy of objects from the 'root' node. '''
     yield root
@@ -34,8 +41,7 @@ def add_namespace(root, namespace, version='0000'):
     '''
     for c in list_objects(root):
         c.name = f'{namespace}_{c.name}'
-        c['namespace'] = namespace
-        c['current_version'] = version
+        bpy.context.scene[f'{namespace}_version'] = version
 
     return root
 

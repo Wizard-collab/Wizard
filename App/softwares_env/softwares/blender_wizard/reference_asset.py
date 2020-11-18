@@ -68,19 +68,26 @@ def setRGBColor(ctrl, color = (1,1,1)):
     pass
 
 
-def import_all():
-    import_geo()
-    import_anim()
-    import_camera()
-    import_rig()
-    import_autoRig()
-    import_camRig()
-    import_layout()
-    import_hair()
+def import_all(asset_list=[]):
+    import_geo(asset_list)
+    import_anim(asset_list)
+    import_camera(asset_list)
+    import_rig(asset_list)
+    import_autoRig(asset_list)
+    import_camRig(asset_list)
+    import_layout(asset_list)
+    import_hair(asset_list)
 
 
-def import_geo():
-    asset_list = get_asset_list()
+def import_geo(asset_list=[]):
+    '''
+    Import publish .abc from eference data set in Wizard app.
+        args:
+            - asset_list = [] list of assets to import. If empty get assets list
+                              from Wizard. Allows to import specific asset in scene.
+    '''
+    if not asset_list:
+        asset_list = get_asset_list()
     # check if 'GEO' collection exists
     if bpy.data.collections.get('GEO') is None:
         # create 'GEO' collection
@@ -102,9 +109,6 @@ def import_geo():
                 tools.raise_error(f'A \'geo_GRP\' object already exists, can\'t import {asset[0].name}. Please rename or delete the existing object.')
                 logger.warning(f'A \'geo_GRP\' object already exists, can\'t import {asset[0].name}. Please rename or delete the existing object.')
                 continue
-                # these lines delete 'geo_GRP' object by force
-                # bpy.data.collections.remove(bpy.data.collections[asset_group])
-                # bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
 
             # set active object as Master scene collection to not have to unparent each grp
             scene_collection = bpy.context.view_layer.layer_collection
@@ -116,6 +120,7 @@ def import_geo():
             geo_root = tools.add_namespace(bpy.data.objects[asset_group], asset[0].name, asset_version)
             # convert Maya groups to collections
             tools.replace_maya_grp_by_collection(geo_root)
+
             logger.info(f'{asset[0].name} imported.')
 
 
@@ -124,11 +129,11 @@ def import_alembic(filepath):
     bpy.ops.wm.alembic_import(filepath=filepath)
 
 
-def import_anim(namespace = None):
+def import_anim(asset_list=[], namespace = None):
     pass
 
 
-def import_camera(namespace = None):
+def import_camera(asset_list=[], namespace = None):
     pass
 
 
@@ -144,68 +149,66 @@ def create_set_locator(grp, replace = 0):
     pass
 
 
-def import_layout():
+def import_layout(asset_list=[]):
     pass
 
 
 
 def refresh_all():
-    # for imported_asset in get_asset_list():
-    #     if cmds.namespace(exists=imported_asset[1]):
-    #         cmds.namespace(setNamespace=imported_asset[1])
-    #         referenced_list = cmds.namespaceInfo(listNamespace=True)
-    #         for obj in referenced_list:
-    #             if cmds.objExists(obj):
-    #                 if cmds.objectType(obj) == 'transform':
-    #                     if cmds.referenceQuery(obj, isNodeReferenced=True):
-    #                         referenced_obj = obj
-    #                         break
-    #                     else:
-    #                         referenced_obj = None
-    #         if referenced_obj:
-    #             referenced_asset_path = cmds.referenceQuery(referenced_obj, filename=True)
-    #             referenced_asset_node = cmds.referenceQuery(referenced_obj, referenceNode=True)
-    #             referenced_asset_version = os.path.dirname(referenced_asset_path)[-4:]
-    #             if referenced_asset_version != imported_asset[0].export_version:
-    #                 logger.info('Replacing {} with version {}'.format(imported_asset[1], imported_asset[0].export_version))
-    #                 cmds.file(imported_asset[2], loadReference=referenced_asset_node)
-    #             else:
-    #                 logger.info('{} is up to date !'.format(imported_asset[1]))
-    #     cmds.namespace(setNamespace=':')
-
     for imported_asset in get_asset_list():
-        pass
+        asset_name = imported_asset[0].name
+
+        # declare group name to look for based on asset's stage
+        if imported_asset[0].stage == defaults._geo_:
+            asset_grp = f'{asset_name}_geo_GRP'
+        elif imported_asset[0].stage == defaults._rig_:
+            asset_grp = f'{asset_name}_rig_GRP'
+
         # check if already in scene
+        if bpy.data.collections.get(asset_grp) is not None:
+            stage_GRP = bpy.data.collections[asset_grp]
 
-        # check version
-            # if not last version
+            # get asset's current version
+            asset_current_version = bpy.context.scene[f'{asset_name}_version']
+            new_asset_version = imported_asset[0].export_version
 
+            # check version
+            if asset_current_version == new_asset_version:
+                logger.info(f'{asset_name} is up to date ! Skipped.')
+                continue
+            else:
                 # remove current
+                collections_to_delete = []
+                for c in tools.list_collections(stage_GRP):
+                    collections_to_delete.append(c)
+                for col in collections_to_delete:
+                    tools.delete_collection(col)
+                tools.delete_collection(stage_GRP)
 
+                logger.info(f'Replacing {asset_name} with version {new_asset_version}')
+                # erase blend file cache
+                bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
                 # import latest
+                new_asset_version
+                import_all([imported_asset])
+                # erase blend file cache
+                bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+                continue
 
 
-def refresh_references():
-    pass
-
-
-def get_scene_references():
-    pass
-
-
-def import_rig():
+def import_rig(asset_list=[]):
     import_ma(defaults._rig_)
 
 
-def import_autoRig():
+def import_autoRig(asset_list=[]):
     import_ma(defaults._autorig_)
 
 
-def import_camRig():
+def import_camRig(asset_list=[]):
     import_ma(defaults._cam_rig_)
 
 
-def import_hair():
+def import_hair(asset_list=[]):
     import_ma(defaults._hair_)
 
 
