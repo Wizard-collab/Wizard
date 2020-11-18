@@ -148,12 +148,46 @@ def import_layout():
     pass
 
 
+
 def refresh_all():
-    pass
+    # for imported_asset in get_asset_list():
+    #     if cmds.namespace(exists=imported_asset[1]):
+    #         cmds.namespace(setNamespace=imported_asset[1])
+    #         referenced_list = cmds.namespaceInfo(listNamespace=True)
+    #         for obj in referenced_list:
+    #             if cmds.objExists(obj):
+    #                 if cmds.objectType(obj) == 'transform':
+    #                     if cmds.referenceQuery(obj, isNodeReferenced=True):
+    #                         referenced_obj = obj
+    #                         break
+    #                     else:
+    #                         referenced_obj = None
+    #         if referenced_obj:
+    #             referenced_asset_path = cmds.referenceQuery(referenced_obj, filename=True)
+    #             referenced_asset_node = cmds.referenceQuery(referenced_obj, referenceNode=True)
+    #             referenced_asset_version = os.path.dirname(referenced_asset_path)[-4:]
+    #             if referenced_asset_version != imported_asset[0].export_version:
+    #                 logger.info('Replacing {} with version {}'.format(imported_asset[1], imported_asset[0].export_version))
+    #                 cmds.file(imported_asset[2], loadReference=referenced_asset_node)
+    #             else:
+    #                 logger.info('{} is up to date !'.format(imported_asset[1]))
+    #     cmds.namespace(setNamespace=':')
+
+    for imported_asset in get_asset_list():
+        pass
+        # check if already in scene
+
+        # check version
+            # if not last version
+
+                # remove current
+
+                # import latest
 
 
 def refresh_references():
     pass
+
 
 def get_scene_references():
     pass
