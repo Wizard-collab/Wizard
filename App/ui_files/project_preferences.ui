@@ -344,8 +344,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>292</width>
-              <height>355</height>
+              <width>696</width>
+              <height>537</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -494,25 +494,6 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page_2">
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <property name="spacing">
-          <number>1</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-        </layout>
-       </widget>
        <widget class="QWidget" name="page_4">
         <layout class="QVBoxLayout" name="verticalLayout_14">
          <property name="spacing">
@@ -540,8 +521,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>229</width>
-              <height>190</height>
+              <width>696</width>
+              <height>537</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_18">

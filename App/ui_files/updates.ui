@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>667</width>
-    <height>635</height>
+    <height>652</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -162,24 +162,12 @@ text-decoration: underline;</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QPlainTextEdit" name="update_updates_plainTextEdit">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustIgnored</enum>
-        </property>
+       <widget class="QTextEdit" name="update_updates_plainTextEdit">
         <property name="readOnly">
          <bool>true</bool>
         </property>
-        <property name="plainText">
-         <string/>
-        </property>
-        <property name="tabStopWidth">
-         <number>15</number>
+        <property name="textInteractionFlags">
+         <set>Qt::TextBrowserInteraction</set>
         </property>
        </widget>
       </item>
@@ -214,12 +202,15 @@ text-decoration: underline;</string>
        </layout>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="updates_history_plainTextEdit">
+       <widget class="QTextEdit" name="updates_history_plainTextEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
           <height>300</height>
          </size>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>

@@ -15,6 +15,7 @@ from wizard.vars import updates
 # Import python base librariess
 import webbrowser
 import os
+from markdown import markdown
 
 # Init the main logger and prefs module
 logger = log.pipe_log(__name__)
@@ -42,8 +43,10 @@ class Main(QtWidgets.QWidget):
     def show_history(self):
         if not self.ui.updates_history_plainTextEdit.isVisible():
             self.ui.updates_history_plainTextEdit.setVisible(1)
+            text=''
             for key in updates.updates.keys():
-                self.ui.updates_history_plainTextEdit.appendPlainText(updates.updates[key])
+                text += updates.updates[key]
+            self.ui.updates_history_plainTextEdit.setText(markdown(text))
         else:
             self.ui.updates_history_plainTextEdit.setVisible(0)
             self.ui.updates_history_plainTextEdit.clear()
@@ -53,7 +56,7 @@ class Main(QtWidgets.QWidget):
             updates_text = updates.updates[defaults._wizard_version_]
         else:
             updates_text = "No updates"
-        self.ui.update_updates_plainTextEdit.appendPlainText(updates_text)
+        self.ui.update_updates_plainTextEdit.setText(markdown(updates_text))
 
     def connect_functions(self):
         self.ui.update_doc_pushButton.clicked.connect(self.show_doc)
