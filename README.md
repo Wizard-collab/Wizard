@@ -17,5 +17,24 @@
 	* DesktopMagic
 	* pywin32
 	* QScintilla
+	* markdown
 	
 * Compilation with _PyInstaller_
+
+* Handled softwares :
+	* Maya
+	* Blender
+	* Houdini
+	* Nuke
+	* Substance Painter
+	* Substance Designer
+	* Guerilla Render
+	
+* Installation ( `windows` only ) :
+	* Official build : [Download wizard] (www.wizard-pipeline-manager.weblfow.io)
+	* This repository :
+		* Clone the repository
+		* Install `python 3.7.3`
+		* Install all dependencies ( with pip )
+		* Launch `wizard/App/wizard_site.bat`
+		
