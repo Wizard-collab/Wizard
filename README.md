@@ -31,7 +31,7 @@
 	* Guerilla Render
 	
 * Installation ( `windows` only ) :
-	* Official build : [Download wizard] (www.wizard-pipeline-manager.weblfow.io)
+	* Official build : [Download wizard](www.wizard-pipeline-manager.weblfow.io)
 	* This repository :
 		* Clone the repository
 		* Install `python 3.7.3`
