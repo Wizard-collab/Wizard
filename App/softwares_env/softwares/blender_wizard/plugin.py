@@ -85,7 +85,9 @@ def export_set_dress():
 def export_sets():
     pass
 def export_rig():
-    pass
+    '''Export 'rig_GRP' content as publish.'''
+    if sanity_rig():
+        export_blend(defaults._stage_export_grp_dic_[defaults._rig_])
 def export_autoRig():
     pass
 def export_camRig():
@@ -100,20 +102,27 @@ def export_cyclo():
 def create_export_GRP():
     '''Create 'export_GRP' based on the asset current stage.'''
     stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
-    grp_name = defaults._stage_export_grp_dic_[stage]
-    obj_list = bpy.context.selected_objects
+
+    if stage == defaults._geo_:
+        grp_name = 'geo_GRP'
+    elif stage == defaults._rig_:
+        grp_name = 'rig_GRP'
+
+    # obj_list = bpy.context.selected_objects
+
     # create export_Grp collection if not exist
     if bpy.data.collections.get(grp_name) is None:
         grp_name_collection = bpy.data.collections.new(grp_name)
         bpy.context.scene.collection.children.link(grp_name_collection)
-    for obj in obj_list:
-        try:
-            old_obj_collection = obj.users_collection
-            bpy.data.collections[grp_name].objects.link(obj)
-            for old_coll in old_obj_collection:
-                old_coll.objects.unlink(obj)
-        except:
-            continue
+    # add selected object to new grp
+    # for obj in obj_list:
+    #     try:
+    #         old_obj_collection = obj.users_collection
+    #         bpy.data.collections[grp_name].objects.link(obj)
+    #         for old_coll in old_obj_collection:
+    #             old_coll.objects.unlink(obj)
+    #     except:
+    #         continue
     logger.info('{} created.'.format(grp_name))
 
 
@@ -121,19 +130,22 @@ def create_set_GRP():
     '''Create 'set_GRP' based on the asset current stage.'''
     stage = asset_core.string_to_asset(os.environ[defaults._asset_var_]).stage
     grp_name = 'export_set'
-    obj_list = bpy.context.selected_objects
+
+    # obj_list = bpy.context.selected_objects
+
     # create export_Grp collection if not exist
     if bpy.data.collections.get(grp_name) is None:
         grp_name_collection = bpy.data.collections.new(grp_name)
         bpy.context.scene.collection.children.link(grp_name_collection)
-    for obj in obj_list:
-        try:
-            old_obj_collection = obj.users_collection
-            bpy.data.collections[grp_name].objects.link(obj)
-            # for old_coll in old_obj_collection:
-            #     old_coll.objects.unlink(obj)
-        except:
-            continue
+    # add selected object to new grp
+    # for obj in obj_list:
+    #     try:
+    #         old_obj_collection = obj.users_collection
+    #         bpy.data.collections[grp_name].objects.link(obj)
+    #         # for old_coll in old_obj_collection:
+    #         #     old_coll.objects.unlink(obj)
+    #     except:
+    #         continue
     logger.info('{} created.'.format(grp_name))
 
 
@@ -160,6 +172,64 @@ def sanity(grp):
         tools.raise_error('{} is not clean.'.format(grp))
         logger.warning('{} is not clean.'.format(grp))
         return 0
+
+
+def sanity_rig():
+    if bpy.data.collections.get(defaults._rig_export_set_) is not None:
+        # select export_set content
+        bpy.ops.object.select_all(action='DESELECT')
+        for obj in bpy.data.collections[defaults._rig_export_set_].objects:
+            obj.select_set(True)
+
+        if bpy.context.selected_objects != []:
+            return 1
+        else:
+            tools.raise_error('"export_set" is empty...')
+            logger.warning('"export_set" is empty...')
+            return 0
+    else:
+        tools.raise_error('"export_set" selection set missing...')
+        logger.warning('"export_set" selection set missing...')
+        return 0
+
+
+def export_blend(grp):
+    if bpy.data.collections.get(grp) is not None:
+        asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+        file = asset.export(f'{asset.name}_{asset.variant}', from_asset=asset)
+
+        if grp == defaults._stage_export_grp_dic_[defaults._rig_]:
+            export_list = [grp, defaults._rig_export_set_]
+        else:
+            export_list = [grp]
+
+        save()
+        export_grp(export_list, file)
+        # reload Blender file to retrieve collection hierarchy
+        bpy.ops.wm.open_mainfile(filepath=asset.file)
+        # send notif to wall
+        wall().publish_event(asset)
+        return file
+    else:
+        logger.warning(f'{grp} missing')
+        return None
+
+
+def export_grp(grp_list, file):
+    all_scene_coll =  list(bpy.context.scene.collection.children)
+    all_scene_obj = list(bpy.context.scene.collection.objects)
+
+    # erase all collections and objects in Main scene
+    for coll in all_scene_coll:
+        if bpy.data.collections[grp_list[0]] == coll or bpy.data.collections[grp_list[1]] == coll:
+            continue
+        tools.delete_collection(coll)
+    for obj in all_scene_obj:
+        tools.delete_object(obj)
+
+    # erase blend file cache
+    bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
+    bpy.ops.wm.save_as_mainfile(filepath=file)
 
 
 def export_abc(time_range, file, selected=False):

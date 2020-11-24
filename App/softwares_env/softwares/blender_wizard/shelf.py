@@ -82,7 +82,7 @@ class CreateExportGrp(bpy.types.Operator):
         return {'FINISHED'}
 
 class CreateSetGrp(bpy.types.Operator):
-    bl_idname = "wm.create_export_grp"
+    bl_idname = "wm.create_set_grp"
     bl_label = "Create Set Grp"
     bl_description = "Create Set group for shapes exportation."
 

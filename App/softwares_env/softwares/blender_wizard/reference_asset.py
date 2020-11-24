@@ -189,7 +189,6 @@ def refresh_all():
                 # erase blend file cache
                 bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\
                 # import latest
-                new_asset_version
                 import_all([imported_asset])
                 # erase blend file cache
                 bpy.data.orphans_purge() # /!\ THIS COMMAND WILL DELETE ALL UNSAVED DATA-BLOCKS /!\

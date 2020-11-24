@@ -34,18 +34,6 @@ def raise_error(message):
     bpy.context.window_manager.popup_menu(error_popup, title="Wizard Error", icon='ERROR')
 
 
-def add_namespace(root, namespace, version='0000'):
-    '''
-    Add prefix to all objects under the 'root' node.
-    -> returns new root node
-    '''
-    for c in list_objects(root):
-        c.name = f'{namespace}_{c.name}'
-        bpy.context.scene[f'{namespace}_version'] = version
-
-    return root
-
-
 def replace_maya_grp_by_collection(root):
     '''
     Detect all Maya groups base on pattern ('EMPTY' type node with '_grp' extension),
@@ -120,12 +108,16 @@ def replace_blender_collection_by_maya_grp(root):
     '''
     maya_grp = []
     blender_grp = []
+    # namespace = f'{root.name.partition(":")[0]}:'
 
     for c in list_collections(root):
         parent = None
         for parent_collection in bpy.data.collections:
             if c in list(parent_collection.children):
                 parent = parent_collection
+                # if ':' in parent.name:
+                #     parent.name = parent.name.partition(':')[2]
+        # collection_data = {'name': c.name.replace(namespace, ''), 'parent': parent}
         collection_data = {'name': c.name, 'parent': parent}
         blender_grp.append(collection_data)
 
@@ -164,12 +156,43 @@ def replace_blender_collection_by_maya_grp(root):
             children.parent = bpy.data.objects[collection['name']]
 
     stage_GRP = root.name
+
+    # delete namespace
+    delete_namespace(bpy.data.objects[stage_GRP])
+
     # delete Maya grp (empties)
     for collection in blender_grp:
         delete_collection(bpy.data.collections[collection['name']])
     delete_collection(root)
 
     return bpy.data.objects[stage_GRP]
+
+
+def add_namespace(root, namespace, version='0000'):
+    '''
+    Add prefix to all objects under the 'root' node.
+    -> returns new root node
+    '''
+    for c in list_objects(root):
+        c.name = f'{namespace}:{c.name}'
+        bpy.context.scene[f'{namespace}_version'] = version
+        # c['namespace'] = namespace
+
+    return root
+
+
+def delete_namespace(root):
+    '''
+    Delete prefix to all objects under the 'root' node.
+    -> returns new root node
+    '''
+    for obj in list_objects(root):
+        if ':' in obj.name:
+            obj.name = obj.name.partition(':')[2]
+    root.name = root.name.partition(':')[2]
+
+    return bpy.data.objects[root.name]
+
 
 
 def delete_object(object):
