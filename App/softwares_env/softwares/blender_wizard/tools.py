@@ -1,5 +1,8 @@
 import bpy
 
+from wizard.tools import log
+logger = log.pipe_log(__name__)
+
 def list_collections(root):
     ''' Recursive function to go down a hierarachy of collections from the 'root' node. '''
     yield root
@@ -155,17 +158,15 @@ def replace_blender_collection_by_maya_grp(root):
             bpy.context.scene.collection.objects.link(children)
             children.parent = bpy.data.objects[collection['name']]
 
-    stage_GRP = root.name
-
     # delete namespace
-    delete_namespace(bpy.data.objects[stage_GRP])
+    stage_GRP = delete_namespace(bpy.data.objects[root.name])
 
     # delete Maya grp (empties)
     for collection in blender_grp:
         delete_collection(bpy.data.collections[collection['name']])
     delete_collection(root)
-
-    return bpy.data.objects[stage_GRP]
+    logger.info(f'Stage group is now : {stage_GRP}')
+    return stage_GRP
 
 
 def add_namespace(root, namespace, version='0000'):
@@ -176,9 +177,8 @@ def add_namespace(root, namespace, version='0000'):
     for c in list_objects(root):
         c.name = f'{namespace}:{c.name}'
         bpy.context.scene[f'{namespace}_version'] = version
-        # c['namespace'] = namespace
 
-    return root
+    return bpy.data.objects[root.name]
 
 
 def delete_namespace(root):
@@ -187,9 +187,12 @@ def delete_namespace(root):
     -> returns new root node
     '''
     for obj in list_objects(root):
+        logger.info(obj.name)
         if ':' in obj.name:
+            logger.info(f'Deleting namespace for {obj.name} object.')
             obj.name = obj.name.partition(':')[2]
-    root.name = root.name.partition(':')[2]
+        else:
+            logger.info(f'No namespace to delete for {obj.name} object.')
 
     return bpy.data.objects[root.name]
 

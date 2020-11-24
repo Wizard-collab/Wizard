@@ -160,9 +160,9 @@ def refresh_all():
 
         # declare group name to look for based on asset's stage
         if imported_asset[0].stage == defaults._geo_:
-            asset_grp = f'{asset_name}_geo_GRP'
+            asset_grp = f'{asset_name}:geo_GRP'
         elif imported_asset[0].stage == defaults._rig_:
-            asset_grp = f'{asset_name}_rig_GRP'
+            asset_grp = f'{asset_name}:rig_GRP'
 
         # check if already in scene
         if bpy.data.collections.get(asset_grp) is not None:
