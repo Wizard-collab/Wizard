@@ -360,6 +360,11 @@ _maya_save_icon_ = _icon_path_ + 'save.png'
 _maya_export_icon_ = _icon_path_ + 'maya_export.png'
 _maya_import_icon_ = _icon_path_ + 'maya_import.png'
 _maya_group_icon_ = _icon_path_ + 'maya_group_icon.png'
+_maya_sel_set_icon_ = _icon_path_ + 'maya_sel_set.png'
+_maya_refresh_icon_ = _icon_path_ + 'maya_reload_icon.png'
+_maya_frame_range_icon_ = _icon_path_ + 'maya_frame_range.png'
+_maya_format_icon_ = _icon_path_ + 'maya_format.png'
+_maya_frame_range_preroll_icon_ = _icon_path_ + 'maya_frame_range_preroll.png'
 _guerilla_import_icon_ = _icon_path_ + 'guerilla_import.png'
 _guerilla_reload_icon_ = _icon_path_ + 'guerilla_reload.png'
 _guerilla_export_icon_ = _icon_path_ + 'guerilla_export.png'
@@ -655,7 +660,7 @@ _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 _pub_ext_dic_[_material_] = {}
 _pub_ext_dic_[_material_][_designer_] = 'sbsar'
 _pub_ext_dic_[_material_][_photoshop_] = 'png'
-	
+
 _extension_key_ = 'extension'
 
 # Publish extensions lists dictionary

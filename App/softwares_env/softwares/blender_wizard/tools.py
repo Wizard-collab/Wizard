@@ -1,10 +1,20 @@
 import bpy
 
+from wizard.tools import log
+logger = log.pipe_log(__name__)
+
 def list_collections(root):
     ''' Recursive function to go down a hierarachy of collections from the 'root' node. '''
     yield root
     for child in root.children:
         yield from list_collections(child)
+
+
+def list_objects_in_collections(root):
+    ''' Recursive function to go down a hierarachy of objects from the 'root' collection node. '''
+    yield root
+    for child in list(root.objects):
+        yield from list_objects_in_collections(child)
 
 
 def list_objects(root):
@@ -19,25 +29,12 @@ def error_popup(self, context):
     global error_message
     self.layout.label(text=error_message)
 
-    
+
 def raise_error(message):
     '''Takes message and call a popup window with it.'''
     global error_message
     error_message = message
     bpy.context.window_manager.popup_menu(error_popup, title="Wizard Error", icon='ERROR')
-
-
-def add_namespace(root, namespace):
-    '''
-    Add prefix to all objects under the 'root' node.
-    -> returns new root node
-    '''
-    for c in list_objects(root):
-        # old_name = c.name
-        # root_name = root.name
-        c.name = f'{namespace}_{c.name}'
-
-    return root
 
 
 def replace_maya_grp_by_collection(root):
@@ -114,12 +111,16 @@ def replace_blender_collection_by_maya_grp(root):
     '''
     maya_grp = []
     blender_grp = []
+    # namespace = f'{root.name.partition(":")[0]}:'
 
     for c in list_collections(root):
         parent = None
         for parent_collection in bpy.data.collections:
             if c in list(parent_collection.children):
                 parent = parent_collection
+                # if ':' in parent.name:
+                #     parent.name = parent.name.partition(':')[2]
+        # collection_data = {'name': c.name.replace(namespace, ''), 'parent': parent}
         collection_data = {'name': c.name, 'parent': parent}
         blender_grp.append(collection_data)
 
@@ -157,13 +158,44 @@ def replace_blender_collection_by_maya_grp(root):
             bpy.context.scene.collection.objects.link(children)
             children.parent = bpy.data.objects[collection['name']]
 
-    stage_GRP = root.name
+    # delete namespace
+    stage_GRP = delete_namespace(bpy.data.objects[root.name])
+
     # delete Maya grp (empties)
     for collection in blender_grp:
         delete_collection(bpy.data.collections[collection['name']])
     delete_collection(root)
+    logger.info(f'Stage group is now : {stage_GRP}')
+    return stage_GRP
 
-    return bpy.data.objects[stage_GRP]
+
+def add_namespace(root, namespace, version='0000'):
+    '''
+    Add prefix to all objects under the 'root' node.
+    -> returns new root node
+    '''
+    for c in list_objects(root):
+        c.name = f'{namespace}:{c.name}'
+        bpy.context.scene[f'{namespace}_version'] = version
+
+    return bpy.data.objects[root.name]
+
+
+def delete_namespace(root):
+    '''
+    Delete prefix to all objects under the 'root' node.
+    -> returns new root node
+    '''
+    for obj in list_objects(root):
+        logger.info(obj.name)
+        if ':' in obj.name:
+            logger.info(f'Deleting namespace for {obj.name} object.')
+            obj.name = obj.name.partition(':')[2]
+        else:
+            logger.info(f'No namespace to delete for {obj.name} object.')
+
+    return bpy.data.objects[root.name]
+
 
 
 def delete_object(object):
