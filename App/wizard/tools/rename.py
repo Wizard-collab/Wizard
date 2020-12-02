@@ -2,6 +2,10 @@
 import os
 from wizard.tools import log
 import time
+from wizard.tools import utility as utils
+from wizard.prefs.main import prefs
+
+prefs = prefs()
 
 logger = log.pipe_log(__name__)
 
@@ -18,6 +22,11 @@ class renamer:
 		self.lowercase = False
 		self.start_crop = 0
 		self.end_crop = 0
+		self.first_splitter = '_'
+		self.second_splitter = '_'
+
+		self.undo_source = []
+		self.undo_destination = []
 
 		self.set_folder(folder)
 		self.get_files_list()
@@ -46,6 +55,16 @@ class renamer:
 			logger.warning("Please set a valid folder")
 			self.files_list = []
 
+	def sort_files_list(self, invert=0):
+		self.files_list = sorted(self.files_list)
+		if invert:
+			self.files_list.reverse()
+
+	def sort_by_time(self, invert=0):
+		self.files_list.sort(key=lambda x: os.path.getmtime(os.path.join(self.folder, x)))
+		if invert:
+			self.files_list.reverse()
+
 	def modify_file_name(self):
 
 		self.modified_list = []
@@ -70,10 +89,10 @@ class renamer:
 				file_name = file_name[:-self.end_crop]
 
 			if self.prefix != '':
-				file_name = "{}_{}".format(self.conform_string(self.prefix, index), file_name)
+				file_name = "{}{}{}".format(self.conform_string(self.prefix, index), self.first_splitter, file_name)
 
 			if self.suffix != '':
-				file_name = "{}_{}".format(file_name, self.conform_string(self.suffix, index))
+				file_name = "{}{}{}".format(file_name, self.second_splitter, self.conform_string(self.suffix, index))
 
 			if self.override_extension != '':
 				extension = ".{}".format(self.override_extension)
@@ -91,8 +110,6 @@ class renamer:
 
 	def is_duplicates(self):
 		contains_duplicates = any(self.modified_list.count(element) > 1 for element in self.modified_list)
-		if contains_duplicates:
-			logger.warning("The new files list contains duplicates")
 		return contains_duplicates
 
 	def conform_string(self, string, index=None):
@@ -121,16 +138,75 @@ class renamer:
 		string = string.replace("%HOUR", str(t[3]))
 		string = string.replace("%MINUT", str(t[4]))
 		string = string.replace("%SECOND", str(t[5]))
+		string = string.replace("%RANDOM", utils.random_string())
+		string = string.replace("%RANDINT", utils.random_number())
+		string = string.replace("%PROJECT", prefs.project_name)
+		string = string.replace("%USER", prefs.user)
 
 		return string
 
 	def apply(self):
 		if not self.is_duplicates():
+
+			old_files_list = []
+			temp_files_list = []
+			new_files_list = []
+
+			self.undo_source = []
+			self.undo_destination = []
+
 			for file in self.files_list:
 				try:
+
 					old_file = os.path.join(self.folder, file)
+					old_files_list.append(old_file)
+					self.undo_source.append(old_file)
+
+					temp_file = os.path.join(self.folder, utils.random_string())
+					temp_files_list.append(temp_file)
+
 					new_file = os.path.join(self.folder, self.modified_list[self.files_list.index(file)])
+					new_files_list.append(new_file)
+					self.undo_destination.append(new_file)
+
 					logger.info("Renaming {} > {}".format(old_file, new_file))
-					os.rename(old_file, new_file)
+					os.rename(old_file, temp_file)
+
 				except FileNotFoundError:
 					logger.warning("<{}> not found".format(old_file))
+
+			for temp_file in temp_files_list:
+				os.rename(temp_file, new_files_list[temp_files_list.index(temp_file)])
+
+
+		else:
+			logger.warning("The new files list contains duplicates")
+
+	def undo(self):
+		old_files_list = []
+		temp_files_list = []
+		new_files_list = []
+
+		print(self.undo_source)
+		print(self.undo_destination)
+
+		for file in self.undo_destination:
+			try:
+
+				old_file = os.path.join(self.folder, file)
+				old_files_list.append(old_file)
+
+				temp_file = os.path.join(self.folder, utils.random_string())
+				temp_files_list.append(temp_file)
+
+				new_file = os.path.join(self.folder, self.undo_source[self.undo_destination.index(file)])
+				new_files_list.append(new_file)
+
+				logger.info("Renaming {} > {}".format(old_file, new_file))
+				os.rename(old_file, temp_file)
+
+			except FileNotFoundError:
+				logger.warning("<{}> not found".format(old_file))
+
+		for temp_file in temp_files_list:
+			os.rename(temp_file, new_files_list[temp_files_list.index(temp_file)])

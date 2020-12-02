@@ -5,6 +5,9 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QFileDialog
 
+from wizard.tools import utility as utils
+utils.init_wizard_env()
+
 from gui.renamer import Ui_Form
 from gui import build
 from wizard.tools import log
@@ -34,6 +37,7 @@ class Main(QtWidgets.QWidget):
     def setup_ui(self):
         self.ui.renamer_folder_pushButton.setIcon(QtGui.QIcon(defaults._folder_icon_))
         self.ui.renamer_apply_pushButton.setIcon(QtGui.QIcon(defaults._export_list_icon_))
+        self.ui.renamer_undo_pushButton.setIcon(QtGui.QIcon(defaults._missing_file_export_list_icon_))
 
     def open_folder(self):
         site_path = QtWidgets.QFileDialog.getExistingDirectory(None, 'Choose a destination folder',
@@ -66,7 +70,12 @@ class Main(QtWidgets.QWidget):
         self.ui.renamer_folder_lineEdit.textChanged.connect(self.refresh_all)
         self.ui.renamer_uppercase_checkBox.stateChanged.connect(self.modify_file_name)
         self.ui.renamer_lowercase_checkBox.stateChanged.connect(self.modify_file_name)
+        self.ui.renamer_first_splitter_comboBox.currentIndexChanged.connect(self.modify_file_name)
+        self.ui.renamer_second_splitter_comboBox.currentIndexChanged.connect(self.modify_file_name)
         self.ui.renamer_apply_pushButton.clicked.connect(self.apply)
+        self.ui.renamer_sort_pushButton.clicked.connect(self.sort_list)
+        self.ui.renamer_invert_sort_pushButton.clicked.connect(lambda: self.sort_list(1))
+        self.ui.renamer_undo_pushButton.clicked.connect(self.undo)
 
     def apply(self):
         self.dialog_accept = dialog_accept.Main("Are you sure ?", "Please confirm that you want to rename these files")
@@ -74,6 +83,22 @@ class Main(QtWidgets.QWidget):
             self.renamer.apply()
             self.clear_all()
             self.refresh_all()
+
+    def undo(self):
+        self.renamer.undo()
+        self.clear_all()
+        self.refresh_all()
+
+    def sort_list(self, invert=0):
+
+        if self.ui.renamer_sortby_comboBox.currentText() == 'Name':
+            self.renamer.sort_files_list(invert)
+        else:
+            self.renamer.sort_by_time(invert)
+
+        self.update_source_list()
+        self.modify_file_name()
+        self.update_destination_list()
 
     def clear_all(self):
         self.ui.renamer_prefix_lineEdit.clear()
@@ -116,6 +141,8 @@ class Main(QtWidgets.QWidget):
         end_crop = self.ui.renamer_end_crop_spinBox.value()
         uppercase = self.ui.renamer_uppercase_checkBox.isChecked()
         lowercase = self.ui.renamer_lowercase_checkBox.isChecked()
+        first_splitter = self.ui.renamer_first_splitter_comboBox.currentText()
+        second_splitter = self.ui.renamer_second_splitter_comboBox.currentText()
         self.renamer.prefix = prefix
         self.renamer.suffix = suffix
         self.renamer.override = override
@@ -126,6 +153,8 @@ class Main(QtWidgets.QWidget):
         self.renamer.lowercase = lowercase
         self.renamer.start_crop = start_crop
         self.renamer.end_crop = end_crop
+        self.renamer.first_splitter = first_splitter
+        self.renamer.second_splitter = second_splitter
         self.renamer.modify_file_name()
         self.update_destination_list()
 

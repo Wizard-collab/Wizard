@@ -16,10 +16,20 @@ import math
 import os
 from wizard.vars import defaults
 import subprocess
+import string
+import random
 
 logger = log.pipe_log(__name__)
 
 import traceback
+
+def init_wizard_env():
+    site_path = os.path.join(os.environ[defaults._wizard_site_], defaults._site_)
+    stats_path = os.path.join(os.environ[defaults._wizard_site_], defaults._stats_)
+
+    os.environ[defaults._site_var_] = site_path
+    os.environ[defaults._abs_site_path_] = os.path.abspath('')
+    os.environ[defaults._stats_var_] = stats_path
 
 def get_time():
     time = strftime("%Y-%m-%d - %H:%M", localtime())
@@ -44,6 +54,15 @@ def get_hour():
     time = strftime("%H:%M", localtime())
     return time
 
+def random_string(len=8):
+    all_chars = list(string.digits + string.ascii_letters)
+    random.shuffle(all_chars)
+    return ''.join(all_chars[:len])
+
+def random_number(len=8):
+    all_chars = list(string.digits)
+    random.shuffle(all_chars)
+    return ''.join(all_chars[:len])
 
 def id_based_time():
     now = datetime.now()
