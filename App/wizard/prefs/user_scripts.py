@@ -16,7 +16,10 @@ logger = log.pipe_log(__name__)
 class user_scripts():
 	def __init__(self):
 		self.file = defaults._user_scripts_file_
-		self.project_file = os.path.join(prefs.project_path, defaults._project_script_file_)
+		if prefs.project_path:
+			self.project_file = os.path.join(prefs.project_path, defaults._project_script_file_)
+		else:
+			self.project_file = None
 		self.init_scripts_paths()
 		self.read_file()
 		self.read_project_file()
@@ -55,8 +58,9 @@ class user_scripts():
 			f.write(yaml.dump(self.main_dic))
 
 	def write_project_script_file(self):
-		with open(self.project_file, 'w') as f:
-			f.write(yaml.dump(self.project_dic))
+		if self.project_file:
+			with open(self.project_file, 'w') as f:
+				f.write(yaml.dump(self.project_dic))
 
 	def delete_script(self, key):
 		self.read_file()
@@ -94,6 +98,9 @@ class user_scripts():
 		return os.path.isfile(self.file)
 
 	def is_project_file(self):
-		return os.path.isfile(self.project_file)
+		if self.project_file:
+			return os.path.isfile(self.project_file)
+		else:
+			return None
 
 

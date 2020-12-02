@@ -17,6 +17,8 @@ from io import StringIO
 import create_user_script_widget
 import ui_subprocess_manager
 
+from wizard.user_scripts import user_session
+
 logger = log.pipe_log(__name__)
 prefs = prefs()
 
@@ -222,6 +224,9 @@ class Main(QtWidgets.QWidget):
 
     def run_py(self, all=None):
         py_script = self.get_code()
+        user_session.execute_session_script(py_script)
+        '''
+
         if py_script != '' and py_script:
             try:
                 exec(py_script)
@@ -229,3 +234,4 @@ class Main(QtWidgets.QWidget):
             except:
                 print(str(traceback.format_exc()))
                 sys.stdout.flush()
+        '''

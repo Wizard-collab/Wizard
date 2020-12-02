@@ -566,6 +566,8 @@ class Ui_Wizard(object):
         self.actionWorkflow.setObjectName("actionWorkflow")
         self.actionPreferences_2 = QtWidgets.QAction(Wizard)
         self.actionPreferences_2.setObjectName("actionPreferences_2")
+        self.actionRenamer = QtWidgets.QAction(Wizard)
+        self.actionRenamer.setObjectName("actionRenamer")
         self.menuProject.addAction(self.actionNew)
         self.menuProject.addAction(self.actionOpen)
         self.menuProject.addAction(self.actionMerge)
@@ -584,6 +586,7 @@ class Ui_Wizard(object):
         self.menuWizard.addAction(self.actionGitHub)
         self.menuWizard.addAction(self.actionQuit)
         self.menuTools.addAction(self.actionFile_viewer)
+        self.menuTools.addAction(self.actionRenamer)
         self.menuTools.addAction(self.actionProcess_manager)
         self.menuTools.addAction(self.actionPyWizard)
         self.menubar.addAction(self.menuWizard.menuAction())
@@ -593,7 +596,7 @@ class Ui_Wizard(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(Wizard)
-        self.main_tabWidget.setCurrentIndex(0)
+        self.main_tabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(Wizard)
 
     def retranslateUi(self, Wizard):
@@ -644,6 +647,7 @@ class Ui_Wizard(object):
         self.actionPyWizard.setText(_translate("Wizard", "PyWizard"))
         self.actionWorkflow.setText(_translate("Wizard", "Workflow"))
         self.actionPreferences_2.setText(_translate("Wizard", "Preferences"))
+        self.actionRenamer.setText(_translate("Wizard", "Renamer"))
 
 
 if __name__ == "__main__":

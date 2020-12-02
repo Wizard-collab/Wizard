@@ -5,15 +5,20 @@ import time
 import traceback
 import logging
 from logging.handlers import RotatingFileHandler
-
+import os
 
 
 # create logger
 logger = logging.getLogger('WIZARD-SERVER')
 logger.setLevel(logging.DEBUG)
 
+
+log_file = os.path.join('{}/Documents/wizard/log/'.format(os.getenv("USERPROFILE")), "wizard_server.log")
+if not os.path.isdir(os.path.dirname(log_file)):
+    os.makedirs(os.path.dirname(log_file))
+
 # create file handler and set level to debug
-file_handler = RotatingFileHandler("wizard_server.log", mode='a', maxBytes=1000000, backupCount=1000, encoding=None, delay=False)
+file_handler = RotatingFileHandler(log_file, mode='a', maxBytes=1000000, backupCount=1000, encoding=None, delay=False)
 
 # create console handler and set level to debug
 stream_handler = logging.StreamHandler()

@@ -89,3 +89,7 @@ def get_project_format():
 def get_project_frame_rate():
 	'''This function return the frame rate of the current project'''
 	return prefs.frame_rate
+
+def set_user(user_name, password):
+	'''This function allow you to change the current user'''
+	prefs.change_user(user_name, password)

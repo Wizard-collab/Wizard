@@ -126,6 +126,7 @@ _video_ = 'video'
 _cyclo_ = 'cyclo'
 _fx_setup_ = 'fx_setup'
 _material_ = 'material'
+_painter_template_ = 'painter_template'
 
 # Editing categories
 _video_edit_ = "video_edit"
@@ -137,7 +138,22 @@ _editing_stages_dic_[_sound_edit_] = _sound_edit_
 
 
 
-_lib_categories_list_ = [_autorig_, _cam_rig_, _cyclo_, _gizmo_, _light_rig_, _lut_, _render_graph_, _render_pass_, _fx_setup_, _scripts_, _sons_, _stockshot_, _video_, _material_]
+_lib_categories_list_ = [_autorig_,
+						_cam_rig_,
+						_cyclo_,
+						_gizmo_,
+						_light_rig_,
+						_lut_,
+						_render_graph_,
+						_render_pass_,
+						_fx_setup_,
+						_scripts_,
+						_sons_,
+						_stockshot_,
+						_video_,
+						_material_,
+						_painter_template_]
+
 _lib_stages_dic_ = {}
 _lib_stages_dic_[_autorig_] = _autorig_
 _lib_stages_dic_[_cam_rig_] = _cam_rig_
@@ -153,6 +169,7 @@ _lib_stages_dic_[_sons_] = _sons_
 _lib_stages_dic_[_stockshot_] = _stockshot_
 _lib_stages_dic_[_video_] = _video_
 _lib_stages_dic_[_material_] = _material_
+_lib_stages_dic_[_painter_template_] = _painter_template_
 
 # Asset stages library
 _design_ = 'design'
@@ -471,6 +488,7 @@ _video_icon_ = 'video.png'
 _video_edit_icon_ = 'video_edit.png'
 _sound_edit_icon_ = 'sound_edit.png'
 _material_icon_ = 'material.png'
+_painter_template_icon_ = 'painter_template.png'
 
 _design_icon_large_ = _icon_path_ + 'design_large.png'
 _geo_icon_large_ = _icon_path_ + 'modeling_large.png'
@@ -501,6 +519,7 @@ _video_icon_large_ = _icon_path_ + 'video_large.png'
 _video_edit_icon_large_ = _icon_path_ + 'video_edit_large.png'
 _sound_edit_icon_large_ = _icon_path_ + 'sound_edit_large.png'
 _material_icon_large_ = _icon_path_ + 'video_edit_large.png'
+_painter_template_icon_large_ = _icon_path_ + 'painter_template_large.png'
 
 
 _stage_icon_={}
@@ -534,6 +553,7 @@ _stage_icon_[_video_] = _icon_path_ + _video_icon_
 _stage_icon_[_video_edit_] = _icon_path_ + _video_edit_icon_
 _stage_icon_[_sound_edit_] = _icon_path_ + _sound_edit_icon_
 _stage_icon_[_material_] = _icon_path_ + _material_icon_
+_stage_icon_[_painter_template_] = _icon_path_ + _painter_template_icon_
 
 
 
@@ -655,6 +675,8 @@ _pub_ext_dic_[_cyclo_][_guerilla_] = 'gproject'
 _pub_ext_dic_[_material_] = {}
 _pub_ext_dic_[_material_][_designer_] = 'sbsar'
 _pub_ext_dic_[_material_][_photoshop_] = 'png'
+_pub_ext_dic_[_painter_template_] = {}
+_pub_ext_dic_[_painter_template_][_painter_] = 'spt'
 	
 _extension_key_ = 'extension'
 
@@ -697,6 +719,8 @@ _pub_ext_list_dic_[_cyclo_][_guerilla_] = ['gproject']
 _pub_ext_list_dic_[_material_] = {}
 _pub_ext_list_dic_[_material_][_designer_] = ['sbsar', 'png', 'exr', 'tiff']
 _pub_ext_list_dic_[_material_][_photoshop_] = ['png']
+_pub_ext_list_dic_[_painter_template_] = {}
+_pub_ext_list_dic_[_painter_template_][_painter_] = ['spt']
 
 _pub_ext_list_dic_[_concept_] = {}
 _pub_ext_list_dic_[_concept_][_photoshop_] = ['png']
@@ -921,6 +945,7 @@ _stage_softs_dic_[_video_] = [_folder_]
 _stage_softs_dic_[_video_edit_] = [_resolve_]
 _stage_softs_dic_[_sound_edit_] = [_reaper_]
 _stage_softs_dic_[_material_] = [_designer_, _photoshop_]
+_stage_softs_dic_[_painter_template_] = [_painter_]
 
 
 # Game icons library
@@ -1057,7 +1082,8 @@ _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
 _project_script_file_ = 'scripts.yaml'
-_user_custom_scripts_path_ = _user_path_ + 'scripts'
+_user_custom_scripts_path_ = _user_path_ + 'scripts/'
+_session_file_ = _user_custom_scripts_path_ + 'session.py'
 _user_custom_icons_ = _user_path_ + 'custom_icons'
 _wall_ = 'wall.log'
 _tickets_ = 'tickets.wd'
@@ -1347,6 +1373,7 @@ _concept_node_icon_ = _icon_path_ + 'concept_node_main.png'
 _missing_node_icon_ = _icon_path_ + 'missing_node_main.png'
 _auto_rig_node_icon_ = _icon_path_ + 'auto_rig_node_main.png'
 _material_node_icon_ = _icon_path_ + 'material_node_main.png'
+_painter_template_node_icon_ = _icon_path_ + 'painter_template_node_main.png'
 _cam_rig_node_icon_ = _icon_path_ + 'cam_rig_node_main.png'
 _cyclo_node_icon_ = _icon_path_ + 'cyclo_node_main.png'
 _gizmo_node_icon_ = _icon_path_ + 'gizmo_node_main.png'
@@ -1393,6 +1420,7 @@ _nodes_icons_dic_[_video_] = _video_node_icon_
 _nodes_icons_dic_[_video_edit_] = _video_edit_node_icon_
 _nodes_icons_dic_[_sound_edit_] = _sound_edit_node_icon_
 _nodes_icons_dic_[_material_] = _material_node_icon_
+_nodes_icons_dic_[_painter_template_] = _painter_template_node_icon_
 
 _python_27_zip_ = 'plugins/Guerilla Render/python27.zip'
 _python_27_dll_ = 'plugins/Guerilla Render/python27.dll'

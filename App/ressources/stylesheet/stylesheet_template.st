@@ -1361,21 +1361,21 @@ QComboBox::drop-down, QSpinBox::up-button, QSpinBox::down-button, QDateTimeEdit:
 QComboBox::down-arrow {
     border: 0px;
     background-repeat: no-repeat; 
-	image: url(ressources/images/tree_arrow_down.png);
+	image: url(ressources/images/spinbox_down.png);
 	width:20px;
 	padding-right:10px;
 }
 QSpinBox::down-arrow,  QDateTimeEdit::down-arrow {
     border: 0px;
     background-repeat: no-repeat;
-	 image: url(ressources/images/tree_arrow_down.png);
+	 image: url(ressources/images/spinbox_down.png);
 	width:20px;
 	padding-right:9px;
 }
 QSpinBox::up-arrow,  QDateTimeEdit::up-arrow {
     border: 0px;
     background-repeat: no-repeat;
-    image: url(ressources/images/tree_up_arrow.png);
+    image: url(ressources/images/spinbox_up.png);
 	width:20px;
 	padding-right:9px;
 }

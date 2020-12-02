@@ -585,7 +585,7 @@
                        <enum>QTabWidget::North</enum>
                       </property>
                       <property name="currentIndex">
-                       <number>0</number>
+                       <number>3</number>
                       </property>
                       <property name="movable">
                        <bool>false</bool>
@@ -1437,6 +1437,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionFile_viewer"/>
+    <addaction name="actionRenamer"/>
     <addaction name="actionProcess_manager"/>
     <addaction name="actionPyWizard"/>
    </widget>
@@ -1559,6 +1560,11 @@
   <action name="actionPreferences_2">
    <property name="text">
     <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionRenamer">
+   <property name="text">
+    <string>Renamer</string>
    </property>
   </action>
  </widget>

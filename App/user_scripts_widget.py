@@ -13,6 +13,7 @@ from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.prefs.user_scripts import user_scripts
 from wizard.tools import utility as utils
+from wizard.user_scripts import user_session
 
 # Import wizard widgets
 import create_user_script_widget
@@ -79,11 +80,7 @@ class Main(QtWidgets.QWidget):
         self.refresh_scripts()
 
     def execute_script(self, script):
-        try:
-            exec(script)
-            sys.stdout.flush()
-        except:
-            logger.error(str(traceback.format_exc()))
+        user_session.execute_session_script(script)
 
     def batch_execute_script(self, script):
         try:

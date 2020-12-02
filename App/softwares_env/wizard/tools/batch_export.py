@@ -78,7 +78,11 @@ class maya_sequence():
 
             if self.asset.stage == defaults._animation_ and auto_hair:
                 self.auto_hair()
+            elif self.asset.stage == defaults._fx_ and auto_hair:
+                self.auto_hair()
             elif self.asset.stage == defaults._animation_ and not auto_hair:
+                self.animation()
+            elif self.asset.stage == defaults._fx_ and not auto_hair:
                 self.animation()
             elif self.asset.stage == defaults._cfx_:
                 self.fur()
@@ -104,7 +108,7 @@ class maya_sequence():
                                                                                 self.nspace_list,
                                                                                 self.out_range,
                                                                                 self.set_done,
-                                                                                refresh_assets)
+                                                                                self.refresh_assets)
 
     def animation(self):
         self.command += 'from softwares.maya_wizard.export_anim import export_anim\n'

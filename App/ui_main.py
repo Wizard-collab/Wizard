@@ -87,6 +87,7 @@ import task_progress_info_widget
 import ui_about
 import ui_project_workflow
 import ui_project_preferences
+import ui_renamer
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -233,6 +234,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
     def wizard_version_update(self):
         try:
             project.add_material()
+            project.add_painter_template()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1248,7 +1250,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             if self.pin:
                 self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._unpin_icon_))
                 self.ui.pin_pushButton.setStyleSheet('')
-                self.ui.main_frame.setStyleSheet('')
+                #self.ui.main_frame.setStyleSheet('')
                 self.ui.current_asset_label.setStyleSheet('')
                 self.pin = False
                 self.refresh_pinned_item(pin=0)
@@ -1260,7 +1262,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 if self.asset.variant:
                     self.ui.pin_pushButton.setIcon(QtGui.QIcon(defaults._pin_icon_))
                     self.ui.pin_pushButton.setStyleSheet('background-color:#7785de')
-                    self.ui.main_frame.setStyleSheet('#main_frame{border: 1px solid #7785de}')
+                    #self.ui.main_frame.setStyleSheet('#main_frame{border: 1px solid #7785de}')
                     self.ui.current_asset_label.setStyleSheet('background-color:#454c7b')
                     self.pin = True
                     self.pinned_item = self.ui.treeWidget.selectedItems()[0]
@@ -1351,6 +1353,13 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         try:
             self.file_viewer = file_viewer.Main(0)
             build.launch_normal_as_child(self.file_viewer)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def show_ui_renamer(self):
+        try:
+            self.ui_renamer = ui_renamer.Main()
+            build.launch_normal_as_child(self.ui_renamer)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -1486,6 +1495,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionProcess_manager.triggered.connect(self.show_process_manager)
             self.ui.actionLast_version.triggered.connect(self.show_version_manager)
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
+            self.ui.actionRenamer.triggered.connect(self.show_ui_renamer)
         except:
             logger.critical(str(traceback.format_exc()))
 

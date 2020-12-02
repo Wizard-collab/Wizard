@@ -43,8 +43,6 @@ class log_widget_viewer(QObject, logging.Handler):
         super().__init__(parent)
         super(logging.Handler).__init__()
 
-
-
         formatter = Formatter("%(asctime)s [%(name)-23.23s] [%(levelname)s] %(message)s")
         self.setFormatter(formatter)
         self.setLevel(logging_level)

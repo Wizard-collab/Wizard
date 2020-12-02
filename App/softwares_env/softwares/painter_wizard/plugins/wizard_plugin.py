@@ -46,7 +46,7 @@ class wizard_toolbar(QtWidgets.QWidget):
         self.export_action = self.toolbar.addAction(QtGui.QIcon(export_icon), '')
 
         self.save_action.triggered.connect(plugin.save)
-        self.export_action.triggered.connect(plugin.export_maps)
+        self.export_action.triggered.connect(plugin.export)
 
         self.layout = QtWidgets.QHBoxLayout()
         self.layout.addWidget(self.toolbar)

@@ -87,6 +87,19 @@ def add_material():
 
         write_project(project)
 
+def add_painter_template():
+    project = read_project()
+    if defaults._painter_template_ not in project[defaults._library_].keys():
+        project[defaults._library_][defaults._painter_template_] = dict()
+
+        painter_template_pub_ext_dic = defaults._pub_ext_dic_[defaults._painter_template_]
+        painter_template_pub_ext = defaults._pub_ext_dic_[defaults._painter_template_][defaults._painter_]
+        custom_publish_dic = prefs.custom_pub_ext_dic
+        custom_publish_dic[defaults._painter_template_] = painter_template_pub_ext_dic
+        custom_publish_dic[defaults._painter_template_][defaults._painter_] = painter_template_pub_ext
+        prefs.set_custom_pub_ext_dic(custom_publish_dic)
+
+        write_project(project)
 
 def check_tree_file():
     project_tree = get_project_tree()

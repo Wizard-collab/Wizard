@@ -33,6 +33,14 @@ def save():
     else:
         logger.info("No painter project openned!")
 
+def export():
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    print(asset.extension)
+    if asset.extension == 'spt':
+        export_template()
+    else:
+        export_maps()
+
 def export_maps():
 
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
@@ -58,3 +66,9 @@ def export_maps():
     export_config.json_config['exportList']=export_list
 
     substance_painter.export.export_project_textures(export_config.json_config)
+
+def export_template():
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    file = asset.export('{}_{}'.format(asset.name, asset.variant))
+    substance_painter.project.save_as_template(file, substance_painter.textureset.get_active_stack().material().name())
+    wall.wall().publish_event(asset)

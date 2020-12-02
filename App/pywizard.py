@@ -23,6 +23,7 @@ stats_path = os.path.join(os.environ[defaults._wizard_site_], defaults._stats_)
 os.environ[defaults._site_var_] = site_path
 os.environ[defaults._abs_site_path_] = os.path.abspath('')
 os.environ[defaults._stats_var_] = stats_path
+os.environ[defaults._current_assets_list_] = ''
 
 # wizard modules
 from wizard.asset import main

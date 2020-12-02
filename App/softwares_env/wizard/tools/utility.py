@@ -82,6 +82,11 @@ def temp_file_from_command(command):
         f.write(full_command)
     return temporary_python_file
 
+def session_file_from_command(command):
+    full_command = command
+    with open(defaults._session_file_, 'w') as f:
+        f.write(command)
+
 def temp_dir():
     tempdir = tempfile.mkdtemp()
     return tempdir

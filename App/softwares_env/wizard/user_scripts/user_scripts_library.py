@@ -82,6 +82,43 @@ DEST = "C:\\Program Files\\PureRef\\PureRef.exe" # The path of your file or soft
 os.startfile(DEST)
 '''
 
+custom_widget = '''# coding: utf8
+
+# Custom widget template
+# This template is an exemple to create a custom widget inside wizard ( with PyQt5 )
+
+from PyQt5 import QtWidgets, QtCore
+import wizard.api as wapi
+
+class myWidget(QtWidgets.QWidget):
+	def __init__(self):
+		super(myWidget, self).__init__() # Must call super() function
+		self.setup_ui()
+		
+	def setup_ui(self):
+		# Modify the window title
+		self.setWindowTitle('my widget')
+		# Create a vertical layout
+		self.main_layout = QtWidgets.QVBoxLayout()
+		# Create a label
+		self.myLabel = QtWidgets.QLabel('Hello word')
+		# Create a button
+		self.myButton = QtWidgets.QPushButton('close')
+		# Connect the button > a click close the widget
+		self.myButton.clicked.connect(self.close)
+		# Add the label and the button to the layout
+		self.main_layout.addWidget(self.myLabel)
+		self.main_layout.addWidget(self.myButton)
+		# Set the layout as the widget layout
+		self.setLayout(self.main_layout)
+		# Resize the widget
+		self.setMinimumSize(QtCore.QSize(300, 100))
+		
+main_widget = myWidget() # < Initialize the widget
+main_widget.setStyleSheet(wapi._wizard_stylesheet_) # < Apply the wizard appearance 
+main_widget.show() # < Display the widget
+'''
+
 scripts_dic = dict()
 scripts_dic["create shots"] = create_shots_script
 scripts_dic["import asset"] = import_asset_script
@@ -89,3 +126,4 @@ scripts_dic["refresh ui"] = refresh_ui_script
 scripts_dic["refresh team ui"] = refresh_team_ui_script
 scripts_dic["open url"] = open_url
 scripts_dic["open software"] = open_software
+scripts_dic["custom widget"] = custom_widget
