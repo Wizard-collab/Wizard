@@ -29,6 +29,10 @@ QWidget {
 	border-radius:10px;
 }
 
+#handler_textEdit{
+	background:transparent;
+}
+
 #update_title_label, #update_text_label{
 	color:white;
 }
@@ -40,6 +44,10 @@ QWidget {
 #update_web_pushButton, #update_doc_pushButton{
 	background:transparent;
 	color:gray;
+}
+
+#update_updates_plainTextEdit{
+	background:transparent;
 }
 
 #file_viewer_main_frame{
@@ -150,7 +158,8 @@ QWidget {
 }
 
 #messages_frame{
-	background-color:rgb(_low_level_widget_color_);
+	background-color:rgba(_top_level_widget_color_, 100);
+	border-radius:5px;
 }
 
 #design_work_progressBar::chunk, #geo_work_progressBar::chunk, #rig_work_progressBar::chunk, #hair_work_progressBar::chunk, #texturing_work_progressBar::chunk, #shading_work_progressBar::chunk{
@@ -1386,7 +1395,6 @@ QListView::item {
 	border-radius:0px;	
 	margin: 1px;
 	background-color:rgba(255,255,255,4);
-	color:white;
 	show-decoration-selected: 0;
 	outline: none;
 }
@@ -1395,7 +1403,6 @@ QListView::item:hover {
 	padding:3px;
 	background-color: rgba(_top_level_widget_color_, 100);
 	border-radius:0px;	
-	color:white;
 	show-decoration-selected: 0;
 	outline: none;
 }
@@ -1403,7 +1410,6 @@ QListView::item:hover {
 QListView::item:selected {
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
-	color:white;
 	show-decoration-selected: 0;
 	outline: none;
 }
@@ -1411,7 +1417,6 @@ QListView::item:selected {
 QListView::item:selected:active{
 	padding:3px;
 	background-color: rgb(_tree_press_item_color_);
-	color:white;
 	show-decoration-selected: 0;
 	outline: none;
 }
@@ -1537,14 +1542,12 @@ QScrollBar::sub-line:horizontal {
 }
 QScrollBar:vertical {
     border: 0px solid grey;
-    border-radius : 2px;
 	background-color: rgb(_background_color_);
     width: 8px;
     margin: 0px 0px 0px 0px;
 }
 QScrollBar::handle:vertical {
 	background-color: rgb(_top_level_widget_color_);
-	border-radius : 4px;
 }
 QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical {
     border: 0px solid grey;

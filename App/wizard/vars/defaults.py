@@ -272,6 +272,9 @@ _subprocess_status_ = 'status:'
 
 # Icons library
 _icon_path_ = ressources_path('ressources/images/')
+_fonts_path_ = ressources_path('ressources/fonts/')
+_twitter_emoji_font_ = _fonts_path_ + 'TwitterEmoji.ttf'
+_noto_emoji_font_ = _fonts_path_ + 'NotoEmoji-Regular.ttf'
 _settings_icon_ = _icon_path_ + 'settings.png'
 _pin_icon_ = _icon_path_ + 'pinned.png'
 _tree_pin_ = _icon_path_ + 'tree_pin.png'
@@ -401,6 +404,7 @@ _export_list_icon_ = _icon_path_ + 'export_list_icon.png'
 _export_list_icon_gray_ = _icon_path_ + 'export_list_icon_gray.png'
 _export_list_neutral_icon_ = _icon_path_ + 'export_list_neutral_icon.png'
 _missing_file_export_list_icon_ = _icon_path_ + 'missing_file_export_list.png'
+_warning_ = _icon_path_ + 'warning_icon.png'
 _kill_process_icon_ = _icon_path_ + 'kill_process.png'
 _comment_icon_ = _icon_path_ + 'comment.png'
 _manual_publish_icon_ = _icon_path_ + 'manual_publish.png'
@@ -1209,6 +1213,16 @@ _message_frame_left_ = "message_frame_left"
 _message_frame_right_ = "message_frame_right"
 _message_label_ = "message_content"
 
+# Chat keys library
+_chat_user_ = 'user'
+_chat_project_ = 'project'
+_chat_message_ = 'message'
+_chat_date_ = 'date'
+_chat_destination_ = 'destination'
+_chat_general_ = 'general'
+_chat_type_ = 'type'
+_chat_conversation_ = 'conversation'
+
 # Password library
 _alphabet_ = ['a', 'b','c','d',
 'e','f','g','h','i','j',
@@ -1452,3 +1466,12 @@ _task_name_ = 'task_name'
 _widget_key_ = 'widget'
 _name_key_ = 'name'
 _index_key_ = 'index'
+
+_wizard_correctly_stopped_ = "Closing wizard..."
+
+_emojis_list_ = ["😀", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊",
+				"😇", "🥰", "😍", "🤩", "😘", "😗", "😚", "😙", "😋", "😛",
+				"😜", "🤪", "😝", "🤑", "🤗", "🤭", "🤫", "🤔", "🤐", "🤨", "😐",
+				"😑", "😶", "😏", "😒", "🙄", "😬", "🤥", "😌", "😔", "😪", "🤤",
+				"😴", "😷", "🤒", "🤕", "🤢", "🤮", "🤧", "🥵", "🥶", "🥴",
+				"😵", "🤯", "🤠", "🥳", "😎", "🤓", "🧐", "😕", "😟", "🙁"]

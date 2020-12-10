@@ -31,9 +31,10 @@ class signal_server(QThread):
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server.bind((hostname, port))
         self.server.listen(100) 
+        self.running = True
 
     def run(self):
-        while True:
+        while self.running:
             try:
                 conn, addr = self.server.accept()
                 if addr[0] == self.server_address:
@@ -61,3 +62,6 @@ class signal_server(QThread):
             self.focus_signal.emit(defaults._focus_signal_)
         elif signal_dic[defaults._signal_type_key_] == defaults._log_signal_:
             self.log_signal.emit(signal_dic[defaults._log_line_])
+
+    def stop(self):
+        self.running = False

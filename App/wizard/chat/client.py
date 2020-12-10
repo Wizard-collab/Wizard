@@ -20,6 +20,7 @@ class client(QThread):
     def __init__(self):
         super(client, self).__init__()
         self.init_connection()
+        self.running = True
 
     def init_connection(self):
         self.server = socket(AF_INET, SOCK_STREAM)
@@ -36,7 +37,7 @@ class client(QThread):
 
     def run(self):
         try:
-            while self.is_server:
+            while self.is_server and self.running:
                 try:
                     message_bytes = self.server.recv(1024)
                     message_dict = yaml.load(message_bytes.decode('utf8'), Loader = yaml.Loader)
@@ -53,11 +54,14 @@ class client(QThread):
                         self.refresh.emit('')
                 except ConnectionResetError:
                     self.is_server = 0
-                    self.stopped.emit('')
+                    #self.stopped.emit('')
                 except:
                     logger.critical(str(traceback.format_exc()))
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def stop(self):
+        self.running = False
 
 
 class test_conn(QThread):

@@ -227,7 +227,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 prefs.set_last_update(version)
                 prefs.set_show_updates(1)
                 self.ui_updates = ui_updates.Main()
-                build.launch_normal_as_child_ontop(self.ui_updates)
+                build.launch_normal_as_child_frameless_no_transparent(self.ui_updates)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -487,7 +487,10 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def stop_threads(self):
         try:
-            self.statThread.quit()
+            self.statThread.stop()
+            self.signal_server.stop()
+            self.jokes_thread.quit()
+            self.wall_widget.quit_wall()
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -732,6 +735,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.update_comment()
             self.update_image()
             self.update_lock()
+            self.ui.current_asset_label.setText(utils.version_asset_to_string(self.asset))
             api.scene.set_current_asset(self.asset)
         except:
             logger.critical(str(traceback.format_exc()))
@@ -1040,8 +1044,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 if self.selected_asset:
                     self.asset = copy.deepcopy(self.selected_asset)
                     self.asset_prefs = prefs.asset(self.asset)
-                    asset_label = f'{self.asset.domain} / {self.asset.category} / {self.asset.name} / {self.asset.stage}'
-                    self.ui.current_asset_label.setText(asset_label)
+                    
             else:
                 self.asset = copy.deepcopy(self.pinned_asset)
         except:
@@ -1332,10 +1335,16 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             if runs or locks:
                 self.dialog_quit_popup = dialog_quit_popup.Main(runs, locks)
                 if build.launch_dialog_as_child(self.dialog_quit_popup):
+                    self.stop_threads()
+                    print(defaults._wizard_correctly_stopped_)
+                    sys.stdout.flush()
                     QApplication.quit()
                 else:
                     event.ignore()
             else:
+                self.stop_threads()
+                print(defaults._wizard_correctly_stopped_)
+                sys.stdout.flush()
                 QApplication.quit()
         except:
             logger.critical(str(traceback.format_exc()))

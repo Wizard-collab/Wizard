@@ -34,15 +34,24 @@ class wizard():
         if not is_running:
             try:
                 env = os.environ.copy()
-                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, cwd=os.path.abspath(''))
-                while True:
+                self.reset_file()
+                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, env=env, cwd=os.path.abspath(''), bufsize=1, shell=True)
+                while 1:
                     output = process.stdout.readline()
-                    if process.poll() is not None:
-                        break
+                    line=''
                     if output:
                         line = output.strip()
                         self.stream_output(line)
                         self.file_output(line)
+                    if defaults._wizard_correctly_stopped_ in str(line):
+                        break
+                    else :
+                        if process.poll() is not None:
+                            system = 'error_handler.exe'
+                            if sys.argv[0].endswith('.py'):
+                                system = "python ui_error_handler.py"
+                            subprocess.Popen(system)
+                            break
             except:
                 self.stream_output(str(traceback.format_exc()))
                 self.file_output(str(traceback.format_exc()))
@@ -61,6 +70,10 @@ class wizard():
     def file_output(self, line):
         with open(log_file, 'a+') as log:
             log.write(self.convert_output(line) + '\n')
+
+    def reset_file(self):
+        with open(log_file, 'w') as log:
+            log.write('')
 
     def convert_output(self, line):
         try:

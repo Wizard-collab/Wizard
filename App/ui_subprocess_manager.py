@@ -206,12 +206,14 @@ class run_subprocess(QThread):
             QApplication.processEvents()
         self.outThread.quit()
         self.errThread.quit()
+        self.status_signal.emit('Done !')
 
     def kill_process(self, manual = 1):
         try:
             if manual:
                 self.out_signal.emit("Process manualy stopped")
                 self.status_signal.emit("Stopped")
+                self.status_signal.emit('Done !')
             subprocess.Popen("TASKKILL /F /PID {pid} /T".format(pid=self.process.pid))
             self.timerThread.running = 0  
             self.stop = 1     
@@ -282,7 +284,7 @@ class outThread(QThread):
             output = self.process.stdout.readline()
             if self.process.poll() is not None:
                 break
-                self.out_signal.emit('status:finished')
+                self.out_signal.emit('status:Done !')
             if output:
                 try:
                     out = output.strip().decode('utf-8')

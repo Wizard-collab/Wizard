@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python SDK &mdash; Wizard Documentation 0.9.7.5-b documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="PyWizard" href="PyWizard.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Wizard Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="User_guide.html">User Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="API_Introduction.html">Itroduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PyWizard.html">PyWizard</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wizard-api-preferences">wizard.api.preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wizard-api-assets">wizard.api.assets</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Wizard Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Python SDK</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Python_SDK.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-sdk">
+<h1>Python SDK<a class="headerlink" href="#python-sdk" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="wizard-api-preferences">
+<h2>wizard.api.preferences<a class="headerlink" href="#wizard-api-preferences" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>get_site_path()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return the current site path ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_current_user()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return the current user ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_all_user()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return all the site users ( <cite>list</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_user_email( user = None )</dt><dd><ul>
+<li><p>If a user ( <cite>string</cite> ) is given, return the user email ( <cite>string</cite> )</p></li>
+<li><p>Else, return the current user email ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_user_admin( user = None )</dt><dd><ul>
+<li><p>If a user ( <cite>string</cite> ) is given, return the user admin state ( <cite>boolean</cite> )</p></li>
+<li><p>Else, return the current user admin state ( <cite>boolean</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_user_full_name( user = None )</dt><dd><ul>
+<li><p>If a user ( <cite>string</cite> ) is given, return the user full name ( <cite>string</cite> )</p></li>
+<li><p>Else, return the current user full name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_current_project()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return the current project name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_all_projects()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return all the projects names ( <cite>list</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_project_path( project_name = None )</dt><dd><ul>
+<li><p>If a project name ( <cite>string</cite> ) is given, return the project path ( <cite>string</cite> )</p></li>
+<li><p>Else, return the current project path ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_project_format()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return the current project pixel format as [width, height] ( [<cite>int</cite>, <cite>int</cite>])</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>get_project_frame_rate()</dt><dd><ul>
+<li><p>This function takes no arguments</p></li>
+<li><p>Return the current project frame rate ( <cite>int</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>set_user( user_name, password )</dt><dd><ul>
+<li><p>This function needs a user ( <cite>string</cite> ) and a password ( <cite>string</cite> )</p></li>
+<li><p>Return nothing</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="wizard-api-assets">
+<h2>wizard.api.assets<a class="headerlink" href="#wizard-api-assets" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>create_character( name )</dt><dd><ul>
+<li><p><cite>Create a character</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_prop( name )</dt><dd><ul>
+<li><p><cite>Create a prop</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_set( name )</dt><dd><ul>
+<li><p><cite>Create a set</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_set_dress( name )</dt><dd><ul>
+<li><p><cite>Create a set dress</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_vehicle( name )</dt><dd><ul>
+<li><p><cite>Create a vehicle</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_auto_rig( name )</dt><dd><ul>
+<li><p><cite>Create an auto rig</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_camera_rig( name )</dt><dd><ul>
+<li><p><cite>Create a camera rig</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_gizmo( name )</dt><dd><ul>
+<li><p><cite>Create a gizmo</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_light_rig( name )</dt><dd><ul>
+<li><p><cite>Create a light rig</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_lut( name )</dt><dd><ul>
+<li><p><cite>Create a lut</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_render_graph( name )</dt><dd><ul>
+<li><p><cite>Create a render graph</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_render_pass( name )</dt><dd><ul>
+<li><p><cite>Create a render pass</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_script( name )</dt><dd><ul>
+<li><p><cite>Create a script</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_sound( name )</dt><dd><ul>
+<li><p><cite>Create a sound</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_stockshot( name )</dt><dd><ul>
+<li><p><cite>Create a stockshot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_video( name )</dt><dd><ul>
+<li><p><cite>Create a video</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_cyclo( name )</dt><dd><ul>
+<li><p><cite>Create a cyclo</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_fx_setup( name )</dt><dd><ul>
+<li><p><cite>Create a fx setup</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>name ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_variant( asset, variant )</dt><dd><ul>
+<li><p><cite>Create an asset variant</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>asset ( <cite>wizard.asset.main.asset</cite> )</p></li>
+<li><p>variant ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_sequence( sequence )</dt><dd><ul>
+<li><p><cite>Create a sequence</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_shot( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a shot for a given sequence</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_animation_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create an animation stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_lighting_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a lighting stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_fx_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a fx stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_camera_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a camera stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_concept_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a concept stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_layout_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a layout stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_compositing_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a compositing stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>create_cfx_stage( sequence, shot )</dt><dd><ul>
+<li><p><cite>Create a cfx stage for a given sequence and shot</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>sequence ( <cite>string</cite> )</p></li>
+<li><p>shot ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>asset_to_string( asset )</dt><dd><ul>
+<li><p><cite>Return the asset path</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>asset ( <cite>wizard.asset.main.asset</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>string_to_asset( string_asset ):</dt><dd><ul>
+<li><p><cite>Convert the asset path to an asset object</cite></p></li>
+<li><dl class="simple">
+<dt>args:</dt><dd><ul>
+<li><p>string_asset ( <cite>string</cite> )</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="PyWizard.html" class="btn btn-neutral float-left" title="PyWizard" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alexandre Manzanares, Léo Brunel
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

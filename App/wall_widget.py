@@ -128,7 +128,7 @@ class Main(QtWidgets.QWidget):
                 self.client.start()
                 self.client.receive.connect(self.build_wall_event)
                 self.client.refresh.connect(send_signal.refresh_signal)
-                self.client.stopped.connect(self.restart)
+                #self.client.stopped.connect(self.restart)
         except:
             logger.critical(str(traceback.format_exc()))
 
@@ -136,8 +136,11 @@ class Main(QtWidgets.QWidget):
         popup.popup().new_chat_user_pop(message)
 
     def restart(self):
-        self.client.quit()
+        self.client.stop()
         self.start_wall()
+
+    def quit_wall(self):
+        self.client.stop()
 
     def closeEvent(self, event):
         event.ignore()

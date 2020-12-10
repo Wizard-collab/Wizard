@@ -30,10 +30,11 @@ Current version is |release|
 
 .. toctree::
    :maxdepth: 1
-   :caption: Python API
+   :caption: API
 
    API_Introduction
    PyWizard
+   Python_SDK
 
 Indices and tables
 ==================

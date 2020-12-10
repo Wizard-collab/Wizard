@@ -88,7 +88,7 @@ class Main(QtWidgets.QWidget):
             env = os.environ.copy()
             python_system = 'pywizard'
             if sys.argv[0].endswith('.py'):
-                python_system = 'python'
+                python_system = 'python pywizard.py'
             self.ui_subprocess_manager = ui_subprocess_manager.Main(f'{python_system} {file}', env, cwd=os.path.abspath(''))
             build.launch_normal_as_child(self.ui_subprocess_manager, minimized = 1)
         except:

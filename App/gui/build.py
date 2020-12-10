@@ -50,6 +50,15 @@ def launch_normal(widget, title = 'Wizard'):
     main.show()
     sys.exit(app.exec_())
 
+def launch_chat(widget, title = 'Chat room'):
+    app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon(defaults._wizard_ico_))
+    main = widget()
+    main.setWindowTitle(title)
+    main.setStyleSheet(load_stylesheet())
+    main.show()
+    sys.exit(app.exec_())
+
 def launch_file_viewer(widget, title = 'File viewer'):
 
     app = QtWidgets.QApplication(sys.argv)

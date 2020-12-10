@@ -471,9 +471,15 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="current_asset_label">
-                  <property name="text">
-                   <string>Current Asset</string>
+                 <widget class="QLineEdit" name="current_asset_label">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="readOnly">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>

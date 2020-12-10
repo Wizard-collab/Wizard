@@ -78,6 +78,8 @@ user_scripts.user_scripts()
 
 from wizard import api
 
+app = QApplication(sys.argv)
+
 try:
 	file = sys.argv[1]
 	exec(open(file).read())

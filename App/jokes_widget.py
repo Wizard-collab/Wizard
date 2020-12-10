@@ -128,8 +128,12 @@ class jokes_thread(QtCore.QThread):
     def __init__(self, jokes_widget):
         super().__init__()
         self.jokes_widget = jokes_widget
+        self.running = True
 
     def run(self):
-        while 1:
+        while self.running:
             time.sleep(60)
             self.jokes_widget.show_new_joke()
+
+    def stop(self):
+        self.running=False

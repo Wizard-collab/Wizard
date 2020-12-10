@@ -72,6 +72,15 @@ dest = 'dist/wizard/wizard_server.exe'
 shutil.copyfile(file, dest)
 shutil.rmtree('dist/wizard_server')
 
+command_line = "PyInstaller error_handler.spec"
+p = subprocess.Popen(command_line)
+p.wait()
+
+file = 'dist/error_handler/error_handler.exe'
+dest = 'dist/wizard/error_handler.exe'
+shutil.copyfile(file, dest)
+shutil.rmtree('dist/error_handler')
+
 file = 'server.py'
 dest = 'dist/wizard/server.py'
 shutil.copyfile(file, dest)

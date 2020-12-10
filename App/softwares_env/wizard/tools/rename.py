@@ -24,16 +24,12 @@ class renamer:
 		self.end_crop = 0
 		self.first_splitter = '_'
 		self.second_splitter = '_'
-		self.insert = ''
-		self.insert_at = 0
 
 		self.undo_source = []
 		self.undo_destination = []
-		self.files_list = []
 
 		self.set_folder(folder)
-		if self.folder:
-			self.get_files_list()
+		self.get_files_list()
 
 	def set_folder(self, folder):
 
@@ -91,9 +87,6 @@ class renamer:
 				file_name = file_name[self.start_crop:]
 			if self.end_crop:
 				file_name = file_name[:-self.end_crop]
-
-			if self.insert != '':
-				file_name = file_name[:self.insert_at] + self.conform_string(self.insert, index) + file_name[self.insert_at:]
 
 			if self.prefix != '':
 				file_name = "{}{}{}".format(self.conform_string(self.prefix, index), self.first_splitter, file_name)
@@ -194,6 +187,9 @@ class renamer:
 		temp_files_list = []
 		new_files_list = []
 
+		print(self.undo_source)
+		print(self.undo_destination)
+
 		for file in self.undo_destination:
 			try:
 
@@ -214,6 +210,3 @@ class renamer:
 
 		for temp_file in temp_files_list:
 			os.rename(temp_file, new_files_list[temp_files_list.index(temp_file)])
-
-		self.undo_source = []
-		self.undo_destination = []

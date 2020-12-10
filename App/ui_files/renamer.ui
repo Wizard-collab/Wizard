@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>809</height>
+    <height>870</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -83,6 +83,13 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="renamer_show_folder_pushButton">
+        <property name="text">
+         <string>Open folder</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="renamer_refresh_pushButton">
@@ -298,48 +305,17 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <property name="spacing">
-         <number>1</number>
+       <widget class="QLineEdit" name="renamer_override_lineEdit">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>0</height>
+         </size>
         </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLineEdit" name="renamer_find_lineEdit">
-            <property name="placeholderText">
-             <string>find</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="renamer_replace_lineEdit">
-            <property name="placeholderText">
-             <string>replace</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="renamer_override_lineEdit">
-          <property name="minimumSize">
-           <size>
-            <width>400</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>400</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="placeholderText">
-           <string>name</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        <property name="placeholderText">
+         <string>override_name</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QComboBox" name="renamer_second_splitter_comboBox">
@@ -389,6 +365,75 @@
          <string>extension</string>
         </property>
        </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_9">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_16">
+      <item>
+       <widget class="QLineEdit" name="renamer_find_lineEdit">
+        <property name="placeholderText">
+         <string>find</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>and</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="renamer_replace_lineEdit">
+        <property name="placeholderText">
+         <string>replace</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_8">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_15">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Insert</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="renamer_insert_lineEdit">
+        <property name="placeholderText">
+         <string>some text</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>at</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="renamer_insert_at_spinBox"/>
       </item>
      </layout>
     </widget>
@@ -533,6 +578,9 @@
         </item>
         <item>
          <widget class="QListWidget" name="renamer_source_listWidget">
+          <property name="styleSheet">
+           <string notr="true">color:green;</string>
+          </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::ExtendedSelection</enum>
           </property>
@@ -626,7 +674,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="renamer_destination_listWidget"/>
+         <widget class="QListWidget" name="renamer_destination_listWidget">
+          <property name="styleSheet">
+           <string notr="true">color:orange;</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

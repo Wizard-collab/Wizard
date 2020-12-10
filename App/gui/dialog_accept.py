@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\accept_dialog.ui'
+# Form implementation generated from reading ui file 'C:\Users\conta\Documents\script\Wizard\App\ui_files\dialog_accept.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -37,6 +37,7 @@ class Ui_Dialog(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.accept_widget_label = QtWidgets.QLabel(self.frame)
         self.accept_widget_label.setText("")
+        self.accept_widget_label.setWordWrap(True)
         self.accept_widget_label.setObjectName("accept_widget_label")
         self.verticalLayout.addWidget(self.accept_widget_label)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -56,8 +57,6 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(Dialog)
-        self.cancel_pushButton.clicked.connect(Dialog.reject)
-        self.yes_pushButton.clicked.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
