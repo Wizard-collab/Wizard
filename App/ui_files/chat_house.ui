@@ -33,13 +33,13 @@
     <widget class="QFrame" name="chat_house_rooms_frame">
      <property name="minimumSize">
       <size>
-       <width>60</width>
+       <width>150</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>50</width>
+       <width>150</width>
        <height>16777215</height>
       </size>
      </property>
@@ -54,19 +54,23 @@
        <number>1</number>
       </property>
       <property name="leftMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="chat_house_rooms_frame_layout"/>
+       <layout class="QVBoxLayout" name="chat_house_rooms_frame_layout">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+       </layout>
       </item>
       <item>
        <spacer name="verticalSpacer">

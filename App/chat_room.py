@@ -26,6 +26,9 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
+    message_signal = pyqtSignal(tuple)
+    message_notif = pyqtSignal(str)
+
     def __init__(self, context = defaults._chat_general_):
         super(Main, self).__init__()
         self.ui = Ui_Form()
@@ -34,8 +37,10 @@ class Main(QtWidgets.QWidget):
         self.context = context
         self.connected_functions()
         
+        '''
         self.client_thread = None
         self.start_client()
+        '''
 
         self.previous_user = None
         self.previous_date = None
@@ -49,6 +54,7 @@ class Main(QtWidgets.QWidget):
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
         self.ui.chat_room_context_label.setText(self.context)
 
+    '''
     def start_client(self):
         if self.client_thread:
             self.stop_client()
@@ -60,18 +66,20 @@ class Main(QtWidgets.QWidget):
     def stop_client(self):
         if self.client_thread:
             self.client_thread.stop()
+    '''
 
     def msg_recv(self, msg_dic):
 
-        if msg_dic[defaults._chat_destination_] == defaults._chat_general_ == self.context:
+        receive = 0
+
+        if msg_dic[defaults._chat_user_] == prefs.user and msg_dic[defaults._chat_destination_] == self.context:
             receive = 1
-        elif msg_dic[defaults._chat_destination_] == prefs.user:
-            if self.context == msg_dic[defaults._chat_user_]:
-                receive = 1
-            else:
-                receive = 0
-        else:
-            receive = 0
+
+        if msg_dic[defaults._chat_user_] == self.context and msg_dic[defaults._chat_destination_] == prefs.user:
+            receive = 1
+
+        if msg_dic[defaults._chat_destination_] == self.context:
+            receive = 1
 
         if receive:
             need_user_widget = 0
@@ -100,10 +108,14 @@ class Main(QtWidgets.QWidget):
             self.previous_user = msg_dic[defaults._chat_user_]
             self.previous_date = msg_dic[defaults._chat_date_]
 
+            if msg_dic[defaults._chat_user_] != prefs.user:
+                self.message_notif.emit(self.context)
+
 
     def send_msg(self):
         message = self.ui.chat_message_lineEdit.text()
-        self.client_thread.send_message(message, user='admin', destination=self.context)
+        self.message_signal.emit((message, self.context))
+        #self.client_thread.send_message(message, destination=self.context)
         self.ui.chat_message_lineEdit.clear()
 
     def show_emoji_keyboard(self):

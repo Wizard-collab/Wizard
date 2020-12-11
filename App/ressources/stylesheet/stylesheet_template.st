@@ -20,6 +20,19 @@ QWidget {
 	border: 1px solid gray;
 }
 
+#room_button_frame{
+	background-color:rgba(_top_level_widget_color_, 100);
+}
+
+#room_button_frame:hover{
+	background-color:rgb(_top_level_widget_color_);
+}
+
+#room_button_count_label{
+	border-radius:6px;
+	background-color:#ff5447;
+}
+
 
 #update_widget_frame, #update_title_frame{
 	background-color:rgb(_top_level_widget_color_);

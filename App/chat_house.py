@@ -16,6 +16,7 @@ from wizard.chat_test import client
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
 import chat_room
+import room_button
 
 import sys
 import os
@@ -38,6 +39,9 @@ class Main(QtWidgets.QWidget):
         self.add_room()
         self.add_room("admin")
         self.add_room("lbrunel")
+        self.add_room("anim")
+
+        self.select_room()
 
     def start_client(self):
         if self.client_thread:
@@ -52,52 +56,44 @@ class Main(QtWidgets.QWidget):
             self.client_thread.stop()
 
     def msg_recv(self, msg_dic):
-        print(msg_dic)
+        for context in self.contexts_dic.keys():
+            self.contexts_dic[context][1].msg_recv(msg_dic)
 
     def add_room(self, context=defaults._chat_general_):
         if context not in self.contexts_dic.keys():
-            index = self.add_room_widget(context)
-            self.contexts_dic[context] = index
-            self.add_room_button(context, index)
+            index, room = self.add_room_widget(context)
+            button = self.add_room_button(context, index)
+            self.contexts_dic[context] = [index, room, button]
+
+    def select_room(self, context = defaults._chat_general_):
+        self.contexts_dic[context][2].set_selected()
 
     def add_room_widget(self, context):
         room = chat_room.Main(context)
+        room.message_signal.connect(self.send_msg)
+        room.message_notif.connect(self.update_notifs)
         index = self.ui.chat_house_stackedWidget.addWidget(room)
-        return index
+        return (index, room)
+
+    def update_notifs(self, context):
+        self.contexts_dic[context][2].add_count()
+
+    def send_msg(self, message_tuple):
+        self.client_thread.send_message(message_tuple[0], destination = message_tuple[-1])
+
+    def show_room(self, context):
+        self.unselect_all()
+        self.ui.chat_house_stackedWidget.setCurrentIndex(self.contexts_dic[context][0])
+
+    def unselect_all(self):
+        for context in  self.contexts_dic.keys():
+            self.contexts_dic[context][2].unselect()
 
     def add_room_button(self, context, index):
-        button = QtWidgets.QPushButton()
-        button.setMaximumSize(QtCore.QSize(50, 50))
-        button.setMinimumSize(QtCore.QSize(50, 50))
-        button.setStyleSheet("border-radius:25px;")
-        button.setIconSize(QtCore.QSize(45,45))
-        if context != defaults._chat_general_:
-            self.round_image(button,  stats(context).get_avatar())
-        else:
-            self.round_image(button,  defaults._wizard_icon_)
+        button = room_button.Main(context)
+        button.select_signal.connect(self.show_room)
         self.ui.chat_house_rooms_frame_layout.addWidget(button)
-        button.clicked.connect(lambda: self.ui.chat_house_stackedWidget.setCurrentIndex(index))
-
-    def round_image(self, label, image):
-        label.Antialiasing = True
-        label.radius = 25
-        label.target = QtGui.QPixmap(label.size())
-        label.target.fill(QtCore.Qt.transparent)
-        p = QtGui.QPixmap(image).scaled(
-            50, 50, QtCore.Qt.KeepAspectRatioByExpanding, QtCore.Qt.SmoothTransformation)
-        painter = QtGui.QPainter(label.target)
-        if label.Antialiasing:
-            painter.setRenderHint(QtGui.QPainter.Antialiasing, True)
-            painter.setRenderHint(QtGui.QPainter.HighQualityAntialiasing, True)
-            painter.setRenderHint(QtGui.QPainter.SmoothPixmapTransform, True)
-        path = QtGui.QPainterPath()
-        path.addRoundedRect(
-            0, 0, label.width(), label.height(), label.radius, label.radius)
-        painter.setClipPath(path)
-        painter.drawPixmap(0, 0, p)
-        icon = QtGui.QIcon()
-        icon.addPixmap(label.target)
-        label.setIcon(icon)
+        return button
 
 
 if __name__ == '__main__':

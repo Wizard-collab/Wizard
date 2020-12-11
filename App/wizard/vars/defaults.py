@@ -426,6 +426,8 @@ _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
 _sandbox_icon_ = _icon_path_ + "sandbox.png"
 _missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
+_chat_home_ = _icon_path_ + "chat_home.png"
+_chat_no_image_ = _icon_path_ + "chat_no_image.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
