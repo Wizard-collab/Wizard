@@ -1080,6 +1080,7 @@ _asset_var_ = 'ASSET_VAR'
 _softwares_scripts_path_ = 'softwares_env/softwares/'
 _project_ = 'project.wd'
 _project_db_ = 'project.db'
+_chat_archives_ = 'chat_archives.wd'
 _tree_ = 'tree.wd'
 _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
@@ -1219,11 +1220,13 @@ _message_label_ = "message_content"
 _chat_user_ = 'user'
 _chat_project_ = 'project'
 _chat_message_ = 'message'
+_chat_messages_ = 'messages'
 _chat_date_ = 'date'
 _chat_destination_ = 'destination'
 _chat_general_ = 'general'
 _chat_type_ = 'type'
 _chat_conversation_ = 'conversation'
+_chat_rooms_ = 'rooms'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',

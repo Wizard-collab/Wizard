@@ -88,6 +88,7 @@ import ui_about
 import ui_project_workflow
 import ui_project_preferences
 import ui_renamer
+import chat_house
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -161,11 +162,15 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.connect_functions()
             self.init_local_server()
             self.first_tab_refresh()
+            self.init_chat_house()
             
             prefs.set_custom_pub_ext_dic()
 
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def init_chat_house(self):
+        self.chat_house = chat_house.Main()
 
     def show_task_info_widget(self):
         try:
@@ -1456,6 +1461,12 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def show_chat_house(self):
+        try:
+            build.launch_normal_as_child(self.chat_house)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
     def connect_functions(self):
         try:
             software_settings_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), self)
@@ -1505,6 +1516,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionLast_version.triggered.connect(self.show_version_manager)
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
             self.ui.actionRenamer.triggered.connect(self.show_ui_renamer)
+            self.ui.actionChat.triggered.connect(self.show_chat_house)
         except:
             logger.critical(str(traceback.format_exc()))
 

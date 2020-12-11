@@ -178,6 +178,10 @@ class prefs:
         return project_prefs.get_color_managment()
 
     @property
+    def project_users(self):
+        return project_prefs.get_users()
+
+    @property
     def show_updates(self):
         return user_prefs.get_show_updates()
 

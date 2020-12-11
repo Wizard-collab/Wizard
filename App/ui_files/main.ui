@@ -1442,6 +1442,7 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionChat"/>
     <addaction name="actionFile_viewer"/>
     <addaction name="actionRenamer"/>
     <addaction name="actionProcess_manager"/>
@@ -1571,6 +1572,11 @@
   <action name="actionRenamer">
    <property name="text">
     <string>Renamer</string>
+   </property>
+  </action>
+  <action name="actionChat">
+   <property name="text">
+    <string>Chat</string>
    </property>
   </action>
  </widget>

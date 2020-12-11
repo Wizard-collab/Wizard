@@ -570,6 +570,8 @@ class Ui_Wizard(object):
         self.actionPreferences_2.setObjectName("actionPreferences_2")
         self.actionRenamer = QtWidgets.QAction(Wizard)
         self.actionRenamer.setObjectName("actionRenamer")
+        self.actionChat = QtWidgets.QAction(Wizard)
+        self.actionChat.setObjectName("actionChat")
         self.menuProject.addAction(self.actionNew)
         self.menuProject.addAction(self.actionOpen)
         self.menuProject.addAction(self.actionMerge)
@@ -587,6 +589,7 @@ class Ui_Wizard(object):
         self.menuWizard.addAction(self.actionLast_version)
         self.menuWizard.addAction(self.actionGitHub)
         self.menuWizard.addAction(self.actionQuit)
+        self.menuTools.addAction(self.actionChat)
         self.menuTools.addAction(self.actionFile_viewer)
         self.menuTools.addAction(self.actionRenamer)
         self.menuTools.addAction(self.actionProcess_manager)
@@ -649,6 +652,7 @@ class Ui_Wizard(object):
         self.actionWorkflow.setText(_translate("Wizard", "Workflow"))
         self.actionPreferences_2.setText(_translate("Wizard", "Preferences"))
         self.actionRenamer.setText(_translate("Wizard", "Renamer"))
+        self.actionChat.setText(_translate("Wizard", "Chat"))
 
 
 if __name__ == "__main__":

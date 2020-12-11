@@ -59,6 +59,25 @@ def launch_chat(widget, title = 'Chat room'):
     main.show()
     sys.exit(app.exec_())
 
+def launch_position_frameless_ontop_as_child(widget, title = 'Wizard'):
+    widget.setWindowTitle(title)
+    widget.setStyleSheet(load_stylesheet())
+    widget.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+    widget.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+    win_size = (widget.frameSize().width(), widget.frameSize().height())
+    posx = QtGui.QCursor.pos().x() - 20
+    posy = int(QtGui.QCursor.pos().y()) - win_size[1] + 20
+
+    shadow = QtWidgets.QGraphicsDropShadowEffect()
+    shadow.setBlurRadius(8)
+    shadow.setColor(QtGui.QColor(0, 0, 0, 180))
+    shadow.setXOffset(0)
+    shadow.setYOffset(0)
+    widget.setGraphicsEffect(shadow)
+
+    widget.show()
+    widget.move(posx, posy)
+
 def launch_file_viewer(widget, title = 'File viewer'):
 
     app = QtWidgets.QApplication(sys.argv)

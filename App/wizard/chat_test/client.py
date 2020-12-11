@@ -71,6 +71,10 @@ class chat_client(QThread):
 
             self.server.send(message_bytes)
 
+            return message_dic
+        else:
+            return None
+
     def stop(self):
         self.running = False
 
