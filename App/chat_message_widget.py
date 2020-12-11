@@ -1,6 +1,5 @@
 # coding: utf8
 from PyQt5 import QtWidgets, QtCore, QtGui
-from gui.chat_message_widget import Ui_Form
 from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
@@ -8,6 +7,8 @@ from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
 from datetime import datetime
 from wizard.tools import utility as utils
+import ui_image_viewer
+import os
 
 logger = log.pipe_log(__name__)
 
@@ -17,20 +18,77 @@ class Main(QtWidgets.QWidget):
 
     def __init__(self, msg_dic):
         super(Main, self).__init__()
+        '''
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.ui.chat_message_text.setText(msg_dic[defaults._chat_message_])
+        '''
+        self.msg_dic = msg_dic
+        self.user = prefs.user
+        self.build_ui()
+        self.fill_ui()
+        self.set_user()
 
+    def fill_ui(self):
+        if self.msg_dic[defaults._chat_message_] != '':
+            self.add_text()
+        if self.msg_dic[defaults._chat_file_]:
+            if self.msg_dic[defaults._chat_file_].endswith('.png') or self.msg_dic[defaults._chat_file_].endswith('.jpg'):
+                self.add_image_button()
+            else:
+                self.add_file_button()
+
+    def add_image_button(self):
+        self.file_button = QtWidgets.QPushButton()
+        self.file_button.setMaximumSize(QtCore.QSize(150,150))
+        self.file_button.setMinimumSize(QtCore.QSize(150,150))
+        self.file_button.setIconSize(QtCore.QSize(150,150))
+        self.file_button.setIcon(QtGui.QIcon(self.msg_dic[defaults._chat_file_]))
+        self.file_button.setStyleSheet("background-color:transparent;border-radius:5px;")
+        self.file_button.clicked.connect(lambda:self.show_image(self.msg_dic[defaults._chat_file_]))
+        self.main_frame_layout.addWidget(self.file_button)
+
+    def add_file_button(self):
+        self.file_button = QtWidgets.QPushButton(os.path.basename(self.msg_dic[defaults._chat_file_]))
+        self.file_button.setMaximumSize(QtCore.QSize(150,40))
+        self.file_button.setMinimumSize(QtCore.QSize(150,40))
+        self.file_button.setIconSize(QtCore.QSize(20,20))
+        self.file_button.setIcon(QtGui.QIcon(defaults._chat_file_icon_))
+        self.file_button.setStyleSheet("border-radius:5px;")
+        #self.file_button.clicked.connect(lambda:self.show_image(defaults._wizard_icon_))
+        self.main_frame_layout.addWidget(self.file_button)
+
+    def show_image(self, image):
+        self.image_viewer = ui_image_viewer.Main(image)
+        build.launch_normal_as_child_frameless(self.image_viewer)
+
+    def add_text(self):
+        self.chat_message_label = QtWidgets.QLabel(self.msg_dic[defaults._chat_message_])
+        self.chat_message_label.setWordWrap(True)
+        self.main_frame_layout.addWidget(self.chat_message_label)
         self.font = QtGui.QFont('Segoe UI Emoji', 10)
         self.font.setStyleStrategy(QtGui.QFont.ForceOutline)
-        self.ui.chat_message_text.setFont(self.font)
+        self.chat_message_label.setFont(self.font)
+        if self.user == self.msg_dic[defaults._chat_user_]:
+            self.chat_message_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
 
-        if prefs.user == msg_dic[defaults._chat_user_]:
-            self.ui.main_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
-            self.ui.chat_message_text.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+    def set_user(self):
+        if self.user == self.msg_dic[defaults._chat_user_]:
+            self.setLayoutDirection(QtCore.Qt.RightToLeft)
             self.setStyleSheet('''#messages_frame{background-color:rgba(217, 204, 255, 100);}''')
         else:
-            self.ui.main_frame.setContentsMargins(30,0,0,0)
+            self.main_layout.setContentsMargins(30,0,0,0)
+
+    def build_ui(self):
+        self.main_layout = QtWidgets.QHBoxLayout()
+        self.main_layout.setContentsMargins(0,0,0,0)
+        self.main_frame = QtWidgets.QFrame()
+        self.main_frame.setObjectName("messages_frame")
+        self.main_frame_layout = QtWidgets.QVBoxLayout()
+        self.main_frame.setLayout(self.main_frame_layout)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.main_layout.addWidget(self.main_frame)
+        self.main_layout.addItem(spacerItem)
+        self.setLayout(self.main_layout)
 
 class date_widget(QtWidgets.QLabel):
 

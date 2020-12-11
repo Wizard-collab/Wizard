@@ -8,6 +8,7 @@ importlib.reload(defaults)
 
 import yaml
 import os
+import shutil
 
 import sys
 
@@ -18,6 +19,7 @@ class chat_archives():
     def __init__(self):
 
         self.database = utils.database()
+        self.init_shared_folder()
         
         if self.is_file():
             self.read()
@@ -43,6 +45,23 @@ class chat_archives():
             return 1
         else:
             logger.warning("Room already exists")
+            return None
+
+    def init_shared_folder(self):
+        self.shared_folder = os.path.join(prefs.project_path, defaults._shared_folder_)
+        if not os.path.isdir(self.shared_folder):
+            os.makedirs(self.shared_folder)
+
+    def add_file_to_shared(self, file):
+        if os.path.isfile(file):
+            filename = os.path.basename(file)
+            filename, extension = os.path.splitext(filename)
+            new_filename = "{}{}".format(utils.random_string(), extension)
+            new_file = os.path.join(self.shared_folder, new_filename)
+            shutil.copyfile(file, new_file)
+            return new_file
+        else:
+            logger.warning("The file doesn't exists")
             return None
 
     def get_messages(self):

@@ -428,6 +428,7 @@ _sandbox_icon_ = _icon_path_ + "sandbox.png"
 _missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 _chat_home_ = _icon_path_ + "chat_home.png"
 _chat_no_image_ = _icon_path_ + "chat_no_image.png"
+_attachment_icon_ = _icon_path_ + "attachment.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -1227,6 +1228,8 @@ _chat_general_ = 'general'
 _chat_type_ = 'type'
 _chat_conversation_ = 'conversation'
 _chat_rooms_ = 'rooms'
+_chat_file_ = 'file'
+_chat_asset_ = 'asset'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',

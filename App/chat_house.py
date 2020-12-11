@@ -21,6 +21,7 @@ import room_button
 
 import sys
 import os
+import time
 
 # Init main logger
 logger = log.pipe_log(__name__)
@@ -33,21 +34,17 @@ class Main(QtWidgets.QWidget):
         super(Main, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.chat_archives = chat_archives()
-
         self.client_thread = None
         self.start_client()
-
+        self.archive_thread = None
+        self.start_archive()
         self.contexts_dic = dict()
         self.add_room()
         self.add_project_rooms()
         self.add_users_rooms()
-
         self.select_room()
-
         self.add_messages_archives()
-
         self.connect_functions()
 
     def add_project_rooms(self):
@@ -65,6 +62,7 @@ class Main(QtWidgets.QWidget):
         messages_archives = self.chat_archives.get_messages()
         if messages_archives:
             for message_key in messages_archives.keys():
+                QApplication.processEvents()
                 self.msg_recv(messages_archives[message_key])
 
     def connect_functions(self):
@@ -87,9 +85,19 @@ class Main(QtWidgets.QWidget):
         self.client_thread.start()
         self.client_thread.msg_recv.connect(self.msg_recv)
 
+    def start_archive(self):
+        if self.archive_thread:
+            self.stop_archive()
+        self.archive_thread = archive_thread(self.chat_archives)
+        self.archive_thread.start()
+
     def stop_client(self):
         if self.client_thread:
             self.client_thread.stop()
+
+    def stop_archive(self):
+        if self.archive_thread:
+            self.archive_thread.stop()
 
     def msg_recv(self, msg_dic):
         for context in self.contexts_dic.keys():
@@ -114,11 +122,14 @@ class Main(QtWidgets.QWidget):
     def update_notifs(self, context):
         self.contexts_dic[context][2].add_count()
 
-    def send_msg(self, message_tuple):
-        message_dic = self.client_thread.send_message(message_tuple[0], destination = message_tuple[-1])
-        if message_dic:
-            self.chat_archives.add_message(message_dic)
-
+    def send_msg(self, message_list):
+        if message_list[1]:
+            file = self.chat_archives.add_file_to_shared(message_list[1])
+        else:
+            file = None
+        message_dic = self.client_thread.send_message(message_list[0], file = file, destination = message_list[-1])
+        self.archive_thread.archive_message(message_dic)
+            
     def show_room(self, context):
         self.unselect_all()
         self.ui.chat_house_stackedWidget.setCurrentIndex(self.contexts_dic[context][0])
@@ -135,6 +146,27 @@ class Main(QtWidgets.QWidget):
         else:
             self.ui.chat_house_rooms_frame_layout.addWidget(button)
         return button
+
+class archive_thread(QtCore.QThread):
+    def __init__(self, chat_archives):
+        super(archive_thread, self).__init__()
+        self.chat_archives = chat_archives
+        self.running=1
+        self.message_dic = None
+
+    def run(self):
+        while self.running:
+            if self.message_dic:
+                self.chat_archives.add_message(self.message_dic)
+                self.message_dic=None
+            time.sleep(0.05)
+
+    def archive_message(self, message_dic):
+        self.message_dic = message_dic
+
+    def stop(self):
+        self.running = False
+
 
 class create_room_widget(QtWidgets.QWidget):
     

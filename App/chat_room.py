@@ -26,7 +26,7 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
-    message_signal = pyqtSignal(tuple)
+    message_signal = pyqtSignal(list)
     message_notif = pyqtSignal(str)
 
     def __init__(self, context = defaults._chat_general_):
@@ -36,16 +36,19 @@ class Main(QtWidgets.QWidget):
 
         self.context = context
         self.connected_functions()
-        
-        '''
-        self.client_thread = None
-        self.start_client()
-        '''
 
         self.previous_user = None
         self.previous_date = None
+        self.file = None
+
+        self.update_file()
+
 
     def connected_functions(self):
+        self.ui.chat_room_add_file_pushButton.setIcon(QtGui.QIcon(defaults._attachment_icon_))
+        self.ui.chat_room_add_file_pushButton.clicked.connect(self.attach_file)
+        self.ui.chat_room_remove_file_pushButton.setIcon(QtGui.QIcon(defaults._kill_process_icon_))
+        self.ui.chat_room_remove_file_pushButton.clicked.connect(self.remove_file)
         self.ui.chat_send_pushButton.clicked.connect(self.send_msg)
         self.ui.chat_emoji_pushButton.clicked.connect(self.show_emoji_keyboard)
         self.send_sc = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Return), self)
@@ -54,37 +57,17 @@ class Main(QtWidgets.QWidget):
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
         self.ui.chat_room_context_label.setText(self.context)
 
-    '''
-    def start_client(self):
-        if self.client_thread:
-            self.stop_client()
-
-        self.client_thread = client.chat_client()
-        self.client_thread.start()
-        self.client_thread.msg_recv.connect(self.msg_recv)
-
-    def stop_client(self):
-        if self.client_thread:
-            self.client_thread.stop()
-    '''
-
     def msg_recv(self, msg_dic):
-
         receive = 0
-
         if msg_dic[defaults._chat_user_] == prefs.user and msg_dic[defaults._chat_destination_] == self.context:
             receive = 1
-
         if msg_dic[defaults._chat_user_] == self.context and msg_dic[defaults._chat_destination_] == prefs.user:
             receive = 1
-
         if msg_dic[defaults._chat_destination_] == self.context:
             receive = 1
-
         if receive:
             need_user_widget = 0
             need_date_widget = 0
-
             if self.previous_date:
                 difference = float(msg_dic[defaults._chat_date_]) - float(self.previous_date)
                 if difference >= (5*60):
@@ -92,31 +75,45 @@ class Main(QtWidgets.QWidget):
                     need_user_widget = 1
             else:
                 need_date_widget = 1
-
             if self.previous_user != msg_dic[defaults._chat_user_]:
                 need_user_widget = 1
-                
             if need_date_widget:
                 date_widget = chat_message_widget.date_widget(msg_dic[defaults._chat_date_])
                 self.ui.chat_messages_layout.addWidget(date_widget)
             if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
                 user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
                 self.ui.chat_messages_layout.addWidget(user_widget)
-
             new_msg_widget = chat_message_widget.Main(msg_dic)
             self.ui.chat_messages_layout.addWidget(new_msg_widget)
             self.previous_user = msg_dic[defaults._chat_user_]
             self.previous_date = msg_dic[defaults._chat_date_]
-
             if msg_dic[defaults._chat_user_] != prefs.user:
                 self.message_notif.emit(self.context)
 
+    def attach_file(self):
+        options = QtWidgets.QFileDialog.Options()
+        file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Choose a file", "",
+                                                  "All Files (*);", options=options)
+        if file:
+            self.file = file
+            self.update_file()
+
+    def remove_file(self):
+        self.file = None
+        self.update_file()
+
+    def update_file(self):
+        if not self.file:
+            self.ui.chat_room_files_frame.setVisible(0)
+        else:
+            self.ui.chat_room_file_name_label.setText(os.path.basename(self.file))
+            self.ui.chat_room_files_frame.setVisible(1)
 
     def send_msg(self):
         message = self.ui.chat_message_lineEdit.text()
-        self.message_signal.emit((message, self.context))
-        #self.client_thread.send_message(message, destination=self.context)
+        self.message_signal.emit([message, self.file, self.context])
         self.ui.chat_message_lineEdit.clear()
+        self.remove_file()
 
     def show_emoji_keyboard(self):
         self.emoji_keyboard = emoji_keyboard()

@@ -20,6 +20,18 @@ QWidget {
 	border: 1px solid gray;
 }
 
+#chat_room_remove_file_pushButton{
+	border-radius:10px;
+}
+
+#chat_room_file_frame{
+	border-radius:5px;
+}
+
+#chat_room_files_frame{
+	background:transparent;
+}
+
 #room_button_frame{
 	background-color:rgba(_top_level_widget_color_, 100);
 }
