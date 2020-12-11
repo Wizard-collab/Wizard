@@ -25,8 +25,8 @@ class Main(QtWidgets.QWidget):
         self.msg_dic = msg_dic
         self.user = prefs.user
         self.build_ui()
-        self.fill_ui()
         self.set_user()
+        self.fill_ui()
 
     def fill_ui(self):
         if self.msg_dic[defaults._chat_message_] != '':
@@ -42,10 +42,34 @@ class Main(QtWidgets.QWidget):
         self.file_button.setMaximumSize(QtCore.QSize(150,150))
         self.file_button.setMinimumSize(QtCore.QSize(150,150))
         self.file_button.setIconSize(QtCore.QSize(150,150))
-        self.file_button.setIcon(QtGui.QIcon(self.msg_dic[defaults._chat_file_]))
+        self.round_image(self.file_button, self.msg_dic[defaults._chat_file_])
+        #self.file_button.setIcon(QtGui.QIcon(self.msg_dic[defaults._chat_file_]))
         self.file_button.setStyleSheet("background-color:transparent;border-radius:5px;")
         self.file_button.clicked.connect(lambda:self.show_image(self.msg_dic[defaults._chat_file_]))
         self.main_frame_layout.addWidget(self.file_button)
+        self.main_frame_layout.setContentsMargins(0,0,0,0)
+        self.setStyleSheet('''#messages_frame{background:transparent;}''')
+
+    def round_image(self, label, image):
+        label.Antialiasing = True
+        label.radius = 5
+        label.target = QtGui.QPixmap(label.size())
+        label.target.fill(QtCore.Qt.transparent)
+        p = QtGui.QPixmap(image).scaled(
+            150, 150, QtCore.Qt.KeepAspectRatioByExpanding, QtCore.Qt.SmoothTransformation)
+        painter = QtGui.QPainter(label.target)
+        if label.Antialiasing:
+            painter.setRenderHint(QtGui.QPainter.Antialiasing, True)
+            painter.setRenderHint(QtGui.QPainter.HighQualityAntialiasing, True)
+            painter.setRenderHint(QtGui.QPainter.SmoothPixmapTransform, True)
+        path = QtGui.QPainterPath()
+        path.addRoundedRect(
+            0, 0, label.width(), label.height(), label.radius, label.radius)
+        painter.setClipPath(path)
+        painter.drawPixmap(0, 0, p)
+        icon = QtGui.QIcon()
+        icon.addPixmap(label.target)
+        label.setIcon(icon)
 
     def add_file_button(self):
         self.file_button = QtWidgets.QPushButton(os.path.basename(self.msg_dic[defaults._chat_file_]))
@@ -56,6 +80,8 @@ class Main(QtWidgets.QWidget):
         self.file_button.setStyleSheet("border-radius:5px;")
         #self.file_button.clicked.connect(lambda:self.show_image(defaults._wizard_icon_))
         self.main_frame_layout.addWidget(self.file_button)
+        self.main_frame_layout.setContentsMargins(0,0,0,0)
+        self.setStyleSheet('''#messages_frame{background:transparent;}''')
 
     def show_image(self, image):
         self.image_viewer = ui_image_viewer.Main(image)

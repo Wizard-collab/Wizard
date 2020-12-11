@@ -18,6 +18,7 @@ from wizard.prefs.main import prefs
 
 import sys
 import os
+import time
 
 # Init main logger
 logger = log.pipe_log(__name__)
@@ -111,7 +112,11 @@ class Main(QtWidgets.QWidget):
 
     def send_msg(self):
         message = self.ui.chat_message_lineEdit.text()
-        self.message_signal.emit([message, self.file, self.context])
+        if self.file:
+            self.message_signal.emit(['', self.file, self.context])
+            time.sleep(0.2)
+        if message != '':
+            self.message_signal.emit([message, None, self.context])
         self.ui.chat_message_lineEdit.clear()
         self.remove_file()
 
