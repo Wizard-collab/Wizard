@@ -18,6 +18,14 @@ from wizard.prefs.chat_archives import chat_archives
 from wizard.prefs.stats import stats
 import chat_room
 import room_button
+import random
+from playsound import playsound
+import traceback
+
+import validators
+import requests
+import favicon
+from urllib.parse import urlparse
 
 import sys
 import os
@@ -34,17 +42,19 @@ class Main(QtWidgets.QWidget):
         super(Main, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.url_thread = url_thread()
+        self.url_thread.start()
         self.chat_archives = chat_archives()
         self.client_thread = None
         self.start_client()
         self.archive_thread = None
         self.start_archive()
+        self.get_messages_archives()
         self.contexts_dic = dict()
         self.add_room()
         self.add_project_rooms()
         self.add_users_rooms()
         self.select_room()
-        self.add_messages_archives()
         self.connect_functions()
 
     def add_project_rooms(self):
@@ -58,18 +68,22 @@ class Main(QtWidgets.QWidget):
             if user != prefs.user:
                 self.add_room(user)
 
-    def add_messages_archives(self):
+    def get_messages_archives(self):
         messages_archives = self.chat_archives.get_messages()
         if messages_archives:
+            self.messages_archives = messages_archives
+        else:
+            self.messages_archives = None
+            '''
             for message_key in messages_archives.keys():
                 QApplication.processEvents()
                 self.msg_recv(messages_archives[message_key])
-
+            '''
     def connect_functions(self):
         self.ui.create_room_pushButton.clicked.connect(self.show_create_room_widget)
 
     def create_room(self, room_name):
-        if self.chat_archives.add_room(room_name):
+        if self.chat_archives.create_room(room_name):
             self.add_room(room_name)
 
     def show_create_room_widget(self):
@@ -99,15 +113,46 @@ class Main(QtWidgets.QWidget):
         if self.archive_thread:
             self.archive_thread.stop()
 
-    def msg_recv(self, msg_dic):
+    def msg_recv(self, msg_dic, archive=0):
         for context in self.contexts_dic.keys():
-            self.contexts_dic[context][1].msg_recv(msg_dic)
+            self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
+
+        if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+            if not archive:
+                self.wizz()
+
+    def wizz(self):
+        posx=self.pos().x()
+        posy=self.pos().y()
+
+        try:
+            playsound(os.path.abspath(defaults._wizz_sound_), False)
+        except:
+            logger.info(str(traceback.format_exc()))
+            logger.info("Can't play sound...")
+
+        print(os.path.abspath(defaults._wizz_sound_))
+
+        QApplication.processEvents()    
+        for a in range(15):
+            movex = random.randint(-1, 1)
+            movey = random.randint(-1, 1)
+            self.move(posx + movex*8, posy + + movey*8 )
+            QApplication.processEvents()
+            time.sleep(0.04)
+            QApplication.processEvents()
+
+        self.move(posx, posy)
 
     def add_room(self, context=defaults._chat_general_):
         if context not in self.contexts_dic.keys():
             index, room = self.add_room_widget(context)
             button = self.add_room_button(context, index)
             self.contexts_dic[context] = [index, room, button]
+            if self.messages_archives:
+                room_messages_ids = self.chat_archives.get_room_last_ids(context)
+                for key in room_messages_ids:
+                    self.msg_recv(self.messages_archives[key], 1)
 
     def select_room(self, context = defaults._chat_general_):
         self.contexts_dic[context][2].set_selected()
@@ -163,6 +208,36 @@ class archive_thread(QtCore.QThread):
 
     def archive_message(self, message_dic):
         self.message_dic = message_dic
+
+    def stop(self):
+        self.running = False
+
+class url_thread(QtCore.QThread):
+    def __init__(self):
+        super(url_thread, self).__init__()
+        self.buttons_list = []
+        self.running = True
+
+    def run(self):
+        while self.running:
+            for button_tuple in self.buttons_list:
+                button = button_tuple[0]
+                url = button_tuple[1]
+                site_name = urlparse(url).hostname
+                site_name = site_name.replace('www.', '')
+                icon = favicon.get(url)[0]
+                response = requests.get(icon.url, stream=True)
+                icon_path = '{}.{}'.format(os.path.join(prefs.project_path, defaults._shared_folder_, site_name.split('.')[0]), icon.format)
+                if not os.path.isfile(icon_path):
+                    with open(icon_path, 'wb') as image:
+                        for chunk in response.iter_content(1024):
+                            image.write(chunk)
+                button.setText(site_name + '  ')
+                button.setIcon(QtGui.QIcon(icon_path))
+            time.sleep(0.05)
+
+    def translate_button(self, button_tuple):
+        self.buttons_list.append(button_tuple)
 
     def stop(self):
         self.running = False

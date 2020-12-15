@@ -453,6 +453,7 @@ _sound_path_ = 'ressources/sounds/'
 _tick_sound_ = _sound_path_ + 'tick.wav'
 _bubble_sound_ = _sound_path_ + 'bubble.mp3'
 _woo_sound_ = _sound_path_ + 'woo.mp3'
+_wizz_sound_ = _sound_path_ + 'wizz.mp3'
 
 _tick_key_ = 'Tick'
 _bubble_key_ = 'Bubble'
@@ -1230,6 +1231,9 @@ _chat_conversation_ = 'conversation'
 _chat_rooms_ = 'rooms'
 _chat_file_ = 'file'
 _chat_asset_ = 'asset'
+_chat_rooms_messages_ = 'room_messages'
+_chat_users_messages_ = 'users_messages'
+_chat_wizz_ = 'WIZZ'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',
@@ -1477,9 +1481,5 @@ _index_key_ = 'index'
 
 _wizard_correctly_stopped_ = "Closing wizard..."
 
-_emojis_list_ = ["😀", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊",
-				"😇", "🥰", "😍", "🤩", "😘", "😗", "😚", "😙", "😋", "😛",
-				"😜", "🤪", "😝", "🤑", "🤗", "🤭", "🤫", "🤔", "🤐", "🤨", "😐",
-				"😑", "😶", "😏", "😒", "🙄", "😬", "🤥", "😌", "😔", "😪", "🤤",
-				"😴", "😷", "🤒", "🤕", "🤢", "🤮", "🤧", "🥵", "🥶", "🥴",
-				"😵", "🤯", "🤠", "🥳", "😎", "🤓", "🧐", "😕", "😟", "🙁"]
+_emojis_path_ =  ressources_path('ressources/emojis/')
+_emojis_file_ = _emojis_path_ + 'emojis.yaml'

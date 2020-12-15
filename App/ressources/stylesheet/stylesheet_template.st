@@ -1624,7 +1624,6 @@ QTabWidget::tab-bar {
 QTabBar::tab {
 	border-bottom:2px solid rgb(_middle_level_widget_color_);
 	background-color: rgb(_middle_level_widget_color_);
-    min-width: 80px;
     padding: 7px;
     color : gray;
     margin-right:1px;

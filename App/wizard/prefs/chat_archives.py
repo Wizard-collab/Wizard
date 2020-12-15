@@ -20,7 +20,8 @@ class chat_archives():
 
         self.database = utils.database()
         self.init_shared_folder()
-        
+        self.users = prefs.project_users
+
         if self.is_file():
             self.read()
         else:
@@ -29,18 +30,39 @@ class chat_archives():
     def init_settings(self):
         self.archives_dic = dict()
         self.archives_dic[defaults._chat_messages_] = dict()
-        self.archives_dic[defaults._chat_rooms_] = list()
+        self.archives_dic[defaults._chat_rooms_] = dict()
+        self.archives_dic[defaults._chat_rooms_messages_] = dict()
         self.write()
 
     def add_message(self, msg_dic):
         self.read()
-        self.archives_dic[defaults._chat_messages_][utils.id_based_time()] = msg_dic
+        msg_id = utils.id_based_time()
+        self.archives_dic[defaults._chat_messages_][msg_id] = msg_dic
+
+        self.add_msg_id_to_room(msg_id, msg_dic)
+
         self.write()
 
-    def add_room(self, room_name):
+    def add_msg_id_to_room(self, msg_id, msg_dic):
+        if msg_dic[defaults._chat_destination_] in self.users:
+            key = self.get_user_couple_key(msg_dic[defaults._chat_destination_])
+        else:
+            key = msg_dic[defaults._chat_destination_]
+        if key not in self.archives_dic[defaults._chat_rooms_messages_].keys():
+            self.archives_dic[defaults._chat_rooms_messages_][key] = list()
+        self.archives_dic[defaults._chat_rooms_messages_][key].append(msg_id)
+
+    def get_user_couple_key(self, user):
+        user_couple = [user, prefs.user]
+        user_couple.sort()
+        user_couple_key = '|'.join(user_couple)
+        return user_couple_key
+
+    def create_room(self, room_name):
         self.read()
         if room_name not in self.archives_dic[defaults._chat_rooms_]:
-            self.archives_dic[defaults._chat_rooms_].append(room_name)
+            self.archives_dic[defaults._chat_rooms_][room_name] = dict()
+            self.archives_dic[defaults._chat_rooms_][room_name][defaults._users_list_key_] = []
             self.write()
             return 1
         else:
@@ -55,9 +77,10 @@ class chat_archives():
     def add_file_to_shared(self, file):
         if os.path.isfile(file):
             filename = os.path.basename(file)
-            filename, extension = os.path.splitext(filename)
-            new_filename = "{}{}".format(utils.random_string(), extension)
-            new_file = os.path.join(self.shared_folder, new_filename)
+            #filename, extension = os.path.splitext(filename)
+            #new_filename = "{}{}".format(utils.random_string(), extension)
+            new_file = utils.get_filename_without_override(os.path.join(self.shared_folder, filename))
+            print(new_file)
             shutil.copyfile(file, new_file)
             return new_file
         else:
@@ -70,9 +93,19 @@ class chat_archives():
         else:
             return None
 
+    def get_room_last_ids(self, room, number=10):
+        if room not in self.users:
+            key = room
+        else:
+            key = self.get_user_couple_key(room)
+        if key in self.archives_dic[defaults._chat_rooms_messages_].keys():
+            return self.archives_dic[defaults._chat_rooms_messages_][key][-number:]
+        else:
+            return []
+
     def get_rooms(self):
         if self.read():
-            return self.archives_dic[defaults._chat_rooms_]
+            return list(self.archives_dic[defaults._chat_rooms_].keys())
         else:
             return None
 

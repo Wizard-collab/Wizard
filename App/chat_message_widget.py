@@ -9,6 +9,9 @@ from datetime import datetime
 from wizard.tools import utility as utils
 import ui_image_viewer
 import os
+import traceback
+import webbrowser
+import validators
 
 logger = log.pipe_log(__name__)
 
@@ -16,7 +19,7 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
-    def __init__(self, msg_dic):
+    def __init__(self, msg_dic, url_thread):
         super(Main, self).__init__()
         '''
         self.ui = Ui_Form()
@@ -24,18 +27,43 @@ class Main(QtWidgets.QWidget):
         '''
         self.msg_dic = msg_dic
         self.user = prefs.user
+        self.url_thread = url_thread
         self.build_ui()
         self.set_user()
         self.fill_ui()
 
     def fill_ui(self):
         if self.msg_dic[defaults._chat_message_] != '':
-            self.add_text()
+            message_splitted = self.msg_dic[defaults._chat_message_].split(' ')
+            url = None
+            for item in message_splitted:
+                if validators.url(item):
+                    self.msg_dic[defaults._chat_message_] = self.msg_dic[defaults._chat_message_].replace(item, '')
+                    url = item
+                    break
+            if self.msg_dic[defaults._chat_message_] != '':
+                self.add_text()
+            if url:
+                self.add_url(url, self.msg_dic[defaults._chat_message_])
+
         if self.msg_dic[defaults._chat_file_]:
             if self.msg_dic[defaults._chat_file_].endswith('.png') or self.msg_dic[defaults._chat_file_].endswith('.jpg'):
                 self.add_image_button()
             else:
                 self.add_file_button()
+
+    def add_url(self, url, text):
+        self.url_button = QtWidgets.QPushButton(url)
+        self.url_button.setMaximumSize(QtCore.QSize(200,40))
+        self.url_button.setMinimumSize(QtCore.QSize(200,40))
+        self.url_button.setIconSize(QtCore.QSize(20,20))
+        self.url_button.setStyleSheet("border-radius:5px;")
+        self.url_button.clicked.connect(lambda:self.start_web(url))
+        self.main_frame_layout.addWidget(self.url_button)
+        if text == '':
+            self.main_frame_layout.setContentsMargins(0,0,0,0)
+            self.setStyleSheet('''#messages_frame{background:transparent;}''')
+        self.url_thread.translate_button((self.url_button, url))
 
     def add_image_button(self):
         self.file_button = QtWidgets.QPushButton()
@@ -78,10 +106,20 @@ class Main(QtWidgets.QWidget):
         self.file_button.setIconSize(QtCore.QSize(20,20))
         self.file_button.setIcon(QtGui.QIcon(defaults._chat_file_icon_))
         self.file_button.setStyleSheet("border-radius:5px;")
-        #self.file_button.clicked.connect(lambda:self.show_image(defaults._wizard_icon_))
+        self.file_button.clicked.connect(lambda:self.start_file(self.msg_dic[defaults._chat_file_]))
         self.main_frame_layout.addWidget(self.file_button)
         self.main_frame_layout.setContentsMargins(0,0,0,0)
         self.setStyleSheet('''#messages_frame{background:transparent;}''')
+
+    def start_file(self, file):
+        try:
+            if os.path.isfile(file):
+                os.startfile(file)
+        except:
+            logger.critical(str(traceback.format_exc()))
+
+    def start_web(self, url):
+        webbrowser.open(url, new=0, autoraise=True)
 
     def show_image(self, image):
         self.image_viewer = ui_image_viewer.Main(image)

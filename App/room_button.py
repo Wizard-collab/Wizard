@@ -26,6 +26,7 @@ class Main(QtWidgets.QWidget):
         self.count = 0
 
         self.fill_ui()
+        self.unselect()
 
     def fill_ui(self):
         self.ui.room_button_name_label.setText(self.context)

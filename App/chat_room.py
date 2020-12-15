@@ -14,11 +14,14 @@ from wizard.tools import log
 from wizard.vars import defaults
 from wizard.chat_test import client
 import chat_message_widget
+from wizard.prefs.stats import stats
 from wizard.prefs.main import prefs
 
 import sys
 import os
 import time
+import yaml
+
 
 # Init main logger
 logger = log.pipe_log(__name__)
@@ -42,11 +45,24 @@ class Main(QtWidgets.QWidget):
         self.previous_date = None
         self.file = None
 
+        self.users = prefs.project_users
+
         self.update_file()
 
 
     def connected_functions(self):
         self.ui.chat_room_add_file_pushButton.setIcon(QtGui.QIcon(defaults._attachment_icon_))
+
+        if self.context == defaults._chat_general_:
+            image = defaults._chat_home_
+        else:
+            if self.context in prefs.site.users:
+                image = stats(self.context).get_avatar()
+            else:
+                image = defaults._chat_no_image_
+
+        self.rounded_pixmap_label(self.ui.chat_room_image_label, image)
+
         self.ui.chat_room_add_file_pushButton.clicked.connect(self.attach_file)
         self.ui.chat_room_remove_file_pushButton.setIcon(QtGui.QIcon(defaults._kill_process_icon_))
         self.ui.chat_room_remove_file_pushButton.clicked.connect(self.remove_file)
@@ -58,13 +74,14 @@ class Main(QtWidgets.QWidget):
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
         self.ui.chat_room_context_label.setText(self.context)
 
-    def msg_recv(self, msg_dic):
+    def msg_recv(self, msg_dic, url_thread):
         receive = 0
+
         if msg_dic[defaults._chat_user_] == prefs.user and msg_dic[defaults._chat_destination_] == self.context:
             receive = 1
         if msg_dic[defaults._chat_user_] == self.context and msg_dic[defaults._chat_destination_] == prefs.user:
             receive = 1
-        if msg_dic[defaults._chat_destination_] == self.context:
+        if msg_dic[defaults._chat_destination_] == self.context and msg_dic[defaults._chat_destination_] not in self.users:
             receive = 1
         if receive:
             need_user_widget = 0
@@ -84,7 +101,7 @@ class Main(QtWidgets.QWidget):
             if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
                 user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
                 self.ui.chat_messages_layout.addWidget(user_widget)
-            new_msg_widget = chat_message_widget.Main(msg_dic)
+            new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
             self.ui.chat_messages_layout.addWidget(new_msg_widget)
             self.previous_user = msg_dic[defaults._chat_user_]
             self.previous_date = msg_dic[defaults._chat_date_]
@@ -129,44 +146,71 @@ class Main(QtWidgets.QWidget):
         text = self.ui.chat_message_lineEdit.text() + emoji
         self.ui.chat_message_lineEdit.setText(text)
 
+    def rounded_pixmap_label(self, label, image_file):
+        pixmap = QtGui.QPixmap(image_file).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
+                                                    QtCore.Qt.SmoothTransformation)
+        radius = 10
+
+        # create empty pixmap of same size as original 
+        rounded = QtGui.QPixmap(pixmap.size())
+        rounded.fill(QtGui.QColor("transparent"))
+
+        # draw rounded rect on new pixmap using original pixmap as brush
+        painter = QtGui.QPainter(rounded)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        painter.setBrush(QtGui.QBrush(pixmap))
+        painter.setPen(QtCore.Qt.NoPen)
+        painter.drawRoundedRect(pixmap.rect(), radius, radius)
+        painter.end()
+
+        # set pixmap of label
+        label.setPixmap(rounded)
+
 class emoji_keyboard(QtWidgets.QWidget):
 
     emoji_signal = pyqtSignal(str)
 
     def __init__(self):
         super(emoji_keyboard, self).__init__()
-
         self.widget_layout = QtWidgets.QVBoxLayout()
         self.widget_layout.setContentsMargins(0,0,0,0)
         self.setLayout(self.widget_layout)
         self.main_frame = QtWidgets.QFrame()
         self.widget_layout.addWidget(self.main_frame)
         self.frame_layout = QtWidgets.QVBoxLayout()
+        self.frame_layout.setContentsMargins(0,0,0,0)
         self.main_frame.setLayout(self.frame_layout)
-
-        self.list_widget = QtWidgets.QListWidget()
-        self.frame_layout.addWidget(self.list_widget)
-        self.list_widget.setMovement(QtWidgets.QListView.Static)
-        self.list_widget.setResizeMode(QtWidgets.QListView.Adjust)
-        self.list_widget.setViewMode(QtWidgets.QListView.IconMode)
-        self.list_widget.setStyleSheet("background:transparent;")
-        self.list_widget.itemClicked.connect(self.add_emoji)
-        self.fill_ui()
-
+        self.tabWidget = QtWidgets.QTabWidget()
+        self.tabWidget.setStyleSheet('''QTabBar::tab{height:30px;width:30px;padding:6px;margin:0px;}
+            QTabWidget::pane{background-color:transparent;}''')
+        self.frame_layout.addWidget(self.tabWidget)
         self.font = QtGui.QFont('Arial', 15)
-        self.list_widget.setFont(self.font)
-
-        self.setMinimumSize(QtCore.QSize(300, 300))
-        self.setMaximumSize(QtCore.QSize(300, 300))
+        self.fill_ui()
+        self.setMinimumSize(QtCore.QSize(400, 400))
+        self.setMaximumSize(QtCore.QSize(400, 400))
 
     def add_emoji(self, item):
         self.emoji_signal.emit(item.text())
 
     def fill_ui(self):
-        for emoji in defaults._emojis_list_:
+        with open(defaults._emojis_file_, 'r') as f:
+            emojis_dic = yaml.load(f, Loader=yaml.Loader)
+        for category in emojis_dic.keys():
+            self.add_tab(category, emojis_dic[category])
+
+    def add_tab(self, category, data):
+        list_widget = QtWidgets.QListWidget()
+        list_widget.setMovement(QtWidgets.QListView.Static)
+        list_widget.setResizeMode(QtWidgets.QListView.Adjust)
+        list_widget.setViewMode(QtWidgets.QListView.IconMode)
+        list_widget.setStyleSheet("background:transparent;")
+        list_widget.itemClicked.connect(self.add_emoji)
+        list_widget.setFont(self.font)
+        for emoji in list(data):
             item = QtWidgets.QListWidgetItem(emoji)
             item.setSizeHint(QtCore.QSize(50, 50))
-            self.list_widget.addItem(item)
+            list_widget.addItem(item)
+        self.tabWidget.addTab(list_widget, list(data)[0])
 
     def move_ui(self):
         win_size = (self.frameSize().width(), self.frameSize().height())
