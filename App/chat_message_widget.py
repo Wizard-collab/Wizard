@@ -81,7 +81,7 @@ class Main(QtWidgets.QWidget):
         self.setStyleSheet('''#messages_frame{background:transparent;}''')
 
     def add_user_view(self, user):
-        if user not in list(self.users_views_dic.keys()):
+        if (user not in list(self.users_views_dic.keys())) and (user != self.user) and (user != self.msg_dic[defaults._chat_user_]):
             user_label = QtWidgets.QLabel()
 
             user_label = QtWidgets.QLabel()
@@ -93,6 +93,7 @@ class Main(QtWidgets.QWidget):
             self.round_image_label(user_label, stats(user).get_avatar())
             self.users_views_dic[user] = user_label
             self.users_views_layout.addWidget(user_label)
+
         self.toggle_users_view_layout()
 
     def remove_user_view(self, user):
@@ -209,37 +210,49 @@ class Main(QtWidgets.QWidget):
 
     def set_user(self):
         if self.user == self.msg_dic[defaults._chat_user_]:
-            self.setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.horizontal_frame.setLayoutDirection(QtCore.Qt.LeftToRight)
             self.setStyleSheet('''#messages_frame{background-color:rgba(217, 204, 255, 30);}''')
             self.users_views_frame.setLayoutDirection(QtCore.Qt.LeftToRight)
         else:
             self.main_layout.setContentsMargins(30,0,0,0)
+            self.horizontal_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
+            self.users_views_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
 
     def build_ui(self):
-        self.main_layout = QtWidgets.QHBoxLayout()
+        self.main_layout = QtWidgets.QVBoxLayout()
         self.main_layout.setContentsMargins(0,0,0,0)
-        self.vertical_layout = QtWidgets.QVBoxLayout()
-        self.vertical_layout.setContentsMargins(0,0,0,0)
+
+        self.horizontal_frame = QtWidgets.QFrame()
+        self.horizontal_frame.setObjectName('horizontal_frame')
+        self.horizontal_frame.setStyleSheet('#horizontal_frame{background-color:transparent;}')
+        self.main_layout.addWidget(self.horizontal_frame)
+
+        self.horizontal_layout = QtWidgets.QHBoxLayout()
+        self.horizontal_layout.setContentsMargins(0,0,0,0)
+        self.horizontal_frame.setLayout(self.horizontal_layout)
+
         self.main_frame = QtWidgets.QFrame()
+        #self.horizontal_layout.addWidget(self.main_frame)
         self.main_frame.setObjectName("messages_frame")
         self.main_frame_layout = QtWidgets.QVBoxLayout()
         self.main_frame.setLayout(self.main_frame_layout)
+
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.vertical_layout.addWidget(self.main_frame)
-        self.vertical_layout.setSpacing(1)
+        self.horizontal_layout.addItem(spacerItem)
+        self.horizontal_layout.addWidget(self.main_frame)
+        self.horizontal_layout.setSpacing(1)
+        #self.main_layout.addWidget(self.horizontal_frame)
 
         self.users_views_frame = QtWidgets.QFrame()
         self.users_views_frame.setStyleSheet('background-color:transparent;')
-        self.vertical_layout.addWidget(self.users_views_frame)
+        self.main_layout.addWidget(self.users_views_frame)
 
         self.users_views_layout = QtWidgets.QHBoxLayout()
         self.users_views_layout.setContentsMargins(0,0,0,0)
         self.users_views_layout.setSpacing(1)
-        self.spacerItem_2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.spacerItem_2 = QtWidgets.QSpacerItem(0, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.users_views_layout.addItem(self.spacerItem_2)
         self.users_views_frame.setLayout(self.users_views_layout)
-        self.main_layout.addLayout(self.vertical_layout)
-        self.main_layout.addItem(spacerItem)
         self.setLayout(self.main_layout)
 
 class date_widget(QtWidgets.QLabel):
