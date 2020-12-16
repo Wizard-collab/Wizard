@@ -58,9 +58,10 @@ class Main(QtWidgets.QWidget):
     def update_user_view(self, user, message_key):
         if message_key:
             if user in self.users_views.keys():
-                self.room_messages_dic[self.users_views[user]].remove_user_view(user)
-            self.users_views[user] = message_key
+                if self.users_views[user] in self.room_messages_dic.keys():
+                    self.room_messages_dic[self.users_views[user]].remove_user_view(user)
             if message_key in self.room_messages_dic.keys():
+                self.users_views[user] = message_key
                 self.room_messages_dic[message_key].add_user_view(user)
 
     def connected_functions(self):
