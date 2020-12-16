@@ -32,6 +32,7 @@ class Main(QtWidgets.QWidget):
         self.build_ui()
         self.set_user()
         self.fill_ui()
+        self.toggle_users_view_layout()
 
     def fill_ui(self):
         if self.msg_dic[defaults._chat_message_] != '':
@@ -81,9 +82,18 @@ class Main(QtWidgets.QWidget):
 
     def add_user_view(self, user):
         if user not in list(self.users_views_dic.keys()):
-            user_label = QtWidgets.QLabel(user)
+            user_label = QtWidgets.QLabel()
+
+            user_label = QtWidgets.QLabel()
+            user_label.setMinimumSize(QtCore.QSize(26, 26))
+            user_label.setMaximumSize(QtCore.QSize(26, 26))
+            user_label.setText("")
+            user_label.setAlignment(QtCore.Qt.AlignCenter)
+
+            self.round_image_label(user_label, stats(user).get_avatar())
             self.users_views_dic[user] = user_label
             self.users_views_layout.addWidget(user_label)
+        self.toggle_users_view_layout()
 
     def remove_user_view(self, user):
         if user in list(self.users_views_dic.keys()):
@@ -91,6 +101,33 @@ class Main(QtWidgets.QWidget):
             self.users_views_dic[user].setParent(None)
             self.users_views_dic[user].deleteLater()
             del self.users_views_dic[user]
+        self.toggle_users_view_layout()
+
+    def toggle_users_view_layout(self):
+        if list(self.users_views_dic.keys()) == []:
+            self.users_views_frame.setVisible(0)
+        else:
+            self.users_views_frame.setVisible(1)
+
+    def round_image_label(self, label, image_file):
+        pixmap = QtGui.QPixmap(image_file).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
+                                                    QtCore.Qt.SmoothTransformation)
+        radius = 10
+
+        # create empty pixmap of same size as original 
+        rounded = QtGui.QPixmap(pixmap.size())
+        rounded.fill(QtGui.QColor("transparent"))
+
+        # draw rounded rect on new pixmap using original pixmap as brush
+        painter = QtGui.QPainter(rounded)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        painter.setBrush(QtGui.QBrush(pixmap))
+        painter.setPen(QtCore.Qt.NoPen)
+        painter.drawRoundedRect(pixmap.rect(), radius, radius)
+        painter.end()
+
+        # set pixmap of label
+        label.setPixmap(rounded)
 
     def round_image(self, label, image):
         label.Antialiasing = True
@@ -174,6 +211,7 @@ class Main(QtWidgets.QWidget):
         if self.user == self.msg_dic[defaults._chat_user_]:
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
             self.setStyleSheet('''#messages_frame{background-color:rgba(217, 204, 255, 30);}''')
+            self.users_views_frame.setLayoutDirection(QtCore.Qt.LeftToRight)
         else:
             self.main_layout.setContentsMargins(30,0,0,0)
 
@@ -188,8 +226,18 @@ class Main(QtWidgets.QWidget):
         self.main_frame.setLayout(self.main_frame_layout)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.vertical_layout.addWidget(self.main_frame)
+        self.vertical_layout.setSpacing(1)
+
+        self.users_views_frame = QtWidgets.QFrame()
+        self.users_views_frame.setStyleSheet('background-color:transparent;')
+        self.vertical_layout.addWidget(self.users_views_frame)
+
         self.users_views_layout = QtWidgets.QHBoxLayout()
-        self.vertical_layout.addLayout(self.users_views_layout)
+        self.users_views_layout.setContentsMargins(0,0,0,0)
+        self.users_views_layout.setSpacing(1)
+        self.spacerItem_2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.users_views_layout.addItem(self.spacerItem_2)
+        self.users_views_frame.setLayout(self.users_views_layout)
         self.main_layout.addLayout(self.vertical_layout)
         self.main_layout.addItem(spacerItem)
         self.setLayout(self.main_layout)
