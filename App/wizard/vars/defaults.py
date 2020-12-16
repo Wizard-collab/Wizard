@@ -1237,6 +1237,7 @@ _chat_rooms_messages_ = 'room_messages'
 _chat_users_messages_ = 'users_messages'
 _chat_wizz_ = 'WIZZ'
 _chat_users_ = 'users'
+_chat_seen_ = 'seen'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',

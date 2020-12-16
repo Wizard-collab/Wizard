@@ -47,7 +47,6 @@ class chat_client(QThread):
                     message_bytes = self.server.recv(1024)
                     message_dic = yaml.load(message_bytes.decode('utf8'), Loader = yaml.Loader)
                     self.msg_recv.emit(message_dic)
-
                 except ConnectionResetError:
                     self.is_server = 0
                 except:
@@ -74,6 +73,19 @@ class chat_client(QThread):
 
             self.server.send(message_bytes)
 
+            return message_dic
+        else:
+            return None
+
+    def send_seen(self, message_key, user = prefs.user, destination = defaults._chat_general_):
+        if self.is_server and self.running:
+            message_dic = dict()
+            message_dic[defaults._chat_type_] = defaults._chat_seen_
+            message_dic[defaults._chat_user_] = user
+            message_dic[defaults._chat_destination_] = destination
+            message_dic[defaults._chat_key_] = message_key
+            message_bytes = yaml.dump(message_dic).encode('utf8')
+            self.server.send(message_bytes)
             return message_dic
         else:
             return None
