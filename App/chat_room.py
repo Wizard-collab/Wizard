@@ -32,6 +32,7 @@ class Main(QtWidgets.QWidget):
 
     message_signal = pyqtSignal(list)
     message_notif = pyqtSignal(str)
+    wizz = pyqtSignal(str)
 
     def __init__(self, context = defaults._chat_general_):
         super(Main, self).__init__()
@@ -44,14 +45,27 @@ class Main(QtWidgets.QWidget):
         self.previous_user = None
         self.previous_date = None
         self.file = None
+        self.seen = None
+        self.emoji_list = []
 
+        self.users_views = dict()
         self.users = prefs.project_users
+        self.room_messages_dic = dict()
 
         self.update_file()
 
+    def update_user_view(self, user, message_key):
+        if message_key:
+            if user in self.users_views.keys():
+                self.room_messages_dic[self.users_views[user]].remove_user_view(user)
+            self.users_views[user] = message_key
+            self.room_messages_dic[message_key].add_user_view(user)
 
     def connected_functions(self):
         self.ui.chat_room_add_file_pushButton.setIcon(QtGui.QIcon(defaults._attachment_icon_))
+        self.ui.chat_send_pushButton.setIcon(QtGui.QIcon(defaults._send_message_icon_))
+        self.ui.chat_emoji_pushButton.setIcon(QtGui.QIcon(defaults._emoji_icon_))
+        self.ui.chat_message_lineEdit.textChanged.connect(self.analyse_text)
 
         if self.context == defaults._chat_general_:
             image = defaults._chat_home_
@@ -73,6 +87,16 @@ class Main(QtWidgets.QWidget):
         area_scroll_bar = self.ui.scrollArea.verticalScrollBar()
         area_scroll_bar.rangeChanged.connect(lambda: area_scroll_bar.setValue(area_scroll_bar.maximum()))
         self.ui.chat_room_context_label.setText(self.context)
+
+    def add_message_to_room_dic(self, message_key, message_widget):
+        self.room_messages_dic[message_key] = message_widget
+
+    def set_seen(self):
+        if list(self.room_messages_dic.keys()) != []:
+            self.seen = list(self.room_messages_dic.keys())[-1]
+        else:
+            self.seen = None
+        self.update_user_view(prefs.user, self.seen)
 
     def msg_recv(self, msg_dic, url_thread):
         receive = 0
@@ -108,6 +132,35 @@ class Main(QtWidgets.QWidget):
             if msg_dic[defaults._chat_user_] != prefs.user:
                 self.message_notif.emit(self.context)
 
+            if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+                self.wizz.emit('')
+
+            self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
+            if self.isVisible():
+                self.set_seen()
+
+    def analyse_text(self):
+        text = self.ui.chat_message_lineEdit.text()
+        if ':)' in text:
+            text = text.replace(':)', '🙂')
+            self.emoji_list.append('🙂')
+        if ':(' in text:
+            text = text.replace(':(', '🙁')
+            self.emoji_list.append('🙁')
+        if ':p' in text:
+            text = text.replace(':p', '😋')
+            self.emoji_list.append('😋')
+        if '<3' in text:
+            text = text.replace('<3', '❤')
+            self.emoji_list.append('❤')
+        if ':D' in text:
+            text = text.replace(':D', '😀')
+            self.emoji_list.append('😀')
+        if ';)' in text:
+            text = text.replace(';)', '😉')
+            self.emoji_list.append('😉')
+        self.ui.chat_message_lineEdit.setText(text)
+
     def attach_file(self):
         options = QtWidgets.QFileDialog.Options()
         file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Choose a file", "",
@@ -133,16 +186,20 @@ class Main(QtWidgets.QWidget):
             self.message_signal.emit(['', self.file, self.context])
             time.sleep(0.2)
         if message != '':
+            for emoji in self.emoji_list:
+                message = message.replace(emoji, '<font style="font-size:24px;">{}</font>'.format(emoji))
             self.message_signal.emit([message, None, self.context])
         self.ui.chat_message_lineEdit.clear()
         self.remove_file()
+        self.emoji_list = []
 
     def show_emoji_keyboard(self):
         self.emoji_keyboard = emoji_keyboard()
         self.emoji_keyboard.emoji_signal.connect(self.add_emoji)
-        build.launch_running(self.emoji_keyboard)
+        build.launch_position_frameless_ontop_as_child(self.emoji_keyboard)
 
     def add_emoji(self, emoji):
+        self.emoji_list.append(emoji)
         text = self.ui.chat_message_lineEdit.text() + emoji
         self.ui.chat_message_lineEdit.setText(text)
 
@@ -173,7 +230,7 @@ class emoji_keyboard(QtWidgets.QWidget):
     def __init__(self):
         super(emoji_keyboard, self).__init__()
         self.widget_layout = QtWidgets.QVBoxLayout()
-        self.widget_layout.setContentsMargins(0,0,0,0)
+        self.widget_layout.setContentsMargins(11,11,11,11)
         self.setLayout(self.widget_layout)
         self.main_frame = QtWidgets.QFrame()
         self.widget_layout.addWidget(self.main_frame)
@@ -186,8 +243,8 @@ class emoji_keyboard(QtWidgets.QWidget):
         self.frame_layout.addWidget(self.tabWidget)
         self.font = QtGui.QFont('Arial', 15)
         self.fill_ui()
-        self.setMinimumSize(QtCore.QSize(400, 400))
-        self.setMaximumSize(QtCore.QSize(400, 400))
+        self.setMinimumSize(QtCore.QSize(382, 400))
+        self.setMaximumSize(QtCore.QSize(382, 400))
 
     def add_emoji(self, item):
         self.emoji_signal.emit(item.text())

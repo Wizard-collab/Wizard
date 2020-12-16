@@ -344,6 +344,7 @@ _chat_icon_notif_ = _icon_path_ + 'chat_notif.png'
 _welcome_image_ = _icon_path_ + 'welcome.png'
 _server_icon_ = _icon_path_ + 'server.png'
 _send_message_icon_ = _icon_path_ + 'send.png'
+_emoji_icon_ = _icon_path_ + 'emoji.png'
 _join_file_icon_ = _icon_path_ + 'join_file.png'
 _server_on_icon_ = _icon_path_ + 'server_on.png'
 _server_off_icon_ = _icon_path_ + 'server_off.png'
@@ -1222,6 +1223,7 @@ _message_label_ = "message_content"
 _chat_user_ = 'user'
 _chat_project_ = 'project'
 _chat_message_ = 'message'
+_chat_key_ = 'key'
 _chat_messages_ = 'messages'
 _chat_date_ = 'date'
 _chat_destination_ = 'destination'
@@ -1234,6 +1236,7 @@ _chat_asset_ = 'asset'
 _chat_rooms_messages_ = 'room_messages'
 _chat_users_messages_ = 'users_messages'
 _chat_wizz_ = 'WIZZ'
+_chat_users_ = 'users'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',

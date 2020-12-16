@@ -34,12 +34,11 @@ class chat_archives():
         self.archives_dic[defaults._chat_rooms_messages_] = dict()
         self.write()
 
-    def add_message(self, msg_dic):
+    def add_message(self, message_key, msg_dic):
         self.read()
-        msg_id = utils.id_based_time()
-        self.archives_dic[defaults._chat_messages_][msg_id] = msg_dic
+        self.archives_dic[defaults._chat_messages_][message_key] = msg_dic
 
-        self.add_msg_id_to_room(msg_id, msg_dic)
+        self.add_msg_id_to_room(message_key, msg_dic)
 
         self.write()
 

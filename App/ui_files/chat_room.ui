@@ -96,7 +96,7 @@
         <x>0</x>
         <y>0</y>
         <width>369</width>
-        <height>444</height>
+        <height>438</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="scrollAreaLayout">
@@ -265,13 +265,13 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>28</height>
+          <height>34</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>28</height>
+          <height>34</height>
          </size>
         </property>
        </widget>
@@ -280,14 +280,14 @@
        <widget class="QPushButton" name="chat_room_add_file_pushButton">
         <property name="minimumSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="text">
@@ -299,18 +299,18 @@
        <widget class="QPushButton" name="chat_emoji_pushButton">
         <property name="minimumSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>28</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="text">
-         <string>😃</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -324,18 +324,18 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>80</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>80</width>
-          <height>28</height>
+          <width>34</width>
+          <height>34</height>
          </size>
         </property>
         <property name="text">
-         <string>send</string>
+         <string/>
         </property>
        </widget>
       </item>

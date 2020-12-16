@@ -117,22 +117,14 @@ class Main(QtWidgets.QWidget):
         for context in self.contexts_dic.keys():
             self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
 
-        if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
-            if not archive:
-                self.wizz()
-
     def wizz(self):
         posx=self.pos().x()
         posy=self.pos().y()
-
         try:
             playsound(os.path.abspath(defaults._wizz_sound_), False)
         except:
             logger.info(str(traceback.format_exc()))
             logger.info("Can't play sound...")
-
-        print(os.path.abspath(defaults._wizz_sound_))
-
         QApplication.processEvents()    
         for a in range(15):
             movex = random.randint(-1, 1)
@@ -141,7 +133,6 @@ class Main(QtWidgets.QWidget):
             QApplication.processEvents()
             time.sleep(0.04)
             QApplication.processEvents()
-
         self.move(posx, posy)
 
     def add_room(self, context=defaults._chat_general_):
@@ -161,6 +152,7 @@ class Main(QtWidgets.QWidget):
         room = chat_room.Main(context)
         room.message_signal.connect(self.send_msg)
         room.message_notif.connect(self.update_notifs)
+        room.wizz.connect(self.wizz)
         index = self.ui.chat_house_stackedWidget.addWidget(room)
         return (index, room)
 
@@ -172,12 +164,14 @@ class Main(QtWidgets.QWidget):
             file = self.chat_archives.add_file_to_shared(message_list[1])
         else:
             file = None
-        message_dic = self.client_thread.send_message(message_list[0], file = file, destination = message_list[-1])
-        self.archive_thread.archive_message(message_dic)
+        message_key = utils.id_based_time()
+        message_dic = self.client_thread.send_message(message_list[0], message_key = message_key, file = file, destination = message_list[-1])
+        self.archive_thread.archive_message(message_key, message_dic)
             
     def show_room(self, context):
         self.unselect_all()
         self.ui.chat_house_stackedWidget.setCurrentIndex(self.contexts_dic[context][0])
+        self.contexts_dic[context][1].set_seen()
 
     def unselect_all(self):
         for context in  self.contexts_dic.keys():
@@ -202,12 +196,12 @@ class archive_thread(QtCore.QThread):
     def run(self):
         while self.running:
             if self.message_dic:
-                self.chat_archives.add_message(self.message_dic)
+                self.chat_archives.add_message(self.message_dic[0], self.message_dic[-1])
                 self.message_dic=None
             time.sleep(0.05)
 
-    def archive_message(self, message_dic):
-        self.message_dic = message_dic
+    def archive_message(self, message_key, message_dic):
+        self.message_dic = [message_key, message_dic]
 
     def stop(self):
         self.running = False

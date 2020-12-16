@@ -28,6 +28,7 @@ class Main(QtWidgets.QWidget):
         self.msg_dic = msg_dic
         self.user = prefs.user
         self.url_thread = url_thread
+        self.users_views_dic = dict()
         self.build_ui()
         self.set_user()
         self.fill_ui()
@@ -78,6 +79,19 @@ class Main(QtWidgets.QWidget):
         self.main_frame_layout.setContentsMargins(0,0,0,0)
         self.setStyleSheet('''#messages_frame{background:transparent;}''')
 
+    def add_user_view(self, user):
+        if user not in list(self.users_views_dic.keys()):
+            user_label = QtWidgets.QLabel(user)
+            self.users_views_dic[user] = user_label
+            self.users_views_layout.addWidget(user_label)
+
+    def remove_user_view(self, user):
+        if user in list(self.users_views_dic.keys()):
+            self.users_views_dic[user].setVisible(0)
+            self.users_views_dic[user].setParent(None)
+            self.users_views_dic[user].deleteLater()
+            del self.users_views_dic[user]
+
     def round_image(self, label, image):
         label.Antialiasing = True
         label.radius = 5
@@ -126,7 +140,28 @@ class Main(QtWidgets.QWidget):
         build.launch_normal_as_child_frameless(self.image_viewer)
 
     def add_text(self):
-        self.chat_message_label = QtWidgets.QLabel(self.msg_dic[defaults._chat_message_])
+        text = self.msg_dic[defaults._chat_message_]
+        max_len = 16
+
+        parts = text.split(' ')
+        new_parts = []
+
+        for text in parts:
+            begin = text[:max_len]
+            end = text[max_len:]
+            while len(end) >= max_len:
+                begin += "\n" + end[:max_len]
+                end = end[max_len:]
+            begin += "\n" + end[:max_len]
+            end = end[max_len:]
+            text = begin + end
+            new_parts.append(text)
+
+        text = ' '.join(new_parts)
+
+        self.chat_message_label = QtWidgets.QLabel(text)
+        self.chat_message_label.setTextFormat(QtCore.Qt.RichText)
+        self.chat_message_label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.chat_message_label.setWordWrap(True)
         self.main_frame_layout.addWidget(self.chat_message_label)
         self.font = QtGui.QFont('Segoe UI Emoji', 10)
@@ -138,19 +173,24 @@ class Main(QtWidgets.QWidget):
     def set_user(self):
         if self.user == self.msg_dic[defaults._chat_user_]:
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
-            self.setStyleSheet('''#messages_frame{background-color:rgba(217, 204, 255, 100);}''')
+            self.setStyleSheet('''#messages_frame{background-color:rgba(217, 204, 255, 30);}''')
         else:
             self.main_layout.setContentsMargins(30,0,0,0)
 
     def build_ui(self):
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setContentsMargins(0,0,0,0)
+        self.vertical_layout = QtWidgets.QVBoxLayout()
+        self.vertical_layout.setContentsMargins(0,0,0,0)
         self.main_frame = QtWidgets.QFrame()
         self.main_frame.setObjectName("messages_frame")
         self.main_frame_layout = QtWidgets.QVBoxLayout()
         self.main_frame.setLayout(self.main_frame_layout)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.main_layout.addWidget(self.main_frame)
+        self.vertical_layout.addWidget(self.main_frame)
+        self.users_views_layout = QtWidgets.QHBoxLayout()
+        self.vertical_layout.addLayout(self.users_views_layout)
+        self.main_layout.addLayout(self.vertical_layout)
         self.main_layout.addItem(spacerItem)
         self.setLayout(self.main_layout)
 

@@ -67,7 +67,13 @@ def launch_position_frameless_ontop_as_child(widget, title = 'Wizard'):
     win_size = (widget.frameSize().width(), widget.frameSize().height())
     posx = QtGui.QCursor.pos().x() - 20
     posy = int(QtGui.QCursor.pos().y()) - win_size[1] + 20
-
+    rect = QtWidgets.QDesktopWidget().screenGeometry()
+    screen_1_h_bounds = [rect.x(), rect.x() + rect.width()]
+    screen_1_v_bounds = [rect.y(), rect.y() + rect.height()]
+    if posx + win_size[0] + 20 >= screen_1_h_bounds[-1]:
+        posx = posx - win_size[0] + 40
+    if posy - 20 <= screen_1_v_bounds[0]:
+        posy = posy + win_size[1] - 40
     shadow = QtWidgets.QGraphicsDropShadowEffect()
     shadow.setBlurRadius(8)
     shadow.setColor(QtGui.QColor(0, 0, 0, 180))
