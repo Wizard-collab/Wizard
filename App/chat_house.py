@@ -219,19 +219,24 @@ class url_thread(QtCore.QThread):
     def run(self):
         while self.running:
             for button_tuple in self.buttons_list:
-                button = button_tuple[0]
-                url = button_tuple[1]
-                site_name = urlparse(url).hostname
-                site_name = site_name.replace('www.', '')
-                icon = favicon.get(url)[0]
-                response = requests.get(icon.url, stream=True)
-                icon_path = '{}.{}'.format(os.path.join(prefs.project_path, defaults._shared_folder_, site_name.split('.')[0]), icon.format)
-                if not os.path.isfile(icon_path):
-                    with open(icon_path, 'wb') as image:
-                        for chunk in response.iter_content(1024):
-                            image.write(chunk)
-                button.setText(site_name + '  ')
-                button.setIcon(QtGui.QIcon(icon_path))
+                try:
+                    button = button_tuple[0]
+                    url = button_tuple[1]
+                    site_name = urlparse(url).hostname
+                    site_name = site_name.replace('www.', '')
+                    icon = favicon.get(url)[0]
+                    response = requests.get(icon.url, stream=True)
+                    icon_path = '{}.{}'.format(os.path.join(prefs.project_path, defaults._shared_folder_, site_name.split('.')[0]), icon.format)
+                    if not os.path.isfile(icon_path):
+                        with open(icon_path, 'wb') as image:
+                            for chunk in response.iter_content(1024):
+                                image.write(chunk)
+                    button.setText('  ' + site_name + '  ')
+                    button.setIcon(QtGui.QIcon(icon_path))
+                except:
+                    logger.error("Can't get url data")
+                finally:
+                    self.buttons_list.remove(button_tuple)
             time.sleep(0.05)
 
     def translate_button(self, button_tuple):

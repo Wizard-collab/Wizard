@@ -60,7 +60,8 @@ class Main(QtWidgets.QWidget):
             if user in self.users_views.keys():
                 self.room_messages_dic[self.users_views[user]].remove_user_view(user)
             self.users_views[user] = message_key
-            self.room_messages_dic[message_key].add_user_view(user)
+            if message_key in self.room_messages_dic.keys():
+                self.room_messages_dic[message_key].add_user_view(user)
 
     def connected_functions(self):
         self.ui.chat_room_add_file_pushButton.setIcon(QtGui.QIcon(defaults._attachment_icon_))
