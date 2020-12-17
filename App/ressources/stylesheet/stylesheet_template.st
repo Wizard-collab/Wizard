@@ -14,18 +14,36 @@ QWidget {
 	border-radius: 17px;
 }
 
+#quote_frame{
+	background-color:rgb(_very_lower_level_widget_color_);
+	border-radius:5px;
+}
+
 #shot_crea_main_frame{
 	border-radius:20px;
 	border-bottom-left-radius:0px;
 	border: 1px solid gray;
 }
 
-#chat_room_remove_file_pushButton{
+#chat_room_remove_file_pushButton, #chat_room_close_quote_pushButton{
 	border-radius:10px;
 }
 
 #chat_room_file_frame{
 	border-radius:5px;
+}
+
+#quote_button{
+	border-radius:12px;
+	background-color:rgba(_top_level_widget_color_, 30);
+}
+
+#quote_button::hover{
+	background-color:rgba(_top_level_widget_color_, 120);
+}
+
+#quote_button::pressed{
+	background-color:rgb(_very_lower_level_widget_color_);
 }
 
 #chat_room_files_frame{

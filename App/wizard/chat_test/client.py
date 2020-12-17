@@ -54,7 +54,7 @@ class chat_client(QThread):
         except:
             logger.critical(str(traceback.format_exc()))
 
-    def send_message(self, message, message_key, asset=None, file=None, message_type = defaults._chat_conversation_, destination = defaults._chat_general_, user = prefs.user):
+    def send_message(self, message, message_key, asset=None, file=None, quote=None, message_type = defaults._chat_conversation_, destination = defaults._chat_general_, user = prefs.user):
         if self.is_server and self.running:
             message_dic = dict()
             message_dic[defaults._chat_type_] = message_type
@@ -66,6 +66,7 @@ class chat_client(QThread):
             message_dic[defaults._chat_asset_] = asset
             message_dic[defaults._chat_file_] = file
             message_dic[defaults._chat_key_] = message_key
+            message_dic[defaults._chat_quote_] = quote
             message_bytes = yaml.dump(message_dic).encode('utf8')
             self.server.send(message_bytes)
             return message_dic

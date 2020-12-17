@@ -176,7 +176,7 @@ class Main(QtWidgets.QWidget):
         else:
             file = None
         message_key = utils.id_based_time()
-        message_dic = self.client_thread.send_message(message_list[0], message_key = message_key, file = file, destination = message_list[-1])
+        message_dic = self.client_thread.send_message(message_list[0], message_key = message_key, file = file, quote=message_list[2], destination = message_list[-1])
         self.archive_thread.archive_message(message_key, message_dic)
 
     def send_seen(self, message_list):

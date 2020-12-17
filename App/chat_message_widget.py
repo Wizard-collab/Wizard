@@ -1,5 +1,6 @@
 # coding: utf8
 from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtCore import QThread, pyqtSignal
 from gui import build
 from wizard.vars import defaults
 from wizard.tools import log
@@ -19,6 +20,8 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
+    quote = pyqtSignal(dict)
+
     def __init__(self, msg_dic, url_thread, thumb=0):
         super(Main, self).__init__()
         '''
@@ -30,6 +33,10 @@ class Main(QtWidgets.QWidget):
         self.url_thread = url_thread
         self.users_views_dic = dict()
         self.thumb = thumb
+
+        self.font = QtGui.QFont('Segoe UI Emoji', 10)
+        self.font.setStyleStrategy(QtGui.QFont.ForceOutline)
+
         self.build_ui()
         self.set_user()
         self.fill_ui()
@@ -54,6 +61,34 @@ class Main(QtWidgets.QWidget):
                 self.add_image_button()
             else:
                 self.add_file_button()
+
+    def add_quote(self, quote):
+        self.parent_quote_frame = QtWidgets.QFrame()
+        self.parent_quote_frame.setObjectName('parent_quote_frame')
+        self.parent_quote_frame.setStyleSheet('#parent_quote_frame{background:transparent;}')
+        self.parent_quote_layout = QtWidgets.QHBoxLayout()
+        self.parent_quote_layout.setContentsMargins(0,5,0,0)
+        self.parent_quote_frame.setLayout(self.parent_quote_layout)
+
+        self.quote_spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.parent_quote_layout.addItem(self.quote_spacerItem)
+
+        self.quote_frame = QtWidgets.QFrame()
+        self.quote_layout = QtWidgets.QVBoxLayout()
+
+        self.quote_frame.setLayout(self.quote_layout)
+        self.quote_frame.setObjectName('quote_frame')
+        
+        self.quote_label = QtWidgets.QLabel()
+        self.quote_label.setWordWrap(True)
+        self.quote_label.setText(quote)
+        self.quote_label.setFont(self.font)
+        self.quote_label.setStyleSheet('color:gray;')
+        self.quote_layout.addWidget(self.quote_label)
+        self.parent_quote_layout.addWidget(self.quote_frame)
+
+        self.main_layout.addWidget(self.parent_quote_frame)
+
 
     def add_url(self, url, text):
         self.url_button = QtWidgets.QPushButton(url)
@@ -203,11 +238,16 @@ class Main(QtWidgets.QWidget):
         self.chat_message_label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.chat_message_label.setWordWrap(True)
         self.main_frame_layout.addWidget(self.chat_message_label)
-        self.font = QtGui.QFont('Segoe UI Emoji', 10)
-        self.font.setStyleStrategy(QtGui.QFont.ForceOutline)
+        
         self.chat_message_label.setFont(self.font)
         if self.user == self.msg_dic[defaults._chat_user_]:
             self.chat_message_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+
+    def enterEvent(self, e):
+        self.buttons_frame.setVisible(1)
+
+    def leaveEvent(self, e):
+        self.buttons_frame.setVisible(0)
 
     def set_user(self):
         if self.user == self.msg_dic[defaults._chat_user_]:
@@ -222,6 +262,10 @@ class Main(QtWidgets.QWidget):
     def build_ui(self):
         self.main_layout = QtWidgets.QVBoxLayout()
         self.main_layout.setContentsMargins(0,0,0,0)
+        self.main_layout.setSpacing(1)
+
+        if self.msg_dic[defaults._chat_quote_]:
+            self.add_quote(self.msg_dic[defaults._chat_quote_])
 
         self.horizontal_frame = QtWidgets.QFrame()
         self.horizontal_frame.setObjectName('horizontal_frame')
@@ -231,6 +275,8 @@ class Main(QtWidgets.QWidget):
         self.horizontal_layout = QtWidgets.QHBoxLayout()
         self.horizontal_layout.setContentsMargins(0,0,0,0)
         self.horizontal_frame.setLayout(self.horizontal_layout)
+
+        
 
         self.main_frame = QtWidgets.QFrame()
         #self.horizontal_layout.addWidget(self.main_frame)
@@ -243,10 +289,28 @@ class Main(QtWidgets.QWidget):
             self.main_frame.setStyleSheet('background:transparent;')
             self.main_frame_layout.setContentsMargins(0,0,0,0)
 
+        self.buttons_frame = QtWidgets.QFrame()
+        self.buttons_frame.setVisible(0)
+        self.buttons_frame.setObjectName('message_button_frame')
+        self.buttons_frame.setStyleSheet('#message_button_frame{background:transparent;}')
+        self.buttons_layout = QtWidgets.QHBoxLayout()
+        self.buttons_layout.setContentsMargins(0,0,0,0)
+        self.buttons_frame.setLayout(self.buttons_layout)
+        self.quote_button = QtWidgets.QPushButton()
+        self.quote_button.setObjectName("quote_button")
+        self.quote_button.setIcon(QtGui.QIcon(defaults._quote_icon_))
+        self.quote_button.setIconSize(QtCore.QSize(16, 16))
+        self.quote_button.setMaximumSize(QtCore.QSize(24, 24))
+        self.quote_button.setMinimumSize(QtCore.QSize(24, 24))
+        self.quote_button.clicked.connect(lambda:self.quote.emit(self.msg_dic))
+        self.buttons_layout.addWidget(self.quote_button)
+
+
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout.addItem(spacerItem)
+        self.horizontal_layout.addWidget(self.buttons_frame)
         self.horizontal_layout.addWidget(self.main_frame)
-        self.horizontal_layout.setSpacing(1)
+        self.horizontal_layout.setSpacing(11)
         #self.main_layout.addWidget(self.horizontal_frame)
 
         self.users_views_frame = QtWidgets.QFrame()

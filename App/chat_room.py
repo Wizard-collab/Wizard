@@ -47,6 +47,7 @@ class Main(QtWidgets.QWidget):
         self.previous_date = None
         self.file = None
         self.seen = None
+        self.quote = None
         self.emoji_list = []
 
         self.users_views = dict()
@@ -56,6 +57,7 @@ class Main(QtWidgets.QWidget):
         self.thumb = "👍"
 
         self.update_file()
+        self.remove_quote()
 
     def update_user_view(self, user, message_key):
         if message_key:
@@ -72,6 +74,7 @@ class Main(QtWidgets.QWidget):
         self.ui.chat_emoji_pushButton.setIcon(QtGui.QIcon(defaults._emoji_icon_))
         self.ui.chat_message_lineEdit.textChanged.connect(self.analyse_text)
         self.ui.chat_room_thumb_pushButton.clicked.connect(self.send_thumb)
+        self.ui.chat_room_close_quote_pushButton.clicked.connect(self.remove_quote)
 
         if self.context == defaults._chat_general_:
             image = defaults._chat_home_
@@ -85,6 +88,8 @@ class Main(QtWidgets.QWidget):
 
         self.ui.chat_room_add_file_pushButton.clicked.connect(self.attach_file)
         self.ui.chat_room_remove_file_pushButton.setIcon(QtGui.QIcon(defaults._kill_process_icon_))
+        self.ui.chat_room_close_quote_pushButton.setIcon(QtGui.QIcon(defaults._kill_process_icon_))
+
         self.ui.chat_room_remove_file_pushButton.clicked.connect(self.remove_file)
         self.ui.chat_send_pushButton.clicked.connect(self.send_msg)
         self.ui.chat_emoji_pushButton.clicked.connect(self.show_emoji_keyboard)
@@ -157,6 +162,7 @@ class Main(QtWidgets.QWidget):
                         self.ui.chat_messages_layout.addWidget(info_widget)
                     else:
                         new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
+                        new_msg_widget.quote.connect(self.set_quote)
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
                     
                     if msg_dic[defaults._chat_user_] != prefs.user:
@@ -200,6 +206,18 @@ class Main(QtWidgets.QWidget):
             self.file = file
             self.update_file()
 
+    def set_quote(self, message_key):
+        user = message_key[defaults._chat_user_]
+        text = message_key[defaults._chat_message_]
+        self.quote = text
+        self.ui.chat_room_reply_title_label.setText("Reply to {}".format(user))
+        self.ui.chat_room_reply_text_label.setText(text)
+        self.ui.chat_room_quote_frame.setVisible(1)
+
+    def remove_quote(self):
+        self.ui.chat_room_quote_frame.setVisible(0)
+        self.quote = None
+
     def remove_file(self):
         self.file = None
         self.update_file()
@@ -219,9 +237,10 @@ class Main(QtWidgets.QWidget):
         if message != '':
             for emoji in self.emoji_list:
                 message = message.replace(emoji, '<font style="font-size:24px;">{}</font>'.format(emoji))
-            self.message_signal.emit([message, None, self.context])
+            self.message_signal.emit([message, None, self.quote, self.context])
         self.ui.chat_message_lineEdit.clear()
         self.remove_file()
+        self.remove_quote()
         self.emoji_list = []
 
     def send_thumb(self):
