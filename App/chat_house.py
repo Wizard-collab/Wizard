@@ -152,7 +152,8 @@ class Main(QtWidgets.QWidget):
             if self.messages_archives:
                 room_messages_ids = self.chat_archives.get_room_last_ids(context)
                 for key in room_messages_ids:
-                    self.msg_recv(self.messages_archives[key], 1)
+                    if key in self.messages_archives.keys():
+                        self.msg_recv(self.messages_archives[key], 1)
 
     def select_room(self, context = defaults._chat_general_):
         self.contexts_dic[context][2].set_selected()

@@ -19,7 +19,7 @@ prefs = prefs()
 
 class Main(QtWidgets.QWidget):
 
-    def __init__(self, msg_dic, url_thread):
+    def __init__(self, msg_dic, url_thread, thumb=0):
         super(Main, self).__init__()
         '''
         self.ui = Ui_Form()
@@ -29,6 +29,7 @@ class Main(QtWidgets.QWidget):
         self.user = prefs.user
         self.url_thread = url_thread
         self.users_views_dic = dict()
+        self.thumb = thumb
         self.build_ui()
         self.set_user()
         self.fill_ui()
@@ -234,8 +235,13 @@ class Main(QtWidgets.QWidget):
         self.main_frame = QtWidgets.QFrame()
         #self.horizontal_layout.addWidget(self.main_frame)
         self.main_frame.setObjectName("messages_frame")
+        
         self.main_frame_layout = QtWidgets.QVBoxLayout()
         self.main_frame.setLayout(self.main_frame_layout)
+
+        if self.thumb:
+            self.main_frame.setStyleSheet('background:transparent;')
+            self.main_frame_layout.setContentsMargins(0,0,0,0)
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout.addItem(spacerItem)

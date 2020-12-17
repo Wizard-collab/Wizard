@@ -128,6 +128,13 @@ class Ui_Form(object):
         self.chat_send_pushButton.setText("")
         self.chat_send_pushButton.setObjectName("chat_send_pushButton")
         self.horizontalLayout.addWidget(self.chat_send_pushButton)
+        self.chat_room_thumb_pushButton = QtWidgets.QPushButton(self.horizontalFrame)
+        self.chat_room_thumb_pushButton.setMinimumSize(QtCore.QSize(34, 34))
+        self.chat_room_thumb_pushButton.setMaximumSize(QtCore.QSize(34, 34))
+        self.chat_room_thumb_pushButton.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.chat_room_thumb_pushButton.setStyleSheet("font-size:18px;")
+        self.chat_room_thumb_pushButton.setObjectName("chat_room_thumb_pushButton")
+        self.horizontalLayout.addWidget(self.chat_room_thumb_pushButton)
         self.verticalLayout.addWidget(self.horizontalFrame)
         self.horizontalFrame1 = QtWidgets.QFrame(Form)
         self.horizontalFrame1.setObjectName("horizontalFrame1")
@@ -145,6 +152,7 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.chat_room_context_label.setText(_translate("Form", "context"))
         self.chat_room_file_name_label.setText(_translate("Form", "file"))
+        self.chat_room_thumb_pushButton.setText(_translate("Form", "👍"))
 
 
 if __name__ == "__main__":

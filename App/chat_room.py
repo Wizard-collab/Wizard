@@ -53,6 +53,8 @@ class Main(QtWidgets.QWidget):
         self.users = prefs.project_users
         self.room_messages_dic = dict()
 
+        self.thumb = "👍"
+
         self.update_file()
 
     def update_user_view(self, user, message_key):
@@ -69,6 +71,7 @@ class Main(QtWidgets.QWidget):
         self.ui.chat_send_pushButton.setIcon(QtGui.QIcon(defaults._send_message_icon_))
         self.ui.chat_emoji_pushButton.setIcon(QtGui.QIcon(defaults._emoji_icon_))
         self.ui.chat_message_lineEdit.textChanged.connect(self.analyse_text)
+        self.ui.chat_room_thumb_pushButton.clicked.connect(self.send_thumb)
 
         if self.context == defaults._chat_general_:
             image = defaults._chat_home_
@@ -144,8 +147,17 @@ class Main(QtWidgets.QWidget):
                         user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
                         self.ui.chat_messages_layout.addWidget(user_widget)
 
-                    new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
-                    self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                    if msg_dic[defaults._chat_message_] == self.thumb:
+                        msg_dic[defaults._chat_message_] = '<font style="font-size:34px;">'+self.thumb+'</font>'
+                        new_msg_widget = chat_message_widget.Main(msg_dic, url_thread, thumb=1)
+                        self.ui.chat_messages_layout.addWidget(new_msg_widget)
+
+                    elif msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+                        info_widget = chat_message_widget.info_widget("{} sent a wizz".format(msg_dic[defaults._chat_user_]))
+                        self.ui.chat_messages_layout.addWidget(info_widget)
+                    else:
+                        new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
+                        self.ui.chat_messages_layout.addWidget(new_msg_widget)
                     
                     if msg_dic[defaults._chat_user_] != prefs.user:
                         self.message_notif.emit(self.context)
@@ -157,9 +169,6 @@ class Main(QtWidgets.QWidget):
                     self.previous_user = msg_dic[defaults._chat_user_]
                     if self.isVisible():
                         self.set_seen()
-                
-
-                
             
     def analyse_text(self):
         text = self.ui.chat_message_lineEdit.text()
@@ -214,6 +223,9 @@ class Main(QtWidgets.QWidget):
         self.ui.chat_message_lineEdit.clear()
         self.remove_file()
         self.emoji_list = []
+
+    def send_thumb(self):
+        self.message_signal.emit([self.thumb, None, self.context])
 
     def show_emoji_keyboard(self):
         self.emoji_keyboard = emoji_keyboard()

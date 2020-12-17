@@ -339,6 +339,31 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="chat_room_thumb_pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>34</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>34</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:18px;</string>
+        </property>
+        <property name="text">
+         <string>👍</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
