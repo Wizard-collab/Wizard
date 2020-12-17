@@ -130,15 +130,20 @@ class Main(QtWidgets.QWidget):
                 if need_date_widget:
                     date_widget = chat_message_widget.date_widget(msg_dic[defaults._chat_date_])
                     self.ui.chat_messages_layout.addWidget(date_widget)
-                if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
-                    user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
-                    self.ui.chat_messages_layout.addWidget(user_widget)
+                
+                
+                self.previous_date = msg_dic[defaults._chat_date_]
                 
                 if msg_dic[defaults._chat_type_] == defaults._chat_info_:
                     info_widget = chat_message_widget.info_widget(msg_dic[defaults._chat_message_])
                     self.ui.chat_messages_layout.addWidget(info_widget)
                 
                 elif msg_dic[defaults._chat_type_] == defaults._chat_conversation_:
+
+                    if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
+                        user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
+                        self.ui.chat_messages_layout.addWidget(user_widget)
+
                     new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
                     self.ui.chat_messages_layout.addWidget(new_msg_widget)
                     
@@ -149,11 +154,12 @@ class Main(QtWidgets.QWidget):
 
                     self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
 
-                self.previous_user = msg_dic[defaults._chat_user_]
-                self.previous_date = msg_dic[defaults._chat_date_]
+                    self.previous_user = msg_dic[defaults._chat_user_]
+                    if self.isVisible():
+                        self.set_seen()
+                
 
-                if self.isVisible():
-                    self.set_seen()
+                
             
     def analyse_text(self):
         text = self.ui.chat_message_lineEdit.text()
