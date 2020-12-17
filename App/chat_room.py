@@ -155,7 +155,9 @@ class Main(QtWidgets.QWidget):
                     if msg_dic[defaults._chat_message_] == self.thumb:
                         msg_dic[defaults._chat_message_] = '<font style="font-size:34px;">'+self.thumb+'</font>'
                         new_msg_widget = chat_message_widget.Main(msg_dic, url_thread, thumb=1)
+                        new_msg_widget.quote.connect(self.set_quote)
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                        self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
 
                     elif msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
                         info_widget = chat_message_widget.info_widget("{} sent a wizz".format(msg_dic[defaults._chat_user_]))
@@ -164,13 +166,13 @@ class Main(QtWidgets.QWidget):
                         new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
                         new_msg_widget.quote.connect(self.set_quote)
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                        self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
                     
                     if msg_dic[defaults._chat_user_] != prefs.user:
                         self.message_notif.emit(self.context)
                     if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
                         self.wizz.emit('')
 
-                    self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
 
                     self.previous_user = msg_dic[defaults._chat_user_]
                     if self.isVisible():

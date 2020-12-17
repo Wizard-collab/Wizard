@@ -89,6 +89,10 @@ class Main(QtWidgets.QWidget):
 
         self.main_layout.addWidget(self.parent_quote_frame)
 
+        if self.user == self.msg_dic[defaults._chat_user_]:
+            self.parent_quote_frame.setLayoutDirection(QtCore.Qt.LeftToRight)
+        else:
+            self.parent_quote_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
 
     def add_url(self, url, text):
         self.url_button = QtWidgets.QPushButton(url)
