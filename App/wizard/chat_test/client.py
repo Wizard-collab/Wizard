@@ -114,6 +114,17 @@ class chat_client(QThread):
         else:
             return None
 
+    def send_remove(self, message_key):
+        if self.is_server and self.running:
+            message_dic = dict()
+            message_dic[defaults._chat_type_] = defaults._chat_remove_message_
+            message_dic[defaults._chat_key_] = message_key
+            message_bytes = yaml.dump(message_dic).encode('utf8')
+            self.server.send(message_bytes)
+            return message_dic
+        else:
+            return None
+
     def stop(self):
         self.running = False
 

@@ -42,6 +42,13 @@ class chat_archives():
 
         self.write()
 
+    def remove_message(self, message_key):
+        self.read()
+        if message_key in self.archives_dic[defaults._chat_messages_].keys():
+            del self.archives_dic[defaults._chat_messages_][message_key]
+            self.remove_msg_id_from_room(message_key)
+            self.write()
+
     def add_msg_id_to_room(self, msg_id, msg_dic):
         if msg_dic[defaults._chat_destination_] in self.users:
             key = self.get_user_couple_key(msg_dic[defaults._chat_destination_])
@@ -50,6 +57,11 @@ class chat_archives():
         if key not in self.archives_dic[defaults._chat_rooms_messages_].keys():
             self.archives_dic[defaults._chat_rooms_messages_][key] = list()
         self.archives_dic[defaults._chat_rooms_messages_][key].append(msg_id)
+
+    def remove_msg_id_from_room(self, message_key):
+        for room in self.archives_dic[defaults._chat_rooms_messages_].keys():
+            if message_key in self.archives_dic[defaults._chat_rooms_messages_][room]:
+                self.archives_dic[defaults._chat_rooms_messages_][room].remove(message_key)
 
     def get_user_couple_key(self, user):
         user_couple = [user, prefs.user]

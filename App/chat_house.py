@@ -122,6 +122,9 @@ class Main(QtWidgets.QWidget):
 
         if msg_dic[defaults._chat_type_] == defaults._chat_room_signal_:
             self.add_room(msg_dic[defaults._chat_room_])
+        elif msg_dic[defaults._chat_type_] == defaults._chat_remove_message_:
+            for context in self.contexts_dic.keys():
+                self.contexts_dic[context][1].remove_message(msg_dic[defaults._chat_key_])
         else:
             for context in self.contexts_dic.keys():
                 self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
@@ -162,10 +165,15 @@ class Main(QtWidgets.QWidget):
         room = chat_room.Main(context)
         room.message_signal.connect(self.send_msg)
         room.message_notif.connect(self.update_notifs)
+        room.remove_message_signal.connect(self.remove_message)
         room.seen_signal.connect(self.send_seen)
         room.wizz.connect(self.wizz)
         index = self.ui.chat_house_stackedWidget.addWidget(room)
         return (index, room)
+
+    def remove_message(self, message_key):
+        self.client_thread.send_remove(message_key)
+        self.archive_thread.remove_message(message_key)
 
     def update_notifs(self, context):
         self.contexts_dic[context][2].add_count()
@@ -177,7 +185,8 @@ class Main(QtWidgets.QWidget):
             file = None
         message_key = utils.id_based_time()
         message_dic = self.client_thread.send_message(message_list[0], message_key = message_key, file = file, quote=message_list[2], destination = message_list[-1])
-        self.archive_thread.archive_message(message_key, message_dic)
+        if message_dic[defaults._chat_message_] != defaults._chat_wizz_:
+            self.archive_thread.archive_message(message_key, message_dic)
 
     def send_seen(self, message_list):
         self.client_thread.send_seen(message_list[0], destination = message_list[-1])
@@ -206,16 +215,23 @@ class archive_thread(QtCore.QThread):
         self.chat_archives = chat_archives
         self.running=1
         self.message_dic = None
+        self.message_to_delete = None
 
     def run(self):
         while self.running:
             if self.message_dic:
                 self.chat_archives.add_message(self.message_dic[0], self.message_dic[-1])
-                self.message_dic=None
+                self.message_dic = None
+            if self.message_to_delete:
+                self.chat_archives.remove_message(self.message_to_delete)
+                self.message_to_delete = None
             time.sleep(0.05)
 
     def archive_message(self, message_key, message_dic):
         self.message_dic = [message_key, message_dic]
+
+    def remove_message(self, message_key):
+        self.message_to_delete = message_key
 
     def stop(self):
         self.running = False

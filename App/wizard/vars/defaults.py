@@ -1243,6 +1243,7 @@ _chat_wizz_ = 'WIZZ'
 _chat_users_ = 'users'
 _chat_seen_ = 'seen'
 _chat_quote_ = 'quote'
+_chat_remove_message_ = 'remove'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',

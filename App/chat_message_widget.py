@@ -21,6 +21,7 @@ prefs = prefs()
 class Main(QtWidgets.QWidget):
 
     quote = pyqtSignal(dict)
+    remove = pyqtSignal(str)
 
     def __init__(self, msg_dic, url_thread, thumb=0):
         super(Main, self).__init__()
@@ -300,6 +301,16 @@ class Main(QtWidgets.QWidget):
         self.buttons_layout = QtWidgets.QHBoxLayout()
         self.buttons_layout.setContentsMargins(0,0,0,0)
         self.buttons_frame.setLayout(self.buttons_layout)
+
+        self.remove_button = QtWidgets.QPushButton()
+        self.remove_button.setObjectName("quote_button")
+        self.remove_button.setIcon(QtGui.QIcon(defaults._trash_icon_))
+        self.remove_button.setIconSize(QtCore.QSize(16, 16))
+        self.remove_button.setMaximumSize(QtCore.QSize(24, 24))
+        self.remove_button.setMinimumSize(QtCore.QSize(24, 24))
+        self.remove_button.clicked.connect(lambda:self.remove.emit(self.msg_dic[defaults._chat_key_]))
+        self.buttons_layout.addWidget(self.remove_button)
+
         self.quote_button = QtWidgets.QPushButton()
         self.quote_button.setObjectName("quote_button")
         self.quote_button.setIcon(QtGui.QIcon(defaults._quote_icon_))
@@ -308,7 +319,6 @@ class Main(QtWidgets.QWidget):
         self.quote_button.setMinimumSize(QtCore.QSize(24, 24))
         self.quote_button.clicked.connect(lambda:self.quote.emit(self.msg_dic))
         self.buttons_layout.addWidget(self.quote_button)
-
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout.addItem(spacerItem)

@@ -32,6 +32,7 @@ class Main(QtWidgets.QWidget):
 
     message_signal = pyqtSignal(list)
     message_notif = pyqtSignal(str)
+    remove_message_signal = pyqtSignal(str)
     seen_signal = pyqtSignal(list)
     wizz = pyqtSignal(str)
 
@@ -156,6 +157,7 @@ class Main(QtWidgets.QWidget):
                         msg_dic[defaults._chat_message_] = '<font style="font-size:34px;">'+self.thumb+'</font>'
                         new_msg_widget = chat_message_widget.Main(msg_dic, url_thread, thumb=1)
                         new_msg_widget.quote.connect(self.set_quote)
+                        new_msg_widget.remove.connect(self.remove_message_signal.emit)
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
                         self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
 
@@ -165,6 +167,7 @@ class Main(QtWidgets.QWidget):
                     else:
                         new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
                         new_msg_widget.quote.connect(self.set_quote)
+                        new_msg_widget.remove.connect(self.remove_message_signal.emit)
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
                         self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
                     
@@ -177,7 +180,14 @@ class Main(QtWidgets.QWidget):
                     self.previous_user = msg_dic[defaults._chat_user_]
                     if self.isVisible():
                         self.set_seen()
-            
+
+    def remove_message(self, key):
+        if key in self.room_messages_dic.keys():
+            widget = self.room_messages_dic[key]
+            widget.setParent(None)
+            widget.deleteLater()
+            del self.room_messages_dic[key]
+
     def analyse_text(self):
         text = self.ui.chat_message_lineEdit.text()
         if ':)' in text:
@@ -246,7 +256,9 @@ class Main(QtWidgets.QWidget):
         self.emoji_list = []
 
     def send_thumb(self):
-        self.message_signal.emit([self.thumb, None, self.context])
+        self.message_signal.emit([self.thumb, None, self.quote, self.context])
+        self.remove_file()
+        self.remove_quote()
 
     def show_emoji_keyboard(self):
         self.emoji_keyboard = emoji_keyboard()
