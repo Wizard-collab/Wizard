@@ -102,6 +102,17 @@ class chat_client(QThread):
         else:
             return None
 
+    def new_room_signal(self, room_name):
+        if self.is_server and self.running:
+            message_dic = dict()
+            message_dic[defaults._chat_type_] = defaults._chat_room_signal_
+            message_dic[defaults._chat_room_] = room_name
+            message_bytes = yaml.dump(message_dic).encode('utf8')
+            self.server.send(message_bytes)
+            return message_dic
+        else:
+            return None
+
     def stop(self):
         self.running = False
 

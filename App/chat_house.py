@@ -84,8 +84,9 @@ class Main(QtWidgets.QWidget):
 
     def create_room(self, room_name):
         if self.chat_archives.create_room(room_name):
-            self.add_room(room_name)
-            
+            #self.add_room(room_name)
+            self.client_thread.new_room_signal(room_name)
+            time.sleep(0.1)
             message_key = utils.id_based_time()
             message_dic = self.client_thread.send_info("{} created the room {}".format(prefs.user, room_name), message_key=message_key, destination=room_name)
             self.archive_thread.archive_message(message_key, message_dic)
@@ -118,8 +119,12 @@ class Main(QtWidgets.QWidget):
             self.archive_thread.stop()
 
     def msg_recv(self, msg_dic, archive=0):
-        for context in self.contexts_dic.keys():
-            self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
+
+        if msg_dic[defaults._chat_type_] == defaults._chat_room_signal_:
+            self.add_room(msg_dic[defaults._chat_room_])
+        else:
+            for context in self.contexts_dic.keys():
+                self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
 
     def wizz(self):
         posx=self.pos().x()
