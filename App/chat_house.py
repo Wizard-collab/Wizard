@@ -85,6 +85,10 @@ class Main(QtWidgets.QWidget):
     def create_room(self, room_name):
         if self.chat_archives.create_room(room_name):
             self.add_room(room_name)
+            
+            message_key = utils.id_based_time()
+            message_dic = self.client_thread.send_info("{} created the room {}".format(prefs.user, room_name), message_key=message_key, destination=room_name)
+            self.archive_thread.archive_message(message_key, message_dic)
 
     def show_create_room_widget(self):
         self.create_room_widget = create_room_widget()

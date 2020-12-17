@@ -277,6 +277,14 @@ class date_widget(QtWidgets.QLabel):
         self.setMargin(5)
         self.setStyleSheet("color:gray;")
 
+class info_widget(QtWidgets.QLabel):
+
+    def __init__(self, message):
+        super(info_widget, self).__init__()
+        self.setText(message)
+        self.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.setMargin(5)
+        self.setStyleSheet("color:gray;")
 
 class user_widget(QtWidgets.QWidget):
     

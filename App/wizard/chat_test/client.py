@@ -56,9 +56,7 @@ class chat_client(QThread):
 
     def send_message(self, message, message_key, asset=None, file=None, message_type = defaults._chat_conversation_, destination = defaults._chat_general_, user = prefs.user):
         if self.is_server and self.running:
-
             message_dic = dict()
-
             message_dic[defaults._chat_type_] = message_type
             message_dic[defaults._chat_user_] = user
             message_dic[defaults._chat_project_] = prefs.project_name
@@ -68,11 +66,8 @@ class chat_client(QThread):
             message_dic[defaults._chat_asset_] = asset
             message_dic[defaults._chat_file_] = file
             message_dic[defaults._chat_key_] = message_key
-
             message_bytes = yaml.dump(message_dic).encode('utf8')
-
             self.server.send(message_bytes)
-
             return message_dic
         else:
             return None
@@ -81,7 +76,24 @@ class chat_client(QThread):
         if self.is_server and self.running:
             message_dic = dict()
             message_dic[defaults._chat_type_] = defaults._chat_seen_
+            message_dic[defaults._chat_project_] = prefs.project_name
             message_dic[defaults._chat_user_] = user
+            message_dic[defaults._chat_destination_] = destination
+            message_dic[defaults._chat_key_] = message_key
+            message_bytes = yaml.dump(message_dic).encode('utf8')
+            self.server.send(message_bytes)
+            return message_dic
+        else:
+            return None
+
+    def send_info(self, message, message_key, user = prefs.user, destination = defaults._chat_general_):
+        if self.is_server and self.running:
+            message_dic = dict()
+            message_dic[defaults._chat_type_] = defaults._chat_info_
+            message_dic[defaults._chat_user_] = user
+            message_dic[defaults._chat_project_] = prefs.project_name
+            message_dic[defaults._chat_message_] = message
+            message_dic[defaults._chat_date_] = utils.id_based_time()
             message_dic[defaults._chat_destination_] = destination
             message_dic[defaults._chat_key_] = message_key
             message_bytes = yaml.dump(message_dic).encode('utf8')

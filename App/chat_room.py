@@ -113,7 +113,9 @@ class Main(QtWidgets.QWidget):
         if msg_dic[defaults._chat_destination_] == self.context and msg_dic[defaults._chat_destination_] not in self.users:
             receive = 1
         if receive:
-            if msg_dic[defaults._chat_type_] == defaults._chat_conversation_:
+            if msg_dic[defaults._chat_type_] == defaults._chat_seen_:
+                self.update_user_view(msg_dic[defaults._chat_user_], msg_dic[defaults._chat_key_])
+            else:
                 need_user_widget = 0
                 need_date_widget = 0
                 if self.previous_date:
@@ -131,22 +133,28 @@ class Main(QtWidgets.QWidget):
                 if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
                     user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
                     self.ui.chat_messages_layout.addWidget(user_widget)
-                new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
-                self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                
+                if msg_dic[defaults._chat_type_] == defaults._chat_info_:
+                    info_widget = chat_message_widget.info_widget(msg_dic[defaults._chat_message_])
+                    self.ui.chat_messages_layout.addWidget(info_widget)
+                
+                elif msg_dic[defaults._chat_type_] == defaults._chat_conversation_:
+                    new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
+                    self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                    
+                    if msg_dic[defaults._chat_user_] != prefs.user:
+                        self.message_notif.emit(self.context)
+                    if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+                        self.wizz.emit('')
+
+                    self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
+
                 self.previous_user = msg_dic[defaults._chat_user_]
                 self.previous_date = msg_dic[defaults._chat_date_]
-                if msg_dic[defaults._chat_user_] != prefs.user:
-                    self.message_notif.emit(self.context)
 
-                if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
-                    self.wizz.emit('')
-
-                self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
                 if self.isVisible():
                     self.set_seen()
-            elif msg_dic[defaults._chat_type_] == defaults._chat_seen_:
-                self.update_user_view(msg_dic[defaults._chat_user_], msg_dic[defaults._chat_key_])
-
+            
     def analyse_text(self):
         text = self.ui.chat_message_lineEdit.text()
         if ':)' in text:
