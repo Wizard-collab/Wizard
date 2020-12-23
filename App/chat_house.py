@@ -119,7 +119,6 @@ class Main(QtWidgets.QWidget):
             self.archive_thread.stop()
 
     def msg_recv(self, msg_dic, archive=0):
-
         if msg_dic[defaults._chat_type_] == defaults._chat_room_signal_:
             self.add_room(msg_dic[defaults._chat_room_])
         elif msg_dic[defaults._chat_type_] == defaults._chat_remove_message_:
@@ -165,6 +164,7 @@ class Main(QtWidgets.QWidget):
         room = chat_room.Main(context)
         room.message_signal.connect(self.send_msg)
         room.message_notif.connect(self.update_notifs)
+        room.message_text.connect(self.update_text)
         room.remove_message_signal.connect(self.remove_message)
         room.seen_signal.connect(self.send_seen)
         room.wizz.connect(self.wizz)
@@ -178,6 +178,9 @@ class Main(QtWidgets.QWidget):
     def update_notifs(self, context):
         self.contexts_dic[context][2].add_count()
 
+    def update_text(self, message_tuple):
+        self.contexts_dic[message_tuple[0]][2].set_last_message(message_tuple[1])
+
     def send_msg(self, message_list):
         if message_list[1]:
             file = self.chat_archives.add_file_to_shared(message_list[1])
@@ -185,7 +188,7 @@ class Main(QtWidgets.QWidget):
             file = None
         message_key = utils.id_based_time()
         message_dic = self.client_thread.send_message(message_list[0], message_key = message_key, file = file, quote=message_list[2], destination = message_list[-1])
-        if message_dic[defaults._chat_message_] != defaults._chat_wizz_:
+        if message_dic and message_dic[defaults._chat_message_] != defaults._chat_wizz_:
             self.archive_thread.archive_message(message_key, message_dic)
 
     def send_seen(self, message_list):

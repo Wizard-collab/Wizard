@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>389</width>
-    <height>32</height>
+    <height>40</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="leftMargin">
        <number>4</number>
@@ -57,14 +57,14 @@
        <widget class="QLabel" name="room_button_image_label">
         <property name="minimumSize">
          <size>
-          <width>26</width>
-          <height>26</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>26</width>
-          <height>26</height>
+          <width>32</width>
+          <height>32</height>
          </size>
         </property>
         <property name="text">
@@ -76,24 +76,44 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="room_button_name_label">
-        <property name="text">
-         <string>name</string>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
         </property>
-       </widget>
+        <item>
+         <widget class="QLabel" name="room_button_name_label">
+          <property name="styleSheet">
+           <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+          </property>
+          <property name="text">
+           <string>name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="room_button_last_message_label">
+          <property name="styleSheet">
+           <string notr="true">color:gray;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QLabel" name="room_button_count_label">
         <property name="minimumSize">
          <size>
-          <width>14</width>
-          <height>14</height>
+          <width>16</width>
+          <height>16</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>14</width>
-          <height>14</height>
+          <width>26</width>
+          <height>16</height>
          </size>
         </property>
         <property name="text">

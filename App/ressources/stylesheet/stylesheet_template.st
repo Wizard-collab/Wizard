@@ -59,7 +59,7 @@ QWidget {
 }
 
 #room_button_count_label{
-	border-radius:6px;
+	border-radius:8px;
 	background-color:#ff5447;
 }
 

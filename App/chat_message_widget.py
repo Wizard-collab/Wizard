@@ -264,6 +264,9 @@ class Main(QtWidgets.QWidget):
             self.horizontal_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
             self.users_views_frame.setLayoutDirection(QtCore.Qt.RightToLeft)
 
+    def add_emoji(self):
+        pass
+
     def build_ui(self):
         self.main_layout = QtWidgets.QVBoxLayout()
         self.main_layout.setContentsMargins(0,0,0,0)
@@ -302,14 +305,14 @@ class Main(QtWidgets.QWidget):
         self.buttons_layout.setContentsMargins(0,0,0,0)
         self.buttons_frame.setLayout(self.buttons_layout)
 
-        self.remove_button = QtWidgets.QPushButton()
-        self.remove_button.setObjectName("quote_button")
-        self.remove_button.setIcon(QtGui.QIcon(defaults._trash_icon_))
-        self.remove_button.setIconSize(QtCore.QSize(16, 16))
-        self.remove_button.setMaximumSize(QtCore.QSize(24, 24))
-        self.remove_button.setMinimumSize(QtCore.QSize(24, 24))
-        self.remove_button.clicked.connect(lambda:self.remove.emit(self.msg_dic[defaults._chat_key_]))
-        self.buttons_layout.addWidget(self.remove_button)
+        self.emoji_button = QtWidgets.QPushButton()
+        self.emoji_button.setObjectName("quote_button")
+        self.emoji_button.setIcon(QtGui.QIcon(defaults._emoji_icon_))
+        self.emoji_button.setIconSize(QtCore.QSize(16, 16))
+        self.emoji_button.setMaximumSize(QtCore.QSize(24, 24))
+        self.emoji_button.setMinimumSize(QtCore.QSize(24, 24))
+        self.emoji_button.clicked.connect(self.add_emoji)
+        self.buttons_layout.addWidget(self.emoji_button)
 
         self.quote_button = QtWidgets.QPushButton()
         self.quote_button.setObjectName("quote_button")
@@ -319,6 +322,15 @@ class Main(QtWidgets.QWidget):
         self.quote_button.setMinimumSize(QtCore.QSize(24, 24))
         self.quote_button.clicked.connect(lambda:self.quote.emit(self.msg_dic))
         self.buttons_layout.addWidget(self.quote_button)
+        
+        self.remove_button = QtWidgets.QPushButton()
+        self.remove_button.setObjectName("quote_button")
+        self.remove_button.setIcon(QtGui.QIcon(defaults._trash_icon_))
+        self.remove_button.setIconSize(QtCore.QSize(16, 16))
+        self.remove_button.setMaximumSize(QtCore.QSize(24, 24))
+        self.remove_button.setMinimumSize(QtCore.QSize(24, 24))
+        self.remove_button.clicked.connect(lambda:self.remove.emit(self.msg_dic[defaults._chat_key_]))
+        self.buttons_layout.addWidget(self.remove_button)
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontal_layout.addItem(spacerItem)
@@ -369,6 +381,49 @@ class info_widget(QtWidgets.QLabel):
         self.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.setMargin(5)
         self.setStyleSheet("color:gray;")
+
+class new_msgs_widget(QtWidgets.QFrame):
+    def __init__(self):
+        super(new_msgs_widget, self).__init__()
+
+        self.main_layout = QtWidgets.QHBoxLayout()
+        self.setObjectName('new_msg_widget_main_frame')
+        self.setLayout(self.main_layout)
+        self.setStyleSheet('#new_msg_widget_main_frame{background:transparent;}')
+
+        self.line1 = QtWidgets.QFrame(self)
+        self.line1.setGeometry(QtCore.QRect(170, 70, 118, 1))
+        self.line1.setMaximumSize(QtCore.QSize(10000, 1))
+        self.line1.setMinimumSize(QtCore.QSize(1, 1))
+        self.line1.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line1.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line1.setObjectName("line")
+        self.line1.setStyleSheet("background-color:#ff5447;")
+
+        self.line2 = QtWidgets.QFrame(self)
+        self.line2.setGeometry(QtCore.QRect(170, 70, 118, 1))
+        self.line2.setMaximumSize(QtCore.QSize(10000, 1))
+        self.line2.setMinimumSize(QtCore.QSize(1, 1))
+        self.line2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line2.setObjectName("line")
+        self.line2.setStyleSheet("background-color:#ff5447;")
+
+        self.label = QtWidgets.QLabel("New messages")
+
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+
+        self.label.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.label.setMargin(5)
+        self.label.setStyleSheet("color:#ff5447;")
+
+        self.main_layout.addWidget(self.line1)
+        self.main_layout.addWidget(self.label)
+        self.main_layout.addWidget(self.line2)
 
 class user_widget(QtWidgets.QWidget):
     

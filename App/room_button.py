@@ -59,6 +59,12 @@ class Main(QtWidgets.QWidget):
         self.count += 1
         self.refresh_count()
 
+    def set_last_message(self, message):
+        message = message.replace('<font style="font-size:34px;">', '')
+        message = message.replace('<font style="font-size:24px;">', '')
+        message = message.replace('</font>', '')
+        self.ui.room_button_last_message_label.setText(message)
+
     def refresh_count(self):
         if self.visible:
             self.count = 0
@@ -67,9 +73,9 @@ class Main(QtWidgets.QWidget):
 
 
     def rounded_pixmap_label(self, label, image_file):
-        pixmap = QtGui.QPixmap(image_file).scaled(20, 20, QtCore.Qt.KeepAspectRatio,
+        pixmap = QtGui.QPixmap(image_file).scaled(28, 28, QtCore.Qt.KeepAspectRatio,
                                                     QtCore.Qt.SmoothTransformation)
-        radius = 10
+        radius = 14
 
         # create empty pixmap of same size as original 
         rounded = QtGui.QPixmap(pixmap.size())

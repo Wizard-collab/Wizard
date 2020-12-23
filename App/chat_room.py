@@ -32,6 +32,7 @@ class Main(QtWidgets.QWidget):
 
     message_signal = pyqtSignal(list)
     message_notif = pyqtSignal(str)
+    message_text = pyqtSignal(tuple)
     remove_message_signal = pyqtSignal(str)
     seen_signal = pyqtSignal(list)
     wizz = pyqtSignal(str)
@@ -49,6 +50,7 @@ class Main(QtWidgets.QWidget):
         self.file = None
         self.seen = None
         self.quote = None
+        self.new_msgs_widget = None
         self.emoji_list = []
 
         self.users_views = dict()
@@ -127,6 +129,7 @@ class Main(QtWidgets.QWidget):
             else:
                 need_user_widget = 0
                 need_date_widget = 0
+                need_new_msgs_widget = 0
                 if self.previous_date:
                     difference = float(msg_dic[defaults._chat_date_]) - float(self.previous_date)
                     if difference >= (5*60):
@@ -134,14 +137,22 @@ class Main(QtWidgets.QWidget):
                         need_user_widget = 1
                 else:
                     need_date_widget = 1
+                if not self.new_msgs_widget:
+                    if self.seen and (float(msg_dic[defaults._chat_key_]) > float(self.seen)) and (not self.isVisible()):
+                        need_new_msgs_widget = 1
+
                 if self.previous_user != msg_dic[defaults._chat_user_]:
                     need_user_widget = 1
+
                 if need_date_widget:
                     date_widget = chat_message_widget.date_widget(msg_dic[defaults._chat_date_])
                     self.ui.chat_messages_layout.addWidget(date_widget)
                 
-                
                 self.previous_date = msg_dic[defaults._chat_date_]
+
+                if need_new_msgs_widget:
+                    self.new_msgs_widget = chat_message_widget.new_msgs_widget() 
+                    self.ui.chat_messages_layout.addWidget(self.new_msgs_widget)
                 
                 if msg_dic[defaults._chat_type_] == defaults._chat_info_:
                     info_widget = chat_message_widget.info_widget(msg_dic[defaults._chat_message_])
@@ -171,8 +182,9 @@ class Main(QtWidgets.QWidget):
                         self.ui.chat_messages_layout.addWidget(new_msg_widget)
                         self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
                     
-                    if msg_dic[defaults._chat_user_] != prefs.user:
-                        self.message_notif.emit(self.context)
+                    #if msg_dic[defaults._chat_user_] != prefs.user:
+                    self.message_notif.emit(self.context)
+                    self.message_text.emit((self.context, msg_dic[defaults._chat_message_]))
                     if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
                         self.wizz.emit('')
 
