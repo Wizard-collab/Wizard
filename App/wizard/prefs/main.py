@@ -25,6 +25,13 @@ class prefs:
         user_prefs.set_user(user_name)
 
     @property
+    def chat_seen(self):
+        return user_prefs.get_seen_dict()
+
+    def set_seen(self, room, message_key):
+        user_prefs.add_seen(room, message_key)
+
+    @property
     def server_ip(self):
         return user_prefs.get_server_ip()
 

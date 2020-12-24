@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(389, 40)
+        Form.resize(221, 48)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(1)
@@ -38,7 +38,7 @@ class Ui_Form(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.room_button_name_label = QtWidgets.QLabel(self.room_button_frame)
-        self.room_button_name_label.setStyleSheet("font: 75 8pt \"MS Shell Dlg 2\";")
+        self.room_button_name_label.setStyleSheet("font: 80 9pt \"Arial\";")
         self.room_button_name_label.setObjectName("room_button_name_label")
         self.verticalLayout.addWidget(self.room_button_name_label)
         self.room_button_last_message_label = QtWidgets.QLabel(self.room_button_frame)

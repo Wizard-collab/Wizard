@@ -42,6 +42,10 @@ class Main(QtWidgets.QWidget):
         super(Main, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+
+        self.users = prefs.project_users
+        self.user = prefs.user
+
         self.url_thread = url_thread()
         self.url_thread.start()
         self.chat_archives = chat_archives()
@@ -125,7 +129,13 @@ class Main(QtWidgets.QWidget):
             for context in self.contexts_dic.keys():
                 self.contexts_dic[context][1].remove_message(msg_dic[defaults._chat_key_])
         else:
-            for context in self.contexts_dic.keys():
+            room_destination = msg_dic[defaults._chat_destination_]
+            if room_destination == self.user:
+                context = msg_dic[defaults._chat_user_]
+            else:
+                context = room_destination
+            #for context in self.contexts_dic.keys():
+            if context in self.contexts_dic.keys():
                 self.contexts_dic[context][1].msg_recv(msg_dic, self.url_thread)
 
     def wizz(self):
@@ -163,7 +173,8 @@ class Main(QtWidgets.QWidget):
     def add_room_widget(self, context):
         room = chat_room.Main(context)
         room.message_signal.connect(self.send_msg)
-        room.message_notif.connect(self.update_notifs)
+        #room.message_notif.connect(self.update_notifs)
+        room.message_count.connect(self.update_count)
         room.message_text.connect(self.update_text)
         room.remove_message_signal.connect(self.remove_message)
         room.seen_signal.connect(self.send_seen)
@@ -175,8 +186,8 @@ class Main(QtWidgets.QWidget):
         self.client_thread.send_remove(message_key)
         self.archive_thread.remove_message(message_key)
 
-    def update_notifs(self, context):
-        self.contexts_dic[context][2].add_count()
+    def update_count(self, count_tuple):
+        self.contexts_dic[count_tuple[0]][2].set_count(count_tuple[1])
 
     def update_text(self, message_tuple):
         self.contexts_dic[message_tuple[0]][2].set_last_message(message_tuple[1])
@@ -193,6 +204,7 @@ class Main(QtWidgets.QWidget):
 
     def send_seen(self, message_list):
         self.client_thread.send_seen(message_list[0], destination = message_list[-1])
+        prefs.set_seen(message_list[-1], message_list[0])
             
     def show_room(self, context):
         self.unselect_all()

@@ -55,14 +55,17 @@ class Main(QtWidgets.QWidget):
         self.visible = 0
         self.refresh_count()
 
-    def add_count(self):
-        self.count += 1
+    def set_count(self, count):
+        self.count = count
         self.refresh_count()
 
     def set_last_message(self, message):
         message = message.replace('<font style="font-size:34px;">', '')
         message = message.replace('<font style="font-size:24px;">', '')
         message = message.replace('</font>', '')
+        maxlen = 14
+        if len(message) >= maxlen:
+            message = message[:maxlen] + '...'
         self.ui.room_button_last_message_label.setText(message)
 
     def refresh_count(self):

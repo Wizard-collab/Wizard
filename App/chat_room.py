@@ -31,8 +31,8 @@ prefs = prefs()
 class Main(QtWidgets.QWidget):
 
     message_signal = pyqtSignal(list)
-    message_notif = pyqtSignal(str)
     message_text = pyqtSignal(tuple)
+    message_count = pyqtSignal(tuple)
     remove_message_signal = pyqtSignal(str)
     seen_signal = pyqtSignal(list)
     wizz = pyqtSignal(str)
@@ -48,19 +48,27 @@ class Main(QtWidgets.QWidget):
         self.previous_user = None
         self.previous_date = None
         self.file = None
-        self.seen = None
+        self.seen = 1
         self.quote = None
         self.new_msgs_widget = None
         self.emoji_list = []
+        self.new_messages = 0
 
         self.users_views = dict()
         self.users = prefs.project_users
         self.room_messages_dic = dict()
+        self.date_widgets = []
 
         self.thumb = "👍"
 
+        self.get_seen_archive()
         self.update_file()
         self.remove_quote()
+
+    def get_seen_archive(self):
+        seen_dic = prefs.chat_seen
+        if self.context in prefs.chat_seen.keys():
+            self.seen = prefs.chat_seen[self.context]
 
     def update_user_view(self, user, message_key):
         if message_key:
@@ -73,6 +81,7 @@ class Main(QtWidgets.QWidget):
 
     def connected_functions(self):
         self.ui.chat_room_add_file_pushButton.setIcon(QtGui.QIcon(defaults._attachment_icon_))
+        self.ui.chat_room_thumb_pushButton.setIcon(QtGui.QIcon(defaults._thumb_icon_))
         self.ui.chat_send_pushButton.setIcon(QtGui.QIcon(defaults._send_message_icon_))
         self.ui.chat_emoji_pushButton.setIcon(QtGui.QIcon(defaults._emoji_icon_))
         self.ui.chat_message_lineEdit.textChanged.connect(self.analyse_text)
@@ -106,92 +115,101 @@ class Main(QtWidgets.QWidget):
         self.room_messages_dic[message_key] = message_widget
 
     def set_seen(self):
+        self.remove_new_msgs_widget()
+
         if list(self.room_messages_dic.keys()) != []:
             self.seen = list(self.room_messages_dic.keys())[-1]
         else:
             self.seen = None
         if self.seen:
             self.seen_signal.emit([self.seen, self.context])
-            #self.update_user_view(prefs.user, self.seen)
+
+    def remove_new_msgs_widget(self):
+        if self.new_msgs_widget and list(self.room_messages_dic.keys()) != []:
+            if list(self.room_messages_dic.keys())[-1] == self.seen:
+                self.new_msgs_widget.setParent(None)
+                self.new_msgs_widget.deleteLater()
+                self.new_msgs_widget = None
+                self.new_messages = 0
+                self.emit_new_messages()
+
+    def emit_new_messages(self):
+        self.message_count.emit((self.context, self.new_messages))
 
     def msg_recv(self, msg_dic, url_thread):
-        receive = 0
 
-        if msg_dic[defaults._chat_user_] == prefs.user and msg_dic[defaults._chat_destination_] == self.context:
-            receive = 1
-        if msg_dic[defaults._chat_user_] == self.context and msg_dic[defaults._chat_destination_] == prefs.user:
-            receive = 1
-        if msg_dic[defaults._chat_destination_] == self.context and msg_dic[defaults._chat_destination_] not in self.users:
-            receive = 1
-        if receive:
-            if msg_dic[defaults._chat_type_] == defaults._chat_seen_:
-                self.update_user_view(msg_dic[defaults._chat_user_], msg_dic[defaults._chat_key_])
-            else:
-                need_user_widget = 0
-                need_date_widget = 0
-                need_new_msgs_widget = 0
-                if self.previous_date:
-                    difference = float(msg_dic[defaults._chat_date_]) - float(self.previous_date)
-                    if difference >= (5*60):
-                        need_date_widget = 1
-                        need_user_widget = 1
-                else:
+        if msg_dic[defaults._chat_type_] == defaults._chat_seen_:
+            self.update_user_view(msg_dic[defaults._chat_user_], msg_dic[defaults._chat_key_])
+        else:
+            need_user_widget = 0
+            need_date_widget = 0
+            need_new_msgs_widget = 0
+            if self.previous_date:
+                difference = float(msg_dic[defaults._chat_date_]) - float(self.previous_date)
+                if difference >= (5*60):
                     need_date_widget = 1
-                if not self.new_msgs_widget:
-                    if self.seen and (float(msg_dic[defaults._chat_key_]) > float(self.seen)) and (not self.isVisible()):
-                        need_new_msgs_widget = 1
-
-                if self.previous_user != msg_dic[defaults._chat_user_]:
                     need_user_widget = 1
+            else:
+                need_date_widget = 1
+            if not self.new_msgs_widget:
+                if self.seen and (float(msg_dic[defaults._chat_key_]) > float(self.seen)) and (not self.isVisible()):
+                    need_new_msgs_widget = 1
 
-                if need_date_widget:
-                    date_widget = chat_message_widget.date_widget(msg_dic[defaults._chat_date_])
-                    self.ui.chat_messages_layout.addWidget(date_widget)
-                
-                self.previous_date = msg_dic[defaults._chat_date_]
+            if self.previous_user != msg_dic[defaults._chat_user_]:
+                need_user_widget = 1
 
-                if need_new_msgs_widget:
-                    self.new_msgs_widget = chat_message_widget.new_msgs_widget() 
-                    self.ui.chat_messages_layout.addWidget(self.new_msgs_widget)
-                
-                if msg_dic[defaults._chat_type_] == defaults._chat_info_:
-                    info_widget = chat_message_widget.info_widget(msg_dic[defaults._chat_message_])
+            if need_date_widget:
+                date_widget = chat_message_widget.date_widget(msg_dic[defaults._chat_date_])
+                self.ui.chat_messages_layout.addWidget(date_widget)
+                self.date_widgets.append(date_widget)
+            
+            self.previous_date = msg_dic[defaults._chat_date_]
+
+            if need_new_msgs_widget and list(self.room_messages_dic.keys()) != []:
+                self.new_msgs_widget = chat_message_widget.new_msgs_widget() 
+                self.ui.chat_messages_layout.addWidget(self.new_msgs_widget)
+            
+            if msg_dic[defaults._chat_type_] == defaults._chat_info_:
+                info_widget = chat_message_widget.info_widget(msg_dic[defaults._chat_message_])
+                self.ui.chat_messages_layout.addWidget(info_widget)
+            
+            elif msg_dic[defaults._chat_type_] == defaults._chat_conversation_:
+
+                if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
+                    user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
+                    self.ui.chat_messages_layout.addWidget(user_widget)
+
+                if msg_dic[defaults._chat_message_] == self.thumb:
+                    msg_dic[defaults._chat_message_] = '<font style="font-size:34px;">'+self.thumb+'</font>'
+                    new_msg_widget = chat_message_widget.Main(msg_dic, url_thread, thumb=1)
+                    new_msg_widget.quote.connect(self.set_quote)
+                    new_msg_widget.remove.connect(self.remove_message_signal.emit)
+                    self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                    self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
+
+                elif msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+                    info_widget = chat_message_widget.info_widget("{} sent a wizz".format(msg_dic[defaults._chat_user_]))
                     self.ui.chat_messages_layout.addWidget(info_widget)
+                else:
+                    new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
+                    new_msg_widget.quote.connect(self.set_quote)
+                    new_msg_widget.remove.connect(self.remove_message_signal.emit)
+                    self.ui.chat_messages_layout.addWidget(new_msg_widget)
+                    self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
                 
-                elif msg_dic[defaults._chat_type_] == defaults._chat_conversation_:
+                self.message_text.emit((self.context, msg_dic[defaults._chat_message_]))
+                if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
+                    self.wizz.emit('')
 
-                    if need_user_widget and msg_dic[defaults._chat_user_] != prefs.user:
-                        user_widget = chat_message_widget.user_widget(msg_dic[defaults._chat_user_])
-                        self.ui.chat_messages_layout.addWidget(user_widget)
+                if msg_dic[defaults._chat_key_] and self.seen:
+                    if (float(msg_dic[defaults._chat_key_]) > float(self.seen)) and (not self.isVisible()):
+                        self.new_messages+=1
 
-                    if msg_dic[defaults._chat_message_] == self.thumb:
-                        msg_dic[defaults._chat_message_] = '<font style="font-size:34px;">'+self.thumb+'</font>'
-                        new_msg_widget = chat_message_widget.Main(msg_dic, url_thread, thumb=1)
-                        new_msg_widget.quote.connect(self.set_quote)
-                        new_msg_widget.remove.connect(self.remove_message_signal.emit)
-                        self.ui.chat_messages_layout.addWidget(new_msg_widget)
-                        self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
+                self.emit_new_messages()
 
-                    elif msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
-                        info_widget = chat_message_widget.info_widget("{} sent a wizz".format(msg_dic[defaults._chat_user_]))
-                        self.ui.chat_messages_layout.addWidget(info_widget)
-                    else:
-                        new_msg_widget = chat_message_widget.Main(msg_dic, url_thread)
-                        new_msg_widget.quote.connect(self.set_quote)
-                        new_msg_widget.remove.connect(self.remove_message_signal.emit)
-                        self.ui.chat_messages_layout.addWidget(new_msg_widget)
-                        self.add_message_to_room_dic(msg_dic[defaults._chat_key_], new_msg_widget)
-                    
-                    #if msg_dic[defaults._chat_user_] != prefs.user:
-                    self.message_notif.emit(self.context)
-                    self.message_text.emit((self.context, msg_dic[defaults._chat_message_]))
-                    if msg_dic[defaults._chat_message_] == defaults._chat_wizz_:
-                        self.wizz.emit('')
-
-
-                    self.previous_user = msg_dic[defaults._chat_user_]
-                    if self.isVisible():
-                        self.set_seen()
+                self.previous_user = msg_dic[defaults._chat_user_]
+                if self.isVisible():
+                    self.set_seen()
 
     def remove_message(self, key):
         if key in self.room_messages_dic.keys():

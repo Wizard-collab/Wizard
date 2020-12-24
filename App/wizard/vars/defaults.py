@@ -431,6 +431,7 @@ _missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
 _chat_home_ = _icon_path_ + "chat_home.png"
 _chat_no_image_ = _icon_path_ + "chat_no_image.png"
 _attachment_icon_ = _icon_path_ + "attachment.png"
+_thumb_icon_ = _icon_path_ + "thumb.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 

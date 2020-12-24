@@ -25,6 +25,20 @@ QWidget {
 	border: 1px solid gray;
 }
 
+#chat_room_message_frame{
+	border-radius:25px;
+	background:transparent;
+	border: 1px solid rgb(_middle_level_widget_color_);
+}
+
+#chat_message_lineEdit{
+	background:transparent;
+}
+
+#chat_room_add_file_pushButton, #chat_emoji_pushButton, #chat_send_pushButton, #chat_room_thumb_pushButton{
+	border-radius:17px;
+}
+
 #chat_room_remove_file_pushButton, #chat_room_close_quote_pushButton{
 	border-radius:10px;
 }
@@ -36,6 +50,10 @@ QWidget {
 #quote_button{
 	border-radius:12px;
 	background-color:rgba(_top_level_widget_color_, 30);
+}
+
+#room_category_frame_1, #room_category_frame{
+	background-color:rgb(_low_level_widget_color_);
 }
 
 #quote_button::hover{
@@ -1587,7 +1605,7 @@ QScrollBar:vertical {
     border: 0px solid grey;
 	background-color: rgb(_background_color_);
     width: 8px;
-    margin: 0px 0px 0px 0px;
+    margin: 0px 1px 0px 1px;
 }
 QScrollBar::handle:vertical {
 	background-color: rgb(_top_level_widget_color_);

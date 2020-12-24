@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>40</height>
+    <width>221</width>
+    <height>48</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -83,7 +83,7 @@
         <item>
          <widget class="QLabel" name="room_button_name_label">
           <property name="styleSheet">
-           <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;</string>
+           <string notr="true">font: 80 9pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
            <string>name</string>
