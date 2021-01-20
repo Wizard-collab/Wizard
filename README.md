@@ -26,6 +26,8 @@
 	* pywin32
 	* QScintilla
 	* markdown
+	* validators
+	* favicon
 	
 * Compilation with _PyInstaller_
 
