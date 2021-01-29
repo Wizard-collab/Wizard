@@ -91,7 +91,8 @@ class export_anim():
         if self.camera and self.asset.domain == defaults._sequences_:
             self.asset.stage = defaults._camera_
             software = self.asset.software
-            if not checker.check_stage_existence(self.asset):
+            self.asset.variant = prefs.asset(self.asset).stage.default_variant
+            if not checker.check_variant_existence(self.asset):
                 builder.create_stage(self.asset)
                 builder.create_variant(self.asset)
                 self.asset.software = software

@@ -27,12 +27,14 @@ class Main(QtWidgets.QWidget):
         super(Main, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        '''
         self.shadow = QtWidgets.QGraphicsDropShadowEffect()
         self.shadow.setBlurRadius(8)
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 180))
         self.shadow.setXOffset(0)
         self.shadow.setYOffset(0)
         self.setGraphicsEffect(self.shadow)
+        '''
         self.ui.updates_history_plainTextEdit.setVisible(0)
         self.connect_functions()
         self.fill_updates()

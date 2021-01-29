@@ -109,7 +109,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.setupUi(self)
             self.displace_animation = QtCore.QPropertyAnimation(self, b"pos", self)
             self.displace_animation.finished.connect(self.hide)
-            self.resize_window()
+            #self.resize_window()
 
             # Init widgets
             self.wizard_version_update()
@@ -232,7 +232,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
                 prefs.set_last_update(version)
                 prefs.set_show_updates(1)
                 self.ui_updates = ui_updates.Main()
-                build.launch_normal_as_child_frameless_no_transparent(self.ui_updates)
+                build.launch_normal_as_child_ontop(self.ui_updates)
         except:
             logger.critical(str(traceback.format_exc()))
 

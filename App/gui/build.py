@@ -170,7 +170,13 @@ class launch_stray_as_child:
         tray_menu.addAction(quit_action)
         tray_icon.setContextMenu(tray_menu)
         tray_menu.setStyleSheet(load_stylesheet())
-        self.main.show()
+        
+        if not shutter:
+            pass
+            self.main.show()
+            self.main.setWindowState(QtCore.Qt.WindowMaximized)
+        else:
+            self.main.show()
 
         if shutter:
             self.main.move_window()
