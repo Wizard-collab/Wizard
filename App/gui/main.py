@@ -521,6 +521,8 @@ class Ui_Wizard(object):
         self.menuWizard.setObjectName("menuWizard")
         self.menuTools = QtWidgets.QMenu(self.menubar)
         self.menuTools.setObjectName("menuTools")
+        self.menuDebug = QtWidgets.QMenu(self.menubar)
+        self.menuDebug.setObjectName("menuDebug")
         Wizard.setMenuBar(self.menubar)
         self.actionNew = QtWidgets.QAction(Wizard)
         self.actionNew.setObjectName("actionNew")
@@ -572,6 +574,8 @@ class Ui_Wizard(object):
         self.actionRenamer.setObjectName("actionRenamer")
         self.actionChat = QtWidgets.QAction(Wizard)
         self.actionChat.setObjectName("actionChat")
+        self.actionCreate_crash = QtWidgets.QAction(Wizard)
+        self.actionCreate_crash.setObjectName("actionCreate_crash")
         self.menuProject.addAction(self.actionNew)
         self.menuProject.addAction(self.actionOpen)
         self.menuProject.addAction(self.actionMerge)
@@ -594,11 +598,13 @@ class Ui_Wizard(object):
         self.menuTools.addAction(self.actionRenamer)
         self.menuTools.addAction(self.actionProcess_manager)
         self.menuTools.addAction(self.actionPyWizard)
+        self.menuDebug.addAction(self.actionCreate_crash)
         self.menubar.addAction(self.menuWizard.menuAction())
         self.menubar.addAction(self.menuProject.menuAction())
         self.menubar.addAction(self.menuUser.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
+        self.menubar.addAction(self.menuDebug.menuAction())
 
         self.retranslateUi(Wizard)
         self.main_tabWidget.setCurrentIndex(3)
@@ -628,6 +634,7 @@ class Ui_Wizard(object):
         self.menuHelp.setTitle(_translate("Wizard", "Help"))
         self.menuWizard.setTitle(_translate("Wizard", "Wizard"))
         self.menuTools.setTitle(_translate("Wizard", "Tools"))
+        self.menuDebug.setTitle(_translate("Wizard", "Debug"))
         self.actionNew.setText(_translate("Wizard", "New"))
         self.actionOpen.setText(_translate("Wizard", "Open"))
         self.actionSettings.setText(_translate("Wizard", "Settings"))
@@ -653,6 +660,7 @@ class Ui_Wizard(object):
         self.actionPreferences_2.setText(_translate("Wizard", "Preferences"))
         self.actionRenamer.setText(_translate("Wizard", "Renamer"))
         self.actionChat.setText(_translate("Wizard", "Chat"))
+        self.actionCreate_crash.setText(_translate("Wizard", "Create crash"))
 
 
 if __name__ == "__main__":

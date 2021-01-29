@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5 import QtGui, QtCore, QtWidgets
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QApplication
 from PyQt5.Qsci import QsciScintilla
 from PyQt5 import Qsci
@@ -10,6 +11,7 @@ from lexers import neutral_lexer
 
 class SimplePythonEditor(QsciScintilla):
     ARROW_MARKER_NUM = 8
+    drop_signal = pyqtSignal(str)
 
     def __init__(self, parent=None, python = 1, yaml = 0):
         super(SimplePythonEditor, self).__init__(parent)
@@ -26,6 +28,7 @@ class SimplePythonEditor(QsciScintilla):
         self.bold_font.setBold(1)
 
         self.set_lexer(python, yaml)
+        self.setAcceptDrops(False)
 
 
     def build(self):
@@ -91,6 +94,25 @@ class SimplePythonEditor(QsciScintilla):
             self.markerDelete(nline, self.ARROW_MARKER_NUM)
         else:
             self.markerAdd(nline, self.ARROW_MARKER_NUM)
+
+    def dragEnterEvent(self, event):
+        self.setStyleSheet('border : 1px solid white;')
+        data = event.mimeData()
+        urls = data.urls()
+        if urls and urls[0].scheme() == 'file':
+            event.acceptProposedAction()
+
+    def dragLeaveEvent(self, event):
+        self.setStyleSheet('')
+
+    def dropEvent(self, event):
+        data = event.mimeData()
+        urls = data.urls()
+        if urls and urls[0].scheme() == 'file':
+            filepath = str(urls[0].path())[1:]
+            if filepath:
+                self.drop_signal.emit(filepath)
+        self.setStyleSheet('')
 
 
 if __name__ == "__main__":

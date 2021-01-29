@@ -1467,6 +1467,12 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def create_crash(self):
+        logger.critical('crash manually created')
+        a=0/0
+        logger.critical('crash manually created')
+        
+
     def connect_functions(self):
         try:
             software_settings_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), self)
@@ -1517,6 +1523,9 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.ui.actionPyWizard.triggered.connect(self.show_pywizard)
             self.ui.actionRenamer.triggered.connect(self.show_ui_renamer)
             self.ui.actionChat.triggered.connect(self.show_chat_house)
+            self.ui.actionCreate_crash.triggered.connect(self.create_crash)
+            
+
         except:
             logger.critical(str(traceback.format_exc()))
 

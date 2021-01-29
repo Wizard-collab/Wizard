@@ -1458,6 +1458,7 @@ QListView::item {
 	background-color:rgba(255,255,255,4);
 	show-decoration-selected: 0;
 	outline: none;
+	color: white;
 }
 
 QListView::item:hover {
@@ -1466,6 +1467,7 @@ QListView::item:hover {
 	border-radius:0px;	
 	show-decoration-selected: 0;
 	outline: none;
+	color: white;
 }
 
 QListView::item:selected {
@@ -1473,6 +1475,7 @@ QListView::item:selected {
 	background-color: rgb(_tree_press_item_color_);
 	show-decoration-selected: 0;
 	outline: none;
+	color: white;
 }
 
 QListView::item:selected:active{
@@ -1480,6 +1483,7 @@ QListView::item:selected:active{
 	background-color: rgb(_tree_press_item_color_);
 	show-decoration-selected: 0;
 	outline: none;
+	color: white;
 }
 
 QComboBox::drop-down:hover, QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDateTimeEdit::up-button:hover, QDateTimeEdit::down-button:hover

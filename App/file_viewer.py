@@ -35,6 +35,8 @@ class Main(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.file_viewer_plainTextEdit = script_editor.SimplePythonEditor(yaml=1, python=0)
+        self.ui.file_viewer_plainTextEdit.drop_signal.connect(self.read_file)
+        self.ui.file_viewer_plainTextEdit.setAcceptDrops(True)
         self.ui.verticalLayout.addWidget(self.ui.file_viewer_plainTextEdit)
         self.file = None
         qtHandler = log_to_gui.log_viewer(self.ui)
@@ -191,37 +193,12 @@ class Main(QtWidgets.QMainWindow):
         self.ui.actionAbout.triggered.connect(self.show_about)
         self.ui.file_viewer_plainTextEdit.textChanged.connect(self.file_modified)
 
-'''
-class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
-    import_signal = pyqtSignal(str)
+    
 
-    def __init__(self):
-        super(file_viewer_plainTextEdit, self).__init__()
-        self.file = None
 
-    def dragEnterEvent(self, event):
-        self.setStyleSheet('border : 1px solid white;')
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            event.acceptProposedAction()
-
-    def dragMoveEvent(self, event):
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            event.acceptProposedAction()
-
-    def dropEvent(self, event):
-        data = event.mimeData()
-        urls = data.urls()
-        if urls and urls[0].scheme() == 'file':
-            filepath = str(urls[0].path())[1:]
-            if filepath:
-                self.read_file(filepath)
-
+    '''
     def read_file(self, filepath):
-        self.setStyleSheet('border:none;')
+        self.ui.file_viewer_main_frame.setStyleSheet('border:none;')
         extension = filepath.split('.')[-1]
         if extension == 'wd':
             self.setPlainText(utils.database().read(0, filepath, 1).decode('utf-8'))
@@ -233,6 +210,17 @@ class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
             self.setPlainText(data)
             self.file = filepath
             self.import_signal.emit('')
+    '''
+
+'''
+class file_viewer_plainTextEdit(QtWidgets.QPlainTextEdit):
+    import_signal = pyqtSignal(str)
+
+    def __init__(self):
+        super(file_viewer_plainTextEdit, self).__init__()
+        self.file = None
+
+    
 '''
 
 if __name__ == '__main__':
