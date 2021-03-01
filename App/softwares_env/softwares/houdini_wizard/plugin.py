@@ -9,6 +9,7 @@ import os
 import traceback
 import shutil
 from wizard.project import wall
+from wizard.signal import send_signal
 import sys
 
 logger = log.pipe_log()
@@ -18,6 +19,9 @@ def save():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     asset.version = prefs.asset(asset).software.get_new_version()
     hou.hipFile.save(file_name=asset.file)
+    string_asset = asset_core.asset_to_string(asset)
+    os.environ[defaults._asset_var_] = string_asset
+    send_signal.save_request_signal(asset.file, string_asset)
 
 def set_f_range(preroll=0):
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])

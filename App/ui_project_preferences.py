@@ -54,14 +54,19 @@ class Main(QtWidgets.QWidget):
         project_path = prefs.project_path
         project_name = prefs.project_name
         project_size = 0
-        start_path = project_path  # To get size of current directory
+        
+        self.ui.site_path_label.setText(site_path)
+        self.ui.project_path_label.setText(project_path)
+        self.ui.project_name_label.setText(project_name)
+        self.ui.project_size_label.setText(str(utils.convert_size(project_size)))
+
+    def actualize_project_size(self):
+        project_size = 0
+        start_path = prefs.project_path  # To get size of current directory
         for path, dirs, files in os.walk(start_path):
             for f in files:
                 fp = os.path.join(path, f)
                 project_size += os.path.getsize(fp)
-        self.ui.site_path_label.setText(site_path)
-        self.ui.project_path_label.setText(project_path)
-        self.ui.project_name_label.setText(project_name)
         self.ui.project_size_label.setText(str(utils.convert_size(project_size)))
 
     def init_listWidget(self):
@@ -144,6 +149,7 @@ class Main(QtWidgets.QWidget):
         self.ui.confirm_lineEdit.textChanged.connect(self.check_confirm)
         self.ui.new_lineEdit.textChanged.connect(self.check_confirm)
         self.ui.show_pass_pushButton.clicked.connect(self.show_passwords)
+        self.ui.calculate_project_size_pushButton.clicked.connect(self.actualize_project_size)
 
     def init_show_pass_icon(self):
         self.show_pw = 0

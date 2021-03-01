@@ -5,6 +5,7 @@ from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project.wall import wall
 from wizard.tools import utility as utils
+from wizard.signal import send_signal
 import tools
 import os
 
@@ -22,7 +23,9 @@ def save():
     asset.version = prefs.asset(asset).software.get_new_version()
     bpy.ops.wm.save_as_mainfile(filepath=asset.file)
     logger.info('File saved.')
-    os.environ[defaults._asset_var_] = utils.asset_to_string(asset)
+    string_asset = utils.asset_to_string(asset)
+    os.environ[defaults._asset_var_] = string_asset
+    send_signal.save_request_signal(asset.file, string_asset)
 
 
 def export():
