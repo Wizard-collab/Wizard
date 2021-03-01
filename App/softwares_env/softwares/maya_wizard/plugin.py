@@ -384,7 +384,7 @@ def export_abc(range, file, grp):
     command += " "
     command += end
     command += " -step 1"
-    command += " -frameRelativeSample -0.2 -frameRelativeSample 0 -frameRelativeSample 0.2 -attr GuerillaTags -uvWrite -worldSpace -root "
+    command += " -frameRelativeSample -0.2 -frameRelativeSample 0 -frameRelativeSample 0.2 -attr GuerillaTags -writeVisibility -writeUVSets -uvWrite -worldSpace -root "
     command += grp
     command += " -dataFormat ogawa -file "
     command += file

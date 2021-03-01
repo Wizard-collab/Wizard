@@ -147,7 +147,7 @@ class export_anim():
         command += " "
         command += end
         command += " -step 1"
-        command += " -frameRelativeSample -0.2 -frameRelativeSample 0 -frameRelativeSample 0.2 -attr GuerillaTags -uvWrite -worldSpace "
+        command += " -frameRelativeSample -0.2 -frameRelativeSample 0 -frameRelativeSample 0.2 -attr GuerillaTags -writeVisibility -writeUVSets -uvWrite -worldSpace "
         for shape in shapes_list:
             command += '-root {} '.format(shape)
         command += '-pythonPerFrameCallback "{}"'.format(script)
