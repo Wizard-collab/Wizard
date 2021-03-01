@@ -4,6 +4,7 @@
 from time import strftime, localtime
 import time
 from datetime import datetime
+from datetime import timedelta
 import re
 import yaml
 import base64
@@ -244,3 +245,18 @@ def add_zip_flat(zip_file, filename):
     dir, base_filename = os.path.split(filename)
     os.chdir(dir)
     zip_file.write(base_filename)
+
+def get_filename_without_override(file):
+
+    folder = os.path.dirname(file)
+    basename = os.path.basename(file)
+    extension = os.path.splitext(basename)[-1]
+    filename = os.path.splitext(basename)[0]
+    index = 1
+
+    while os.path.isfile(file):
+        new_filename = "{} ({}){}".format(filename, index, extension)
+        file = os.path.join(folder, new_filename)
+        index+=1
+
+    return file

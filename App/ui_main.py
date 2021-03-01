@@ -28,6 +28,7 @@ from gui.main import Ui_Wizard
 
 # Importing wizard core libraries
 from wizard.asset import main as asset_core
+from wizard.asset import save as asset_save
 from wizard.vars import defaults
 from wizard.project import main as project
 from wizard.prefs.main import prefs
@@ -160,10 +161,10 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.show_task_info_widget()
             self.go_to_tab()
             self.connect_functions()
+            self.start_save_thread()
             self.init_local_server()
             self.first_tab_refresh()
             self.init_chat_house()
-            
             prefs.set_custom_pub_ext_dic()
 
         except:
@@ -179,6 +180,10 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
         except:
             logger.critical(str(traceback.format_exc()))
 
+    def start_save_thread(self):
+        self.save_thread = asset_save.save_thread()
+        self.save_thread.start()
+
     def init_local_server(self):
         try:
             self.signal_server = signal_server()
@@ -187,6 +192,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.signal_server.log_signal.connect(self.log_widget.ui.log_textEdit.append)
             self.signal_server.focus_signal.connect(self.focus_wizard)
             self.signal_server.save_signal.connect(lambda:popup.popup().save_pop())
+            self.signal_server.save_request_signal.connect(self.save_thread.do_save)
             self.signal_server.task_signal.connect(self.task_progress_info_widget.set_progress)
             self.signal_server.task_name_signal.connect(logger.info)
             self.signal_server.start()

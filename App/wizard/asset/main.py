@@ -12,6 +12,7 @@ from wizard.asset import builder as build
 from wizard.asset.folder import folder
 from wizard.tools import log
 from wizard.vars import defaults
+from PyQt5.QtCore import QThread, pyqtSignal
 
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
@@ -642,3 +643,4 @@ def string_to_asset(string):
 
     # Return the asset object
     return asset_object
+

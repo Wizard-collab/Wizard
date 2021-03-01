@@ -6,6 +6,7 @@ from wizard.vars import defaults
 from wizard.project import wall
 from maya_wizard import auto_tag
 from wizard.tools import utility as utils
+from wizard.signal import send_signal
 import os
 
 reload(asset_core)
@@ -24,7 +25,9 @@ def save():
         asset.version = str(int(asset.version) + 1).zfill(4)
     cmds.file(rename=asset.file)
     cmds.file(save=True, type='mayaAscii')
-    os.environ[defaults._asset_var_] = utils.asset_to_string(asset)
+    string_asset = utils.asset_to_string(asset)
+    os.environ[defaults._asset_var_] = string_asset
+    send_signal.save_request_signal(asset.file, string_asset)
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])

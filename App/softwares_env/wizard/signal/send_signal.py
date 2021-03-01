@@ -12,11 +12,13 @@ def send_signal(signal_as_str):
         host_name = 'localhost'
         if host_name:
             server = socket(AF_INET, SOCK_STREAM)
-            server.connect((host_name, 5034))
-            server.send(bytes(signal_as_str, 'utf8'))
+            server.connect((host_name, 5035))
+            print(signal_as_str)
+            server.send(signal_as_str.encode('utf8'))
             server.close()
+            print('ok')
     except:
-        pass
+        logger.critical(str(traceback.format_exc()))
 
 def log_line(value):
     signal_dic = dict()
@@ -40,6 +42,14 @@ def refresh_launcher_signal():
 def save_signal():
     signal_dic = dict()
     signal_dic[defaults._signal_type_key_] = defaults._save_signal_
+    signal_as_str = yaml.dump(signal_dic)
+    send_signal(signal_as_str)
+
+def save_request_signal(file, string_asset):
+    signal_dic = dict()
+    signal_dic[defaults._signal_type_key_] = defaults._save_request_signal_
+    signal_dic[defaults._signal_asset_key_] = string_asset
+    signal_dic[defaults._signal_file_key_] = file
     signal_as_str = yaml.dump(signal_dic)
     send_signal(signal_as_str)
 

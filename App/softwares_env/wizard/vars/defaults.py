@@ -272,6 +272,9 @@ _subprocess_status_ = 'status:'
 
 # Icons library
 _icon_path_ = ressources_path('ressources/images/')
+_fonts_path_ = ressources_path('ressources/fonts/')
+_twitter_emoji_font_ = _fonts_path_ + 'TwitterEmoji.ttf'
+_noto_emoji_font_ = _fonts_path_ + 'NotoEmoji-Regular.ttf'
 _settings_icon_ = _icon_path_ + 'settings.png'
 _pin_icon_ = _icon_path_ + 'pinned.png'
 _tree_pin_ = _icon_path_ + 'tree_pin.png'
@@ -341,6 +344,8 @@ _chat_icon_notif_ = _icon_path_ + 'chat_notif.png'
 _welcome_image_ = _icon_path_ + 'welcome.png'
 _server_icon_ = _icon_path_ + 'server.png'
 _send_message_icon_ = _icon_path_ + 'send.png'
+_quote_icon_ = _icon_path_ + 'quote_icon.png'
+_emoji_icon_ = _icon_path_ + 'emoji.png'
 _join_file_icon_ = _icon_path_ + 'join_file.png'
 _server_on_icon_ = _icon_path_ + 'server_on.png'
 _server_off_icon_ = _icon_path_ + 'server_off.png'
@@ -423,6 +428,10 @@ _site_icon_ = _icon_path_ + "site.png"
 _python_blue_icon_ = _icon_path_ + "python_blue.png"
 _sandbox_icon_ = _icon_path_ + "sandbox.png"
 _missing_pb_image_ = _icon_path_ + "missing_pb_image.png"
+_chat_home_ = _icon_path_ + "chat_home.png"
+_chat_no_image_ = _icon_path_ + "chat_no_image.png"
+_attachment_icon_ = _icon_path_ + "attachment.png"
+_thumb_icon_ = _icon_path_ + "thumb.png"
 
 _menu_icon_path_ = _icon_path_ + 'menu/'
 
@@ -447,6 +456,7 @@ _sound_path_ = 'ressources/sounds/'
 _tick_sound_ = _sound_path_ + 'tick.wav'
 _bubble_sound_ = _sound_path_ + 'bubble.mp3'
 _woo_sound_ = _sound_path_ + 'woo.mp3'
+_wizz_sound_ = _sound_path_ + 'wizz.mp3'
 
 _tick_key_ = 'Tick'
 _bubble_key_ = 'Bubble'
@@ -1075,6 +1085,7 @@ _asset_var_ = 'ASSET_VAR'
 _softwares_scripts_path_ = 'softwares_env/softwares/'
 _project_ = 'project.wd'
 _project_db_ = 'project.db'
+_chat_archives_ = 'chat_archives.wd'
 _tree_ = 'tree.wd'
 _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
@@ -1209,6 +1220,31 @@ _message_info_label_right_ = "message_info_label_right"
 _message_frame_left_ = "message_frame_left"
 _message_frame_right_ = "message_frame_right"
 _message_label_ = "message_content"
+
+# Chat keys library
+_chat_user_ = 'user'
+_chat_project_ = 'project'
+_chat_message_ = 'message'
+_chat_key_ = 'key'
+_chat_messages_ = 'messages'
+_chat_date_ = 'date'
+_chat_destination_ = 'destination'
+_chat_general_ = 'general'
+_chat_type_ = 'type'
+_chat_conversation_ = 'conversation'
+_chat_info_ = 'info'
+_chat_rooms_ = 'rooms'
+_chat_room_ = 'room_name'
+_chat_room_signal_ = 'new_room'
+_chat_file_ = 'file'
+_chat_asset_ = 'asset'
+_chat_rooms_messages_ = 'room_messages'
+_chat_users_messages_ = 'users_messages'
+_chat_wizz_ = 'WIZZ'
+_chat_users_ = 'users'
+_chat_seen_ = 'seen'
+_chat_quote_ = 'quote'
+_chat_remove_message_ = 'remove'
 
 # Password library
 _alphabet_ = ['a', 'b','c','d',
@@ -1444,6 +1480,9 @@ _log_signal_ = 'log'
 _log_line_ = 'line'
 _focus_signal_ = 'focus'
 _save_signal_ = 'save'
+_save_request_signal_ = 'save_request'
+_signal_asset_key_ = 'string_asset'
+_signal_file_key_ = 'file'
 _task_value_ = 'value'
 _task_signal_ = 'task_signal'
 _task_name_signal_ = 'task_name_signal'
@@ -1453,3 +1492,8 @@ _task_name_ = 'task_name'
 _widget_key_ = 'widget'
 _name_key_ = 'name'
 _index_key_ = 'index'
+
+_wizard_correctly_stopped_ = "Closing wizard..."
+
+_emojis_path_ =  ressources_path('ressources/emojis/')
+_emojis_file_ = _emojis_path_ + 'emojis.yaml'

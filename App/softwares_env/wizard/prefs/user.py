@@ -62,11 +62,26 @@ class user:
             self.settings[defaults._shutter_] = 0
             self.settings[defaults._server_ip_] = None
             self.settings[defaults._tab_context_] = 0
+            self.settings[defaults._chat_seen_] = dict()
             # Write the .manager file as YAML with setting dict
             logger.debug('user.wd file created')
             self.write_pref_file(new=1)
         else:
             self.open_pref_file()
+
+    def add_seen(self, room, message_key):
+        self.open_pref_file()
+        if defaults._chat_seen_ not in self.settings.keys():
+            self.settings[defaults._chat_seen_] = dict()
+        self.settings[defaults._chat_seen_][room] = message_key
+        self.write_pref_file()
+
+    def get_seen_dict(self):
+        self.open_pref_file()
+        if defaults._chat_seen_ not in self.settings.keys():
+            self.settings[defaults._chat_seen_] = dict()
+            self.write_pref_file()
+        return self.settings[defaults._chat_seen_]
 
     def get_server_ip(self):
         self.open_pref_file()
