@@ -3,6 +3,8 @@ from wizard.prefs.main import prefs
 from wizard.tools import log
 from wizard.vars import defaults
 from wizard.project import wall
+from wizard.tools import utility as utils
+from wizard.signal import send_signal
 
 from guerilla import Document, pynode
 from softwares.guerilla_render_wizard.reference_asset import get_all_nodes
@@ -17,6 +19,9 @@ def save():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
     asset.version = prefs().asset(asset).software.get_new_version()
     Document().save(asset.file)
+    string_asset = utils.asset_to_string(asset)
+    os.environ[defaults._asset_var_] = string_asset
+    send_signal.save_request_signal(asset.file, string_asset)
 
 def export_cyclo(asset):
     file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
