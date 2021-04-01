@@ -23,6 +23,7 @@ def save():
     os.environ[defaults._asset_var_] = string_asset
     send_signal.save_request_signal(asset.file, string_asset)
 
+
 def export_cyclo(asset):
     file = asset.export('{}_{}'.format(asset.name, asset.variant), from_asset=asset)
     Document().save(file)
