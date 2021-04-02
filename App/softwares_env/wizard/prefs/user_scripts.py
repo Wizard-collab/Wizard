@@ -1,6 +1,8 @@
 from wizard.prefs.main import prefs
 from wizard.tools import log
 from wizard.vars import defaults
+from wizard.tools import utility as utils
+import shutil
 
 import importlib
 importlib.reload(defaults)
@@ -30,8 +32,15 @@ class user_scripts():
 		sys.path.append(defaults._user_custom_scripts_path_)
 
 	def create_user_script(self, name, image, script, only_subprocess, project=None):
+
+		local_image_path = image
+		shared_folder = os.path.join(prefs.project_path, defaults._shared_folder_)
+		shared_image_path_raw = os.path.join(shared_folder, os.path.basename(image))
+		shared_image_path = utils.get_filename_without_override(shared_image_path_raw)
+		shutil.copyfile(local_image_path, shared_image_path)
+
 		script_dic = dict()
-		script_dic[defaults._user_script_image_] = image
+		script_dic[defaults._user_script_image_] = shared_image_path
 		script_dic[defaults._user_script_name_] = name
 		script_dic[defaults._user_script_] = script
 		script_dic[defaults._subprocess_] = only_subprocess

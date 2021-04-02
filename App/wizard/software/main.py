@@ -189,6 +189,8 @@ class subThread(QThread):
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)
 
+            logger.info(self.command)
+
             if self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
             elif self.asset.software == defaults._houdini_:

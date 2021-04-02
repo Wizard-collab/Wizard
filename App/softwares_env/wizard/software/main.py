@@ -84,6 +84,8 @@ class ear_handler(FileSystemEventHandler, QObject):
         #self.sct = sct
 
     def on_created(self, event):
+        pass
+        '''
         filename = os.path.basename(event.src_path)
         filename = filename.split('.')[0]
         if filename == folder(self.asset).work_name_template:
@@ -106,6 +108,7 @@ class ear_handler(FileSystemEventHandler, QObject):
                     stats().add_version(self.asset)
                 except:
                     pass
+        '''
 
 class subThread(QThread):
 

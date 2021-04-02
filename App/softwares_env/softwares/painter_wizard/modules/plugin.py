@@ -8,6 +8,9 @@ import substance_painter.textureset
 import json
 from wizard.project import wall
 import export_config
+from wizard.signal import send_signal
+from wizard.tools import utility as utils
+import shutil
 
 import importlib
 importlib.reload(export_config)
@@ -26,8 +29,17 @@ def save():
         if substance_painter.project.needs_saving():
             asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
             asset.version = prefs.asset(asset).software.get_new_version()
-            substance_painter.project.save_as(asset.file,
+
+            tempfile = os.path.join(utils.temp_dir(), "painter_temp.spp")
+
+            substance_painter.project.save_as(tempfile,
                                               substance_painter.project.ProjectSaveMode.Full)
+
+            shutil.copyfile(tempfile, asset.file)
+
+            string_asset = utils.asset_to_string(asset)
+            os.environ[defaults._asset_var_] = string_asset
+            send_signal.save_request_signal(asset.file, string_asset)
         else:
             logger.info("There is nothing to save!")
     else:

@@ -13,12 +13,10 @@ def send_signal(signal_as_str):
         if host_name:
             server = socket(AF_INET, SOCK_STREAM)
             server.connect((host_name, 5035))
-            print(signal_as_str)
             server.send(signal_as_str.encode('utf8'))
             server.close()
-            print('ok')
     except:
-        logger.critical(str(traceback.format_exc()))
+        pass
 
 def log_line(value):
     signal_dic = dict()

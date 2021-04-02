@@ -13,12 +13,18 @@ from wizard.asset.folder import folder
 from wizard.tools import log
 from wizard.vars import defaults
 
+
 from wizard.prefs.main import prefs
 from wizard.prefs.stats import stats
 # Creates the main logger
 logger = log.pipe_log(__name__)
 
 prefs = prefs()
+
+try:
+    from PyQt5.QtCore import QThread, pyqtSignal
+except:
+    logger.warning("Can't load PyQt5 libraries")
 
 try:
     from wizard.software.main import launch
@@ -548,10 +554,6 @@ class asset():
 
             # If the user isn't as administrator, log it
             logger.warning("You don't have the right to do that...")
-
-def save(signal_dic):
-    logger.info(signal_dic[defaults._signal_asset_key_])
-    logger.info(signal_dic[defaults._signal_file_key_])
 
 def get_asset_from_file(file):
 

@@ -17,7 +17,7 @@ _default_cmd_ = '"{}" "{}"'.format(_executable_key_, _file_key_)
 
 _maya_cmd_ = '"{}" -file "{}" -script "{}"'.format(_executable_key_, _file_key_, _script_key_)
 
-_painter_cmd_ = '"{}"'.format(_executable_key_)
+_painter_cmd_ = '"{}" "{}" --mesh "{}"'.format(_executable_key_, _file_key_, _reference_key_)
 
 _guerilla_cmd_ = '''"{}" "{}" --pycmd "execfile('{}')"'''.format(_executable_key_, _file_key_, _script_key_)
 

@@ -2,6 +2,7 @@
 
 # Wizard modules
 from wizard.asset import main as asset_core
+from wizard.asset.folder import folder
 from wizard.prefs.main import prefs
 from wizard.tools import log
 from wizard.vars import defaults
@@ -85,7 +86,8 @@ class references():
                 #-count
                 #-proxy
                 #-pvisible
-            self.assets_list.append([asset, count, proxy, visible])
+            if folder(asset).export():
+                self.assets_list.append([asset, count, proxy, visible])
 
     def add_proxy_and_visible_keys(self, reference, proxy, visible):
 

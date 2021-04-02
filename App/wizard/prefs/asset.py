@@ -558,6 +558,7 @@ class software():
             logger.debug("Can't write software prefs")
 
     def get_extension(self):
+        logger.info(self.asset.software)
         try:
             pub_ext_dic = project_prefs.get_custom_pub_ext_dic()
             default_ext = pub_ext_dic[self.asset.stage][self.asset.software]
@@ -567,6 +568,7 @@ class software():
             else:
                 return asset_ext
         except:
+            logger.critical(str(traceback.format_exc()))
             logger.info("No extension found")
             return None
 
