@@ -263,17 +263,17 @@ def import_texturing(reload=0):
                 udim = texture_map.split('.')[-2]
                 texture_map = texture_map.replace(udim, '%04d')
 
-                if 'BASECOLOR' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'BASECOLOR' in texture_map.upper():
                     base_color_maps.append(texture_map)
-                if 'METALLIC' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'METALLIC' in texture_map.upper():
                     metalness_maps.append(texture_map)
-                if 'ROUGHNESS' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'ROUGHNESS' in texture_map.upper():
                     roughness_maps.append(texture_map)
-                if 'NORMAL' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'NORMAL' in texture_map.upper():
                     normal_maps.append(texture_map)
-                if 'SSS' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'SSS' in texture_map.upper():
                     sss_maps.append(texture_map)
-                if 'HEIGHT' in texture_map.upper() and texture_map.endswith('.tex'):
+                if 'HEIGHT' in texture_map.upper():
                     height_maps.append(texture_map)
 
             with Modifier() as mod:
@@ -285,6 +285,7 @@ def import_texturing(reload=0):
                             attrSh1 = mod.createnode('DiffuseColor', type='AttributeShader', parent=sh1[0])
                             attrSh1.Shader.set('Texture')
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
+                            attrSh1.overrideinheritedattr("Gamma","linear")
                         else:
                             p = sh1[0].DiffuseColor.File
                         if replace and p.get() != '':
@@ -302,7 +303,7 @@ def import_texturing(reload=0):
                         
                         if not replace:
                             attrSh1 = mod.createnode('MetalColor', type='AttributeShader', parent=sh1[0])
-                            attrSh1.Shader.set('Texture')
+                            attrSh1.Shader.set('MaskTexture')
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
                             p = sh1[0].MetalColor.File
@@ -327,7 +328,7 @@ def import_texturing(reload=0):
 
                         if not replace:
                             attrSh1 = mod.createnode('MetalRoughness', type='AttributeShader', parent=sh1[0])
-                            attrSh1.Shader.set('Texture')
+                            attrSh1.Shader.set('MaskTexture')
                             attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
@@ -349,7 +350,7 @@ def import_texturing(reload=0):
                         if not replace:
                             sh1[0].overrideinheritedattr('Spec1',1)
                             attrSh1 = mod.createnode('Spec1Roughness', type='AttributeShader', parent=sh1[0])
-                            attrSh1.Shader.set('Texture')
+                            attrSh1.Shader.set('MaskTexture')
                             attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
@@ -372,6 +373,7 @@ def import_texturing(reload=0):
                             attrSh1 = mod.createnode('Normal', type='AttributeShader', parent=sh1[0])
                             attrSh1.Shader.set('NormalMap')
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
+                            attrSh1.overrideinheritedattr("Gamma","data")
                         else:
                             p = sh1[0].Normal.File
 
