@@ -5,6 +5,7 @@ import os
 import substance_painter.project
 import substance_painter.export
 import substance_painter.textureset
+import substance_painter.exception
 import json
 from wizard.project import wall
 import export_config
@@ -27,19 +28,49 @@ def save():
     if substance_painter.project.is_open():
         # Check if the project needs to be saved at all:
         if substance_painter.project.needs_saving():
+
+            save_local()
             asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
             asset.version = prefs.asset(asset).software.get_new_version()
-
-            tempfile = os.path.join(utils.temp_dir(), "painter_temp.spp")
-
-            substance_painter.project.save_as(tempfile,
-                                              substance_painter.project.ProjectSaveMode.Full)
-
-            shutil.copyfile(tempfile, asset.file)
-
+            shutil.copyfile(get_local_file(), asset.file)
             string_asset = utils.asset_to_string(asset)
             os.environ[defaults._asset_var_] = string_asset
             send_signal.save_request_signal(asset.file, string_asset)
+            
+        else:
+            logger.info("There is nothing to save!")
+    else:
+        logger.info("No painter project openned!")
+
+def get_local_file():
+    project_path = prefs.project_path
+    local_project_path = prefs.local_project_path
+    asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+    project_file_path = os.path.dirname(asset.file)
+    project_path_len = len(project_path)
+
+    local_file_path = os.path.join(local_project_path, project_file_path[project_path_len:])
+    if not os.path.isdir(local_file_path):
+        os.makedirs(local_file_path)
+    local_file = os.path.join(local_file_path, "painter_temp.spp")
+    return local_file
+
+def save_local():
+
+    local_file = get_local_file()
+
+    # Check if a project is already opened:
+    if substance_painter.project.is_open():
+        # Check if the project needs to be saved at all:
+        if substance_painter.project.needs_saving():
+            #asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
+            try:
+                substance_painter.project.save_as(local_file,
+                                                  substance_painter.project.ProjectSaveMode.Full)
+                logger.info("No save as")
+            except substance_painter.exception.ProjectError:
+                logger.info("Save")
+                substance_painter.project.save()
         else:
             logger.info("There is nothing to save!")
     else:
@@ -47,7 +78,6 @@ def save():
 
 def export():
     asset = asset_core.string_to_asset(os.environ[defaults._asset_var_])
-    print(asset.extension)
     if asset.extension == 'spt':
         export_template()
     else:

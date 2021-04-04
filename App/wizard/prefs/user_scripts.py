@@ -29,7 +29,12 @@ class user_scripts():
 	def init_scripts_paths(self):
 		if not os.path.exists(defaults._user_custom_scripts_path_):
 			os.makedirs(defaults._user_custom_scripts_path_)
-		sys.path.append(defaults._user_custom_scripts_path_)
+		sys.path.append(defaults._user_custom_scripts_path_.replace('\\', '/'))
+
+		project_custom_scripts_path = os.path.join(prefs.project_path, defaults._project_custom_scripts_path_)
+		if not os.path.exists(project_custom_scripts_path):
+			os.makedirs(project_custom_scripts_path)
+		sys.path.append(project_custom_scripts_path.replace('\\', '/'))
 
 	def create_user_script(self, name, image, script, only_subprocess, project=None):
 

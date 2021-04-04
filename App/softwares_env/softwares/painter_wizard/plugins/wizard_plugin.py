@@ -41,11 +41,14 @@ class wizard_toolbar(QtWidgets.QWidget):
 
         self.toolbar = QtWidgets.QToolBar()
         save_icon = os.path.abspath("softwares/painter_wizard/modules/save.png")
+        save_local_icon = os.path.abspath("softwares/painter_wizard/modules/save_local.png")
         export_icon = os.path.abspath("softwares/painter_wizard/modules/export.png")
         self.save_action = self.toolbar.addAction(QtGui.QIcon(save_icon), '')
+        self.save_local_action = self.toolbar.addAction(QtGui.QIcon(save_local_icon), '')
         self.export_action = self.toolbar.addAction(QtGui.QIcon(export_icon), '')
 
         self.save_action.triggered.connect(plugin.save)
+        self.save_local_action.triggered.connect(plugin.save_local)
         self.export_action.triggered.connect(plugin.export)
 
         self.layout = QtWidgets.QHBoxLayout()
