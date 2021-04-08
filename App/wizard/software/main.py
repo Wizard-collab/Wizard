@@ -193,6 +193,7 @@ class subThread(QThread):
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)
 
+            self.command = self.command.replace('\\', '/')
             logger.info(self.command)
 
             

@@ -156,6 +156,19 @@ class references():
         # Using the namespace key
 
         # Build the name space using the "get_name_space" function
+        count = 1
+
+        # Iterate the references list to check if this namespace already exists
+        # Uses the function "get_namespace" to build the name space of the asset
+        while self.get_name_space(asset, count) in self.references_list:
+
+            # Convert the count int to a string with 4 characters
+            # Example :
+                # 1 > 0001
+                # 24 > 0024
+            # Uses the "zfill" string function 
+            count = str(int(count) + 1).zfill(4)
+
         name_space = self.get_name_space(asset, count)
 
         # Convert the asset to a string using the "wizard.asset.main" module

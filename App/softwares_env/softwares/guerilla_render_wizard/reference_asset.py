@@ -303,8 +303,9 @@ def import_texturing(reload=0):
                         
                         if not replace:
                             attrSh1 = mod.createnode('MetalColor', type='AttributeShader', parent=sh1[0])
-                            attrSh1.Shader.set('MaskTexture')
+                            attrSh1.Shader.set('Texture')
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
+                            attrSh1.overrideinheritedattr("Gamma","linear")
                         else:
                             p = sh1[0].MetalColor.File
                         
@@ -315,7 +316,7 @@ def import_texturing(reload=0):
 
                         if not replace:
                             attrSh1 = mod.createnode('Metal', type='AttributeShader', parent=sh1[0])
-                            attrSh1.Shader.set('Texture')
+                            attrSh1.Shader.set('MaskTexture')
                             attrSh1.overrideinheritedattr("Gamma","data")
                             p = attrSh1.createplug('File', 'user', 'texture', Plug.Dynamic)
                         else:
@@ -418,7 +419,7 @@ def import_texturing(reload=0):
                             attrDs1.overrideinheritedattr("Gamma","data")
                             ds1[0].overrideinheritedattr('Normalization',"Affine")
                             ds1[0].overrideinheritedattr('Offset',0)
-                            ds1[0].overrideinheritedattr("RaytraceDisplacement", 2)
+                            ds1[0].overrideinheritedattr("RaytraceDisplacement", 0.02)
                             ds1[0].overrideinheritedattr("DisplaceAmount", 1)
                             ds1[0].State.set("bypass")
                             p = attrDs1.createplug('File', 'user', 'texture', Plug.Dynamic)

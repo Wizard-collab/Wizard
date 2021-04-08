@@ -166,7 +166,11 @@ class subThread(QThread):
                         pass
 
             if self.asset.software == defaults._maya_ or self.asset.software == defaults._maya_yeti_:
-                env[defaults._maya_icon_path_] = os.path.abspath(defaults._icon_path_)
+                if defaults._maya_icon_path_ in env.keys():
+                    env[defaults._maya_icon_path_] += os.pathsep + os.path.abspath(defaults._icon_path_)
+                else:
+                    env[defaults._maya_icon_path_] = os.path.abspath(defaults._icon_path_)
+
 
             if self.asset.software == defaults._nuke_:
                 env[defaults._script_software_env_dic_[self.asset.software]] += os.pathsep + abs_site_script_path
@@ -189,6 +193,9 @@ class subThread(QThread):
             env[defaults._site_var_] = os.environ[defaults._site_var_]
             env[defaults._asset_var_] = utils.asset_to_string(self.asset)
 
+            logger.info(self.command)
+
+            
             if self.asset.software == defaults._painter_ or self.asset.software == defaults._nuke_:
                 self.process = subprocess.Popen(self.command, env=env, cwd=wizard_path + '\\softwares_env')
             elif self.asset.software == defaults._houdini_:
@@ -210,6 +217,7 @@ class subThread(QThread):
 
             send_signal.refresh_launcher_signal()
             logger.info('{} closed'.format(self.software))
+            
 
         else:
             message = '{} - '.format(self.asset.category)

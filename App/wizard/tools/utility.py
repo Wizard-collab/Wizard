@@ -255,8 +255,22 @@ def get_filename_without_override(file):
     index = 1
 
     while os.path.isfile(file):
-        new_filename = "{} ({}){}".format(filename, index, extension)
+        new_filename = "{}_{}{}".format(filename, index, extension)
         file = os.path.join(folder, new_filename)
         index+=1
 
     return file
+
+def increment_folder(folder_name):
+
+    num=1
+
+    folder = "{}_{}".format(folder_name, str(num).zfill(4))
+
+    while os.path.isdir(folder):
+        num+=1
+        folder = "{}_{}".format(folder_name, str(num).zfill(4))
+
+    os.makedirs(folder)
+
+    return folder

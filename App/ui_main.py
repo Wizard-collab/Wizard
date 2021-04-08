@@ -89,7 +89,7 @@ import ui_about
 import ui_project_workflow
 import ui_project_preferences
 import ui_renamer
-import chat_house
+#import chat_house
 
 # Initializing the logger and the prefs module
 logger = log.pipe_log()
@@ -164,7 +164,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.start_save_thread()
             self.init_local_server()
             self.first_tab_refresh()
-            self.init_chat_house()
+            #self.init_chat_house()
             prefs.set_custom_pub_ext_dic()
 
         except:
@@ -1469,7 +1469,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def show_chat_house(self):
         try:
-            build.launch_normal_as_child(self.chat_house)
+            logger.info('Not available, in development...')
+            #build.launch_normal_as_child(self.chat_house)
         except:
             logger.critical(str(traceback.format_exc()))
 

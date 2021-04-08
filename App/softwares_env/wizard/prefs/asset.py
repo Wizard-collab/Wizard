@@ -558,9 +558,8 @@ class software():
             logger.debug("Can't write software prefs")
 
     def get_extension(self):
-        print(self.asset.software)
+        logger.info(self.asset.software)
         try:
-            print(self.asset.software)
             pub_ext_dic = project_prefs.get_custom_pub_ext_dic()
             default_ext = pub_ext_dic[self.asset.stage][self.asset.software]
             asset_ext = self.get_asset_ext()
