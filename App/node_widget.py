@@ -117,9 +117,10 @@ class Main(QtWidgets.QWidget):
 
     def set_last_version(self):
         old_asset = copy.deepcopy(self.asset)
+        old_namespace = reference.get_name_space(old_asset, self.count)
         self.asset.export_version = prefs.asset(self.asset).export.last_version
         self.add_name()
-        self.node_editor.replace_reference(self, self.asset, self.count)
+        self.node_editor.replace_reference(self, self.asset, self.count, old_namespace)
 
     def remove(self):
         self.node_editor.delete_asset(self)
