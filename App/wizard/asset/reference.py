@@ -155,10 +155,12 @@ class references():
         # This function access the main references dictionnary and override the imported asset
         # Using the namespace key
         if old_namespace:
-            del self.references_dic[old_namespace]
+            if old_namespace in self.references_dic.keys():
+                del self.references_dic[old_namespace]
+            if old_namespace in self.references_list:
+                self.references_list.remove(old_namespace)
         
         # Build the name space using the "get_name_space" function
-        count = 1
 
         # Iterate the references list to check if this namespace already exists
         # Uses the function "get_namespace" to build the name space of the asset

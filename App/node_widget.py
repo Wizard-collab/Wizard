@@ -105,7 +105,6 @@ class Main(QtWidgets.QWidget):
 
     def show_imported_asset_manager(self):
         old_namespace = reference.get_name_space(self.asset, self.count)
-        logger.info(utils.asset_to_string(self.asset))
         self.dialog_imported_asset_manager = dialog_imported_asset_manager.Main(self.asset, self.count, self.proxy, self.visible)
         if build.launch_dialog_as_child(self.dialog_imported_asset_manager):
             old_asset = copy.deepcopy(self.asset)
