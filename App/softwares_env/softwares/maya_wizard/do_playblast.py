@@ -49,7 +49,10 @@ class do_playblast():
         cmds.playblast(st=self.range[0], et=self.range[-1], p= 100, f= temp_file, wh= self.format, qlt= 100, fp= 4, fmt= 'image', compression='png', fo=1, v=False)
 
     def select_cam(self, cam_namespace):
-        camera_shape = self.list_cam(cam_namespace)
+        if cam_namespace and cam_namespace!='None':
+            camera_shape = self.list_cam(cam_namespace)
+        else:
+            camera_shape = 'perspShape'
         if camera_shape:
             cams = cmds.ls(type='camera')
             for cam in cams:

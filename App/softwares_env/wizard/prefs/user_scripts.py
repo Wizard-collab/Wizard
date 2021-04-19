@@ -40,6 +40,8 @@ class user_scripts():
 
 		local_image_path = image
 		shared_folder = os.path.join(prefs.project_path, defaults._shared_folder_)
+		if not os.path.isdir(shared_folder):
+			os.makedirs(shared_folder)
 		shared_image_path_raw = os.path.join(shared_folder, os.path.basename(image))
 		shared_image_path = utils.get_filename_without_override(shared_image_path_raw)
 		shutil.copyfile(local_image_path, shared_image_path)

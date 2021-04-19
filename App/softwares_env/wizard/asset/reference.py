@@ -154,8 +154,25 @@ class references():
 
         # This function access the main references dictionnary and override the imported asset
         # Using the namespace key
-
+        if old_namespace:
+            if old_namespace in self.references_dic.keys():
+                del self.references_dic[old_namespace]
+            if old_namespace in self.references_list:
+                self.references_list.remove(old_namespace)
+        
         # Build the name space using the "get_name_space" function
+
+        # Iterate the references list to check if this namespace already exists
+        # Uses the function "get_namespace" to build the name space of the asset
+        while self.get_name_space(asset, count) in self.references_list:
+
+            # Convert the count int to a string with 4 characters
+            # Example :
+                # 1 > 0001
+                # 24 > 0024
+            # Uses the "zfill" string function 
+            count = str(int(count) + 1).zfill(4)
+
         name_space = self.get_name_space(asset, count)
 
         # Convert the asset to a string using the "wizard.asset.main" module
@@ -172,8 +189,7 @@ class references():
 
         # If an old_namespace is given, delete it and
         # assign the new namespace dictionnary to the main references dictionnary
-        if old_namespace:
-            del self.references_dic[old_namespace]
+        
 
         # Assign the new namespace dictionnary to the main references dictionnary
         # The key is the new asset namespace

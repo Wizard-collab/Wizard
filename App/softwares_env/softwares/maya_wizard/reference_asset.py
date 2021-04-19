@@ -204,9 +204,6 @@ def import_all():
 def import_geo(namespace = None):
     asset_list = get_asset_list()
 
-    if not cmds.objExists('GEO'):
-        cmds.group( em=True, name='GEO' )
-
     for imported_asset in asset_list:
         if namespace and imported_asset[1] == namespace:
             run = 1
@@ -219,13 +216,12 @@ def import_geo(namespace = None):
                 old_namespace = cmds.namespaceInfo( currentNamespace=True )
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1])
                 if cmds.objExists(imported_asset[0].export_asset):
+                    if not cmds.objExists('GEO'):
+                        cmds.group( em=True, name='GEO' )
                     cmds.parent(imported_asset[0].export_asset, 'GEO', a=1)
 
 def import_anim(namespace = None):
     asset_list = get_asset_list()
-
-    if not cmds.objExists('ANIMATION'):
-        cmds.group( em=True, name='ANIMATION' )
 
     for imported_asset in asset_list:
         if namespace and imported_asset[1] == namespace:
@@ -239,13 +235,12 @@ def import_anim(namespace = None):
                 group_name = '{}_{}'.format(imported_asset[0].export_asset, imported_asset[0].stage)
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=group_name)
                 if cmds.objExists(group_name):
+                    if not cmds.objExists('ANIMATION'):
+                        cmds.group( em=True, name='ANIMATION' )
                     cmds.parent(group_name, 'ANIMATION', a=1)
 
 def import_fx(namespace = None):
     asset_list = get_asset_list()
-
-    if not cmds.objExists('FX'):
-        cmds.group( em=True, name='FX' )
 
     for imported_asset in asset_list:
         if namespace and imported_asset[1] == namespace:
@@ -259,13 +254,13 @@ def import_fx(namespace = None):
                 group_name = '{}_{}'.format(imported_asset[0].export_asset, imported_asset[0].stage)
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=group_name)
                 if cmds.objExists(group_name):
+                    if not cmds.objExists('FX'):
+                        cmds.group( em=True, name='FX' )
                     cmds.parent(group_name, 'FX', a=1)
 
 def import_camera(namespace = None):
     asset_list = get_asset_list()
 
-    if not cmds.objExists('CAMERA'):
-        cmds.group( em=True, name='CAMERA' )
 
     for imported_asset in asset_list:
         if namespace and imported_asset[1] == namespace:
@@ -278,6 +273,8 @@ def import_camera(namespace = None):
             if not cmds.namespace(exists=imported_asset[1]):
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
                 if cmds.objExists(imported_asset[0].export_asset):
+                    if not cmds.objExists('CAMERA'):
+                        cmds.group( em=True, name='CAMERA' )
                     cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
 
 def import_textures(namespace = None):
@@ -341,15 +338,14 @@ def create_set_locator(grp, replace = 0):
 def import_layout():
     asset_list = get_asset_list()
 
-    if not cmds.objExists('LAYOUT'):
-        cmds.group( em=True, name='LAYOUT' )
-
     for imported_asset in asset_list:
         if imported_asset[0].stage == defaults._layout_:
             if not cmds.namespace(exists=imported_asset[1]):
                 cmds.file(imported_asset[2], r=True, ignoreVersion=True, namespace=imported_asset[1], groupReference=1, groupName=imported_asset[0].export_asset)
                 if cmds.objExists(imported_asset[0].export_asset):
-                    cmds.parent(imported_asset[0].export_asset, 'CAMERA', a=1)
+                    if not cmds.objExists('LAYOUT'):
+                        cmds.group( em=True, name='LAYOUT' )
+                    cmds.parent(imported_asset[0].export_asset, 'LAYOUT', a=1)
 
 
 def refresh_all():

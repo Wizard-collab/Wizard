@@ -220,9 +220,13 @@ class Main(QtWidgets.QWidget):
                 nspace_list = []
                 for item in items_list:
                     nspace_list.append(item.text())
-                if nspace_list != [] and len(nspace_list) == 1:
+                if (len(nspace_list) == 1) or (len(nspace_list) == 0):
 
                     env_path = os.path.abspath('softwares_env').replace('\\', '/')
+                    if nspace_list != []:
+                        camera = nspace_list[-1]
+                    else:
+                        camera = None
 
                     command = 'import sys\nsys.path.append("{}")\n'.format(env_path)
                     command += 'from wizard.tools.playblast import playblast\n'
@@ -230,7 +234,7 @@ class Main(QtWidgets.QWidget):
                                                                                         self.out_range,
                                                                                         refresh_assets,
                                                                                         self.is_preroll,
-                                                                                        nspace_list[-1],
+                                                                                        camera,
                                                                                         show_ornaments,
                                                                                         show_playblast)
 
