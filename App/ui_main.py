@@ -1319,19 +1319,26 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             send_email.request_unlock(locker_user, prefs.user, email, temp_pass, self.asset)
             self.dialog_confirm_email = dialog_confirm_email.Main(self, temp_pass)
             if build.launch_dialog_as_child(self.dialog_confirm_email):
-                logger.info("Asset unlocked !")
-                self.asset_prefs.software.unlock()
-                prefs.remove_lock_from_user(utils.asset_to_string(self.asset), locker_user)
-                self.update_lock()
+                self.steal_asset_raw()
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def steal_asset_raw(self):
+        locker_user = self.asset_prefs.software.get_lock
+        self.asset_prefs.software.unlock()
+        prefs.remove_lock_from_user(utils.asset_to_string(self.asset), locker_user)
+        self.update_lock()
+        logger.info("Asset unlocked !")
 
     def launch_options_widget(self):
         try:
             self.options_widget = options_widget.Main()
             lock = self.asset_prefs.software.get_lock
             if lock and lock != prefs.user:
-                self.options_widget.add_item('Request email unlock', self.steal_asset)
+                if prefs.admin:
+                    self.options_widget.add_item('Force unlock', self.steal_asset_raw)
+                else:
+                    self.options_widget.add_item('Request email unlock', self.steal_asset)
             self.options_widget.add_item('Show file', self.open_folder)
             build.launch_options(self.options_widget)
         except:
