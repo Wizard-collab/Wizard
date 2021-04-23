@@ -25,6 +25,11 @@ QWidget {
 	border: 1px solid gray;
 }
 
+#recording_ui_frame{
+	border-radius:10px;
+	background-color: rgba(_middle_level_widget_color_, 200);
+}
+
 #chat_room_message_frame{
 	border-radius:25px;
 	background:transparent;

@@ -40,6 +40,7 @@ from wizard.chat import client
 from wizard.signal.signal_server import signal_server
 from wizard.prefs.user_scripts import user_scripts
 from wizard.user_scripts import user_scripts_library
+from wizard.screen_record.screen_record import screen_record
 from wizard import api
 from wizard.tools.batch_asset_creation import batch_asset_creation
 
@@ -89,6 +90,7 @@ import ui_about
 import ui_project_workflow
 import ui_project_preferences
 import ui_renamer
+import recording_ui
 #import chat_house
 
 # Initializing the logger and the prefs module
@@ -140,6 +142,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_main_refresh_button()
             self.init_user_scripts_widget()
             self.init_sandbox_button()
+            self.init_screen_record()
 
             # Init vars
             self.prefs = prefs
@@ -208,6 +211,24 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             #self.refresh_server(0)
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def init_screen_record(self):
+        self.ui.record_pushButton.setIcon(QtGui.QIcon(defaults._start_record_icon_))
+        self.screen_record = screen_record()
+        self.ui.record_pushButton.clicked.connect(self.toggle_screen_record)
+        self.recording_ui = recording_ui.recording_ui()
+
+    def toggle_screen_record(self):
+        if self.screen_record.running:
+            logger.info("Record stopped")
+            self.screen_record.stop()
+            self.ui.record_pushButton.setIcon(QtGui.QIcon(defaults._start_record_icon_))
+            self.recording_ui.hide()
+        else:
+            logger.info("Starting record")
+            self.screen_record.start()
+            self.ui.record_pushButton.setIcon(QtGui.QIcon(defaults._stop_record_icon_))
+            build.launch_normal_as_child_frameless_ontop(self.recording_ui)
 
     def add_user_to_project(self):
         try:
