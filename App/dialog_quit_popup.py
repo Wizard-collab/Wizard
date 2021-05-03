@@ -38,7 +38,7 @@ class Main(QtWidgets.QDialog):
             asset = asset_core.string_to_asset(lock)
             if prefs.asset(asset).software.get_lock:
                 prefs.asset(asset).software.unlock()
-                prefs.remove_lock(utils.short_asset_to_string(asset))
+            prefs.remove_lock(utils.short_asset_to_string(asset))
         self.locks = None
         self.setup_widget()
 

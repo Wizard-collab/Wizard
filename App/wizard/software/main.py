@@ -161,7 +161,10 @@ class subThread(QThread):
                     if '=' in user_env:
                         key = user_env.split('=')[0]
                         path = user_env.split('=')[-1]
-                        env[key]=path
+                        if key in env.keys():
+                            env[key] += os.pathsep + path
+                        else:
+                            env[key]=path
                     else:
                         pass
 

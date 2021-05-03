@@ -128,8 +128,11 @@ class auto_hair():
 		rig_geo_asset = None
 		for reference in rig_references.keys():
 			asset = asset_core.string_to_asset(rig_references[reference][defaults._asset_key_])
-			if asset.stage == defaults._geo_ and asset.name == self.rig_asset.name:
+			logger.info(asset.variant)
+			logger.info(self.rig_asset.variant)
+			if asset.stage == defaults._geo_ and asset.name == self.rig_asset.name and asset.variant == self.rig_asset.variant:
 				rig_geo_asset = asset
+				logger.info('OOOK')
 				break
 		groom_references = prefs().asset(self.grooming_asset).software.references
 		grooming_geo_asset = None
