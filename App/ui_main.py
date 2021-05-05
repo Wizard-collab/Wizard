@@ -1478,7 +1478,8 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def launch_docs(self):
         try:
-            os.startfile(os.path.abspath(defaults._doc_index_path_))
+            url = defaults._wizard_doc_url_
+            webbrowser.open(url, new=0, autoraise=True)
         except:
             logger.critical(str(traceback.format_exc()))
 

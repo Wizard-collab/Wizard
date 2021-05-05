@@ -6,6 +6,7 @@ import os
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
 _wizard_url_ = 'http://share.wizard-files.com'
+_wizard_doc_url_ = 'http://share.wizard-files.com/documentation/build/html/index.html'
 _wizard_version_ = '0.9.9.20-b'
 _doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
