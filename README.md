@@ -28,6 +28,7 @@
 	* markdown
 	* validators
 	* favicon
+	* pynput
 	
 * Compilation with _PyInstaller_
 
