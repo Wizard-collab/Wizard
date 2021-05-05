@@ -182,7 +182,7 @@ class Main(QtWidgets.QWidget, QtCore.QThread):
         self.hide()
 
     def show_options_menu(self):
-        self.options_widget = options_widget.Main()
+        self.options_widget = options_widget.Main(self)
         self.options_widget.add_item("Change comment", self.change_comment)
         self.options_widget.add_item("Explorer", self.open_folder)
         self.options_widget.add_item("Show", self.open_file)

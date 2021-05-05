@@ -43,7 +43,7 @@ from wizard.user_scripts import user_scripts_library
 from wizard.screen_record.screen_record import screen_record
 from wizard import api
 from wizard.tools.batch_asset_creation import batch_asset_creation
-from wizard.shortcuts.shortcuts_listener import shortcuts_listener
+#from wizard.shortcuts.shortcuts_listener import shortcuts_listener
 
 # Importing wizard widgets
 import dialog_new_variant
@@ -144,7 +144,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_user_scripts_widget()
             self.init_sandbox_button()
             self.init_screen_record()
-            self.init_shorcuts()
+            #self.init_shorcuts()
 
             # Init vars
             self.prefs = prefs
@@ -1360,7 +1360,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
 
     def launch_options_widget(self):
         try:
-            self.options_widget = options_widget.Main()
+            self.options_widget = options_widget.Main(self)
             lock = self.asset_prefs.software.get_lock
             if lock and lock != prefs.user:
                 if prefs.admin:

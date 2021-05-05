@@ -207,7 +207,7 @@ class Main(QtWidgets.QWidget):
         return widgets_list
 
     def show_options_menu(self):
-        self.options_widget = options_widget.Main()
+        self.options_widget = options_widget.Main(self)
         self.options_widget.add_item("Change comment", self.change_comment)
         self.options_widget.add_item("Archive", self.delete_version)
         self.options_widget.add_item("Open", self.open_file)

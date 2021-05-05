@@ -89,7 +89,7 @@ def import_cfx(reload=0):
                 folder = os.path.split(imported_asset[2])[0]
                 for file in os.listdir(folder):
                     if file.endswith('.fur'):
-                        file = file.replace(file.split('.')[-2], '%04d')
+                        file = file.replace(file.split('.')[-2]+'.fur', '%04d.fur')
                         node_tuple = [file.split('.')[-3], os.path.join(folder, file)]
                         if node_tuple not in nodes_list:
                             nodes_list.append(node_tuple)

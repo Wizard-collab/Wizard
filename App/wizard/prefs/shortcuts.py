@@ -24,7 +24,7 @@ class shortcuts_prefs():
 				self.shortcuts_dic = pickle.load(f)
 		else:
 			self.shortcuts_dic = dict()
-			self.shortcuts_dic[defaults._screen_record_] = {keyboard.Key.ctrl_l, keyboard.Key.alt, keyboard.KeyCode(char='r')}
+			self.shortcuts_dic[defaults._screen_record_] = {keyboard.Key.f3}
 			self.write_prefs()
 
 	def write_prefs(self):

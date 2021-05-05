@@ -3,8 +3,8 @@ from wizard.vars import defaults
 from wizard.prefs.user import user
 
 class recording_ui(QtWidgets.QWidget):
-    def __init__(self):
-        super(recording_ui, self).__init__()
+    def __init__(self, parent=None):
+        super(recording_ui, self).__init__(parent)
         self.setMaximumSize(QtCore.QSize(80,80))
         self.setMinimumSize(QtCore.QSize(80,80))
         self.resize(QtCore.QSize(80,80))

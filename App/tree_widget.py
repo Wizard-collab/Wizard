@@ -141,7 +141,7 @@ class treeWidget(QtWidgets.QTreeWidget):
             tree_get.set_icon(item)
 
     def show_options_menu(self):
-        self.options_widget = options_widget.Main()
+        self.options_widget = options_widget.Main(self)
         self.options_widget.add_item('Launch', self.parent.open)
         self.options_widget.add_item('Folder', self.parent.open_folder)
         self.options_widget.add_item('Add to user shelf', self.parent.add_asset_to_shelf)

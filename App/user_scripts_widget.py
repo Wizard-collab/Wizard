@@ -135,7 +135,7 @@ class customButton(QtWidgets.QPushButton):
         self.parent.delete_script(self.key)
 
     def show_options_menu(self):
-        self.options_widget = options_widget.Main()
+        self.options_widget = options_widget.Main(self)
         self.options_widget.add_item('Delete', self.delete_script)
         self.options_widget.add_item('Modify', self.modify_script)
         self.options_widget.add_item('Subprocess', self.batch_execute)

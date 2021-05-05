@@ -226,3 +226,13 @@ it is just removed from lock list
 * New website in development - http://share.wizard-files.com 
 
 '''
+
+updates['0.9.9.30-b'] = '''
+# Version updates : 0.9.9.30-b
+
+# Version date : 2021-05-05
+
+## SOFTWARES
+* GUERILLA RENDER > CFX import (.fur) bug fix - no replacing shot name part by "%04d" anymore. Only ".%04d.fur""
+
+'''

@@ -8,7 +8,7 @@ logger = log.pipe_log(__name__)
 
 class Main(QtWidgets.QWidget):
 
-    def __init__(self):
+    def __init__(self, parent=None):
         super(Main, self).__init__()
         # Build the ui from ui converted file
         self.ui = Ui_Form()
@@ -28,6 +28,7 @@ class Main(QtWidgets.QWidget):
 
     def move_ui(self):
         win_size = (self.frameSize().width(), self.frameSize().height())
+        logger.info(win_size)
         posx = QtGui.QCursor.pos().x() - 10
         posy = int(QtGui.QCursor.pos().y()) - win_size[1] + 10
         self.move(posx, posy)
@@ -40,4 +41,3 @@ class Main(QtWidgets.QWidget):
         self.items.append(pushButton)
         pushButton.clicked.connect(self.close)
         pushButton.clicked.connect(function)
-

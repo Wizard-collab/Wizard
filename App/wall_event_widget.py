@@ -62,6 +62,6 @@ class Main(QtWidgets.QWidget):
                     os.startfile(folder)
 
     def show_options_menu(self):
-        self.options_widget = options_widget.Main()
+        self.options_widget = options_widget.Main(self)
         self.options_widget.add_item('Explorer', self.explorer)
         build.launch_options(self.options_widget)

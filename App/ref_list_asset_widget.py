@@ -85,7 +85,7 @@ class Main(QtWidgets.QWidget):
 
     def show_options_menu(self):
         if self.selectable:
-            self.options_widget = options_widget.Main()
+            self.options_widget = options_widget.Main(self)
             self.options_widget.add_item('Remove', self.remove)
             self.options_widget.add_item('Explorer', self.explorer)
             #self.options_widget.add_item('Launch', lambda: self.asset.launch(self.node_editor.main_window))

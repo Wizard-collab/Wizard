@@ -25,7 +25,7 @@ class shortcuts_listener(QtCore.QThread):
 
     def analyse(self, current):
         for shortcut_target in self.shortcuts_dic.keys():
-            if any(key in current for key in self.shortcuts_dic[shortcut_target]):
+            if self.shortcuts_dic[shortcut_target] == current: 
                 self.execute(shortcut_target)
                 break
 
