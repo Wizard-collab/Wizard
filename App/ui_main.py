@@ -43,6 +43,7 @@ from wizard.user_scripts import user_scripts_library
 from wizard.screen_record.screen_record import screen_record
 from wizard import api
 from wizard.tools.batch_asset_creation import batch_asset_creation
+from wizard.shortcuts.shortcuts_listener import shortcuts_listener
 
 # Importing wizard widgets
 import dialog_new_variant
@@ -143,6 +144,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.init_user_scripts_widget()
             self.init_sandbox_button()
             self.init_screen_record()
+            self.init_shorcuts()
 
             # Init vars
             self.prefs = prefs
@@ -211,6 +213,11 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             #self.refresh_server(0)
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def init_shorcuts(self):
+        self.shortcuts_listener = shortcuts_listener()
+        self.shortcuts_listener.start()
+        self.shortcuts_listener.screen_record_signal.connect(self.toggle_screen_record)
 
     def init_screen_record(self):
         self.ui.record_pushButton.setIcon(QtGui.QIcon(defaults._start_record_icon_))
@@ -1504,10 +1511,7 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             logger.critical(str(traceback.format_exc()))
 
     def create_crash(self):
-        logger.critical('crash manually created')
         a=0/0
-        logger.critical('crash manually created')
-        
 
     def connect_functions(self):
         try:

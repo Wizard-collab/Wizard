@@ -1098,6 +1098,7 @@ _screen_records_file_ = _screen_records_path_ + 'screen_record.mov'
 _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
+_shortcuts_prefs_file_ = _user_path_ + 'shorcuts.pickle'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
 _project_script_file_ = 'scripts.yaml'
 _user_custom_scripts_path_ = _user_path_ + 'scripts/'
@@ -1114,6 +1115,9 @@ _software_additionnal_env_key_ = "software_additionnal_env_paths"
 
 # Scene keys library
 _scene_current_asset_ = "scene_current_asset"
+
+# Shortcuts keys library
+_screen_record_ = 'screen_record'
 
 # Project settings keys library
 _project_name_key_ = 'project_name'
