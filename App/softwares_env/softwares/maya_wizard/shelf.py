@@ -151,6 +151,13 @@ class shelf:
         tag = 'from maya_wizard import gtags\n'
         tag += 'reload(gtags)'
 
+        easy_cloth = 'from maya_wizard import easy_cloth\n'
+        easy_cloth += 'reload(easy_cloth)\n'
+        easy_cloth += 'easy_cloth.easy_cloth().showUI()'
+
+        quick_pb = 'from maya_wizard import quick_playblast\n'
+        quick_pb += 'quick_playblast.quick_pb()'
+
         self.addButon(label="Save", icon='maya_save.png', command=save, docTag='Save')
         self.addButon(label="Export", icon='maya_export.png', command=export, docTag='export')
         self.addButon(label="Import all", icon='maya_import_all.png', command=import_all, docTag='import all')
@@ -175,3 +182,5 @@ class shelf:
         self.addButon(label="Match frame range with preroll and postroll", icon='maya_frame_range_preroll.png', command=f_range_preroll, docTag='Range + preroll/postroll')
         self.addButon(label="Match project format", icon='maya_format.png', command=set_format, docTag='Format')
         self.addButon(label="Clean selection", icon='maya_clean.png', command=clean_obj, docTag='Clean')
+        self.addButon(label="Easy cloth", icon='easy_cloth.png', command=easy_cloth, docTag='Easy cloth')
+        self.addButon(label="Quick playblast", icon='maya_quick_playblast.png', command=quick_pb, docTag='Quick playblast')

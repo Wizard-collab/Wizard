@@ -196,3 +196,43 @@ updates['0.9.8.00-b'] = '''
 	( > User/Documents/wizard/logs/main.log )
 * Only one wizard instance is now allowed
 '''
+
+updates['0.9.9.20-b'] = '''
+# Version updates : 0.9.9.20-b
+
+# Version date : 2021-05-03
+
+## UI
+* "Create crash" function ( will be soon deprecated )
+
+## SCRIPTING
+* Debug > Shelf script icons now properly shared in team
+
+## WORKFLOW
+* New tool > Wizard renamer ( for batch renaming files )
+* New function > "Force unlock" assets for admin users
+* Debug > Unlock all on quit popup fixed, now it unlock every asset, even a missing asset,
+it is just removed from lock list
+* Playblasts > MAYA > Ff no camera selected when playblasting maya scene, wizard playblast with 'perspShape' as default 
+
+## SOFTWARES
+* ALL > Softwares environments ( softwares settings ) doesn't override wizard environments anymore ( ex : PYTHON_PATH )
+* NUKE > Save bug fixed
+
+## MISC
+* Screen recorder ( 10fps ) directly accessible in wizard ( red button bottom right )
+  and saved in "$USER/Documents/Wizard/screen_record/" - still in beta, use it carrefully
+* Debug > Save signal modified ( transparent for user ) - No more watchdog loop
+* New website in development - http://share.wizard-files.com 
+
+'''
+
+updates['0.9.9.30-b'] = '''
+# Version updates : 0.9.9.30-b
+
+# Version date : 2021-05-05
+
+## SOFTWARES
+* GUERILLA RENDER > CFX import (.fur) bug fix - no replacing shot name part by "%04d" anymore. Only ".%04d.fur""
+
+'''

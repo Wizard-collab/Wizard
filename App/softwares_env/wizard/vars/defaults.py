@@ -5,8 +5,9 @@ import os
 
 _reg_key_ = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Wizard"
 _infos_file_lk_ = "https://storage.googleapis.com/wizard-files.com/beta/INFOS.json"
-_wizard_url_ = 'https://wizard-pipeline-manager.webflow.io/'
-_wizard_version_ = '0.9.9.10-b'
+_wizard_url_ = 'http://www.wizard-files.com'
+_wizard_doc_url_ = 'http://share.wizard-files.com/documentation/build/html/index.html'
+_wizard_version_ = '0.9.9.30-b'
 _doc_index_path_ = 'ressources/docs/index.html'
 _license_file_ = 'ressources/LICENSE'
 _contact_email_ = 'wizard-support@leobrunel.com'
@@ -343,6 +344,9 @@ _chat_icon_ = _icon_path_ + 'chat.png'
 _chat_icon_notif_ = _icon_path_ + 'chat_notif.png'
 _welcome_image_ = _icon_path_ + 'welcome.png'
 _server_icon_ = _icon_path_ + 'server.png'
+_start_record_icon_ = _icon_path_ + 'start_record.png'
+_stop_record_icon_ = _icon_path_ + 'stop_record.png'
+_record_gif_ = _icon_path_ + 'recording.gif'
 _send_message_icon_ = _icon_path_ + 'send.png'
 _quote_icon_ = _icon_path_ + 'quote_icon.png'
 _emoji_icon_ = _icon_path_ + 'emoji.png'
@@ -673,9 +677,9 @@ _pub_ext_dic_[_cfx_][_maya_] = 'fur'
 _pub_ext_dic_[_cfx_][_maya_yeti_] = 'fur'
 _pub_ext_dic_[_fx_] = {}
 _pub_ext_dic_[_fx_][_maya_] = 'abc'
-_pub_ext_dic_[_fx_][_houdini_] = 'hipnc'
+_pub_ext_dic_[_fx_][_houdini_] = 'hip'
 _pub_ext_dic_[_fx_setup_] = {}
-_pub_ext_dic_[_fx_setup_][_houdini_] = 'hipnc'
+_pub_ext_dic_[_fx_setup_][_houdini_] = 'hip'
 _pub_ext_dic_[_compositing_] = {}
 _pub_ext_dic_[_compositing_][_nuke_] = 'exr'
 _pub_ext_dic_[_camera_] = {}
@@ -723,7 +727,7 @@ _pub_ext_list_dic_[_light_rig_] = {}
 _pub_ext_list_dic_[_light_rig_][_maya_] = ['ma']
 _pub_ext_list_dic_[_light_rig_][_guerilla_] = ['gnode']
 _pub_ext_list_dic_[_fx_setup_] = {}
-_pub_ext_list_dic_[_fx_setup_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_fx_setup_][_houdini_] = ['hip', 'vdb', 'abc']
 _pub_ext_list_dic_[_cyclo_] = {}
 _pub_ext_list_dic_[_cyclo_][_maya_] = ['abc', 'ma']
 _pub_ext_list_dic_[_cyclo_][_guerilla_] = ['gproject']
@@ -747,7 +751,7 @@ _pub_ext_list_dic_[_cfx_][_maya_] = ['fur', 'abc']
 _pub_ext_list_dic_[_cfx_][_maya_yeti_] = ['fur', 'abc']
 _pub_ext_list_dic_[_fx_] = {}
 _pub_ext_list_dic_[_fx_][_maya_] = ['abc', 'ma']
-_pub_ext_list_dic_[_fx_][_houdini_] = ['hipnc', 'vdb', 'abc']
+_pub_ext_list_dic_[_fx_][_houdini_] = ['hip', 'vdb', 'abc']
 _pub_ext_list_dic_[_compositing_] = {}
 _pub_ext_list_dic_[_compositing_][_nuke_] = ['exr']
 _pub_ext_list_dic_[_camera_] = {}
@@ -766,21 +770,21 @@ _workflow_ext_dic_custom_ = dict()
 _workflow_ext_dic_custom_[_rig_] = dict()
 _workflow_ext_dic_custom_[_rig_][_maya_] = 'ma'
 _workflow_ext_dic_custom_[_rig_][_blender_] = 'blend'
-_workflow_ext_dic_custom_[_rig_][_houdini_] = 'hipnc'
+_workflow_ext_dic_custom_[_rig_][_houdini_] = 'hip'
 _workflow_ext_dic_custom_[_rig_][_3dsmax_] = 'max'
 
 _workflow_ext_dic_custom_[_hair_] = dict()
 _workflow_ext_dic_custom_[_hair_][_maya_yeti_] = 'ma'
 _workflow_ext_dic_custom_[_hair_][_maya_] = 'ma'
 _workflow_ext_dic_custom_[_hair_][_blender_] = 'blend'
-_workflow_ext_dic_custom_[_hair_][_houdini_] = 'hipnc'
+_workflow_ext_dic_custom_[_hair_][_houdini_] = 'hip'
 _workflow_ext_dic_custom_[_hair_][_3dsmax_] = 'max'
 
 _workflow_ext_dic_custom_[_shading_] = dict()
 _workflow_ext_dic_custom_[_shading_][_guerilla_] = 'gnode'
 _workflow_ext_dic_custom_[_shading_][_maya_] = 'ma'
 _workflow_ext_dic_custom_[_shading_][_blender_] = 'blend'
-_workflow_ext_dic_custom_[_shading_][_houdini_] = 'hipnc'
+_workflow_ext_dic_custom_[_shading_][_houdini_] = 'hip'
 _workflow_ext_dic_custom_[_shading_][_3dsmax_] = 'max'
 
 _workflow_ext_dic_ = dict()
@@ -892,8 +896,8 @@ _extension_dic_[_designer_]='sbs'
 _extension_dic_[_zbrush_]='zpr'
 _extension_dic_[_marvelous_]='hw'
 _extension_dic_[_guerilla_]='gproject'
-_extension_dic_[_houdini_]='hipnc'
-_extension_dic_[_hython_]='hipnc'
+_extension_dic_[_houdini_]='hip'
+_extension_dic_[_hython_]='hip'
 _extension_dic_[_mari_]='Mari'
 _extension_dic_[_nuke_]='nk'
 _extension_dic_[_blender_]='blend'
@@ -1089,9 +1093,12 @@ _chat_archives_ = 'chat_archives.wd'
 _tree_ = 'tree.wd'
 _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
+_screen_records_path_ = _user_path_ + 'screen_records/'
+_screen_records_file_ = _screen_records_path_ + 'screen_record.mov'
 _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
+_shortcuts_prefs_file_ = _user_path_ + 'shorcuts.pickle'
 _user_scripts_file_ = _user_path_ + 'scripts.yaml'
 _project_script_file_ = 'scripts.yaml'
 _user_custom_scripts_path_ = _user_path_ + 'scripts/'
@@ -1108,6 +1115,9 @@ _software_additionnal_env_key_ = "software_additionnal_env_paths"
 
 # Scene keys library
 _scene_current_asset_ = "scene_current_asset"
+
+# Shortcuts keys library
+_screen_record_ = 'screen_record'
 
 # Project settings keys library
 _project_name_key_ = 'project_name'

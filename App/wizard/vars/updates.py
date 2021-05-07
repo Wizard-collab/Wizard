@@ -236,3 +236,14 @@ updates['0.9.9.30-b'] = '''
 * GUERILLA RENDER > CFX import (.fur) bug fix - no replacing shot name part by "%04d" anymore. Only ".%04d.fur""
 
 '''
+
+updates['0.9.9.35-b'] = '''
+# Version updates : 0.9.9.35-b
+
+# Version date : 2021-05-07
+
+## SOFTWARES
+* MAYA > QuickPlayblast tool added ( playblast saved in local path )
+* MAYA > Easy cloth tool
+
+'''
