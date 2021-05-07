@@ -4,7 +4,7 @@ Wizard is an autonomous software for managing CGI productions.
 http://www.wizard-files.com/
 
 * Installation ( `windows` only ) :
-	* Official builds : [Download wizard](http://www.wizard-files.com/versions)
+	* Official builds : [Download wizard](http://www.wizard-files.com/versions/)
 	* This repository :
 		* Clone the repository
 		* Install `python 3.7.3`
