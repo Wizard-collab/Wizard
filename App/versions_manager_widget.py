@@ -14,6 +14,7 @@ from wizard.vars import defaults
 from wizard.tools import log
 from wizard.prefs.main import prefs
 from wizard.tools import utility as utils
+from wizard.clipboard import clipboard
 
 # Import wizard widget
 import version_widget
@@ -199,6 +200,20 @@ class Main(QtWidgets.QWidget):
         for widget in widgets_list:
             self.open_signal.emit(utils.asset_to_string(widget.asset))
 
+    def copy_scene(self):
+        widgets_list = self.get_selected_widgets()
+        if len(widgets_list)==1:
+            clipboard.copy_file(widgets_list[0].asset.file)
+        else:
+            logger.warning('Please select one scene')
+
+    def paste_scene(self):
+        file = clipboard.get_file()
+        if os.path.isfile(file):
+            self.merge_file_as_new_version(file)
+        else:
+            logger.warning('No valid file found in clipboard')
+
     def get_selected_widgets(self):
         items_list = self.ui.reference_list_listWidget.selectedItems()
         widgets_list = []
@@ -209,6 +224,8 @@ class Main(QtWidgets.QWidget):
     def show_options_menu(self):
         self.options_widget = options_widget.Main(self)
         self.options_widget.add_item("Change comment", self.change_comment)
+        self.options_widget.add_item("Copy scene", self.copy_scene)
+        self.options_widget.add_item("Paste scene", self.paste_scene)
         self.options_widget.add_item("Archive", self.delete_version)
         self.options_widget.add_item("Open", self.open_file)
         build.launch_options(self.options_widget)

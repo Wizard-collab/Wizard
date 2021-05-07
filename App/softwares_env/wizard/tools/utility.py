@@ -19,9 +19,7 @@ from wizard.vars import defaults
 import subprocess
 import string
 import random
-from wizard.prefs.main import prefs
 
-prefs=prefs()
 logger = log.pipe_log(__name__)
 
 import traceback
@@ -34,19 +32,13 @@ def init_wizard_env():
     os.environ[defaults._abs_site_path_] = os.path.abspath('')
     os.environ[defaults._stats_var_] = stats_path
 
-def convert_local_path(file_path):
-    project_path = prefs.project_path
-    local_project_path = prefs.local_project_path
-    if (not local_project_path) or (local_project_path) == '':
-        logger.warning("No local path defined")
-        return None
-    else:
-        project_path_len = len(project_path)
+def convert_local_path(file_path, project_path, local_project_path):
+    project_path_len = len(project_path)
 
-        local_file_path = os.path.join(local_project_path, file_path[project_path_len:])
-        if not os.path.isdir(local_file_path):
-            os.makedirs(local_file_path)
-        return local_file_path
+    local_file_path = os.path.join(local_project_path, file_path[project_path_len:])
+    if not os.path.isdir(local_file_path):
+        os.makedirs(local_file_path)
+    return local_file_path
 
 def get_time():
     time = strftime("%Y-%m-%d - %H:%M", localtime())

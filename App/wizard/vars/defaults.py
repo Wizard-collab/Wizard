@@ -1095,6 +1095,7 @@ _production_ = 'production.wd'
 _user_path_ = '{}/Documents/wizard/'.format(os.getenv("USERPROFILE"))
 _screen_records_path_ = _user_path_ + 'screen_records/'
 _screen_records_file_ = _screen_records_path_ + 'screen_record.mov'
+_clipboard_file_ = _user_path_ + 'clipboard.yaml'
 _lock_file_ = _user_path_ + '.lock'
 _user_ = _user_path_ + 'user.wd'
 _user_db_ = _user_path_ + 'user.db'
@@ -1115,6 +1116,10 @@ _software_additionnal_env_key_ = "software_additionnal_env_paths"
 
 # Scene keys library
 _scene_current_asset_ = "scene_current_asset"
+
+# Clipboard keys library
+_clipboard_work_scene_path_ = "clipboard_work_scene_path"
+_clipboard_reference_list_ = "clipboard_references_list"
 
 # Shortcuts keys library
 _screen_record_ = 'screen_record'

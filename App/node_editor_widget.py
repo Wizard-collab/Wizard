@@ -8,6 +8,9 @@ import node_widget
 from wizard.prefs.main import prefs
 from wizard.asset.reference import references
 from wizard.asset import main as asset_core
+from gui import build
+from wizard.clipboard import clipboard
+import options_widget
 
 import pickle
 
@@ -142,6 +145,9 @@ class Main(QtWidgets.QWidget):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
         mimeData = e.mimeData().text()
         string_assets_list = pickle.loads(mimeData.encode())
+        self.import_asset_list(string_assets_list)
+
+    def import_asset_list(self, string_assets_list):
         for string_asset in string_assets_list:
             asset = asset_core.string_to_asset(string_asset)
             if self.asset.software == defaults._painter_:
@@ -198,5 +204,21 @@ class Main(QtWidgets.QWidget):
             widget.deselect()
             self.remove_selection(widget)
 
+    def copy_references(self):
+        clipboard.copy_references(self.scene_references)
+
+    def paste_references(self):
+        refrences_list = clipboard.get_references()
+        self.import_asset_list(refrences_list)
+
+
     def mousePressEvent(self, event):
         self.deselect_all()
+        if event.button() == QtCore.Qt.RightButton:
+            self.show_options_menu()
+
+    def show_options_menu(self):
+        self.options_widget = options_widget.Main(self)
+        self.options_widget.add_item("Copy references", self.copy_references)
+        self.options_widget.add_item("Paste references", self.paste_references)
+        build.launch_options(self.options_widget)
