@@ -28,7 +28,6 @@ class Main(QtWidgets.QWidget):
 
     def move_ui(self):
         win_size = (self.frameSize().width(), self.frameSize().height())
-        logger.info(win_size)
         posx = QtGui.QCursor.pos().x() - 10
         posy = int(QtGui.QCursor.pos().y()) - win_size[1] + 10
         self.move(posx, posy)

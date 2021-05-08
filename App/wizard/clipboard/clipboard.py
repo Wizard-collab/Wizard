@@ -44,7 +44,6 @@ def get_clipboard_data():
 		clipboard_data = dict()
 		clipboard_data[defaults._clipboard_work_scene_path_] = ''
 		clipboard_data[defaults._clipboard_reference_list_] = []
-	logger.info(clipboard_data)
 	return clipboard_data
 
 def write_clipboard(clipboard_data):

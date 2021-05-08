@@ -247,3 +247,15 @@ updates['0.9.9.35-b'] = '''
 * MAYA > Easy cloth tool
 
 '''
+
+updates['0.9.9.36-b'] = '''
+# Version updates : 0.9.9.36-b
+
+# Version date : 2021-05-08
+
+## MISC
+* Possibility to copy and paste asset references
+* Possibility to copy and paste asset work scene
+* Added a 'copy asset path' function in the project tree
+
+'''

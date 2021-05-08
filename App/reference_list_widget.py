@@ -11,6 +11,9 @@ import reference_list_item_widget
 from wizard.asset import main as asset_core
 import pickle
 import editable_list_widget
+import options_widget
+from wizard.clipboard import clipboard
+from gui import build
 
 logger = log.pipe_log(__name__)
 
@@ -122,9 +125,27 @@ class Main(QtWidgets.QWidget):
             widget = self.ui.reference_list_listWidget.itemWidget(item)
             widget.set_last_version()
 
+    def copy_references(self):
+        clipboard.copy_references(self.scene_references)
+
+    def paste_references(self):
+        refrences_list = clipboard.get_references()
+        self.import_asset_list(refrences_list)
+
     def connect_functions(self):
         self.ui.trash_pushButton.clicked.connect(self.delete_selection)
         self.ui.update_all_pushButton.clicked.connect(self.update_all)
+        self.ui.reference_list_listWidget.customContextMenuRequested.connect(self.show_options_menu)
+
+    def mousePressEvent(self, event):
+        if event.button() == QtCore.Qt.RightButton:
+            self.show_options_menu()
+
+    def show_options_menu(self):
+        self.options_widget = options_widget.Main(self)
+        self.options_widget.add_item("Copy references", self.copy_references)
+        self.options_widget.add_item("Paste references", self.paste_references)
+        build.launch_options(self.options_widget)
 
     def dragEnterEvent(self, e):
         self.setStyleSheet('#node_editor_frame{border: 2px solid white;}')
@@ -140,6 +161,9 @@ class Main(QtWidgets.QWidget):
         self.setStyleSheet('#node_editor_frame{border: 0px solid white;}')
         mimeData = e.mimeData().text()
         string_assets_list = pickle.loads(mimeData.encode())
+        self.import_asset_list(string_assets_list)
+
+    def import_asset_list(self, string_assets_list):
         for string_asset in string_assets_list:
             asset = asset_core.string_to_asset(string_asset)
             if self.asset.software == defaults._painter_:
