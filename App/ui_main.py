@@ -10,6 +10,7 @@ import copy
 import webbrowser
 import sys
 from PIL import Image
+import pyperclip
 
 
 # Importing PyQt5 libraries
@@ -1124,6 +1125,10 @@ class Main(QtWidgets.QMainWindow): # The main wizard class
             self.user_scripts_widget.refresh_scripts()
         except:
             logger.critical(str(traceback.format_exc()))
+
+    def copy_asset_path(self):
+        string_asset = utils.asset_to_string(self.asset)
+        pyperclip.copy(string_asset)
 
     def start_launch_gif(self):
         try:

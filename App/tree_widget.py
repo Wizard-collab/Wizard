@@ -145,6 +145,7 @@ class treeWidget(QtWidgets.QTreeWidget):
         self.options_widget.add_item('Launch', self.parent.open)
         self.options_widget.add_item('Folder', self.parent.open_folder)
         self.options_widget.add_item('Add to user shelf', self.parent.add_asset_to_shelf)
+        self.options_widget.add_item('Copy asset path', self.parent.copy_asset_path)
         self.options_widget.add_item('Archive', self.parent.remove_asset)
         if (self.parent.selected_asset.stage == None and self.parent.selected_asset.name != None and self.parent.selected_asset.domain == defaults._sequences_):
             self.options_widget.add_item('Change range', self.parent.modify_frame_range)
